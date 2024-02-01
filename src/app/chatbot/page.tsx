@@ -1,7 +1,8 @@
 import React from 'react'
-
-export const page = () => {
+import { Form } from '@/components/Chatbot/Form';
+ const page = () => {
   return (
-    <div>Chatbot</div>
+         <Form/>
   )
 }
+export default page;

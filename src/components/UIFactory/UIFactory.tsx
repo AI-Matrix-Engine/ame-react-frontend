@@ -14,7 +14,7 @@ export const UIFactory = () => {
     const updatedData = UIData.map((oldElement) =>
       oldElement.id === element.id ? element : oldElement
     );
-    console.log("UpdatedData", updatedData);
+  
     setUIData(updatedData);
   };
   const handleRendering = (element) => {
@@ -29,14 +29,16 @@ export const UIFactory = () => {
         </h4>
       </div>
       <div className=" grid grid-cols-3 grid-rows-2 gap-8 p-4 justify-center content-center">
-        {UIData.map((element, index) => {
+        {UIData?.map((element, index) => {
           if (element?.source_params?.type === "textarea") {
+           
             return (
               <div key={index} className="col-span-full">
                 {handleRendering(element)}
               </div>
             );
           } else {
+          
             return (
               <div key={index} className="flex flex-col">
                 {handleRendering(element)}
@@ -45,20 +47,6 @@ export const UIFactory = () => {
           }
         })}
       </div>
-      <div className="items-top flex space-x-2">
-      <Checkbox id="terms1" />
-      <div className="grid gap-1.5 leading-none">
-        <label
-          htmlFor="terms1"
-          className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-        >
-          Accept terms and conditions
-        </label>
-        <p className="text-sm text-muted-foreground">
-          You agree to our Terms of Service and Privacy Policy.
-        </p>
-      </div>
-    </div>
     </div>
   );
 };

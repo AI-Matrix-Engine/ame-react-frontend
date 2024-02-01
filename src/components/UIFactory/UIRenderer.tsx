@@ -4,7 +4,6 @@ import { Textarea } from "../UI/textarea";
 
 export const UIRenderer = ({ element, onChange }: any) => {
   const handleChangeValue = (value: string) => {
-    console.log("HandleChangeValue**",value);
     onChange({ ...element, value: value });
   };
   if (
@@ -23,9 +22,11 @@ export const UIRenderer = ({ element, onChange }: any) => {
   if (element?.source_params?.type === "standard_text_input")
     return (
       <Input
-        element={element}
-        handleChange={(value: string) => handleChangeValue(value)}
-      />
+      element={element}
+      placeholder="Filter emails..."
+      className="max-w-sm"
+      handleChange={handleChangeValue}
+    />
     );
   if (element?.source_params?.type === "textarea")
     return (

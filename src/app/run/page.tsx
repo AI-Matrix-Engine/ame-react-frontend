@@ -1,7 +1,8 @@
 import React from 'react'
-
-export const page = () => {
+import { FormData } from '@/components/Run/Run'
+const  page = () => {
   return (
-    <div>Run</div>
+    <FormData/>
   )
 }
+export default page;

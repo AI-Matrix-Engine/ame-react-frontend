@@ -1,10 +1,14 @@
 "use client"
-
+import { useState } from "react";
 import {
   ColumnDef,
   flexRender,
   getCoreRowModel,
   useReactTable,
+  ColumnFiltersState,
+  getFilteredRowModel,
+  SortingState,
+  getSortedRowModel,
 } from "@tanstack/react-table"
 
 import {
@@ -15,7 +19,8 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/UI/table"
-
+import { Input } from "../UI";
+import { Label } from "../UI/label";
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
   data: TData[]
@@ -25,15 +30,40 @@ export function DataTable<TData, TValue>({
   columns,
   data,
 }: DataTableProps<TData, TValue>) {
+ 
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>(
+    []
+  )
+  const [sorting, setSorting] = useState<SortingState>([])
   const table = useReactTable({
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
+    onColumnFiltersChange: setColumnFilters,
+    getFilteredRowModel: getFilteredRowModel(),
+    onSortingChange: setSorting,
+    getSortedRowModel: getSortedRowModel(),
+    state: {
+      sorting,
+      columnFilters,
+    },
+
   })
 
-  return (
-    <div className="rounded-md border">
-      <Table>
+  return (<div>
+       <div className="flex flex-col items-center py-4">
+        <Label>Filter Emails</Label>
+        <Input
+          placeholder="Filter emails..."
+          value={(table.getColumn("email")?.getFilterValue() as string) ?? ""}
+          onChange={(event:React. ChangeEvent<HTMLInputElement>) =>
+            table.getColumn("email")?.setFilterValue(event.target.value)
+          }
+          className="max-w-sm"
+        />
+      </div>
+      <div className="rounded-md border">
+       <Table>
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (
             <TableRow key={headerGroup.id}>
@@ -75,6 +105,54 @@ export function DataTable<TData, TValue>({
           )}
         </TableBody>
       </Table>
+      {/* <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead className="font-medium">Name</TableHead>
+              <TableHead className="font-medium">Link</TableHead>
+              <TableHead className="font-medium">Views</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+          
+               
+               
+                    <TableRow >
+                      <TableCell>Mubasher</TableCell>
+                      <TableCell>
+                        #abce
+                      </TableCell>
+                      <TableCell>
+                       Small
+                      </TableCell>
+                    </TableRow>
+                  
+                    <TableRow>
+                      <TableCell>Ali</TableCell>
+                      <TableCell>
+                        #defg
+                      </TableCell>
+                      <TableCell>
+                       Medium
+                      </TableCell>
+                    </TableRow>
+                    <TableRow>
+                      <TableCell>Abc</TableCell>
+                      <TableCell>
+                        #zxc
+                      </TableCell>
+                      <TableCell>
+                       Large
+                      </TableCell>
+                    </TableRow>
+                  
+             
+             
+             
+          </TableBody>
+        </Table> */}
     </div>
+    </div>
+
   )
 }
