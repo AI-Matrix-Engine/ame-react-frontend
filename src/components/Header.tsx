@@ -28,7 +28,7 @@
 //         CT
 //       </Avatar.Fallback>
 //     </Avatar.Root>
-//             Armani Siddiqui
+//             Armani Sadeghi
 //             <CaretDownIcon
 //               className="text-violet10 relative top-[1px] transition-transform duration-[250] ease-in group-data-[state=open]:-rotate-180"
 //               aria-hidden
@@ -108,7 +108,7 @@ export const Header = ()=> {
       <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn"  />
       <AvatarFallback>CN</AvatarFallback>
     </Avatar>
-             <p> Armani Siddiqui</p>
+             <p> Armani Sadeghi</p>
           </NavigationMenuTrigger>
           <NavigationMenuContent>
             <ul className="flex flex-col gap-3 p-2 w-[200px]  ">
