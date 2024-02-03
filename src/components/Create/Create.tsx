@@ -19,14 +19,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import {
-  Sheet,
-  SheetContent,
-  SheetDescription,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from "@/components/UI/sheet";
+
 import {
   Tooltip,
   TooltipContent,
@@ -48,7 +41,7 @@ import { Button } from "../UI/button";
 import { Input } from "../UI";
 import { DataTable } from "./DataTable";
 import { Payment, payments, columns } from "./Columns";
-import { FormData } from "../Run/Run";
+
 export const Create = () => {
   const [date, setDate] = React.useState<Date | undefined>(new Date());
   const { toast } = useToast();
@@ -62,19 +55,39 @@ export const Create = () => {
       status: "complete",
       email: "mub@example.com",
     },
+    { id: "728ed52f", amount: 100, status: "pending", email: "m@example.com" },
+    { id: "728ed52f1", amount: 10, status: "start", email: "mmm@abc.com" },
+    {
+      id: "728ed52f2",
+      amount: 200,
+      status: "complete",
+      email: "mub@example.com",
+    },
+    { id: "728ed52f", amount: 100, status: "pending", email: "m@example.com" },
+    { id: "728ed52f1", amount: 10, status: "start", email: "mmm@abc.com" },
+    {
+      id: "728ed52f2",
+      amount: 200,
+      status: "complete",
+      email: "mub@example.com",
+    },
+    { id: "728ed52f", amount: 100, status: "pending", email: "m@example.com" },
+    { id: "728ed52f1", amount: 10, status: "start", email: "mmm@abc.com" },
+    {
+      id: "728ed52f2",
+      amount: 200,
+      status: "complete",
+      email: "mub@example.com",
+    },
+    { id: "728ed52f", amount: 100, status: "pending", email: "m@example.com" },
+    { id: "728ed52f1", amount: 10, status: "start", email: "mmm@abc.com" },
+    {
+      id: "728ed52f2",
+      amount: 200,
+      status: "complete",
+      email: "mub@example.com",
+    },
   ];
-  // async function getData(): Promise<Payment[]> {
-  //   // Fetch data from your API here.
-  //   return [
-  //     {
-  //       id: "728ed52f",
-  //       amount: 100,
-  //       status: "pending",
-  //       email: "m@example.com",
-  //     },
-
-  //   ]
-  // }
 
   return (
     <div className="p-6">
@@ -90,19 +103,6 @@ export const Create = () => {
           </label>
         </div>
       </div>
-        {/* <Checkbox id="terms1" />
-      <div className="grid gap-1.5 leading-none">
-        <label
-          htmlFor="terms1"
-          className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-        >
-          Accept terms and conditions
-        </label>
-        <p className="text-sm text-muted-foreground">
-          You agree to our Terms of Service and Privacy Policy.
-        </p>
-      </div> */}
-     
       <div className="flex flex-col">
         <h4 className="text-sky-400 text-center">Caleneder</h4>
 
@@ -174,28 +174,7 @@ export const Create = () => {
           </DialogContent>
         </Dialog>
       </div>
-      <div>
-        <h4 className="text-sky-400 text-center">Drawer</h4>
-        <Sheet>
-          <SheetTrigger className="border-2  border-zinc-200 rounded-md px-4 py-2">
-            Open
-          </SheetTrigger>
-          <SheetContent>
-            <SheetHeader>
-              <SheetTitle>Are you absolutely sure?</SheetTitle>
-              <SheetDescription>
-                This action cannot be undone. This will permanently delete your
-                account and remove your data from our servers.
-              </SheetDescription>
-            </SheetHeader>
-
-            <SheetTitle className="text-center">Form</SheetTitle>
-            <SheetDescription>
-              <FormData additionalClasses={"space-y-4"} />
-            </SheetDescription>
-          </SheetContent>
-        </Sheet>
-      </div>
+     
       <div>
         <h4 className="text-sky-400 text-center">Toast</h4>
         <Button
@@ -244,7 +223,7 @@ export const Create = () => {
       </div>
       <div>
         <h4 className="text-sky-400 text-center">Form Data</h4>
-        <FormData additionalClasses={"flex justify-around items-center"} />
+        {/* <FormData additionalClasses={"flex justify-around items-center"} /> */}
       </div>
      
       <div>

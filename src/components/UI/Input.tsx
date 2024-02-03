@@ -6,11 +6,11 @@ import { Label } from "./label";
 export interface InputProps
   extends React.InputHTMLAttributes<HTMLInputElement> {
   element: any;
-  handleChange?: any;
+  onChange?: any;
 }
 
 const  Input = React.forwardRef<HTMLInputElement, InputProps>(
-  ({ className,handleChange, type, element = "", ...props }, ref) => {
+  ({ className,onChange, type, element = "", ...props }, ref) => {
     return (
       <>
         <Label htmlFor="email" className="mb-2">{element.source_params?.options?.placeholder}</Label>
@@ -24,7 +24,7 @@ const  Input = React.forwardRef<HTMLInputElement, InputProps>(
           ref={ref}
           {...props}
           placeholder={element.source_params?.options?.placeholder || element}
-          onChange={handleChange}
+          onChange={onChange}
         />
       </>
     );

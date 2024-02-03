@@ -13,7 +13,7 @@ export const UIRenderer = ({ element, onChange }: any) => {
   )
     return (
       <Dropdown
-        handleChange={(value: string) => handleChangeValue(value)}
+        onClick={(value: string) => handleChangeValue(value)}
         options={element?.source_params?.options?.options}
         placeHolder={element?.source_params?.options?.placeholder}
       />
@@ -25,7 +25,7 @@ export const UIRenderer = ({ element, onChange }: any) => {
       element={element}
       placeholder="Filter emails..."
       className="max-w-sm"
-      handleChange={handleChangeValue}
+      onChange={handleChangeValue}
     />
     );
   if (element?.source_params?.type === "textarea")
