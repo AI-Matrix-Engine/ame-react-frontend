@@ -9,6 +9,8 @@ import {
   getFilteredRowModel,
   SortingState,
   getSortedRowModel,
+  getPaginationRowModel,
+  
 } from "@tanstack/react-table"
 
 import {
@@ -21,6 +23,7 @@ import {
 } from "@/components/UI/table"
 import { Input } from "../UI";
 import { Label } from "../UI/label";
+import { Button } from "../UI/button";
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
   data: TData[]
@@ -41,6 +44,7 @@ export function DataTable<TData, TValue>({
     getCoreRowModel: getCoreRowModel(),
     onColumnFiltersChange: setColumnFilters,
     getFilteredRowModel: getFilteredRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
     onSortingChange: setSorting,
     getSortedRowModel: getSortedRowModel(),
     state: {
@@ -57,11 +61,11 @@ export function DataTable<TData, TValue>({
           placeholder="Filter emails..."
           value={(table.getColumn("email")?.getFilterValue() as string) ?? ""}
           onChange={(event:React. ChangeEvent<HTMLInputElement>) =>
-            table.getColumn("email")?.setFilterValue(event.target.value)
-          }
+            table.getColumn("email")?.setFilterValue(event.target.value)}
           className="max-w-sm"
         />
       </div>
+      <div>
       <div className="rounded-md border">
        <Table>
         <TableHeader>
@@ -105,6 +109,30 @@ export function DataTable<TData, TValue>({
           )}
         </TableBody>
       </Table>
+
+      
+    </div>
+    <div className="flex items-center justify-end space-x-2 py-4">
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={() => table.previousPage()}
+          disabled={!table.getCanPreviousPage()}
+        >
+          Previous
+        </Button>
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={() => table.nextPage()}
+          disabled={!table.getCanNextPage()}
+        >
+          Next
+        </Button>
+      </div>
+    </div>
+     </div>
+      )
       {/* <Table>
           <TableHeader>
             <TableRow>
@@ -151,8 +179,8 @@ export function DataTable<TData, TValue>({
              
           </TableBody>
         </Table> */}
-    </div>
-    </div>
+   
 
-  )
+
+ 
 }

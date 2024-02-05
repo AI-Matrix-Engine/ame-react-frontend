@@ -155,7 +155,7 @@ import {
 import { Label } from "./label";
 
 export const Dropdown = ({
-  handleChange,
+  onClick,
   options = [],
   placeHolder,
 }) => {
@@ -164,7 +164,7 @@ export const Dropdown = ({
     <>
       <Label className="mb-2">{placeHolder}</Label>
       <Select>
-        <SelectTrigger>
+        <SelectTrigger >
           <SelectValue placeholder={placeHolder} />
         </SelectTrigger>
         <SelectContent>
@@ -173,7 +173,7 @@ export const Dropdown = ({
               <SelectItem
                 key={index}
                 value={item?.value}
-                onClick={(item) => handleChange(item?.value)}
+             
               >
                 {item?.label}
               </SelectItem>
