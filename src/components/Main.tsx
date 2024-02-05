@@ -9,17 +9,22 @@ import {
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from "@/components/UI/sheet";
+} from "./UI/sheet";
 import { FormData } from "./Run/Run";
+import {
+  PlusIcon,
+  ChatBubbleLeftIcon,
+  EnvelopeIcon,
+} from "@heroicons/react/24/outline";
+import { PersonIcon,ChatBubbleIcon } from "@radix-ui/react-icons";
+
 type navItem = {
   name: string;
   path: string;
 };
-
 type styleType = {
   width: string;
 };
-
 type leftSideBarType = {
   id: string;
   navItems: navItem[];
@@ -29,68 +34,115 @@ type leftSideBarType = {
 };
 
 const mostLeftNavItems = [
-  { name: "Create", path: "/create" },
-  { name: "Run", path: "/run" },
-  { name: "Chatbot", path: "/chatbot" },
+  {
+    name: "Create",
+    path: "/create",
+    icon: <PlusIcon className="h-4 w-4 text-gray-500" />,
+  },
+  {
+    name: "Run",
+    path: "/run",
+    icon: <PlusIcon className="h-4 w-4 text-gray-500" />,
+  },
+  {
+    name: "Chatbot",
+    path: "/chatbot",
+    icon: <ChatBubbleLeftIcon className="h-4 w-4 text-gray-500" />,
+  },
 ];
-
 const leftNavItems = [
-  { name: "WhatsApp", path: "/create" },
-  { name: "Emails", path: "/run" },
-  { name: "Clients", path: "/chatbot" },
+  {
+    name: "WhatsApp",
+    path: "/create",
+    icon: <ChatBubbleIcon className="h-4 w-4 text-gray-500" />,
+  },
+  {
+    name: "Emails",
+    path: "/run",
+    icon: <EnvelopeIcon className="h-4 w-4 text-gray-500" />,
+  },
+  {
+    name: "Clients",
+    path: "/chatbot",
+    icon: <PersonIcon className="h-4 w-4 text-gray-500" />,
+  },
 ];
-
 const leftSideBars: leftSideBarType[] = [
   {
     id: "1",
     navItems: mostLeftNavItems,
-    expandedStyles: { width: "w-28" },
+    expandedStyles: { width: "w-30" },
     collapsedStyles: { width: "w-12" },
     toggle: true,
   },
   {
     id: "2",
     navItems: leftNavItems,
-    expandedStyles: { width: "left-[112px] w-28" },
-    collapsedStyles: { width: "left-[110px] w-12" },
+    expandedStyles: { width: "left-[120px] w-30" },
+    collapsedStyles: { width: "left-[118px] w-12" },
     toggle: false,
   },
 ];
 
 export const Main = ({ children }) => {
+
   const [sideBars, setSideBars] = useState(leftSideBars);
-  // const [handleSidebar, setHandleSidebar] = useState<navbar>({
-  //   first: true,
-  //   second: false,
-  // });
-
-  const updateId = () => {
-    return (Math.floor(Math.random() * 3) + 2).toString();
-  }
-
+ 
   const handleNavigation = (id: string) => {
-    // const updatedSideBars = sideBars.map((sideBar) => sideBar.id === id ? ({...sideBar, toggle: !sideBar.toggle, id: updateId()}): ({...sideBar, id: updateId()}))
     const updatedSideBars = sideBars.map((sideBar: leftSideBarType) => {
       if (sideBar.id === id) {
-        if ((sideBar.id === "1" && sideBar.toggle)) {
+        if (sideBar.id === "1" && sideBar.toggle) {
           setSideBars((prev) => {
-            prev[1].collapsedStyles.width = "left-[40px] w-12";
-            return [...prev];
-          });
-        }
-       
-        else {
-          setSideBars((prev) => {
-            prev[1].collapsedStyles.width = "left-[110px] w-12";
-            return [...prev];
-          });
+            if (sideBar.toggle) {
+              console.log("Second Toggle is open** ");
+              prev[1].expandedStyles.width = "left-[48px] w-30";
+            }
 
+            prev[1].collapsedStyles.width = "left-[48px] w-12";
+            return [...prev];
+          });
+        } else if (sideBar.id === "1" && !sideBar.toggle) {
+          setSideBars((prev) => {
+            if (!sideBar.toggle) {
+              prev[1].expandedStyles.width = "left-[120px] w-30";
+            }
+
+            prev[1].collapsedStyles.width = "left-[118px] w-12";
+            return [...prev];
+          });
+        } else if (sideBar.id === "2" && sideBar.toggle) {
+          setSideBars((prev) => {
+            if (sideBar.toggle) {
+              console.log("Second Toggle is close*** ");
+              if (!prev[0].toggle) {
+                prev[1].collapsedStyles.width = "left-[48px] w-12";
+              } else {
+                prev[1].collapsedStyles.width = "left-[118px] w-12";
+              }
+            }
+
+            // prev[1].collapsedStyles.width = "left-[110px] w-12";
+            return [...prev];
+          });
+        } else if (sideBar.id === "2" && !sideBar.toggle) {
+          setSideBars((prev) => {
+            if (!sideBar.toggle) {
+              console.log("Second Toggle is close*** ");
+              prev[1].collapsedStyles.width = "left-[118px] w-12";
+            }
+
+            // prev[1].collapsedStyles.width = "left-[110px] w-12";
+            return [...prev];
+          });
+        } else {
+          setSideBars((prev) => {
+            prev[1].collapsedStyles.width = "left-[118px] w-12";
+            return [...prev];
+          });
         }
-        
+
         return { ...sideBar, toggle: !sideBar.toggle };
-      } 
-      
-      else {
+      } else {
         return sideBar;
       }
     });
@@ -115,7 +167,11 @@ export const Main = ({ children }) => {
         ))}
         <div
           className={`flex-1 ${
-            sideBars[0].toggle && sideBars[1].toggle ? "ml-56" : "ml-40"
+            sideBars[0].toggle && sideBars[1].toggle
+              ? "ml-[264px]"
+              : !sideBars[0].toggle && !sideBars[1].toggle
+              ? "ml-28"
+              : "ml-52"
           }`}
         >
           {children}

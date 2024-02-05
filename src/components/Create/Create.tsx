@@ -2,11 +2,11 @@
 import React from "react";
 import { Checkbox } from "../UI/checkbox";
 import { Calendar } from "../UI/calendar";
-import { Label } from "@/components/UI/label";
-import { RadioGroup, RadioGroupItem } from "@/components/UI/radio-group";
-import { Switch } from "@/components/UI/switch";
+import { Label } from "../UI//label";
+import { RadioGroup, RadioGroupItem } from "../UI//radio-group";
+import { Switch } from "../UI//switch";
 import { CopyIcon } from "@radix-ui/react-icons";
-import { useToast } from "@/components/UI/use-toast";
+import { useToast } from "../UI//use-toast";
 
 import { ComboboxDemo } from "./Combobox";
 import {
@@ -18,21 +18,14 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/UI/dialog";
-import {
-  Sheet,
-  SheetContent,
-  SheetDescription,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from "@/components/UI/sheet";
+} from "../UI//dialog";
+
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "@/components/UI/tooltip";
+} from "../UI//tooltip";
 import {
   Pagination,
   PaginationContent,
@@ -41,9 +34,9 @@ import {
   PaginationLink,
   PaginationNext,
   PaginationPrevious,
-} from "@/components/UI/pagination";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/UI/tabs";
-import { Separator } from "@/components/UI/separator";
+} from "../UI//pagination";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "../UI//tabs";
+import { Separator } from "../UI//separator";
 import { Button } from "../UI/button";
 import { Input } from "../UI";
 import { DataTable } from "./DataTable";
@@ -230,7 +223,7 @@ export const Create = () => {
       </div>
       <div>
         <h4 className="text-sky-400 text-center">Form Data</h4>
-        {/* <FormData additionalClasses={"flex justify-around items-center"} /> */}
+        <FormData additionalClasses={"flex justify-around items-center"} />
       </div>
      
       <div>
