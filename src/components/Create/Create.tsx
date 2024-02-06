@@ -2,11 +2,11 @@
 import React from "react";
 import { Checkbox } from "../UI/checkbox";
 import { Calendar } from "../UI/calendar";
-import { Label } from "../UI//label";
-import { RadioGroup, RadioGroupItem } from "../UI//radio-group";
-import { Switch } from "../UI//switch";
+import { Label } from "@/components/UI/label";
+import { RadioGroup, RadioGroupItem } from "@/components/UI/radio-group";
+import { Switch } from "@/components/UI/switch";
 import { CopyIcon } from "@radix-ui/react-icons";
-import { useToast } from "../UI//use-toast";
+import { useToast } from "@/components/UI/use-toast";
 
 import { ComboboxDemo } from "./Combobox";
 import {
@@ -18,14 +18,14 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "../UI//dialog";
+} from "@/components/ui/dialog";
 
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "../UI//tooltip";
+} from "@/components/UI/tooltip";
 import {
   Pagination,
   PaginationContent,
@@ -34,13 +34,14 @@ import {
   PaginationLink,
   PaginationNext,
   PaginationPrevious,
-} from "../UI//pagination";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "../UI//tabs";
-import { Separator } from "../UI//separator";
+} from "@/components/UI/pagination";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/UI/tabs";
+import { Separator } from "@/components/UI/separator";
 import { Button } from "../UI/button";
 import { Input } from "../UI";
 import { DataTable } from "./DataTable";
 import { Payment, payments, columns } from "./Columns";
+import { NavigationBar } from "../NavigationBar";
 
 export const Create = () => {
   const [date, setDate] = React.useState<Date | undefined>(new Date());
@@ -223,7 +224,8 @@ export const Create = () => {
       </div>
       <div>
         <h4 className="text-sky-400 text-center">Form Data</h4>
-        <FormData additionalClasses={"flex justify-around items-center"} />
+       < NavigationBar/>
+        {/* <FormData additionalClasses={"flex justify-around items-center"} /> */}
       </div>
      
       <div>

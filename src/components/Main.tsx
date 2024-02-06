@@ -9,14 +9,16 @@ import {
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from "./UI/sheet";
+} from "@/components/UI/sheet";
 import { FormData } from "./Run/Run";
 import {
   PlusIcon,
   ChatBubbleLeftIcon,
   EnvelopeIcon,
 } from "@heroicons/react/24/outline";
-import { PersonIcon,ChatBubbleIcon } from "@radix-ui/react-icons";
+import { PersonIcon, ChatBubbleIcon } from "@radix-ui/react-icons";
+import { RightNavbar } from "./RightNavbar";
+import { NavigationBar } from "./NavigationBar";
 
 type navItem = {
   name: string;
@@ -31,120 +33,89 @@ type leftSideBarType = {
   expandedStyles: styleType;
   collapsedStyles: styleType;
   toggle: boolean;
+  title:string
 };
 
 const mostLeftNavItems = [
   {
     name: "Create",
     path: "/create",
-    icon: <PlusIcon className="h-4 w-4 text-gray-500" />,
+    icon: <PlusIcon className="h-4 w-4 text-white" />,
   },
   {
     name: "Run",
     path: "/run",
-    icon: <PlusIcon className="h-4 w-4 text-gray-500" />,
+    icon: <PlusIcon className="h-4 w-4 text-white" />,
   },
   {
     name: "Chatbot",
     path: "/chatbot",
-    icon: <ChatBubbleLeftIcon className="h-4 w-4 text-gray-500" />,
+    icon: <ChatBubbleLeftIcon className="h-4 w-4 text-white" />,
   },
 ];
 const leftNavItems = [
   {
     name: "WhatsApp",
     path: "/create",
-    icon: <ChatBubbleIcon className="h-4 w-4 text-gray-500" />,
+    icon: <ChatBubbleIcon className="h-4 w-4 text-black" />,
   },
   {
     name: "Emails",
     path: "/run",
-    icon: <EnvelopeIcon className="h-4 w-4 text-gray-500" />,
+    icon: <EnvelopeIcon className="h-4 w-4 text-black" />,
   },
   {
     name: "Clients",
     path: "/chatbot",
-    icon: <PersonIcon className="h-4 w-4 text-gray-500" />,
+    icon: <PersonIcon className="h-4 w-4 text-black" />,
   },
 ];
 const leftSideBars: leftSideBarType[] = [
   {
     id: "1",
     navItems: mostLeftNavItems,
-    expandedStyles: { width: "w-30" },
-    collapsedStyles: { width: "w-12" },
+    expandedStyles: { width: "  w-[300px]" },
+    collapsedStyles: { width: " w-12" },
     toggle: true,
+    title:"Command Center"
   },
   {
     id: "2",
     navItems: leftNavItems,
-    expandedStyles: { width: "left-[120px] w-30" },
-    collapsedStyles: { width: "left-[118px] w-12" },
+    expandedStyles: { width: "ml-[302px] w-30" },
+    collapsedStyles: { width: "ml-[298px] w-12" },
     toggle: false,
+    title:"Title"
   },
 ];
 
 export const Main = ({ children }) => {
-
   const [sideBars, setSideBars] = useState(leftSideBars);
- 
+
   const handleNavigation = (id: string) => {
     const updatedSideBars = sideBars.map((sideBar: leftSideBarType) => {
-      if (sideBar.id === id) {
-        if (sideBar.id === "1" && sideBar.toggle) {
-          setSideBars((prev) => {
-            if (sideBar.toggle) {
-              console.log("Second Toggle is open** ");
-              prev[1].expandedStyles.width = "left-[48px] w-30";
-            }
-
-            prev[1].collapsedStyles.width = "left-[48px] w-12";
-            return [...prev];
-          });
-        } else if (sideBar.id === "1" && !sideBar.toggle) {
-          setSideBars((prev) => {
-            if (!sideBar.toggle) {
-              prev[1].expandedStyles.width = "left-[120px] w-30";
-            }
-
-            prev[1].collapsedStyles.width = "left-[118px] w-12";
-            return [...prev];
-          });
-        } else if (sideBar.id === "2" && sideBar.toggle) {
-          setSideBars((prev) => {
-            if (sideBar.toggle) {
-              console.log("Second Toggle is close*** ");
-              if (!prev[0].toggle) {
-                prev[1].collapsedStyles.width = "left-[48px] w-12";
-              } else {
-                prev[1].collapsedStyles.width = "left-[118px] w-12";
-              }
-            }
-
-            // prev[1].collapsedStyles.width = "left-[110px] w-12";
-            return [...prev];
-          });
-        } else if (sideBar.id === "2" && !sideBar.toggle) {
-          setSideBars((prev) => {
-            if (!sideBar.toggle) {
-              console.log("Second Toggle is close*** ");
-              prev[1].collapsedStyles.width = "left-[118px] w-12";
-            }
-
-            // prev[1].collapsedStyles.width = "left-[110px] w-12";
-            return [...prev];
-          });
-        } else {
-          setSideBars((prev) => {
-            prev[1].collapsedStyles.width = "left-[118px] w-12";
-            return [...prev];
-          });
-        }
-
-        return { ...sideBar, toggle: !sideBar.toggle };
+      if (sideBar.id === id) sideBar.toggle = !sideBar.toggle;
+      if (sideBar.id === "1") {
+        setSideBars((prev) => {
+          if (sideBar.toggle) {
+            prev[1].expandedStyles.width = "ml-[302px] w-30";
+            prev[1].collapsedStyles.width = "ml-[298px] w-12";
+          } else {
+            prev[1].expandedStyles.width = "ml-[48px] w-30";
+            prev[1].collapsedStyles.width = "ml-[48px] w-12";
+          }
+          return [...prev];
+        });
       } else {
-        return sideBar;
+        setSideBars((prev) => {
+          prev[0].toggle
+            ? (prev[1].collapsedStyles.width = "ml-[302px] w-12")
+            : (prev[1].collapsedStyles.width = "ml-[48px] w-12");
+
+          return [...prev];
+        });
       }
+      return sideBar;
     });
     setSideBars(updatedSideBars);
   };
@@ -152,27 +123,22 @@ export const Main = ({ children }) => {
   return (
     <div className="flex h-screen flex-col">
       <Header />
-      <div className="flex relative  ">
+      <div className="flex relative h-full">
         {sideBars.map((sideBar: leftSideBarType) => (
           <div
             key={sideBar.id}
-            className={`fixed ${
+            className={`${sideBar.id==="1" && "absolute left-0"} px-8 h-full  pl-4  ${ sideBar.id === "1" ? "bg-[#252b36] " : "bg-[#f9f9f9]"} ${
               sideBar.toggle
-                ? sideBar.expandedStyles.width
+                ? `max-h-full overflow-y-scroll ${sideBar.expandedStyles.width}`
                 : sideBar.collapsedStyles.width
             }`}
           >
             <LeftNavbar details={sideBar} onHandle={handleNavigation} />
+           
           </div>
         ))}
         <div
-          className={`flex-1 ${
-            sideBars[0].toggle && sideBars[1].toggle
-              ? "ml-[264px]"
-              : !sideBars[0].toggle && !sideBars[1].toggle
-              ? "ml-28"
-              : "ml-52"
-          }`}
+          className={`flex-1 `}
         >
           {children}
           <div>
@@ -198,8 +164,14 @@ export const Main = ({ children }) => {
             </Sheet>
           </div>
         </div>
-
-        <div></div>
+     
+         
+      
+        <RightNavbar/>
+       
+         
+      
+     
       </div>
     </div>
   );
