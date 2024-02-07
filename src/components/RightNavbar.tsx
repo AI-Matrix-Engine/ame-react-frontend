@@ -5,6 +5,7 @@ import { ChevronDoubleRightIcon, EnvelopeIcon } from "@heroicons/react/24/outlin
 import { ChevronDoubleLeftIcon } from "@heroicons/react/24/outline";
 import { ChatBubbleIcon, PersonIcon } from "@radix-ui/react-icons";
 import { ArrowsRightLeftIcon,ChevronLeftIcon } from "@heroicons/react/24/outline";
+import { FormData } from "./Run/Run";
 export const RightNavbar = () => {
     const navItems = [
         {
@@ -38,21 +39,14 @@ export const RightNavbar = () => {
         <button onClick={handleSidebar}>
         <ArrowsRightLeftIcon className={`h-4 w-4 text-black flex justify-end`} />
              </button>
+       
       </div>
-      <ul className={`flex flex-col justify-between items-between text-black`}>
-          {navItems.map((item) => (
-            <li key={item.name}>
-              <Link
-                href={item.path}
-                className={`flex  text=white p-4 hover:bg-[#e5e7eb]cursor-pointer justify-around items-center gap-4`}
-              >
-               <div>  {item.icon}</div>
-               <h4 className="text-center flex-1"> {item.name}</h4>
-              
-              </Link>
-            </li>
-          ))}
-        </ul>
+      
+           <div className={`flex flex-col justify-between items-between text-black p-4`}>
+            <h4 className="text-center ">Form</h4>
+            <FormData additionalClasses={"space-y-4"} />
+           </div>
+      
              
       </div>
       ) : (

@@ -18,7 +18,6 @@ import {
 } from "@heroicons/react/24/outline";
 import { PersonIcon, ChatBubbleIcon } from "@radix-ui/react-icons";
 import { RightNavbar } from "./RightNavbar";
-import { NavigationBar } from "./NavigationBar";
 
 type navItem = {
   name: string;
@@ -33,7 +32,8 @@ type leftSideBarType = {
   expandedStyles: styleType;
   collapsedStyles: styleType;
   toggle: boolean;
-  title:string
+  hover: boolean;
+  title: string;
 };
 
 const mostLeftNavItems = [
@@ -76,16 +76,18 @@ const leftSideBars: leftSideBarType[] = [
     navItems: mostLeftNavItems,
     expandedStyles: { width: "  w-[300px]" },
     collapsedStyles: { width: " w-12" },
-    toggle: true,
-    title:"Command Center"
+    toggle: false,
+    hover: false,
+    title: "Command Center",
   },
   {
     id: "2",
     navItems: leftNavItems,
     expandedStyles: { width: "ml-[302px] w-30" },
-    collapsedStyles: { width: "ml-[298px] w-12" },
+    collapsedStyles: { width: "ml-[48px] w-12" },
     toggle: false,
-    title:"Title"
+    hover: false,
+    title: "Title",
   },
 ];
 
@@ -103,6 +105,7 @@ export const Main = ({ children }) => {
           } else {
             prev[1].expandedStyles.width = "ml-[48px] w-30";
             prev[1].collapsedStyles.width = "ml-[48px] w-12";
+            prev[0].hover = false;
           }
           return [...prev];
         });
@@ -119,29 +122,42 @@ export const Main = ({ children }) => {
     });
     setSideBars(updatedSideBars);
   };
+  const handleMouseEvent = (id: string, hover: boolean) => {
+    const updatedSideBars = sideBars.map((item) => {
+      if (item.id === "1" && id === "1") {
+        console.log("Id", item);
+        item.hover = hover;
+      }
+      return { ...item };
+    });
+    setSideBars(updatedSideBars);
+  };
 
   return (
     <div className="flex h-screen flex-col">
       <Header />
-      <div className="flex relative h-full">
+      <div className="flex relative h-full ">
         {sideBars.map((sideBar: leftSideBarType) => (
           <div
+            onMouseEnter={() => handleMouseEvent(sideBar.id, true)}
+            onMouseLeave={() => handleMouseEvent(sideBar.id, false)}
             key={sideBar.id}
-            className={`${sideBar.id==="1" && "absolute left-0"} px-8 h-full  pl-4  ${ sideBar.id === "1" ? "bg-[#252b36] " : "bg-[#f9f9f9]"} ${
-              sideBar.toggle
+            className={`px-8 h-full  pl-4  ${
+              sideBar.id === "1"
+                ? "bg-[#252b36] absolute left-0 "
+                : "bg-[#f9f9f9]"
+            } ${
+              sideBar.toggle || (sideBar.id === "1" && sideBar.hover)
                 ? `max-h-full overflow-y-scroll ${sideBar.expandedStyles.width}`
                 : sideBar.collapsedStyles.width
             }`}
           >
             <LeftNavbar details={sideBar} onHandle={handleNavigation} />
-           
           </div>
         ))}
-        <div
-          className={`flex-1 `}
-        >
+        <div className={`flex-1 `}>
           {children}
-          <div>
+          <div className="p-4">
             <h4 className="text-sky-400 text-center">Drawer</h4>
             <Sheet>
               <SheetTrigger className="border-2  border-zinc-200 rounded-md px-4 py-2">
@@ -164,14 +180,8 @@ export const Main = ({ children }) => {
             </Sheet>
           </div>
         </div>
-     
-         
-      
-        <RightNavbar/>
-       
-         
-      
-     
+
+        <RightNavbar />
       </div>
     </div>
   );
