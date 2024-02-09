@@ -2,8 +2,8 @@
 import React from "react";
 import { Formik } from "formik";
 import * as Yup from "yup";
-// import { variables } from "../UIFactory/Data.";
 import { Input } from "../UI";
+
 export const Form = () => {
   const validationSchema = Yup.object().shape({
     email: Yup.string().email("Invalid email").required("Email is required"),
@@ -36,7 +36,6 @@ export const Form = () => {
         }) => (
           <form onSubmit={handleSubmit} className="flex gap-2 items-center ">
             <div className="flex flex-col">
-                
               <Input
                 element="Enter Your Email"
                 type="email"
@@ -46,20 +45,11 @@ export const Form = () => {
                 value={values.email}
                 className="border-2 border-black"
               />
-              {/* <label>Email</label>
-          <input
-            type="email"
-            name="email"
-            onChange={handleChange}
-            onBlur={handleBlur}
-            value={values.email}
-            className="border-2 border-black"
-          /> */}
               {errors.email && touched.email && errors.email}
             </div>
 
             <div className="flex flex-col">
-            <Input
+              <Input
                 element="Enter Your Password"
                 type="password"
                 name="password"
@@ -67,18 +57,10 @@ export const Form = () => {
                 onBlur={handleBlur}
                 value={values.password}
                 className="border-2 border-black"
-              /> 
-              {/* <label>Password</label>
-              <input
-                type="password"
-                name="password"
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={values.password}
-                className="border-2 border-black"
-              /> */}
+              />
               {errors.password && touched.password && errors.password}
             </div>
+
             <button
               type="submit"
               disabled={isSubmitting}

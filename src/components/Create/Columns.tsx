@@ -11,8 +11,15 @@ export type Payment = {
   status: "pending" | "processing" | "success" | "failed"
   email: string
 }
-
-export const columns: ColumnDef<Payment>[] = [
+export type Column  = {
+  accessorKey:string,
+  header:string,
+  id: string
+  amount: number
+  status: "pending" | "processing" | "success" | "failed"
+  email: string
+}
+export const columns: ColumnDef<Column>[] = [
   {
     accessorKey: "status",
     header: "Status",
@@ -35,7 +42,7 @@ export const columns: ColumnDef<Payment>[] = [
         </Button>
       )
     },
-    // header: "Amount",
+
   },
 ]
 export const payments: Payment = 
@@ -47,11 +54,5 @@ export const payments: Payment =
     
   
   }
-  // {
-  //   id: "489e1d42",
-  //   amount: 125,
-  //   status: "processing",
-  //   email: "example@gmail.com",
-  // },
 
 

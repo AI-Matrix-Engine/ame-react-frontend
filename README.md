@@ -1,69 +1,36 @@
-# Business Automation Dashboard for AI Matrix Engine
-
-## Overview
-
-This project is the frontend business automation application for the AI Matrix Engine, a revolutionary tool designed to enhance business excellence through AI-driven workflow management. Developed using React, Next.js, TypeScript, and Tailwind CSS, it offers a seamless user experience while interacting with the AI Matrix Engine's powerful capabilities.
-
-### Features
-
-- **Integrated Workflow Management**: Connects with over 1000 APIs, enabling seamless interaction with platforms like Google and Shopify.
-- **AI Infinity Matrix**: Leverages the AI Matrix Engine for enhanced task processing across various systems like ERP, CRM, and Project Management.
-- **Marketing Tools Optimization**: Integrates marketing tools for email, social media, ads, and SEO, powered by the AI Matrix Engine.
-- **Customizable Dashboards**: Includes dashboards like the Manager KPI Dashboard, providing targeted insights into business operations.
-- **Cross-Platform Availability**: Ensures the application is responsive and accessible across iOS, Android, and web platforms.
+This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
 
-### Prerequisites
-
-- Node.js (LTS version)
-- npm or Yarn
-
-### Installation
-
-1. Clone the repository:
-
-```bash
-git clone https://github.com/AI-Matrix-Engine/ame-react-frontend
-```
-
-2. Install dependencies:
-
-```bash
-npm install
-# or
-yarn install
-```
-
-3. Run the development server:
+First, run the development server:
 
 ```bash
 npm run dev
 # or
 yarn dev
+# or
+pnpm dev
+# or
+bun dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-## Contributing
+You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
-Please note that this is a private repository. Developers are not permitted to share any part of it or retain any part without written approval. Your adherence to these guidelines is critical.
+This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
 
-For contributing to this project, please follow these steps:
+## Learn More
 
-1. Create your feature branch (`git checkout -b feature/AmazingFeature`).
-2. Commit your changes (`git commit -m 'Add some AmazingFeature'`).
-3. Push to the branch (`git push origin feature/AmazingFeature`).
-4. Open a Pull Request.
+To learn more about Next.js, take a look at the following resources:
 
-## Integration with AI Matrix Engine
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-This frontend application is designed to integrate seamlessly with the AI Matrix Engine, leveraging its vast capabilities to provide real-time analytics, task management, and business insights. Ensure proper configuration of the API endpoints and authentication mechanisms to interact with the AI Matrix Engine backend services.
+You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
 
-## License
+## Deploy on Vercel
 
-This project is proprietary software. Unauthorized copying, modification, distribution, or use in any form is strictly prohibited without written consent from the copyright holders.
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
-## Contact
-
-For support or any queries related to this project, please contact [Armani Sadeghi].
+Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.

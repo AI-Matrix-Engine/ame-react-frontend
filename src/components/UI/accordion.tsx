@@ -19,10 +19,12 @@ const AccordionItem = React.forwardRef<
   />
 ))
 AccordionItem.displayName = "AccordionItem"
-
+type AccordionTriggerProps = React.ComponentPropsWithoutRef<typeof AccordionPrimitive.Trigger> & {
+  iconStyle?: null | string | boolean; // Define the type for iconStyle prop
+}
 const AccordionTrigger = React.forwardRef<
-  React.ElementRef<typeof AccordionPrimitive.Trigger>,
-  React.ComponentPropsWithoutRef<typeof AccordionPrimitive.Trigger>
+  React.ElementRef<typeof AccordionPrimitive.Trigger> ,
+ AccordionTriggerProps
 >(({ className, children, iconStyle = null, ...props }, ref) => (
   <AccordionPrimitive.Header className="flex">
     <AccordionPrimitive.Trigger

@@ -18,7 +18,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog";
+} from "@/components/UI/dialog";
 
 import {
   Tooltip,
@@ -40,13 +40,13 @@ import { Separator } from "@/components/UI/separator";
 import { Button } from "../UI/button";
 import { Input } from "../UI";
 import { DataTable } from "./DataTable";
-import { Payment, payments, columns } from "./Columns";
-import { NavigationBar } from "../NavigationBar";
+import { columns } from "./Columns";
+import { NavigationBar } from "../Home/NavigationBar";
 
 export const Create = () => {
   const [date, setDate] = React.useState<Date | undefined>(new Date());
   const { toast } = useToast();
-  // const data = await getData()
+
   const data = [
     { id: "728ed52f", amount: 100, status: "pending", email: "m@example.com" },
     { id: "728ed52f1", amount: 10, status: "start", email: "mmm@abc.com" },
@@ -175,13 +175,12 @@ export const Create = () => {
           </DialogContent>
         </Dialog>
       </div>
-     
+
       <div>
         <h4 className="text-sky-400 text-center">Toast</h4>
         <Button
           variant="outline"
           onClick={() => {
-         
             toast({
               description: "Your message has been sent.",
             });
@@ -224,10 +223,10 @@ export const Create = () => {
       </div>
       <div>
         <h4 className="text-sky-400 text-center">Form Data</h4>
-       < NavigationBar/>
+        <NavigationBar />
         {/* <FormData additionalClasses={"flex justify-around items-center"} /> */}
       </div>
-     
+
       <div>
         <h4 className="text-sky-400 text-center">Pagination</h4>
         <Pagination>

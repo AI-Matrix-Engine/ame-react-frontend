@@ -2,18 +2,28 @@ import * as React from "react";
 
 import { cn } from "@/lib/utils";
 import { Label } from "./label";
+import { JsonDataType } from "../Home/JsonData.";
 
+type DefaultOnChange = React.ChangeEventHandler<HTMLInputElement>;
+
+
+type CustomOnChange = (value: string) => void;
+type CombinedOnChange = DefaultOnChange | CustomOnChange;
 export interface InputProps
-  extends React.InputHTMLAttributes<HTMLInputElement> {
-  element: any;
-  onChange?: any;
+  extends Omit<React.InputHTMLAttributes<HTMLInputElement>, "onChange">  {
+  element?: string | JsonDataType  ;
+  onChange?: CombinedOnChange  ;
 }
 
 const  Input = React.forwardRef<HTMLInputElement, InputProps>(
-  ({ className,onChange, type, element = "", ...props }, ref) => {
+  ({ className,onChange, type, element, ...props }, ref) => {
     return (
       <>
-        <Label htmlFor="email" className="mb-2">{element.source_params?.options?.placeholder}</Label>
+        {
+          <Label htmlFor="email" className="mb-2">
+            {typeof element === "object" ?element?.source_params?.options?.placeholder : element}
+          </Label>
+         }
         <input
         
           type={type}
@@ -23,7 +33,7 @@ const  Input = React.forwardRef<HTMLInputElement, InputProps>(
           )}
           ref={ref}
           {...props}
-          placeholder={element.source_params?.options?.placeholder || element}
+          placeholder = {typeof element ===  "object" ? element?.source_params?.options?.placeholder : element  } 
           onChange={onChange}
         />
       </>
