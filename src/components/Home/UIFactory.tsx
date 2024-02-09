@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import { variables,JsonDataType } from "./JsonData.";
 import { UIRenderer } from "./UIRenderer";
+import Link from "next/link";
 
 type UIFactoryState = (JsonDataType & { value: string });
 export const UIFactory = () => {
@@ -27,6 +28,9 @@ export const UIFactory = () => {
         <h4 className=" text-2xl text-[#212B36] font-arimo font-semibold text-center mb-4">
           School Management
         </h4>
+        <Link href="/playground" className=" text-2xl text-[#212B36] font-arimo font-semibold text-center mb-4">
+          Playgound
+        </Link>
       </div>
       <div className=" grid grid-cols-3 grid-rows-2 gap-8 p-4 justify-center content-center">
         {UIData?.map((element, index) => {
