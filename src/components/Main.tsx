@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import { Header } from "./Header";
 import { LeftNavbar } from "./LeftNavbar";
 import {
@@ -93,7 +93,7 @@ const leftSideBars: leftSideBarType[] = [
 
 export const Main = ({ children }) => {
   const [sideBars, setSideBars] = useState(leftSideBars);
-
+  console.log("Its really getting into page.");
   const handleNavigation = (id: string) => {
     const updatedSideBars = sideBars.map((sideBar: leftSideBarType) => {
       if (sideBar.id === id) sideBar.toggle = !sideBar.toggle;
@@ -122,16 +122,31 @@ export const Main = ({ children }) => {
     });
     setSideBars(updatedSideBars);
   };
-  const handleMouseEvent = (id: string, hover: boolean) => {
-    const updatedSideBars = sideBars.map((item) => {
-      if (item.id === "1" && id === "1") {
-        console.log("Id", item);
-        item.hover = hover;
-      }
-      return { ...item };
-    });
-    setSideBars(updatedSideBars);
-  };
+  // const handleMouseEvent = (id: string, hover: boolean) => {
+  //   const updatedSideBars = sideBars.map((item) => {
+  //     if (item.id === "1" && id === "1") {
+  //       console.log("Id", item);
+  //       item.hover = hover;
+  //     }
+  //     return { ...item };
+  //   });
+  //   setSideBars(updatedSideBars);
+  // };
+
+  const handleMouseEvent = useCallback(
+    (id: string, hover: boolean) => {
+      console.log("calling hover function too many times*** ", hover);
+      const updatedSideBars = sideBars.map((item) => {
+        if (item.id === "1" && id === "1") {
+          console.log("Id", item);
+          item.hover = hover;
+        }
+        return { ...item };
+      });
+      // setSideBars(updatedSideBars);
+    },
+    [sideBars]
+  );
 
   return (
     <div className="flex h-screen flex-col">
@@ -152,7 +167,7 @@ export const Main = ({ children }) => {
                 : sideBar.collapsedStyles.width
             }`}
           >
-            <LeftNavbar details={sideBar} onHandle={handleNavigation} />
+            {/* <LeftNavbar details={sideBar} onHandle={handleNavigation} /> */}
           </div>
         ))}
         <div className={`flex-1 `}>
@@ -181,7 +196,7 @@ export const Main = ({ children }) => {
           </div>
         </div>
 
-        <RightNavbar />
+        {/* <RightNavbar /> */}
       </div>
     </div>
   );

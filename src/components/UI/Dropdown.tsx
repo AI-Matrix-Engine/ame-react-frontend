@@ -153,28 +153,40 @@ import {
   SelectValue,
 } from "@/components/UI/select";
 import { Label } from "./label";
+import { Input } from ".";
 
 export const Dropdown = ({
   onClick,
   options = [],
   placeHolder,
+  value,
+  ...props
 }) => {
   console.log("Options in Dropdown", options);
+
+  const [selectedValue, setSelectedValue] = useState<string>();
+
+  const handleChange = (value: string) => {
+    setSelectedValue(value);
+    onClick(value);
+  };
+
   return (
     <>
       <Label className="mb-2">{placeHolder}</Label>
-      <Select>
-        <SelectTrigger >
+      <Select
+        onValueChange={(value: string) => {
+          handleChange(value);
+          props?.onChange && props.onChange(value);
+        }}
+      >
+        <SelectTrigger>
           <SelectValue placeholder={placeHolder} />
         </SelectTrigger>
         <SelectContent>
           {options?.map((item, index) => {
             return (
-              <SelectItem
-                key={index}
-                value={item?.value}
-             
-              >
+              <SelectItem key={index} value={item?.value} {...props}>
                 {item?.label}
               </SelectItem>
             );
@@ -184,6 +196,16 @@ export const Dropdown = ({
           <SelectItem value="system">System</SelectItem>
         </SelectContent>
       </Select>
+      {selectedValue && selectedValue === "Other" && (
+        <Input
+          placeholder="Enter Industry Name..."
+          className="mt-2"
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            onClick(e.target.value)
+          }
+          {...props}
+        />
+      )}
     </>
   );
 };

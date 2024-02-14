@@ -2,6 +2,9 @@
   id:number;
   name:string;
   source:"user_input" 
+  label: string,
+  value: string,
+  UUID: string,
   source_params: {
     classes: string[] ;
     cssStyle:React.CSSProperties,
@@ -25,6 +28,7 @@
       maxLength: number,
       minLength: number,
       pattern: string
+      required?: boolean,
     },
   }
  }
@@ -33,6 +37,7 @@ export const variables = [
       id: 10,
       name: "PRIMARY_KEYWORD_1001",
       source: "user_input",
+      label: "Input",
       source_params: {
         attributes: {},
         classes: ["default", "default"],
@@ -61,6 +66,7 @@ export const variables = [
           maxLength: 100,
           minLength: 0,
           pattern: "",
+          required: true,
         },
       },
     },
@@ -68,6 +74,7 @@ export const variables = [
       id: 16,
       name: "KEYWORD_TYPE_OPTIONS_1001",
       source: "user_input",
+      label: "Standard DropDown",
       source_params: {
         classes: [],
         cssStyles: {
@@ -108,7 +115,7 @@ export const variables = [
             },
             {
               label: "Other (Enter Below)",
-              value: "other",
+              value: "Other",
             },
           ],
           placeholder: "Enter Keyword Type...",
@@ -119,6 +126,7 @@ export const variables = [
         type: "standard_dropdown",
         validation: {
           pattern: "",
+          required: true,
         },
       },
     },
@@ -126,6 +134,7 @@ export const variables = [
         id: 33,
         name: "IDEAL_CLIENT_1001",
         source: "user_input",
+        label: "Text Input",
         source_params: {
           attributes: {},
           classes: [],
@@ -155,6 +164,7 @@ export const variables = [
             maxLength: 255,
             minLength: 0,
             pattern: "",
+            required: true,
           },
         },
       },
@@ -162,6 +172,7 @@ export const variables = [
       id: 21,
       name: "INDUSTRY_NAME_1002",
       source: "user_input",
+      label: "DropDown with Other Option",
       source_params: {
         classes: [
           {
@@ -248,12 +259,14 @@ export const variables = [
         type: "dropdown_with_other_option",
         validation: {
           pattern: "",
+          required: true,
         },
       },
     },
     {
       id: 22,
       name: "CUSTOM_INSTRUCTIONS_1001",
+      label: "Text Area",
       source: "user_input",
       source_params: {
         attributes: {},
@@ -283,7 +296,175 @@ export const variables = [
         validation: {
           maxLength: 200,
           pattern: "",
+          required: true,
         },
       },
     },
+    // for radio button
+    {
+      id: 24,
+      name: "CUSTOM_RADIO_1001",
+      label: "Radio",
+      source: "user_input",
+      value: "",
+      source_params: {
+        attributes: {},
+        classes: [],
+        cssStyles: {
+          height: "defaultHeight",
+          width: "defaultWidth",
+        },
+        events: {
+          onBlur: "handleTextareaBlur",
+          onChange: "handle_CUSTOM_INSTRUCTIONS_1001_Change",
+        },
+        id: "CUSTOM_RADIO_1001",
+        options: {
+          "aria-describedby": "CUSTOM_RADIO_1001_Desc",
+          ariaLabel: "Custom Instructions Input",
+          label:
+            "It's best to leave this blank, but you can choose to include custom instructions.",
+          placeholder: "",
+          value: "",
+          options: [
+            {
+              label: "Option 1",
+              value: "1",
+            },
+            {
+              label: "Option 2",
+              value: "2",
+            },
+            {
+              label: "Option 3",
+              value: "3",
+            },
+          ]
+        },
+        state: {
+          disabled: false,
+          readOnly: false,
+        },
+        type: "radio",
+        validation: {
+          maxLength: 200,
+          pattern: "",
+          required: true,
+        },
+      },
+    },
+    // // for checkbox
+    // {
+    //   id: 23,
+    //   name: "CUSTOM_CHECKBOX_1001",
+    //   label: "Checkbox",
+    //   source: "user_input",
+    //   source_params: {
+    //     attributes: {},
+    //     classes: [],
+    //     cssStyles: {
+    //       height: "defaultHeight",
+    //       width: "defaultWidth",
+    //     },
+    //     events: {
+    //       onBlur: "handleTextareaBlur",
+    //       onChange: "handle_CUSTOM_INSTRUCTIONS_1001_Change",
+    //     },
+    //     id: "CUSTOM_CHECKBOX_1001",
+    //     options: {
+    //       "aria-describedby": "CUSTOM_CHECKBOX_1001_Desc",
+    //       ariaLabel: "Custom Instructions Input",
+    //       label:
+    //         "It's best to leave this blank, but you can choose to include custom instructions.",
+    //       placeholder: "",
+    //       value: "",
+    //     },
+    //     state: {
+    //       disabled: false,
+    //       readOnly: false,
+    //     },
+    //     type: "checkbox",
+    //     validation: {
+    //       maxLength: 200,
+    //       pattern: "",
+    //       required: true,
+    //     },
+    //   },
+    // },
+    // // for switch button
+    // {
+    //   id: 25,
+    //   name: "CUSTOM_SWITCH_1001",
+    //   label: "Switch",
+    //   source: "user_input",
+    //   source_params: {
+    //     attributes: {},
+    //     classes: [],
+    //     cssStyles: {
+    //       height: "defaultHeight",
+    //       width: "defaultWidth",
+    //     },
+    //     events: {
+    //       onBlur: "handleTextareaBlur",
+    //       onChange: "handle_CUSTOM_INSTRUCTIONS_1001_Change",
+    //     },
+    //     id: "CUSTOM_SWITCH_1001",
+    //     options: {
+    //       "aria-describedby": "CUSTOM_SWITCH_1001_Desc",
+    //       ariaLabel: "Custom Instructions Input",
+    //       label:
+    //         "It's best to leave this blank, but you can choose to include custom instructions.",
+    //       placeholder: "",
+    //       value: "",
+    //     },
+    //     state: {
+    //       disabled: false,
+    //       readOnly: false,
+    //     },
+    //     type: "switch",
+    //     validation: {
+    //       maxLength: 200,
+    //       pattern: "",
+    //       required: true,
+    //     },
+    //   },
+    // },
+    // // for calendar date picker
+    // {
+    //   id: 26,
+    //   name: "CUSTOM_DATE_PICKER_1001",
+    //   label: "Date Picker",
+    //   source: "user_input",
+    //   source_params: {
+    //     attributes: {},
+    //     classes: [],
+    //     cssStyles: {
+    //       height: "defaultHeight",
+    //       width: "defaultWidth",
+    //     },
+    //     events: {
+    //       onBlur: "handleTextareaBlur",
+    //       onChange: "handle_CUSTOM_INSTRUCTIONS_1001_Change",
+    //     },
+    //     id: "CUSTOM_DATE_PICKER_1001",
+    //     options: {
+    //       "aria-describedby": "CUSTOM_DATE_PICKER_1001_Desc",
+    //       ariaLabel: "Custom Instructions Input",
+    //       label:
+    //         "It's best to leave this blank, but you can choose to include custom instructions.",
+    //       placeholder: "",
+    //       value: "",
+    //     },
+    //     state: {
+    //       disabled: false,
+    //       readOnly: false,
+    //     },
+    //     type: "calendar",
+    //     validation: {
+    //       maxLength: 200,
+    //       pattern: "",
+    //       required: true,
+    //     },
+    //   },
+    // },
   ];

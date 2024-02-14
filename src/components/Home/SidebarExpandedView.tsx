@@ -1,3 +1,4 @@
+"use client";
 import { ArrowsRightLeftIcon } from "@heroicons/react/24/outline";
 import {
   CaretRightIcon,
@@ -20,25 +21,17 @@ export const SidebarExpandedView = ({
   onHandle,
 }: SidebarExpandedViewProp) => {
   const [opacity, setOpacity] = useState(false);
-  const [showPreviousButton, setShowPreviousButton] = useState(false);
 
   const handleMouseEvent = (opacity) => {
     setOpacity(opacity);
   };
-
-  // Check if any of the conditions for showing the previous button is true
-  if ((id === "1" && toggle) || (id === "2" && toggle)) {
-    setShowPreviousButton(true);
-  } else {
-    setShowPreviousButton(false);
-  }
-
+ 
   return (
     <div className={` `}>
       <div className={`max-h-full   `}>
-        {showPreviousButton && (
+        {(id === "2" && toggle ) ? (
           <button
-            className={`fixed ${id === "1" ? "left-[36%]" : "left-[20%]"} top-[50%] `}
+            className={`fixed top-[50%] left-[20%] `}
             onClick={() => {
               onHandle(id);
             }}
@@ -51,7 +44,20 @@ export const SidebarExpandedView = ({
               <DividerVerticalIcon className="w-[30px] h-[30px] font-bold text-[#92959b]" />
             )}
           </button>
+        ) : (id === "1" && toggle) ?   <button
+        className={`fixed top-[50%] left-[36%] `}
+        onClick={() => {
+          onHandle(id);
+        }}
+        onMouseEnter={() => handleMouseEvent(true)}
+        onMouseLeave={() => handleMouseEvent(false)}
+      >
+        {opacity ? (
+          <CaretLeftIcon className="w-[30px] h-[30px] opacity-100" />
+        ) :  (
+          <DividerVerticalIcon className="w-[30px] h-[30px] font-bold text-[#92959b]" />
         )}
+      </button> : null}
         <div className={` flex justify-between items-center mb-8 mt-8 `}>
           <h5
             className={`${id === "1" ? "text-white" : "text-black"}
