@@ -15,7 +15,12 @@ type Props = {
   className?: string;
 };
 
-export const IntakeForm = ({ customFields, onDelete, handleChange, className }: Props) => {
+export const IntakeForm = ({
+  customFields,
+  onDelete,
+  handleChange,
+  className,
+}: Props) => {
   const customFieldsSchema = z.object(
     customFields.reduce((acc, item) => {
       return {
@@ -44,7 +49,7 @@ export const IntakeForm = ({ customFields, onDelete, handleChange, className }: 
         value: values[element.UUID],
       };
     });
-    console.log({submittedValue})
+
     console.log(values, submittedValue);
   };
   return (
