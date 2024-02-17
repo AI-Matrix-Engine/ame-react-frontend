@@ -16,8 +16,14 @@ import {
   ChatBubbleLeftIcon,
   EnvelopeIcon,
 } from "@heroicons/react/24/outline";
-import { PersonIcon, ChatBubbleIcon } from "@radix-ui/react-icons";
+import {
+  PersonIcon,
+  ChatBubbleIcon,
+  CaretLeftIcon,
+  DividerVerticalIcon,
+} from "@radix-ui/react-icons";
 import { RightNavbar } from "./RightNavbar";
+import { SecondSidebarToggleButton } from "./SecondSidebarToggleButton";
 
 type navItem = {
   name: string;
@@ -30,7 +36,7 @@ type styleType = {
   width: string;
 };
 type leftSideBarType = {
-  id: string;
+  id: number;
   navItems: navItem[];
   expandedStyles: styleType;
   collapsedStyles: styleType;
@@ -75,7 +81,7 @@ const leftNavItems = [
 ];
 const leftSideBars: leftSideBarType[] = [
   {
-    id: "1",
+    id: 1,
     navItems: mostLeftNavItems,
     expandedStyles: { width: "  w-[300px]" },
     collapsedStyles: {
@@ -86,7 +92,7 @@ const leftSideBars: leftSideBarType[] = [
     title: "Command Center",
   },
   {
-    id: "2",
+    id: 2,
     navItems: leftNavItems,
     expandedStyles: { width: "ml-[302px] w-30" },
     collapsedStyles: { width: "ml-[58px] w-12" },
@@ -99,10 +105,10 @@ const leftSideBars: leftSideBarType[] = [
 export const Main = ({ children }: childrenProp) => {
   const [sideBars, setSideBars] = useState(leftSideBars);
 
-  const handleNavigation = (id: string) => {
+  const onExpand = (id: number) => {
     const updatedSideBars = sideBars.map((sideBar: leftSideBarType) => {
       if (sideBar.id === id) sideBar.toggle = !sideBar.toggle;
-      if (sideBar.id === "1") {
+      if (sideBar.id === 1) {
         setSideBars((prev) => {
           if (sideBar.toggle) {
             prev[1].expandedStyles.width = "ml-[302px] w-30";
@@ -127,9 +133,9 @@ export const Main = ({ children }: childrenProp) => {
     });
     setSideBars(updatedSideBars);
   };
-  const handleMouseEvent = (id: string, hover: boolean) => {
+  const handleMouseEvent = (id: number, hover: boolean) => {
     const updatedSideBars = sideBars.map((item) => {
-      if (item.id === "1" && id === "1") {
+      if (item.id === 1 && id === 1) {
         item.hover = hover;
       }
       return { ...item };
@@ -137,54 +143,50 @@ export const Main = ({ children }: childrenProp) => {
     setSideBars(updatedSideBars);
   };
 
+  const [opacity, setOpacity] = useState(false);
+  const handleMouseEventButton = (opacity: boolean) => {
+    setOpacity(opacity);
+  };
+
   return (
     <div className="flex h-screen flex-col">
       <Header />
-      <div className="flex relative h-full  overflow-x-hidden   ">
+      <div className="flex relative h-full  overflow-x-hidden overflow-y-hidden    ">
         {sideBars.map((sideBar: leftSideBarType) => (
           <div
-           id = "scrollableDiv"
+            id="scrollableDiv"
             onMouseEnter={() => handleMouseEvent(sideBar.id, true)}
             onMouseLeave={() => handleMouseEvent(sideBar.id, false)}
             key={sideBar.id}
-            className={`px-8 h-full  pl-4  ${
-              sideBar.id === "1"
-                ? "bg-[#252b36] absolute left-0 "
+            className={`px-8  h-full  pl-4  ${
+              sideBar.id === 1
+                ? "bg-[#252b36] absolute left-0  z-30"
                 : "bg-[#F8F9FB]"
             } ${
-              sideBar.toggle || (sideBar.id === "1" && sideBar.hover)
-                ? ` overflow-y-scroll  ${sideBar.expandedStyles.width}`
+              sideBar.toggle || (sideBar.id === 1 && sideBar.hover)
+                ? `overflow-y-scroll  ${sideBar.expandedStyles.width}`
                 : sideBar.collapsedStyles.width
-            } ${sideBar. id === "2" && !sideBar.toggle && "bg-transparent"}`}
+            } ${sideBar.id === 2 && !sideBar.toggle && "bg-transparent"}`}
           >
-            <LeftNavbar details={sideBar} onHandle={handleNavigation} />
+            <LeftNavbar
+              details={sideBar}
+              onExpand={onExpand}
+              opacity={opacity}
+            />
           </div>
         ))}
-        <div className={`flex-1 `}>
-          
+        {sideBars[1].toggle && (
+          <SecondSidebarToggleButton
+            sideBarId={sideBars[1].id}
+            onHandle={onExpand}
+            handleMouseEvent={(toggle) => handleMouseEventButton(toggle)}
+            setOpacity={(value) => setOpacity(value)}
+            opacity={opacity}
+          />
+        )}
+        <div className={`flex-1 overflow-y-auto `}>
           {children}
-          <div className="p-4">
-            <h4 className="text-sky-400 text-center">Drawer</h4>
-            <Sheet>
-              <SheetTrigger className="border-2  border-zinc-200 rounded-md px-4 py-2">
-                Open
-              </SheetTrigger>
-              <SheetContent>
-                <SheetHeader>
-                  <SheetTitle>Are you absolutely sure?</SheetTitle>
-                  <SheetDescription>
-                    This action cannot be undone. This will permanently delete
-                    your account and remove your data from our servers.
-                  </SheetDescription>
-                </SheetHeader>
-
-                <SheetTitle className="text-center">Form</SheetTitle>
-                <SheetDescription>
-                  <FormData additionalClasses={"space-y-4"} />
-                </SheetDescription>
-              </SheetContent>
-            </Sheet>
-          </div>
+        
         </div>
         <RightNavbar />
       </div>

@@ -1,7 +1,7 @@
 import React from "react";
 import { JsonDataType } from "./JsonData.";
 import { UIRenderer } from "./UIRenderer";
-import { DeleteIcon, Minus, RemoveFormattingIcon } from "lucide-react";
+import { Minus } from "lucide-react";
 import { Form, FormField, FormMessage } from "../UI/form";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
@@ -23,11 +23,51 @@ export const IntakeForm = ({
 }: Props) => {
   const customFieldsSchema = z.object(
     customFields.reduce((acc, item) => {
+      let fieldSchema;
+
+      if (
+        item.source_params.type === "checkbox" ||
+        item.source_params.type === "switch"
+      ) {
+        // For checkboxes and switches, the field is boolean
+        fieldSchema = z.boolean();
+
+        if (item.source_params.validation.required) {
+          // For required checkboxes or switches, set nonempty validation
+          fieldSchema = z.boolean({
+            required_error: "This field is required.",
+          });
+        }
+      } else {
+        // For other types, like text inputs, use string validation
+        fieldSchema = z.string();
+
+        if (item.source_params.validation.required) {
+          fieldSchema = fieldSchema.nonempty("This field is required.");
+        }
+
+        if (item.source_params.validation.minLength) {
+          fieldSchema = fieldSchema.min(
+            item.source_params.validation.minLength,
+            {
+              message: `Minimum length is ${item.source_params.validation.minLength}.`,
+            }
+          );
+        }
+
+        if (item.source_params.validation.maxLength) {
+          fieldSchema = fieldSchema.max(
+            item.source_params.validation.maxLength,
+            {
+              message: `Maximum length is ${item.source_params.validation.maxLength}.`,
+            }
+          );
+        }
+      }
+
       return {
         ...acc,
-        [item.UUID]: item.source_params.validation.required
-          ? z.string().nonempty("This field is required.")
-          : z.string(),
+        [item.UUID]: fieldSchema,
       };
     }, {})
   );
@@ -60,7 +100,7 @@ export const IntakeForm = ({
             return (
               <div
                 key={index}
-                className="flex gap-4 border border-gray-300 p-4 mb-4"
+                className="flex gap-4 border border-gray-300 p-4 mb-4 rounded"
               >
                 <FormField
                   control={form.control}
@@ -80,8 +120,9 @@ export const IntakeForm = ({
                   }}
                 />
                 <Button
-                  className="bg-gray-400 text-white px-4 py-2 mt-2 rounded-md hover:bg-gray-400"
+                  className="bg-gray-400 text-white p-2 mt-auto block rounded-md"
                   onClick={() => onDelete(element.UUID)}
+                  type="button"
                 >
                   <Minus />
                 </Button>
@@ -92,7 +133,7 @@ export const IntakeForm = ({
           {customFields.length > 0 && (
             <Button
               type="submit"
-              className="bg-blue-500 text-white px-4 py-2 mt-2 rounded-md hover:bg-blue-600"
+              className="bg-blue-500 text-white px-4 py-2 mt-2 ml-auto block rounded-md hover:bg-blue-600"
             >
               Submit
             </Button>

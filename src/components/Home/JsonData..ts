@@ -27,7 +27,14 @@ export type JsonDataType = {
       | "standard_text_input"
       | "standard_dropdown"
       | "dropdown_with_other_option"
-      | "textarea";
+      | "textarea"
+      | "radio"
+      | "checkbox"
+      | "switch"
+      | "dialog"
+      | "table"
+      | "tab"
+      | "calendar";
     validation: {
       maxLength: number;
       minLength: number;
@@ -68,7 +75,7 @@ export const variables = [
       type: "standard_text_input",
       validation: {
         maxLength: 100,
-        minLength: 0,
+        minLength: 2,
         pattern: "",
         required: true,
       },
@@ -166,7 +173,7 @@ export const variables = [
       type: "standard_text_input",
       validation: {
         maxLength: 255,
-        minLength: 0,
+        minLength: 2,
         pattern: "",
         required: true,
       },
@@ -299,6 +306,7 @@ export const variables = [
       type: "textarea",
       validation: {
         maxLength: 200,
+        minLength: 2,
         pattern: "",
         required: true,
       },
@@ -333,11 +341,13 @@ export const variables = [
         options: [
           {
             label: "Option 1",
-            value: "1",
+            value: "",
+            id: "option1",
           },
           {
             label: "Option 2",
-            value: "2",
+            value: "",
+            id: "option2",
           },
         ],
       },
@@ -391,7 +401,44 @@ export const variables = [
       },
     },
   },
-  // for dialog
+  // for switch
+  {
+    id: 25,
+    name: "CUSTOM_SWITCH_1001",
+    label: "Switch",
+    source: "user_input",
+    source_params: {
+      attributes: {},
+      classes: [],
+      cssStyles: {
+        height: "defaultHeight",
+        width: "defaultWidth",
+      },
+      events: {
+        onBlur: "handleTextareaBlur",
+        onChange: "handle_CUSTOM_INSTRUCTIONS_1001_Change",
+      },
+      id: "CUSTOM_SWITCH_1001",
+      options: {
+        "aria-describedby": "CUSTOM_SWITCH_1001_Desc",
+        ariaLabel: "Custom Instructions Input",
+        label:
+          "It's best to leave this blank, but you can choose to include custom instructions.",
+        placeholder: "",
+        value: "",
+      },
+      state: {
+        disabled: false,
+        readOnly: false,
+      },
+      type: "switch",
+      validation: {
+        maxLength: 200,
+        pattern: "",
+        required: true,
+      },
+    },
+  },
   {
     id: 25,
     name: "CUSTOM_DIALOG_1001",
@@ -429,13 +476,27 @@ export const variables = [
       },
     },
   },
+
+  // for table data
   {
     id: 25,
-    name: "CUSTOM_SWITCH_1001",
-    label: "Switch",
+    name: "CUSTOM_TABLE_1001",
+    label: "Table",
     source: "user_input",
     source_params: {
       attributes: {},
+      data: {
+        tableData: [
+          { id: 1, name: "John", email: "john@exmple.com", group: "Developer" },
+          { id: 2, name: "Jane", email: "jane@exmple.com", group: "Admin" },
+          { id: 3, name: "Doe", email: "doe@exmple.com", group: "Hr" },
+        ],
+        tableColumns: [
+          { header: "Name", key: "name" },
+          { header: "Email", key: "email" },
+          { header: "Group", key: "group" },
+        ],
+      },
       classes: [],
       cssStyles: {
         height: "defaultHeight",
@@ -445,9 +506,9 @@ export const variables = [
         onBlur: "handleTextareaBlur",
         onChange: "handle_CUSTOM_INSTRUCTIONS_1001_Change",
       },
-      id: "CUSTOM_SWITCH_1001",
+      id: "CUSTOM_TABLE_1001",
       options: {
-        "aria-describedby": "CUSTOM_SWITCH_1001_Desc",
+        "aria-describedby": "CUSTOM_TABLE_1001_Desc",
         ariaLabel: "Custom Instructions Input",
         label:
           "It's best to leave this blank, but you can choose to include custom instructions.",
@@ -458,7 +519,71 @@ export const variables = [
         disabled: false,
         readOnly: false,
       },
-      type: "switch",
+      type: "table",
+      validation: {
+        maxLength: 200,
+        pattern: "",
+        required: true,
+      },
+    },
+  },
+  // for tab data
+  {
+    id: 25,
+    name: "CUSTOM_TAB_1001",
+    label: "Tab",
+    source: "user_input",
+    source_params: {
+      data: [
+        {
+          id: 1,
+          label: "Tab 1",
+          fields: [
+            {
+              id: "field1",
+              label: "Field 1",
+              type: "text",
+              value: "",
+            },
+          ],
+        },
+        {
+          id: 2,
+          label: "Tab 2",
+          fields: [
+            {
+              id: "field2",
+              label: "Field 2",
+              type: "checkbox",
+              checked: false,
+            },
+          ],
+        },
+      ],
+      attributes: {},
+      classes: [],
+      cssStyles: {
+        height: "defaultHeight",
+        width: "defaultWidth",
+      },
+      events: {
+        onBlur: "handleTextareaBlur",
+        onChange: "handle_CUSTOM_INSTRUCTIONS_1001_Change",
+      },
+      id: "CUSTOM_TAB_1001",
+      options: {
+        "aria-describedby": "CUSTOM_TAB_1001_Desc",
+        ariaLabel: "Custom Instructions Input",
+        label:
+          "It's best to leave this blank, but you can choose to include custom instructions.",
+        placeholder: "",
+        value: "",
+      },
+      state: {
+        disabled: false,
+        readOnly: false,
+      },
+      type: "tab",
       validation: {
         maxLength: 200,
         pattern: "",

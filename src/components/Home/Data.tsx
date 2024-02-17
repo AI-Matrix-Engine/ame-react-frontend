@@ -1,15 +1,20 @@
-import { PersonIcon } from "@radix-ui/react-icons";
+import { PersonIcon,ButtonIcon } from "@radix-ui/react-icons";
+import { FontAwesomeIcon,  } from "@fortawesome/react-fontawesome";
+import { MapIcon, MagnifyingGlassIcon,DocumentDuplicateIcon,ChatBubbleBottomCenterIcon ,Bars3Icon   } from "@heroicons/react/24/outline";
+import { faWordpress, faFontAwesome, faShopify, } from '@fortawesome/free-brands-svg-icons'
+
 export const menuItems = [
   {
     category: "App Name Here",
     items: [
       {
         itemCategory: "AI Prolog",
-        icon: <PersonIcon className="h-4 w-4 text-white" />,
+        icon:   <PersonIcon className="h-4 w-4 text-white" />,
       },
       {
         itemCategory: "Carry",
-        icon: <PersonIcon className="h-4 w-4 text-white" />,
+        icon:   <PersonIcon className="h-4 w-4 text-white" />
+        ,
       },
     ],
   },
@@ -19,12 +24,12 @@ export const menuItems = [
     items: [
       {
         itemCategory: "AI API",
-        icon: <PersonIcon className="h-4 w-4 text-white" />,
+        icon:  <PersonIcon className="h-4 w-4 text-white" />,
         itemSubMenu: ["Create", "Run", "Manage", "Admin"],
       },
       {
         itemCategory: "Chatbot",
-        icon: <PersonIcon className="h-4 w-4 text-white" />,
+        icon: <ChatBubbleBottomCenterIcon className="h-4 w-4 text-white" />,
         itemSubMenu: [
           "Open AI",
           "Google Gemini Pro",
@@ -74,12 +79,12 @@ export const menuItems = [
     items: [
       {
         itemCategory: "Search Console",
-        icon: <PersonIcon className="h-4 w-4 text-white" />,
+        icon: <MagnifyingGlassIcon className="h-4 w-4 text-white" />,
         itemSubMenu: ["Accordians", "BreadCrumbs", "Cards"],
       },
       {
         itemCategory: "Buttons",
-        icon: <PersonIcon className="h-4 w-4 text-white" />,
+        icon: <ButtonIcon className="h-4 w-4 text-white" />,
         itemSubMenu: [
           "Google Search",
           "ButtonGroups",
@@ -89,7 +94,7 @@ export const menuItems = [
       },
       {
         itemCategory: "Keywords Search",
-        icon: <PersonIcon className="h-4 w-4 text-white" />,
+        icon: <MagnifyingGlassIcon className="h-4 w-4 text-white" />,
         itemSubMenu: [
           "Form Control",
           "Select",
@@ -116,12 +121,12 @@ export const menuItems = [
       },
       {
         itemCategory: "Shopify",
-        icon: <PersonIcon className="h-4 w-4 text-white" />,
+       icon: <FontAwesomeIcon icon={faShopify} className="text-white h-4 w-4" />,
         itemSubMenu: ["Alert", "Badge", "Modals", "Toasts"],
       },
       {
         itemCategory: "WordPress",
-        icon: <PersonIcon className="h-4 w-4 text-white" />,
+        icon: <FontAwesomeIcon icon={faWordpress} className="text-white h-4 w-4" />,
       },
     ],
   },
@@ -143,7 +148,7 @@ export const menuItems = [
       },
       {
         itemCategory: "Google Maps",
-        icon: <PersonIcon className="h-4 w-4 text-white" />,
+        icon: <MapIcon className="h-4 w-4 text-white" />,
       },
     ],
   },
@@ -167,7 +172,7 @@ export const menuItems = [
 
       {
         itemCategory: "Actual UI Doc",
-        icon: <PersonIcon className="h-4 w-4 text-white" />,
+        icon: <DocumentDuplicateIcon  className="h-4 w-4 text-white" />,
       },
     ],
   },
@@ -177,22 +182,22 @@ export const menuItems = [
     items: [
       {
         itemCategory: "Parent Menu 1",
-        icon: <PersonIcon className="h-4 w-4 text-white" />,
+        icon: <Bars3Icon className="h-4 w-4 text-white" />,
         itemSubMenu: ["Sub-item 1", "Sub-item 2", "Sub-item 3"],
       },
       {
         itemCategory: "Parent Menu 2",
-        icon: <PersonIcon className="h-4 w-4 text-white" />,
+        icon: <Bars3Icon className="h-4 w-4 text-white" />,
         itemSubMenu: ["Sub-item 1", "Sub-item 2", "Sub-item 3"],
       },
       {
         itemCategory: "Parent Menu 3",
-        icon: <PersonIcon className="h-4 w-4 text-white" />,
+        icon: <Bars3Icon className="h-4 w-4 text-white" />,
         itemSubMenu: ["Sub-item 1", "Sub-item 2", "Sub-item 3"],
       },
       {
         itemCategory: "Parent Menu 4",
-        icon: <PersonIcon className="h-4 w-4 text-white" />,
+        icon: <Bars3Icon className="h-4 w-4 text-white" />,
         itemSubMenu: ["Sub-item 1", "Sub-item 2", "Sub-item 3"],
       },
     ],

@@ -14,6 +14,8 @@ import {
   DialogTrigger,
 } from "../UI/dialog";
 import { Button } from "../UI/button";
+import { CustomTable } from "./CustomTable";
+import { CustomTab } from "./CustomTab";
 
 export const UIRenderer = ({ element, onChange, field }: any) => {
   const [open, setOpen] = React.useState(false);
@@ -45,7 +47,7 @@ export const UIRenderer = ({ element, onChange, field }: any) => {
         <Input
           element={element}
           placeholder="Filter emails..."
-          className="max-w-sm"
+          className="w-full"
           onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
             handleChangeValue(e.target.value)
           }
@@ -82,8 +84,8 @@ export const UIRenderer = ({ element, onChange, field }: any) => {
           {element?.source_params?.options?.options.map((item, index) => {
             return (
               <RadioGroup
-                key={index}
-                defaultValue={item.value}
+                name={"radio"}
+                defaultValue={""}
                 onChange={(e: React.FormEvent<HTMLButtonElement>) => {
                   handleChangeValue((e.target as HTMLButtonElement).value);
                 }}
@@ -91,14 +93,15 @@ export const UIRenderer = ({ element, onChange, field }: any) => {
               >
                 <div className="flex items-center space-x-2">
                   <RadioGroupItem
-                    value={item.value}
-                    id={item.value}
-                    onChange={(e: React.FormEvent<HTMLButtonElement>) => {
-                      handleChangeValue((e.target as HTMLButtonElement).value);
-                    }}
+                    name= "radio"
+                    value={item.id}
+                    id={item.id}
+                    // onChange={(e: React.FormEvent<HTMLButtonElement>) => {
+                    //   handleChangeValue((e.target as HTMLButtonElement).value);
+                    // }}
                     {...field}
                   />
-                  <Label htmlFor={item.value}>{item.label}</Label>
+                  <Label htmlFor={item.id}>{item.label}</Label>
                 </div>
               </RadioGroup>
             );
@@ -158,6 +161,18 @@ export const UIRenderer = ({ element, onChange, field }: any) => {
           </Dialog>
         </div>
       );
+    case "table":
+      return (
+        <div>
+          <CustomTable data={element.source_params.data} />
+        </div>
+      );
+      case 'tab':
+        return(
+          <div>
+            <CustomTab data={element.source_params.data} />
+          </div>
+        )
     default:
       return null;
   }

@@ -6,6 +6,8 @@ import { UIRenderer } from "./UIRenderer";
 import Link from "next/link";
 import { RightPane } from "./RightPane";
 import { IntakeForm } from "./IntakeForm";
+import { Button } from "../UI/button";
+import { Minus } from "lucide-react";
 
 type UIFactoryState = JsonDataType & { value: string };
 export const UIFactory = () => {
@@ -64,11 +66,18 @@ export const UIFactory = () => {
     setCustomFields(updatedCustomFields);
   };
 
+  const formCustomFields = customFields.filter(
+    (item) =>
+      item.source_params.type !== "table" &&
+      item.source_params.type !== "dialog" &&
+      item.source_params.type !== "tab"
+  );
+
   console.log("customField", customFields);
 
   return (
-    <div className="flex h-screen">
-      <div className="flex flex-col flex-1">
+    <div className="flex">
+      <div className="flex flex-col flex-1 p-4">
         <div>
           <h4 className=" text-2xl text-[#212B36] font-arimo font-semibold text-center mb-4">
             Dynamic Page
@@ -100,10 +109,41 @@ export const UIFactory = () => {
       </div> */}
         <IntakeForm
           className=""
-          customFields={customFields}
+          customFields={formCustomFields}
           onDelete={handleDeleteCustomFields}
           handleChange={handleCustomFieldsValueChange}
         />
+        <div 
+          className="mt-4"
+        >
+          {customFields
+            .filter(
+              (item) =>
+                item.source_params.type === "table" ||
+                item.source_params.type === "dialog" ||
+                item.source_params.type === "tab"
+            )
+            .map((element, index) => {
+              return (
+                <div
+                  key={index}
+                  className="flex gap-4 border border-gray-300 p-4 mb-4 rounded items-end"
+                >
+                  <div className="flex flex-col w-full">
+                    <UIRenderer element={element} onChange={handleChange} />
+                  </div>
+
+                  <Button
+                    className="bg-gray-400 text-white p-2 rounded-md hover:bg-gray-400"
+                    onClick={() => handleDeleteCustomFields(element.UUID)}
+                    type="button"
+                  >
+                    <Minus />
+                  </Button>
+                </div>
+              );
+            })}
+        </div>
       </div>
       <div className="p-4 bg-gray-200 w-80">
         <RightPane handleUiElements={handleUiElements} />

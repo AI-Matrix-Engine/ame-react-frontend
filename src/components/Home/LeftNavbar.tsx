@@ -14,7 +14,7 @@ type styleType = {
 };
 
 type leftSideBarType = {
-  id: string;
+  id: number;
   navItems: navItem[];
   expandedStyles: styleType;
   collapsedStyles: styleType;
@@ -25,41 +25,37 @@ type leftSideBarType = {
 
 type LeftNavbarProps = {
   details: leftSideBarType;
-  onHandle: (id: string) => void;
+  onExpand: (id: number) => void;
+  opacity: boolean;
 };
 
-export const LeftNavbar = ({ details, onHandle }: LeftNavbarProps) => {
+const ID = "2";
+
+export const LeftNavbar = ({ details, onExpand, opacity }: LeftNavbarProps) => {
   const { id, toggle, title, hover } = details;
-  if (toggle || (id === "1" && hover)) {
+  if (toggle || (id === 1 && hover)) {
     return (
       <SidebarExpandedView
         id={id}
         title={title}
-        onHandle={onHandle}
+        onExpand={onExpand}
         toggle={toggle}
+        opacity={opacity}
       />
     );
   }
 
-  if (!toggle && id === "1" && !hover) {
-    return <PrimarySidebarCollapsedContent id={id} onHandle={onHandle} />;
+  if (!toggle && id === 1 && !hover) {
+    return <PrimarySidebarCollapsedContent id={id} onExpand={onExpand} />;
   }
-
+  
   return (
     <div className="relative h-full flex justify-center items-center">
       <button
-        onClick={() => onHandle(id)}
-        className={`absolute top-[50%] ${id === "1" && "left-[50%]"}  `}
+        onClick={() => onExpand(id)}
+        className={`absolute top-[50%] ${id === 1 && "left-[50%]"}  `}
       >
-        {id === "1" ? (
-          <ChevronRightIcon
-            className={`h-4 w-4 
-          text-white 
-           flex   justify-end`}
-          />
-        ) : (
-          <CaretRightIcon className="h-6 w-6 text-black" />
-        )}
+        <CaretRightIcon className="h-6 w-6 text-black" />
       </button>
     </div>
   );
