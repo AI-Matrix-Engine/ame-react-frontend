@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import { JsonDataType } from "./JsonData.";
 import { UIRenderer } from "./UIRenderer";
-import { Minus } from "lucide-react";
+import { MinusCircle } from "lucide-react";
 import { Form, FormField, FormMessage } from "../UI/form";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
@@ -21,6 +21,8 @@ export const IntakeForm = ({
   handleChange,
   className,
 }: Props) => {
+  const [hoveredIndex, setHoveredIndex] = useState(-1);
+
   const customFieldsSchema = z.object(
     customFields.reduce((acc, item) => {
       let fieldSchema;
@@ -90,23 +92,24 @@ export const IntakeForm = ({
       };
     });
 
-    console.log(values, submittedValue);
+    console.log("Submitted Value", submittedValue);
   };
   return (
-    <div className={className}>
+    <div className='w-full'>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="w-full">
           {customFields.map((element, index) => {
             return (
               <div
                 key={index}
-                className="flex gap-4 border border-gray-300 p-4 mb-4 rounded"
+                className="flex gap-4 md:flex-row items-start md:items-center border-b border-gray-300 p-4 mb-4 rounded mt-2"
+                onMouseEnter={() => setHoveredIndex(index)}
+                onMouseLeave={() => setHoveredIndex(-1)}
               >
                 <FormField
                   control={form.control}
-                  name={element.UUID}
+                  name={element.UUID as never}
                   render={({ field }) => {
-                    console.log("fieldValue", field);
                     return (
                       <div className="flex flex-col w-full">
                         <UIRenderer
@@ -119,13 +122,12 @@ export const IntakeForm = ({
                     );
                   }}
                 />
-                <Button
-                  className="bg-gray-400 text-white p-2 mt-auto block rounded-md"
-                  onClick={() => onDelete(element.UUID)}
-                  type="button"
-                >
-                  <Minus />
-                </Button>
+                {hoveredIndex === index && (
+                  <MinusCircle
+                    className="text-gray-400 cursor-pointer mt-auto md:mt-0"
+                    onClick={() => onDelete(element.UUID)}
+                  />
+                )}
               </div>
             );
           })}

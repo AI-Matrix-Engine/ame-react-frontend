@@ -3,25 +3,11 @@ import React, { useState, ReactNode } from "react";
 import { Header } from "./Header";
 import { LeftNavbar } from "./LeftNavbar";
 import {
-  Sheet,
-  SheetContent,
-  SheetDescription,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from "@/components/UI/sheet";
-import { FormData } from "../Run/Run";
-import {
   PlusIcon,
   ChatBubbleLeftIcon,
   EnvelopeIcon,
 } from "@heroicons/react/24/outline";
-import {
-  PersonIcon,
-  ChatBubbleIcon,
-  CaretLeftIcon,
-  DividerVerticalIcon,
-} from "@radix-ui/react-icons";
+import { PersonIcon, ChatBubbleIcon } from "@radix-ui/react-icons";
 import { RightNavbar } from "./RightNavbar";
 import { SecondSidebarToggleButton } from "./SecondSidebarToggleButton";
 
@@ -184,10 +170,7 @@ export const Main = ({ children }: childrenProp) => {
             opacity={opacity}
           />
         )}
-        <div className={`flex-1 overflow-y-auto `}>
-          {children}
-        
-        </div>
+        <div className={`flex-1 overflow-y-auto `}>{children}</div>
         <RightNavbar />
       </div>
     </div>

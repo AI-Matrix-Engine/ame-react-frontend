@@ -6,13 +6,7 @@ import { RadioGroup, RadioGroupItem } from "../UI/radio-group";
 import { Switch } from "../UI/switch";
 import { Calendar } from "../UI/calendar";
 import { Label } from "../UI/label";
-import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogFooter,
-  DialogTrigger,
-} from "../UI/dialog";
+import { Dialog, DialogClose, DialogContent, DialogFooter } from "../UI/dialog";
 import { Button } from "../UI/button";
 import { CustomTable } from "./CustomTable";
 import { CustomTab } from "./CustomTab";
@@ -21,8 +15,6 @@ export const UIRenderer = ({ element, onChange, field }: any) => {
   const [open, setOpen] = React.useState(false);
 
   const handleChangeValue = (value: string | boolean) => {
-    console.log("value", value);
-
     onChange({ ...element, value: value });
   };
 
@@ -31,7 +23,7 @@ export const UIRenderer = ({ element, onChange, field }: any) => {
   };
 
   switch (element?.source_params?.type) {
-    case "standard_dropdown":
+    case "dropdown":
     case "dropdown_with_other_option":
       return (
         <Dropdown
@@ -42,7 +34,7 @@ export const UIRenderer = ({ element, onChange, field }: any) => {
           {...field}
         />
       );
-    case "standard_text_input":
+    case "input":
       return (
         <Input
           element={element}
@@ -67,45 +59,55 @@ export const UIRenderer = ({ element, onChange, field }: any) => {
       );
     case "checkbox":
       return (
-        <div className="flex items-center gap-2">
-          <Checkbox
-            value={element.value}
-            onChange={(event: React.FormEvent<HTMLButtonElement>) =>
-              handleChangeValue((event.target as HTMLInputElement).checked)
+        <div className={`flex ${element?.source_params?.classes} gap-2`}>
+          {element?.source_params?.options.map(
+            (item: { id: string; value: string; label: string }) => {
+              return (
+                <div className="flex items-center space-x-2">
+                  <Checkbox
+                    key={item.id}
+                    id={item.id}
+                    value={item.value}
+                    onChange={(e: React.FormEvent<HTMLInputElement>) =>
+                      handleChangeValue((e.target as HTMLInputElement).checked)
+                    }
+                    {...field}
+                  />
+
+                  <Label>{item.label}</Label>
+                </div>
+              );
             }
-            {...field}
-          />
-          <Label>{element?.source_params?.options?.label}</Label>
+          )}
         </div>
       );
     case "radio":
       return (
-        <div className="flex items-center gap-2">
-          {element?.source_params?.options?.options.map((item, index) => {
-            return (
-              <RadioGroup
-                name={"radio"}
-                defaultValue={""}
-                onChange={(e: React.FormEvent<HTMLButtonElement>) => {
-                  handleChangeValue((e.target as HTMLButtonElement).value);
-                }}
-                {...field}
-              >
-                <div className="flex items-center space-x-2">
-                  <RadioGroupItem
-                    name= "radio"
-                    value={item.id}
-                    id={item.id}
-                    // onChange={(e: React.FormEvent<HTMLButtonElement>) => {
-                    //   handleChangeValue((e.target as HTMLButtonElement).value);
-                    // }}
-                    {...field}
-                  />
-                  <Label htmlFor={item.id}>{item.label}</Label>
-                </div>
-              </RadioGroup>
-            );
-          })}
+        <div className={`flex ${element?.source_params?.classes} gap-2`}>
+          {element?.source_params?.options?.options.map(
+            (item: { id: string; value: string; label: string }) => {
+              return (
+                <RadioGroup
+                  name={"radio"}
+                  defaultValue={"option_1"}
+                  onChange={(e: React.FormEvent<HTMLButtonElement>) => {
+                    handleChangeValue((e.target as HTMLButtonElement).value);
+                  }}
+                  {...field}
+                >
+                  <div className="flex items-center space-x-2">
+                    <RadioGroupItem
+                      name="radio"
+                      id={item.id}
+                      value={item.value}
+                      {...field}
+                    />
+                    <Label htmlFor={item.id}>{item.label}</Label>
+                  </div>
+                </RadioGroup>
+              );
+            }
+          )}
         </div>
       );
     case "switch":
@@ -167,13 +169,24 @@ export const UIRenderer = ({ element, onChange, field }: any) => {
           <CustomTable data={element.source_params.data} />
         </div>
       );
-      case 'tab':
-        return(
-          <div>
-            <CustomTab data={element.source_params.data} />
-          </div>
-        )
+    case "tab":
+      return (
+        <div>
+          <CustomTab data={element.source_params.data} />
+        </div>
+      );
     default:
       return null;
   }
 };
+
+{
+  /* <Checkbox
+value={element.value}
+onChange={(event: React.FormEvent<HTMLButtonElement>) =>
+  handleChangeValue((event.target as HTMLInputElement).checked)
+}
+{...field}
+/>
+<Label>{element?.source_params?.options?.label}</Label> */
+}

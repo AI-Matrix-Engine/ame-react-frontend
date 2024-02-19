@@ -29,7 +29,7 @@ export const Header = ()=> {
       <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn"  />
       <AvatarFallback>CN</AvatarFallback>
     </Avatar>
-             <p> Armani Siddiqui</p>
+             <p>Armani Sadeghi</p>
           </NavigationMenuTrigger>
           <NavigationMenuContent>
             <ul className="flex flex-col gap-3 p-2 w-[200px]  ">

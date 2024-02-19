@@ -162,8 +162,6 @@ export const Dropdown = ({
   value,
   ...props
 }) => {
-  console.log("Options in Dropdown", options);
-
   const [selectedValue, setSelectedValue] = useState<string>();
 
   const handleChange = (value: string) => {
@@ -179,6 +177,7 @@ export const Dropdown = ({
           handleChange(value);
           props?.onChange && props.onChange(value);
         }}
+        defaultValue={options[0]?.value}
       >
         <SelectTrigger>
           <SelectValue placeholder={placeHolder} />

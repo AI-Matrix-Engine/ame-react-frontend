@@ -73,8 +73,6 @@ export const UIFactory = () => {
       item.source_params.type !== "tab"
   );
 
-  console.log("customField", customFields);
-
   return (
     <div className="flex">
       <div className="flex flex-col flex-1 p-4">
@@ -83,10 +81,10 @@ export const UIFactory = () => {
             Dynamic Page
           </h4>
           <Link
-            href="/playground"
+            href="/sandbox"
             className=" text-2xl text-[#212B36] font-arimo font-semibold text-center mb-4"
           >
-            Playgound
+            Sandbox
           </Link>
         </div>
         {/* <div className=" grid grid-cols-3 grid-rows-2 gap-8 p-4 justify-center content-center">
@@ -108,7 +106,6 @@ export const UIFactory = () => {
         })}
       </div> */}
         <IntakeForm
-          className=""
           customFields={formCustomFields}
           onDelete={handleDeleteCustomFields}
           handleChange={handleCustomFieldsValueChange}

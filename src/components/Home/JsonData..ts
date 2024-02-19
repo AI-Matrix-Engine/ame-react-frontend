@@ -7,7 +7,6 @@ export type JsonDataType = {
   UUID: string;
   source_params: {
     classes: string[];
-    cssStyle: React.CSSProperties;
     events: Event;
     id: string;
     options: {
@@ -24,8 +23,8 @@ export type JsonDataType = {
       required?: boolean;
     };
     type:
-      | "standard_text_input"
-      | "standard_dropdown"
+      | "input"
+      | "dropdown"
       | "dropdown_with_other_option"
       | "textarea"
       | "radio"
@@ -49,30 +48,52 @@ export const variables = [
     name: "PRIMARY_KEYWORD_1001",
     source: "user_input",
     label: "Input",
-    source_params: {
-      attributes: {},
-      classes: ["default", "default"],
-      cssStyles: {
-        color: "default",
-        width: "default",
+    order: 10,
+    elementOptions: {
+      variant: ["form-input", "input-bordered"],
+    },
+    unifiedOptions: {
+      label: {
+        description: "Element label",
+        classes: ["label-text"],
       },
+      placeholder: {
+        description: "Placeholder text for input elements",
+        classes: ["placeholder"],
+      },
+      color: {
+        description: "Text and element coloring",
+        classes: ["text-color", "bg-color"],
+      },
+      size: {
+        description: "Size of the elements",
+        classes: ["text-size", "w-auto", "h-auto"],
+      },
+      icon: {
+        description: "Icons used within or alongside elements",
+        classes: ["icon"],
+      },
+    },
+    additionalEventHandlers: {
+      events: ["onBlur", "onFocus", "onMouseOver", "onMouseOut"],
+    },
+    responsiveDesign: {
+      size: ["sm", "md", "lg", "xl", "2xl"],
+    },
+    defaultValue: "",
+    source_params: {
+      accessbilityAttributes: {},
+      classes: ["default", "default"],
       events: {
         onChange: "handle_PRIMARY_KEYWORD_1001_Change",
       },
       id: "PRIMARY_KEYWORD_1001",
-      options: {
-        "aria-describedby": "PRIMARY_KEYWORD_1001_Desc",
-        ariaLabel: "Primary Keyword Input",
-        label: "Primary Keyword",
-        placeholder: "Enter Primary Keyword...",
-        value: "",
-      },
       state: {
         disabled: false,
         readOnly: false,
         required: false,
       },
-      type: "standard_text_input",
+      type: "input",
       validation: {
         maxLength: 100,
         minLength: 2,
@@ -86,14 +107,47 @@ export const variables = [
     name: "KEYWORD_TYPE_OPTIONS_1001",
     source: "user_input",
     label: "Standard DropDown",
+    order: 16,
+    elementOptions: {
+      variant: ["dropdown", "dropDown_with_other_option", "multiSelect"],
+    },
+    unifiedOptions: {
+      label: {
+        description: "Element label",
+        classes: ["label-text"],
+      },
+    },
+    additionalEventHandlers: {
+      events: ["onBlur", "onFocus", "onMouseOver", "onMouseOut"],
+    },
+    responsiveDesign: {
+      size: ["sm", "md", "lg", "xl", "2xl"],
+    },
+    defaultValue: "",
     source_params: {
       classes: [],
-      cssStyles: {
-        width: "defaultWidth",
-      },
       default: "Select Primary Keyword Type (Optional)",
       events: {
-        onChange: "handle_KEYWORD_TYPE_OPTIONS_1001_Change",
+        click: {
+          description: "Click event for elements",
+          eventHandler: "onClick",
+        },
+        change: {
+          description: "Change event for input elements",
+          eventHandler: "onChange",
+        },
+        hover: {
+          description: "Hover event for elements",
+          eventHandler: "onMouseEnter/onMouseLeave",
+        },
+        focus: {
+          description: "Focus event for input elements",
+          eventHandler: "onFocus",
+        },
+        blur: {
+          description: "Blur event for input elements",
+          eventHandler: "onBlur",
+        },
       },
       id: "KEYWORD_TYPE_OPTIONS_1001",
       options: {
@@ -129,12 +183,12 @@ export const variables = [
             value: "Other",
           },
         ],
-        placeholder: "Enter Keyword Type...",
+        placeholder: "",
       },
       state: {
         disabled: false,
       },
-      type: "standard_dropdown",
+      type: "dropdown",
       validation: {
         pattern: "",
         required: true,
@@ -146,31 +200,71 @@ export const variables = [
     name: "IDEAL_CLIENT_1001",
     source: "user_input",
     label: "Text Input",
-    source_params: {
-      attributes: {},
-      classes: [],
-      cssStyles: {
-        color: "default",
-        width: "default",
+    order: 33,
+    elementOptions: {
+      variant: ["form-input", "input-bordered"],
+    },
+    unifiedOptions: {
+      label: {
+        description: "Element label",
+        classes: ["label-text"],
       },
+      placeholder: {
+        description: "Placeholder text for input elements",
+        classes: ["placeholder"],
+      },
+      color: {
+        description: "Text and element coloring",
+        classes: ["text-color", "bg-color"],
+      },
+      size: {
+        description: "Size of the elements",
+        classes: ["text-size", "w-auto", "h-auto"],
+      },
+      icon: {
+        description: "Icons used within or alongside elements",
+        classes: ["icon"],
+      },
+    },
+    additionalEventHandlers: {
+      events: ["onBlur", "onFocus", "onMouseOver", "onMouseOut"],
+    },
+    responsiveDesign: {
+      size: ["sm", "md", "lg", "xl", "2xl"],
+    },
+    defaultValue: "",
+    source_params: {
+      accessbilityAttributes: {},
+      classes: [],
       events: {
-        onChange: "",
+        click: {
+          description: "Click event for elements",
+          eventHandler: "onClick",
+        },
+        change: {
+          description: "Change event for input elements",
+          eventHandler: "onChange",
+        },
+        hover: {
+          description: "Hover event for elements",
+          eventHandler: "onMouseEnter/onMouseLeave",
+        },
+        focus: {
+          description: "Focus event for input elements",
+          eventHandler: "onFocus",
+        },
+        blur: {
+          description: "Blur event for input elements",
+          eventHandler: "onBlur",
+        },
       },
       id: "IDEAL_CLIENT_1001",
-      options: {
-        "aria-describedby": "IDEAL_CLIENT_1001_Desc",
-        ariaLabel: "Ideal Client Input",
-        label: "Ideal Client",
-        placeholder:
-          "Enter your absolutely ideal client... (Example: 'Enterprise-Level Corporate IT Departments')",
-        value: "",
-      },
       state: {
         disabled: false,
         readOnly: false,
         required: false,
       },
-      type: "standard_text_input",
+      type: "input",
       validation: {
         maxLength: 255,
         minLength: 2,
@@ -179,126 +273,162 @@ export const variables = [
       },
     },
   },
-  {
-    id: 21,
-    name: "INDUSTRY_NAME_1002",
-    source: "user_input",
-    label: "DropDown with Other Option",
-    source_params: {
-      classes: [
-        {
-          divClass: "",
-        },
-        {
-          selectClass: "form-select mb-3",
-        },
-        {
-          textAreaClass: "form-control mb-3",
-        },
-      ],
-      cssStyles: {
-        width: "defaultWidth",
-      },
-      default: "Select Your Industry (Optional)",
-      events: {
-        onChange: "",
-      },
-      id: "INDUSTRY_NAME_1002",
-      options: {
-        "aria-describedby": "INDUSTRY_NAME_1002_Desc",
-        ariaLabel: "Industry Name Input",
-        defaultOption: {
-          label: "Select Your Industry (Optional)",
-          value: "",
-        },
-        options: [
-          {
-            label: "Medical",
-            value: "1",
-          },
-          {
-            label: "Medical Aesthetics",
-            value: "2",
-          },
-          {
-            label: "Fashion",
-            value: "3",
-          },
-          {
-            label: "Sustainability",
-            value: "4",
-          },
-          {
-            label: "Recycling",
-            value: "5",
-          },
-          {
-            label: "Data Security",
-            value: "6",
-          },
-          {
-            label: "Marketing",
-            value: "7",
-          },
-          {
-            label: "Legal",
-            value: "8",
-          },
-          {
-            label: "AI & ML",
-            value: "9",
-          },
-          {
-            label: "Programming & Software",
-            value: "10",
-          },
-          {
-            label: "IT",
-            value: "11",
-          },
-          {
-            label: "Other (Enter Below)",
-            value: "Other",
-          },
-        ],
-        placeholder: "Enter Industry Name...",
-        secondaryLabel: "Other Input Label",
-      },
-      state: {
-        otherInputId: "otherTextInputId",
-      },
-      type: "dropdown_with_other_option",
-      validation: {
-        pattern: "",
-        required: true,
-      },
-    },
-  },
+  // {
+  //   id: 21,
+  //   name: "INDUSTRY_NAME_1002",
+  //   source: "user_input",
+  //   label: "DropDown with Other Option",
+  //   source_params: {
+  //     classes: [
+  //       {
+  //         divClass: "",
+  //       },
+  //       {
+  //         selectClass: "form-select mb-3",
+  //       },
+  //       {
+  //         textAreaClass: "form-control mb-3",
+  //       },
+  //     ],
+  //     default: "Select Your Industry (Optional)",
+  //     events: {
+  //       onChange: "",
+  //     },
+  //     id: "INDUSTRY_NAME_1002",
+  //     options: {
+  //       "aria-describedby": "INDUSTRY_NAME_1002_Desc",
+  //       ariaLabel: "Industry Name Input",
+  //       defaultOption: {
+  //         label: "Select Your Industry (Optional)",
+  //         value: "",
+  //       },
+  //       options: [
+  //         {
+  //           label: "Medical",
+  //           value: "1",
+  //         },
+  //         {
+  //           label: "Medical Aesthetics",
+  //           value: "2",
+  //         },
+  //         {
+  //           label: "Fashion",
+  //           value: "3",
+  //         },
+  //         {
+  //           label: "Sustainability",
+  //           value: "4",
+  //         },
+  //         {
+  //           label: "Recycling",
+  //           value: "5",
+  //         },
+  //         {
+  //           label: "Data Security",
+  //           value: "6",
+  //         },
+  //         {
+  //           label: "Marketing",
+  //           value: "7",
+  //         },
+  //         {
+  //           label: "Legal",
+  //           value: "8",
+  //         },
+  //         {
+  //           label: "AI & ML",
+  //           value: "9",
+  //         },
+  //         {
+  //           label: "Programming & Software",
+  //           value: "10",
+  //         },
+  //         {
+  //           label: "IT",
+  //           value: "11",
+  //         },
+  //         {
+  //           label: "Other (Enter Below)",
+  //           value: "Other",
+  //         },
+  //       ],
+  //       placeholder: "",
+  //       secondaryLabel: "Other Input Label",
+  //     },
+  //     state: {
+  //       otherInputId: "otherTextInputId",
+  //     },
+  //     type: "dropdown_with_other_option",
+  //     validation: {
+  //       pattern: "",
+  //       required: true,
+  //     },
+  //   },
+  // },
   {
     id: 22,
     name: "CUSTOM_INSTRUCTIONS_1001",
     label: "Text Area",
+    order: 22,
+    elementOptions: {
+      variant: ["form-input", "input-bordered"],
+    },
+    unifiedOptions: {
+      label: {
+        description: "Element label",
+        classes: ["label-text"],
+      },
+      placeholder: {
+        description: "Placeholder text for input elements",
+        classes: ["placeholder"],
+      },
+      color: {
+        description: "Text and element coloring",
+        classes: ["text-color", "bg-color"],
+      },
+      size: {
+        description: "Size of the elements",
+        classes: ["text-size", "w-auto", "h-auto"],
+      },
+      icon: {
+        description: "Icons used within or alongside elements",
+        classes: ["icon"],
+      },
+    },
+    additionalEventHandlers: {
+      events: ["onBlur", "onFocus", "onMouseOver", "onMouseOut"],
+    },
+    responsiveDesign: {
+      size: ["sm", "md", "lg", "xl", "2xl"],
+    },
+    defaultValue: "",
     source: "user_input",
     source_params: {
-      attributes: {},
+      accessbilityAttributes: {},
       classes: [],
-      cssStyles: {
-        height: "defaultHeight",
-        width: "defaultWidth",
-      },
       events: {
-        onBlur: "handleTextareaBlur",
-        onChange: "handle_CUSTOM_INSTRUCTIONS_1001_Change",
+        click: {
+          description: "Click event for elements",
+          eventHandler: "onClick",
+        },
+        change: {
+          description: "Change event for input elements",
+          eventHandler: "onChange",
+        },
+        hover: {
+          description: "Hover event for elements",
+          eventHandler: "onMouseEnter/onMouseLeave",
+        },
+        focus: {
+          description: "Focus event for input elements",
+          eventHandler: "onFocus",
+        },
+        blur: {
+          description: "Blur event for input elements",
+          eventHandler: "onBlur",
+        },
       },
       id: "CUSTOM_INSTRUCTIONS_1001",
-      options: {
-        "aria-describedby": "CUSTOM_INSTRUCTIONS_1001_Desc",
-        ariaLabel: "Custom Instructions Input",
-        label:
-          "It's best to leave this blank, but you can choose to include custom instructions.",
-        placeholder: "",
-        value: "",
-      },
       state: {
         disabled: false,
         readOnly: false,
@@ -318,17 +448,60 @@ export const variables = [
     name: "CUSTOM_RADIO_1001",
     label: "Radio",
     source: "user_input",
+    order: 24,
     value: "",
-    source_params: {
-      attributes: {},
-      classes: [],
-      cssStyles: {
-        height: "defaultHeight",
-        width: "defaultWidth",
+    elementOptions: {
+      variant: [""],
+    },
+    unifiedOptions: {
+      label: {
+        description: "Element label",
+        classes: ["label-text"],
       },
+      placeholder: {
+        description: "Placeholder text for input elements",
+        classes: ["placeholder"],
+      },
+      color: {
+        description: "Text and element coloring",
+        classes: ["text-color", "bg-color"],
+      },
+      size: {
+        description: "Size of the elements",
+        classes: ["text-size", "w-auto", "h-auto"],
+      },
+      icon: {
+        description: "Icons used within or alongside elements",
+        classes: ["icon"],
+      },
+    },
+    additionalEventHandlers: {
+      events: ["onBlur", "onFocus", "onMouseOver", "onMouseOut"],
+    },
+    responsiveDesign: {
+      size: ["sm", "md", "lg", "xl", "2xl"],
+    },
+    defaultValue: "",
+    source_params: {
+      accessbilityAttributes: {},
+      classes: 'flex-col',
       events: {
-        onBlur: "handleTextareaBlur",
-        onChange: "handle_CUSTOM_INSTRUCTIONS_1001_Change",
+        change: {
+          description: "Change event for input elements",
+          eventHandler: "onChange",
+        },
+        hover: {
+          description: "Hover event for elements",
+          eventHandler: "onMouseEnter/onMouseLeave",
+        },
+        focus: {
+          description: "Focus event for input elements",
+          eventHandler: "onFocus",
+        },
+        blur: {
+          description: "Blur event for input elements",
+          eventHandler: "onBlur",
+        },
       },
       id: "CUSTOM_RADIO_1001",
       options: {
@@ -341,12 +514,12 @@ export const variables = [
         options: [
           {
             label: "Option 1",
-            value: "",
+            value: "option_1",
             id: "option1",
           },
           {
             label: "Option 2",
-            value: "",
+            value: "option_2",
             id: "option2",
           },
         ],
@@ -369,26 +542,73 @@ export const variables = [
     name: "CUSTOM_CHECKBOX_1001",
     label: "Checkbox",
     source: "user_input",
+    order: 23,
+    elementOptions: {
+      variant: [""],
+    },
+    unifiedOptions: {
+      label: {
+        description: "Element label",
+        classes: ["label-text"],
+      },
+      placeholder: {
+        description: "Placeholder text for input elements",
+        classes: ["placeholder"],
+      },
+      color: {
+        description: "Text and element coloring",
+        classes: ["text-color", "bg-color"],
+      },
+      size: {
+        description: "Size of the elements",
+        classes: ["text-size", "w-auto", "h-auto"],
+      },
+      icon: {
+        description: "Icons used within or alongside elements",
+        classes: ["icon"],
+      },
+    },
+    additionalEventHandlers: {
+      events: ["onBlur", "onFocus", "onMouseOver", "onMouseOut"],
+    },
+    responsiveDesign: {
+      size: ["sm", "md", "lg", "xl", "2xl"],
+    },
+    defaultValue: "",
     source_params: {
       attributes: {},
-      classes: [],
-      cssStyles: {
-        height: "defaultHeight",
-        width: "defaultWidth",
-      },
+      classes: 'flex-col',
       events: {
-        onBlur: "handleTextareaBlur",
-        onChange: "handle_CUSTOM_INSTRUCTIONS_1001_Change",
+        change: {
+          description: "Change event for input elements",
+          eventHandler: "onChange",
+        },
+        hover: {
+          description: "Hover event for elements",
+          eventHandler: "onMouseEnter/onMouseLeave",
+        },
+        focus: {
+          description: "Focus event for input elements",
+          eventHandler: "onFocus",
+        },
+        blur: {
+          description: "Blur event for input elements",
+          eventHandler: "onBlur",
+        },
       },
       id: "CUSTOM_CHECKBOX_1001",
-      options: {
-        "aria-describedby": "CUSTOM_CHECKBOX_1001_Desc",
-        ariaLabel: "Custom Instructions Input",
-        label:
-          "It's best to leave this blank, but you can choose to include custom instructions.",
-        placeholder: "",
-        value: "",
-      },
+      options: [
+        {
+          label: "CheckBox 1",
+          value: "option_1",
+          id: "option1",
+        },
+        {
+          label: "CheckBox 2",
+          value: "option_2",
+          id: "option2",
+        },
+      ],
       state: {
         disabled: false,
         readOnly: false,
@@ -407,16 +627,59 @@ export const variables = [
     name: "CUSTOM_SWITCH_1001",
     label: "Switch",
     source: "user_input",
+    order: 25,
+    elementOptions: {
+      variant: [""],
+    },
+    unifiedOptions: {
+      label: {
+        description: "Element label",
+        classes: ["label-text"],
+      },
+      placeholder: {
+        description: "Placeholder text for input elements",
+        classes: ["placeholder"],
+      },
+      color: {
+        description: "Text and element coloring",
+        classes: ["text-color", "bg-color"],
+      },
+      size: {
+        description: "Size of the elements",
+        classes: ["text-size", "w-auto", "h-auto"],
+      },
+      icon: {
+        description: "Icons used within or alongside elements",
+        classes: ["icon"],
+      },
+    },
+    additionalEventHandlers: {
+      events: ["onBlur", "onFocus", "onMouseOver", "onMouseOut"],
+    },
+    responsiveDesign: {
+      size: ["sm", "md", "lg", "xl", "2xl"],
+    },
+    defaultValue: "",
     source_params: {
       attributes: {},
       classes: [],
-      cssStyles: {
-        height: "defaultHeight",
-        width: "defaultWidth",
-      },
       events: {
-        onBlur: "handleTextareaBlur",
-        onChange: "handle_CUSTOM_INSTRUCTIONS_1001_Change",
+        change: {
+          description: "Change event for input elements",
+          eventHandler: "onChange",
+        },
+        hover: {
+          description: "Hover event for elements",
+          eventHandler: "onMouseEnter/onMouseLeave",
+        },
+        focus: {
+          description: "Focus event for input elements",
+          eventHandler: "onFocus",
+        },
+        blur: {
+          description: "Blur event for input elements",
+          eventHandler: "onBlur",
+        },
       },
       id: "CUSTOM_SWITCH_1001",
       options: {
@@ -444,13 +707,10 @@ export const variables = [
     name: "CUSTOM_DIALOG_1001",
     label: "Dialog",
     source: "user_input",
+    order: 25,
     source_params: {
       attributes: {},
       classes: [],
-      cssStyles: {
-        height: "defaultHeight",
-        width: "defaultWidth",
-      },
       events: {
         onBlur: "handleTextareaBlur",
         onChange: "handle_CUSTOM_INSTRUCTIONS_1001_Change",
@@ -483,6 +743,7 @@ export const variables = [
     name: "CUSTOM_TABLE_1001",
     label: "Table",
     source: "user_input",
+    order: 25,
     source_params: {
       attributes: {},
       data: {
@@ -498,10 +759,6 @@ export const variables = [
         ],
       },
       classes: [],
-      cssStyles: {
-        height: "defaultHeight",
-        width: "defaultWidth",
-      },
       events: {
         onBlur: "handleTextareaBlur",
         onChange: "handle_CUSTOM_INSTRUCTIONS_1001_Change",
@@ -562,10 +819,6 @@ export const variables = [
       ],
       attributes: {},
       classes: [],
-      cssStyles: {
-        height: "defaultHeight",
-        width: "defaultWidth",
-      },
       events: {
         onBlur: "handleTextareaBlur",
         onChange: "handle_CUSTOM_INSTRUCTIONS_1001_Change",
@@ -591,43 +844,4 @@ export const variables = [
       },
     },
   },
-
-  // // for calendar date picker
-  // {
-  //   id: 26,
-  //   name: "CUSTOM_DATE_PICKER_1001",
-  //   label: "Date Picker",
-  //   source: "user_input",
-  //   source_params: {
-  //     attributes: {},
-  //     classes: [],
-  //     cssStyles: {
-  //       height: "defaultHeight",
-  //       width: "defaultWidth",
-  //     },
-  //     events: {
-  //       onBlur: "handleTextareaBlur",
-  //       onChange: "handle_CUSTOM_INSTRUCTIONS_1001_Change",
-  //     },
-  //     id: "CUSTOM_DATE_PICKER_1001",
-  //     options: {
-  //       "aria-describedby": "CUSTOM_DATE_PICKER_1001_Desc",
-  //       ariaLabel: "Custom Instructions Input",
-  //       label:
-  //         "It's best to leave this blank, but you can choose to include custom instructions.",
-  //       placeholder: "",
-  //       value: "",
-  //     },
-  //     state: {
-  //       disabled: false,
-  //       readOnly: false,
-  //     },
-  //     type: "calendar",
-  //     validation: {
-  //       maxLength: 200,
-  //       pattern: "",
-  //       required: true,
-  //     },
-  //   },
-  // },
 ];

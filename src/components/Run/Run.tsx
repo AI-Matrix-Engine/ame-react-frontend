@@ -1,9 +1,9 @@
-"use client"
+"use client";
 
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form"
-import { z } from "zod"
-import { Button } from "@/components/UI/button"
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { Button } from "@/components/UI/button";
 import {
   Form,
   FormControl,
@@ -12,8 +12,8 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/UI/form"
-import { Input } from "@/components/UI/Input"
+} from "@/components/UI/form";
+import { Input } from "@/components/UI/Input";
 
 const formSchema = z.object({
   username: z.string().min(2, {
@@ -22,32 +22,33 @@ const formSchema = z.object({
   password: z.string().min(2, {
     message: "Password must be at least 2 characters.",
   }),
-})
+});
 
-export const FormData =  ({additionalClasses  = ""} : any ) => {
-    const form = useForm<z.infer<typeof formSchema>>({
-        resolver: zodResolver(formSchema),
-        defaultValues: {
-          username: "",
-          password:""
-        },
-      })
-      function onSubmit(values: z.infer<typeof formSchema>) {
-        // Do something with the form values.
-        // ✅ This will be type-safe and validated.
-        console.log(values);
-       
-      }
+export const FormData = ({ additionalClasses = "" }: any) => {
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      username: "",
+      password: "",
+    },
+  });
+  function onSubmit(values: z.infer<typeof formSchema>) {
+    // Do something with the form values.
+    // ✅ This will be type-safe and validated.
+    console.log(values);
+  }
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className={` ${additionalClasses}`}>
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className={` ${additionalClasses}`}
+      >
         <FormField
           control={form.control}
           name="username"
           render={({ field }) => (
-        
-          <FormItem>      
+            <FormItem>
               <FormControl>
                 <Input placeholder="shadcn" {...field} element="Email" />
               </FormControl>
@@ -56,32 +57,23 @@ export const FormData =  ({additionalClasses  = ""} : any ) => {
               </FormDescription>
               <FormMessage />
             </FormItem>
-              
-         
           )}
         />
-         <FormField
+        <FormField
           control={form.control}
           name="password"
           render={({ field }) => (
-        
-          <FormItem>
-       
+            <FormItem>
               <FormControl>
                 <Input placeholder="Password" {...field} element="Password" />
               </FormControl>
-              <FormDescription>
-                This is your public Password.
-              </FormDescription>
+              <FormDescription>This is your public Password.</FormDescription>
               <FormMessage />
             </FormItem>
-              
-         
           )}
         />
-          <Button type="submit" >Submit</Button>
+        <Button type="submit">Submit</Button>
       </form>
-   
     </Form>
-  )
-}
+  );
+};
