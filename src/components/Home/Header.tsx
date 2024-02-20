@@ -18,7 +18,7 @@ import {
 export const Header = ()=> {
   return (
     <div className="flex py-1 px-4 bg-[#252b36] items-center justify-center ">
-       <h2 className="flex-1 text-2xl text-white font-arimo font-semibold">NoCodeNest</h2>
+       <h2 className="flex-1 text-2xl text-white font-arimo font-semibold">AIDRM</h2>
          
         <div className="flex">
     <NavigationMenu >

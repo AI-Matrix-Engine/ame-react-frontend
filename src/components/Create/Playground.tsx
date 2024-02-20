@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React from "react";
 import { Checkbox } from "../UI/checkbox";
 import { Calendar } from "../UI/calendar";
 import { Label } from "@/components/UI/label";
@@ -42,144 +42,11 @@ import { Input } from "../UI";
 import { DataTable } from "./DataTable";
 import { columns } from "./Columns";
 import { NavigationBar } from "../Home/NavigationBar";
-import { Dropdown } from "../UI";
 
-type SelectType = {
-  label: string;
-  value: string;
-};
-
-type categoriesType = {
-  label: string;
-  value: string;
-  subCategories: SelectType[];
-};
-
-const categories = [
-  {
-    label: "Select the AI App Category",
-    value: "1",
-    subCategories: [{ label: "Select Recipe Subcategory", value: "1" }],
-  },
-  {
-    label: "Content Writing",
-    value: "2",
-    subCategories: [
-      { label: "Select Recipe Subcategory", value: "1" },
-      { label: "Product Page Writing", value: "2" },
-      { label: "Service Page Content", value: "3" },
-      { label: "Blog Article Writing", value: "4" },
-      { label: "School Papers", value: "5" },
-      { label: "Content Research", value: "6" },
-      { label: "FAQ Assistance", value: "7" },
-      { label: "Other Content", value: "8" },
-    ],
-  },
-  {
-    label: "SEO",
-    value: "3",
-    subCategories: [
-      { label: "Select Recipe Subcategory", value: "1" },
-      { label: "Keyword Categorization", value: "2" },
-      { label: "Basic Keyword Research", value: "3" },
-      { label: "Advanced Keyword Research", value: "4" },
-      { label: "Content Analysis", value: "5" },
-      { label: "Image SEO", value: "6" },
-    ],
-  },
-  {
-    label: "Random Recipes",
-    value: "4",
-    subCategories: [
-      { label: "Select Recipe Subcategory", value: "1" },
-      { label: "Small Tasks", value: "2" },
-    ],
-  },
-  {
-    label: "System Core",
-    value: "5",
-    subCategories: [
-      { label: "Select Recipe Subcategory", value: "1" },
-      { label: "Q&A Assistance", value: "2" },
-      { label: "Matrix Bot Options", value: "3" },
-      { label: "Recipe Building Assistants", value: "4" },
-      { label: "Fine Tuning Data", value: "5" },
-    ],
-  },
-  {
-    label: "Tests",
-    value: "6",
-    subCategories: [
-      { label: "Select Recipe Subcategory", value: "1" },
-      { label: "Quick Access (Deleted Nightly)", value: "2" },
-      { label: "Tests (Deleted every 7 days)", value: "3" },
-      { label: "System Tests", value: "4" },
-    ],
-  },
-  {
-    label: "Uncategorized",
-    value: "7",
-    subCategories: [
-      { label: "Select Recipe Subcategory", value: "1" },
-      { label: "Needs category to be created", value: "2" },
-    ],
-  },
-  {
-    label: "Fun For Kids",
-    value: "8",
-    subCategories: [
-      { label: "Select Recipe Subcategory", value: "1" },
-      { label: "Other fun for kids", value: "2" },
-    ],
-  },
-  {
-    label: "Coding",
-    value: "9",
-    subCategories: [
-      { label: "Select Recipe Subcategory", value: "1" },
-      { label: "Other Coding", value: "2" },
-      { label: "AME Backend Django", value: "3" },
-    ],
-  },
-  {
-    label: "Test 2",
-    value: "10",
-    subCategories: [
-      { label: "Select Recipe Subcategory", value: "1" },
-      { label: "Other Test 2", value: "2" },
-    ],
-  },
-  {
-    label: "Legal",
-    value: "11",
-    subCategories: [
-      { label: "Select Recipe Subcategory", value: "1" },
-      { label: "Other Legal", value: "2" },
-      { label: "Deposition Prep", value: "3" },
-    ],
-  },
-  {
-    label: "AME Django Backend",
-    value: "12",
-    subCategories: [
-      { label: "Select Recipe Subcategory", value: "1" },
-      { label: "Other AME Django Backend", value: "2" },
-    ],
-  },
-  {
-    label: "Image Analytics",
-    value: "13",
-    subCategories: [
-      { label: "Select Recipe Subcategory", value: "1" },
-      { label: "Other Image Analysis", value: "2" },
-      { label: "General Image Analysis", value: "3" },
-    ],
-  },
-];
-
-export const Create = () => {
+export const Playground = () => {
   const [date, setDate] = React.useState<Date | undefined>(new Date());
   const { toast } = useToast();
+
   const data = [
     { id: "728ed52f", amount: 100, status: "pending", email: "m@example.com" },
     { id: "728ed52f1", amount: 10, status: "start", email: "mmm@abc.com" },
@@ -222,86 +89,33 @@ export const Create = () => {
       email: "mub@example.com",
     },
   ];
-  const [categorySelectedValue, setCategorySelectedValue] = useState("");
-  const [subCategories, setSubCategories] = useState<SelectType[]>([]);
-  const [subCategorySelectedValue, setSubCategorySelectedValue] = useState("");
-
-  const handleCategoryChange = (value: string) => {
-    const filteredCategory = categories.find((category: SelectType) => category.value == value);
-    const filteredSubcatories = filteredCategory?.subCategories;
-    setCategorySelectedValue(value);
-    filteredSubcatories && filteredSubcatories.length && setSubCategories(filteredSubcatories);
-  }
-
-  return (
-    <div className="p-6">
-      <h2 className="text-4xl font-extrabold dark:text-white mb-8 text-center">
-        Create Matrix Recipes
-      </h2>
-
-      <Label htmlFor="email" className="mb-2">
-        AI App Name
-      </Label>
-
-      <Input type="input" placeholder="Write your App Name here..." id="link" />
-
-      <Dropdown
-        placeHolder="Category"
-        value={categorySelectedValue}
-        onClick={(value: string) => handleCategoryChange(value)}
-        options={categories}
-      />
-
-      {subCategories && subCategories.length ? (
-        <Dropdown
-          placeHolder="Sub Category"
-          value={subCategorySelectedValue}
-          onClick={(value: string) => setSubCategorySelectedValue(value)}
-          options={subCategories}
-        />
-      ): undefined}
-    </div>
-  );
 
   return (
     <div className="p-6">
       <div>
-        <h2 className="text-4xl font-extrabold dark:text-white mb-8 text-center">
-          Create Matrix Recipes
-        </h2>
-        {/* <h1 className="text-start mb-2">Create Matrix Recipes</h1> */}
-        <Label htmlFor="email" className="mb-2">
-          AI App Name
-        </Label>
-        <Input
-          type="input"
-          placeholder="Write your App Name here..."
-          id="link"
-        />
-
-        {/* <div className="flex items-center space-x-2">
-          <Input type="input" label="AI App Name" placeholder="Write your App Name here..." id="link" defaultValue="" readOnly /> */}
-        {/* <Checkbox id="terms3" />
+        <h4 className="text-sky-400 text-center">Checkbox</h4>
+        <div className="flex items-center space-x-2">
+          <Checkbox id="terms3" />
           <label
             htmlFor="terms3"
             className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
           >
             Accept terms and conditions
-          </label> */}
-        {/* </div> */}
+          </label>
+        </div>
       </div>
       <div className="flex flex-col">
-        {/* <h4 className="text-sky-400 text-center">Caleneder</h4>
+        <h4 className="text-sky-400 text-center">Caleneder</h4>
 
         <Calendar
           mode="single"
           selected={date}
           onSelect={setDate}
           className="rounded-md border"
-        /> */}
+        />
       </div>
-      {/* <h4 className="text-sky-400 text-center">Radio Button</h4> */}
-      {/* <div>
+      <h4 className="text-sky-400 text-center">Radio Button</h4>
+      <div>
         <RadioGroup defaultValue="option-one">
           <div className="flex items-center space-x-2">
             <RadioGroupItem value="option-one" id="option-one" />
@@ -312,17 +126,17 @@ export const Create = () => {
             <Label htmlFor="option-two">Option Two</Label>
           </div>
         </RadioGroup>
-      </div> */}
-      {/* <h4 className="text-sky-400 text-center">Switch</h4> */}
-      {/* <div className="flex items-center space-x-2">
+      </div>
+      <h4 className="text-sky-400 text-center">Switch</h4>
+      <div className="flex items-center space-x-2">
         <Switch id="airplane-mode" />
         <Label htmlFor="airplane-mode">Airplane Mode</Label>
-      </div> */}
-      {/* <div>
+      </div>
+      <div>
         <h4 className="text-sky-400 text-center">Combobox</h4>
         <ComboboxDemo />
-      </div> */}
-      {/* <div>
+      </div>
+      <div>
         <h4 className="text-sky-400 text-center">Dialog</h4>
         <Dialog>
           <DialogTrigger asChild>
@@ -360,9 +174,9 @@ export const Create = () => {
             </DialogFooter>
           </DialogContent>
         </Dialog>
-      </div> */}
+      </div>
 
-      {/* <div>
+      <div>
         <h4 className="text-sky-400 text-center">Toast</h4>
         <Button
           variant="outline"
@@ -374,8 +188,8 @@ export const Create = () => {
         >
           Show Toast
         </Button>
-      </div> */}
-      {/* <div>
+      </div>
+      <div>
         <h4 className="text-sky-400 text-center">Tooltip</h4>
         <TooltipProvider>
           <Tooltip>
@@ -387,8 +201,8 @@ export const Create = () => {
             </TooltipContent>
           </Tooltip>
         </TooltipProvider>
-      </div> */}
-      {/* <div>
+      </div>
+      <div>
         <h4 className="text-sky-400 text-center">Tabs</h4>
         <Tabs defaultValue="account" className="w-[400px]">
           <TabsList>
@@ -402,18 +216,18 @@ export const Create = () => {
           <Separator />
           <TabsContent value="password">Change your password here.</TabsContent>
         </Tabs>
-      </div> */}
-      {/* <div>
+      </div>
+      <div>
         <h4 className="text-sky-400 text-center">Data Table</h4>
         <DataTable columns={columns} data={data} />
-      </div> */}
-      {/* <div>
+      </div>
+      <div>
         <h4 className="text-sky-400 text-center">Form Data</h4>
-        <NavigationBar /> */}
-      {/* <FormData additionalClasses={"flex justify-around items-center"} /> */}
-      {/* </div> */}
+        <NavigationBar />
+        {/* <FormData additionalClasses={"flex justify-around items-center"} /> */}
+      </div>
 
-      {/* <div>
+      <div>
         <h4 className="text-sky-400 text-center">Pagination</h4>
         <Pagination>
           <PaginationContent>
@@ -431,7 +245,7 @@ export const Create = () => {
             </PaginationItem>
           </PaginationContent>
         </Pagination>
-      </div> */}
+      </div>
     </div>
   );
 };

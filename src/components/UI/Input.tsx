@@ -15,7 +15,8 @@ export interface InputProps
 }
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
-  ({ className, onChange, type, element, ...props }, ref) => {
+  ({ className, onChange, type, element, placeholder, ...props }, ref) => {
+
     return (
       <>
         {
@@ -33,12 +34,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
           )}
           ref={ref}
           {...props}
-          placeholder={
-            typeof element === "object"
-              ? element?.source_params?.options?.placeholder ||
-                "Write your Text.."
-              : element
-          }
+          placeholder={placeholder}
           onChange={onChange}
         />
       </>

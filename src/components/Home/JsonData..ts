@@ -6,7 +6,7 @@ export type JsonDataType = {
   value: string;
   UUID: string;
   source_params: {
-    classes: string[];
+    classes: string;
     events: Event;
     id: string;
     options: {
@@ -20,7 +20,6 @@ export type JsonDataType = {
     state: {
       disabled: boolean;
       readOnly?: boolean;
-      required?: boolean;
     };
     type:
       | "input"
@@ -42,36 +41,37 @@ export type JsonDataType = {
     };
   };
 };
+
 export const variables = [
   {
     id: 10,
     name: "PRIMARY_KEYWORD_1001",
     source: "user_input",
     label: "Input",
-    order: 10,
+    order: 1,
     elementOptions: {
       variant: ["form-input", "input-bordered"],
     },
     unifiedOptions: {
       label: {
         description: "Element label",
-        classes: ["label-text"],
+        classes: "label-text",
       },
       placeholder: {
         description: "Placeholder text for input elements",
-        classes: ["placeholder"],
+        classes: "placeholder",
       },
       color: {
         description: "Text and element coloring",
-        classes: ["text-color", "bg-color"],
+        classes: "text-color bg-color",
       },
       size: {
         description: "Size of the elements",
-        classes: ["text-size", "w-auto", "h-auto"],
+        classes: "text-size w-auto h-auto",
       },
       icon: {
         description: "Icons used within or alongside elements",
-        classes: ["icon"],
+        classes: "icon",
       },
     },
     additionalEventHandlers: {
@@ -83,7 +83,7 @@ export const variables = [
     defaultValue: "",
     source_params: {
       accessbilityAttributes: {},
-      classes: ["default", "default"],
+      classes: "",
       events: {
         onChange: "handle_PRIMARY_KEYWORD_1001_Change",
       },
@@ -91,7 +91,6 @@ export const variables = [
       state: {
         disabled: false,
         readOnly: false,
-        required: false,
       },
       type: "input",
       validation: {
@@ -107,14 +106,14 @@ export const variables = [
     name: "KEYWORD_TYPE_OPTIONS_1001",
     source: "user_input",
     label: "Standard DropDown",
-    order: 16,
+    order: 2,
     elementOptions: {
       variant: ["dropdown", "dropDown_with_other_option", "multiSelect"],
     },
     unifiedOptions: {
       label: {
         description: "Element label",
-        classes: ["label-text"],
+        classes: "label-text",
       },
     },
     additionalEventHandlers: {
@@ -125,7 +124,7 @@ export const variables = [
     },
     defaultValue: "",
     source_params: {
-      classes: [],
+      classes: "",
       default: "Select Primary Keyword Type (Optional)",
       events: {
         click: {
@@ -200,30 +199,30 @@ export const variables = [
     name: "IDEAL_CLIENT_1001",
     source: "user_input",
     label: "Text Input",
-    order: 33,
+    order: 3,
     elementOptions: {
       variant: ["form-input", "input-bordered"],
     },
     unifiedOptions: {
       label: {
         description: "Element label",
-        classes: ["label-text"],
+        classes: "label-text",
       },
       placeholder: {
         description: "Placeholder text for input elements",
-        classes: ["placeholder"],
+        classes: "placeholder",
       },
       color: {
         description: "Text and element coloring",
-        classes: ["text-color", "bg-color"],
+        classes: "text-color bg-color",
       },
       size: {
         description: "Size of the elements",
-        classes: ["text-size", "w-auto", "h-auto"],
+        classes: "text-size w-auto h-auto",
       },
       icon: {
         description: "Icons used within or alongside elements",
-        classes: ["icon"],
+        classes: "icon",
       },
     },
     additionalEventHandlers: {
@@ -235,7 +234,7 @@ export const variables = [
     defaultValue: "",
     source_params: {
       accessbilityAttributes: {},
-      classes: [],
+      classes: "",
       events: {
         click: {
           description: "Click event for elements",
@@ -262,7 +261,6 @@ export const variables = [
       state: {
         disabled: false,
         readOnly: false,
-        required: false,
       },
       type: "input",
       validation: {
@@ -273,126 +271,116 @@ export const variables = [
       },
     },
   },
-  // {
-  //   id: 21,
-  //   name: "INDUSTRY_NAME_1002",
-  //   source: "user_input",
-  //   label: "DropDown with Other Option",
-  //   source_params: {
-  //     classes: [
-  //       {
-  //         divClass: "",
-  //       },
-  //       {
-  //         selectClass: "form-select mb-3",
-  //       },
-  //       {
-  //         textAreaClass: "form-control mb-3",
-  //       },
-  //     ],
-  //     default: "Select Your Industry (Optional)",
-  //     events: {
-  //       onChange: "",
-  //     },
-  //     id: "INDUSTRY_NAME_1002",
-  //     options: {
-  //       "aria-describedby": "INDUSTRY_NAME_1002_Desc",
-  //       ariaLabel: "Industry Name Input",
-  //       defaultOption: {
-  //         label: "Select Your Industry (Optional)",
-  //         value: "",
-  //       },
-  //       options: [
-  //         {
-  //           label: "Medical",
-  //           value: "1",
-  //         },
-  //         {
-  //           label: "Medical Aesthetics",
-  //           value: "2",
-  //         },
-  //         {
-  //           label: "Fashion",
-  //           value: "3",
-  //         },
-  //         {
-  //           label: "Sustainability",
-  //           value: "4",
-  //         },
-  //         {
-  //           label: "Recycling",
-  //           value: "5",
-  //         },
-  //         {
-  //           label: "Data Security",
-  //           value: "6",
-  //         },
-  //         {
-  //           label: "Marketing",
-  //           value: "7",
-  //         },
-  //         {
-  //           label: "Legal",
-  //           value: "8",
-  //         },
-  //         {
-  //           label: "AI & ML",
-  //           value: "9",
-  //         },
-  //         {
-  //           label: "Programming & Software",
-  //           value: "10",
-  //         },
-  //         {
-  //           label: "IT",
-  //           value: "11",
-  //         },
-  //         {
-  //           label: "Other (Enter Below)",
-  //           value: "Other",
-  //         },
-  //       ],
-  //       placeholder: "",
-  //       secondaryLabel: "Other Input Label",
-  //     },
-  //     state: {
-  //       otherInputId: "otherTextInputId",
-  //     },
-  //     type: "dropdown_with_other_option",
-  //     validation: {
-  //       pattern: "",
-  //       required: true,
-  //     },
-  //   },
-  // },
+  {
+    id: 21,
+    name: "INDUSTRY_NAME_1002",
+    source: "user_input",
+    label: "DropDown with Other Option",
+    source_params: {
+      classes: "",
+      default: "Select Your Industry (Optional)",
+      events: {
+        onChange: "",
+      },
+      id: "INDUSTRY_NAME_1002",
+      options: {
+        "aria-describedby": "INDUSTRY_NAME_1002_Desc",
+        ariaLabel: "Industry Name Input",
+        defaultOption: {
+          label: "Select Your Industry (Optional)",
+          value: "",
+        },
+        options: [
+          {
+            label: "Medical",
+            value: "1",
+          },
+          {
+            label: "Medical Aesthetics",
+            value: "2",
+          },
+          {
+            label: "Fashion",
+            value: "3",
+          },
+          {
+            label: "Sustainability",
+            value: "4",
+          },
+          {
+            label: "Recycling",
+            value: "5",
+          },
+          {
+            label: "Data Security",
+            value: "6",
+          },
+          {
+            label: "Marketing",
+            value: "7",
+          },
+          {
+            label: "Legal",
+            value: "8",
+          },
+          {
+            label: "AI & ML",
+            value: "9",
+          },
+          {
+            label: "Programming & Software",
+            value: "10",
+          },
+          {
+            label: "IT",
+            value: "11",
+          },
+          {
+            label: "Other (Enter Below)",
+            value: "Other",
+          },
+        ],
+        placeholder: "",
+        secondaryLabel: "Other Input Label",
+      },
+      state: {
+        otherInputId: "otherTextInputId",
+      },
+      type: "dropdown_with_other_option",
+      validation: {
+        pattern: "",
+        required: true,
+      },
+    },
+  },
   {
     id: 22,
     name: "CUSTOM_INSTRUCTIONS_1001",
     label: "Text Area",
-    order: 22,
+    order: 4,
     elementOptions: {
       variant: ["form-input", "input-bordered"],
     },
     unifiedOptions: {
       label: {
         description: "Element label",
-        classes: ["label-text"],
+        classes: "label-text",
       },
       placeholder: {
         description: "Placeholder text for input elements",
-        classes: ["placeholder"],
+        classes: "placeholder",
       },
       color: {
         description: "Text and element coloring",
-        classes: ["text-color", "bg-color"],
+        classes: "text-color bg-color",
       },
       size: {
         description: "Size of the elements",
-        classes: ["text-size", "w-auto", "h-auto"],
+        classes: "text-size  w-auto h-auto",
       },
       icon: {
         description: "Icons used within or alongside elements",
-        classes: ["icon"],
+        classes: "icon",
       },
     },
     additionalEventHandlers: {
@@ -405,7 +393,7 @@ export const variables = [
     source: "user_input",
     source_params: {
       accessbilityAttributes: {},
-      classes: [],
+      classes: "",
       events: {
         click: {
           description: "Click event for elements",
@@ -448,7 +436,7 @@ export const variables = [
     name: "CUSTOM_RADIO_1001",
     label: "Radio",
     source: "user_input",
-    order: 24,
+    order: 5,
     value: "",
     elementOptions: {
       variant: [""],
@@ -456,23 +444,23 @@ export const variables = [
     unifiedOptions: {
       label: {
         description: "Element label",
-        classes: ["label-text"],
+        classes: "label-text",
       },
       placeholder: {
         description: "Placeholder text for input elements",
-        classes: ["placeholder"],
+        classes: "placeholder",
       },
       color: {
         description: "Text and element coloring",
-        classes: ["text-color", "bg-color"],
+        classes: "text-color bg-color",
       },
       size: {
         description: "Size of the elements",
-        classes: ["text-size", "w-auto", "h-auto"],
+        classes: "text-size w-auto h-auto",
       },
       icon: {
         description: "Icons used within or alongside elements",
-        classes: ["icon"],
+        classes: "icon",
       },
     },
     additionalEventHandlers: {
@@ -542,30 +530,30 @@ export const variables = [
     name: "CUSTOM_CHECKBOX_1001",
     label: "Checkbox",
     source: "user_input",
-    order: 23,
+    order: 6,
     elementOptions: {
       variant: [""],
     },
     unifiedOptions: {
       label: {
         description: "Element label",
-        classes: ["label-text"],
+        classes: "label-text",
       },
       placeholder: {
         description: "Placeholder text for input elements",
-        classes: ["placeholder"],
+        classes: "placeholder",
       },
       color: {
         description: "Text and element coloring",
-        classes: ["text-color", "bg-color"],
+        classes: "text-color bg-color",
       },
       size: {
         description: "Size of the elements",
-        classes: ["text-size", "w-auto", "h-auto"],
+        classes: "text-size w-auto h-auto",
       },
       icon: {
         description: "Icons used within or alongside elements",
-        classes: ["icon"],
+        classes: "icon",
       },
     },
     additionalEventHandlers: {
@@ -627,30 +615,30 @@ export const variables = [
     name: "CUSTOM_SWITCH_1001",
     label: "Switch",
     source: "user_input",
-    order: 25,
+    order: 7,
     elementOptions: {
       variant: [""],
     },
     unifiedOptions: {
       label: {
         description: "Element label",
-        classes: ["label-text"],
+        classes: "label-text",
       },
       placeholder: {
         description: "Placeholder text for input elements",
-        classes: ["placeholder"],
+        classes: "placeholder",
       },
       color: {
         description: "Text and element coloring",
-        classes: ["text-color", "bg-color"],
+        classes: "text-color bg-color",
       },
       size: {
         description: "Size of the elements",
-        classes: ["text-size", "w-auto", "h-auto"],
+        classes: "text-size w-auto h-auto",
       },
       icon: {
         description: "Icons used within or alongside elements",
-        classes: ["icon"],
+        classes: "icon",
       },
     },
     additionalEventHandlers: {
@@ -662,7 +650,7 @@ export const variables = [
     defaultValue: "",
     source_params: {
       attributes: {},
-      classes: [],
+      classes: "",
       events: {
         change: {
           description: "Change event for input elements",
@@ -707,10 +695,10 @@ export const variables = [
     name: "CUSTOM_DIALOG_1001",
     label: "Dialog",
     source: "user_input",
-    order: 25,
+    order: 8,
     source_params: {
       attributes: {},
-      classes: [],
+      classes: "",
       events: {
         onBlur: "handleTextareaBlur",
         onChange: "handle_CUSTOM_INSTRUCTIONS_1001_Change",
@@ -743,7 +731,7 @@ export const variables = [
     name: "CUSTOM_TABLE_1001",
     label: "Table",
     source: "user_input",
-    order: 25,
+    order: 9,
     source_params: {
       attributes: {},
       data: {
@@ -758,7 +746,7 @@ export const variables = [
           { header: "Group", key: "group" },
         ],
       },
-      classes: [],
+      classes: "",
       events: {
         onBlur: "handleTextareaBlur",
         onChange: "handle_CUSTOM_INSTRUCTIONS_1001_Change",
@@ -818,7 +806,7 @@ export const variables = [
         },
       ],
       attributes: {},
-      classes: [],
+      classes: "",
       events: {
         onBlur: "handleTextareaBlur",
         onChange: "handle_CUSTOM_INSTRUCTIONS_1001_Change",

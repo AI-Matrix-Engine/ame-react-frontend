@@ -26,9 +26,9 @@ export const NavigationBar = ({textColor,hoverColor,text=null,opacity}:navigatio
               <AccordionItem key={subIndex} value={menuItem.itemCategory}>
               { menuItem.itemSubMenu ?  <>
                <AccordionTrigger className={`${textColor}` } iconStyle={!text && textColor}><div className="flex gap-8"><div className = {`${textColor}`}>{menuItem.icon}</div>{!text && <h4>{menuItem.itemCategory}</h4>}</div></AccordionTrigger><AccordionContent className={`${textColor}`}>
-                    {menuItem.itemSubMenu.map((subMenu, subMenuIndex) => (
-                      <Link key={subMenuIndex} href="#" className={`flex mb-4 p-2 hover:rounded-lg hover:${hoverColor}`}>
-                        {subMenu}
+                    {menuItem.itemSubMenu.map(({name, route}, subMenuIndex) => (
+                      <Link key={subMenuIndex} href={route} className={`flex mb-4 p-2 hover:rounded-lg hover:${hoverColor}`}>
+                        {name}
                       </Link>
                     ))}
                   </AccordionContent> </> : <AccordionTrigger className="flex gap-8" ><div>{menuItem.icon}</div> <Link key={subIndex} href="#" className={` flex-1 text-left ${textColor}`}>
