@@ -21,8 +21,8 @@ import {
   TableRow,
 } from "@/components/UI/table";
 import { Input } from "../UI";
-import { Label } from "../UI/label";
-import { Button } from "../UI/button";
+import { Label } from "../UI/Label";
+import { Button } from "../UI/Button";
 interface TData  {
   id: string;
   amount: number;

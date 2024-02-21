@@ -7,20 +7,20 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/UI/select";
-import { Label } from "./label";
+import { Label } from "./Label";
 import { Input } from ".";
 
 type SelectType = {
   label: string;
   value: string;
-}
+};
 
 type Props = {
-  onClick: (value: string) => void,
-  options: SelectType[],
-  placeHolder: string,
-  value: string,
-}
+  onClick: (value: string) => void;
+  options: SelectType[];
+  placeHolder: string;
+  value: string;
+};
 
 export const Dropdown = ({
   onClick,
@@ -29,15 +29,12 @@ export const Dropdown = ({
   value,
   ...rest
 }: Props) => {
-  const [selectedValue, setSelectedValue] = useState<string>();
-
   const handleChange = (value: string) => {
-    setSelectedValue(value);
     onClick(value);
   };
 
   return (
-    <>
+    <div className="w-full">
       <Label className="mb-2">{placeHolder}</Label>
       <Select
         onValueChange={(value: string) => {
@@ -61,16 +58,6 @@ export const Dropdown = ({
           <SelectItem value="system">System</SelectItem>
         </SelectContent>
       </Select>
-      {selectedValue && selectedValue === "Other" && (
-        <Input
-          placeholder="Enter Industry Name..."
-          className="mt-2"
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-            onClick(e.target.value)
-          }
-          {...rest}
-        />
-      )}
-    </>
+    </div>
   );
 };

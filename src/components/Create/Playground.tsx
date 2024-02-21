@@ -2,7 +2,7 @@
 import React from "react";
 import { Checkbox } from "../UI/checkbox";
 import { Calendar } from "../UI/calendar";
-import { Label } from "@/components/UI/label";
+import { Label } from "@/components/UI/Label";
 import { RadioGroup, RadioGroupItem } from "@/components/UI/radio-group";
 import { Switch } from "@/components/UI/switch";
 import { CopyIcon } from "@radix-ui/react-icons";
@@ -37,7 +37,7 @@ import {
 } from "@/components/UI/pagination";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/UI/tabs";
 import { Separator } from "@/components/UI/separator";
-import { Button } from "../UI/button";
+import { Button } from "../UI/Button";
 import { Input } from "../UI";
 import { DataTable } from "./DataTable";
 import { columns } from "./Columns";

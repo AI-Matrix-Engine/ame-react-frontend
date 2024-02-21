@@ -6,7 +6,7 @@ import { Form, FormField, FormMessage } from "../UI/form";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Button } from "../UI/button";
+import { Button } from "../UI/Button";
 
 type Props = {
   customFields: JsonDataType[];

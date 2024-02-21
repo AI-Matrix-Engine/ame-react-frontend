@@ -1,13 +1,13 @@
 import React from "react";
 import { Dropdown, Input } from "../UI";
-import { Textarea } from "../UI/textarea";
+import { Textarea } from "../UI/Textarea";
 import { Checkbox } from "../UI/checkbox";
 import { RadioGroup, RadioGroupItem } from "../UI/radio-group";
 import { Switch } from "../UI/switch";
 import { Calendar } from "../UI/calendar";
-import { Label } from "../UI/label";
+import { Label } from "../UI/Label";
 import { Dialog, DialogClose, DialogContent, DialogFooter } from "../UI/dialog";
-import { Button } from "../UI/button";
+import { Button } from "../UI/Button";
 import { CustomTable } from "./CustomTable";
 import { CustomTab } from "./CustomTab";
 
@@ -16,6 +16,25 @@ export const UIRenderer = ({ element, onChange, field }: any) => {
 
   const handleChangeValue = (value: string | boolean) => {
     onChange({ ...element, value: value });
+    field.onChange(value);
+  };
+
+  const handleDropDownInputChange = (value: string) => {
+    const updateElement = {
+      ...element,
+      source_params: {
+        ...element.source_params,
+        options: {
+          ...element.source_params.options,
+          inputField: {
+            ...element.source_params.options.inputField,
+            value: value,
+          },
+        },
+      },
+    };
+
+    onChange(updateElement);
   };
 
   const openDialog = () => {
@@ -26,13 +45,28 @@ export const UIRenderer = ({ element, onChange, field }: any) => {
     case "dropdown":
     case "dropdown_with_other_option":
       return (
-        <Dropdown
-          value={element.value}
-          onClick={(value: string) => handleChangeValue(value)}
-          options={element?.source_params?.options?.options}
-          placeHolder={element?.source_params?.options?.placeholder}
-          {...field}
-        />
+        <div>
+          <Dropdown
+            value={element.value}
+            onClick={(value: string) => handleChangeValue(value)}
+            options={element?.source_params?.options?.options}
+            placeHolder={element?.source_params?.options?.placeholder}
+            {...field}
+          />
+          {element.value === "Other" && (
+            <div className="mt-2">
+              <Input
+                element={element.source_params.options.inputField}
+                placeholder={
+                  element.source_params.options.inputField.placeholder
+                }
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                  handleDropDownInputChange(e.target.value)
+                }
+              />
+            </div>
+          )}
+        </div>
       );
     case "input":
       return (

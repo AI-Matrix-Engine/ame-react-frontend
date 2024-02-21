@@ -9,6 +9,11 @@ export type JsonDataType = {
     classes: string;
     events: Event;
     id: string;
+    inputField?: {
+      value: string;
+      id: string;
+      placeholder: string;
+    };
     options: {
       "aria-describedby": string;
       ariaLabel: string;
@@ -177,10 +182,6 @@ export const variables = [
             label: "Non-Business Keyword",
             value: "6",
           },
-          {
-            label: "Other (Enter Below)",
-            value: "Other",
-          },
         ],
         placeholder: "",
       },
@@ -289,6 +290,11 @@ export const variables = [
         defaultOption: {
           label: "Select Your Industry (Optional)",
           value: "",
+        },
+        inputField: {
+          value: "",
+          id: "otherTextInputId",
+          placeholder: "Enter Text",
         },
         options: [
           {
