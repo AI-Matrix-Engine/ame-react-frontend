@@ -48,6 +48,7 @@ export const AddCategory = ({
         onChange={onChange}
       />
       <Textarea
+        minHeight="120px"
         placeholder={TEXTAREA_PLACEHOLDER}
         id="description"
         handleChange={handleDescriptionChange}

@@ -13,6 +13,7 @@ type Props = {
   onDelete: (id: string) => void;
   handleChange: (element: JsonDataType) => void;
   className?: string;
+  isShowSubmit?: boolean;
 };
 
 export const IntakeForm = ({
@@ -20,6 +21,7 @@ export const IntakeForm = ({
   onDelete,
   handleChange,
   className,
+  isShowSubmit = true,
 }: Props) => {
   const [hoveredIndex, setHoveredIndex] = useState(-1);
 
@@ -133,7 +135,7 @@ export const IntakeForm = ({
             );
           })}
 
-          {customFields.length > 0 && (
+          {customFields.length > 0 && isShowSubmit && (
             <Button
               type="submit"
               className="bg-blue-500 text-white px-4 py-2 mt-2 ml-auto block rounded-md hover:bg-blue-600"

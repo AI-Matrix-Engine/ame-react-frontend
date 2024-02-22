@@ -1,8 +1,9 @@
 "use client";
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import { useToast } from "@/components/UI/use-toast";
 import { Input, Button, Dropdown, Label } from "../UI";
-import { AddCategory } from "./AddCategory";
+import { AddCategory, AppOverview, AIConversationSettings } from ".";
+import { AIModelSpecifications } from "./AIModelSpecifications";
 
 type SelectType = {
   label: string;
@@ -211,6 +212,13 @@ export const Create = () => {
   const [subCategories, setSubCategories] = useState<SelectType[]>([]);
   const [subCategorySelectedValue, setSubCategorySelectedValue] = useState("");
   const [toggleAddCategory, setToggleAddCategory] = useState<string>("");
+  const [appOverView, setAppOverView] = useState({
+    aiDescription: "",
+    apiProviderSelectedValue: "",
+    apiEndpointSelectedValue: "",
+    aiModelSelectedValue: "",
+    configurationSelectedValue: "",
+  });
 
   const handleCategoryChange = (value: string) => {
     const filteredCategory = categories.find(
@@ -252,6 +260,26 @@ export const Create = () => {
     setSubCategories([...subCategories, newUpdatedSubCategory]);
     setToggleAddCategory("");
   };
+
+  const handleAppOverViewChange = (value: string) => {
+    setAppOverView(value);
+  };
+
+  console.log(appOverView);
+
+  const isShowAiModelSpecifications = useMemo(() => {
+    if (
+      appOverView?.aiDescription &&
+      appOverView?.apiProviderSelectedValue &&
+      appOverView?.apiEndpointSelectedValue &&
+      appOverView?.aiModelSelectedValue &&
+      appOverView?.configurationSelectedValue
+    ) {
+      return true;
+    } else {
+      return false;
+    }
+  }, [appOverView]);
 
   return (
     <div className="p-6">
@@ -308,6 +336,13 @@ export const Create = () => {
           onCancel={() => setToggleAddCategory("")}
         />
       )}
+      {subCategorySelectedValue ? (
+        <AppOverview handleAppOverViewChange={handleAppOverViewChange} />
+      ) : undefined}
+
+      {isShowAiModelSpecifications && <AIModelSpecifications />}
+
+      {isShowAiModelSpecifications && <AIConversationSettings />}
     </div>
   );
 };
