@@ -1,7 +1,9 @@
 import React from 'react'
 
-export const Manage = () => {
+const Manage = () => {
   return (
     <div>Manage</div>
   )
 }
+
+export default Manage

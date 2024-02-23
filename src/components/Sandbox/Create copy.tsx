@@ -1,12 +1,8 @@
 "use client";
 import React from "react";
-import { Checkbox } from "../UI/checkbox";
-import { Calendar } from "../UI/Calendar";
-import { Label } from "@/components/UI/Label";
-import { RadioGroup, RadioGroupItem } from "@/components/UI/Radio-group";
-import { Switch } from "@/components/UI/Switch";
 import { CopyIcon } from "@radix-ui/react-icons";
 import { useToast } from "@/components/UI/use-toast";
+import { Switch, Label, Calendar, Checkbox, RadioGroup, RadioGroupItem } from "./UI";
 
 import { ComboboxDemo } from "./Combobox";
 import {
