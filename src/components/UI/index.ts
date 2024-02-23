@@ -6,4 +6,8 @@ export * from "./Button";
 export * from "./Slider";
 export * from "./Switch";
 export * from "./Tabs";
-export * from "./progress"
+export * from "./Progress";
+export * from "./Dialog";
+export * from "./checkbox";
+export * from "./Radio-group";
+export * from "./Calendar";

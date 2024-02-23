@@ -1,5 +1,5 @@
 import React from "react";
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "../UI/Tabs";
+import { Tabs,TabsList, TabsTrigger, TabsContent } from "../UI";
 import { Input } from "../UI";
 
 export const CustomTab = ({ data }) => {
