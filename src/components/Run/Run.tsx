@@ -12,7 +12,7 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/UI/form";
+} from "@/components/UI/Form";
 import { Input } from "@/components/UI/Input";
 import { FilterForm, CustomValueForm, RunRecipe, MatrixResults } from ".";
 

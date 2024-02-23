@@ -2,11 +2,10 @@ import React, { useState } from "react";
 import { JsonDataType } from "./JsonData.";
 import { UIRenderer } from "./UIRenderer";
 import { MinusCircle } from "lucide-react";
-import { Form, FormField, FormMessage } from "../UI/form";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Button } from "../UI/Button";
+import { Button, Form, FormField, FormMessage  } from "../UI";
 
 type Props = {
   customFields: JsonDataType[];

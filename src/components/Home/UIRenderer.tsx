@@ -1,12 +1,7 @@
 import React from "react";
-import {} from "../UI/Radio-group";
-import { Switch } from "../UI/Switch";
-import {  } from "../UI/Calendar";
-import {  } from "../UI/Label";
-import {  } from "../UI/Button";
 import { CustomTable } from "./CustomTable";
 import { CustomTab } from "./CustomTab";
-import { Dialog, DialogClose, DialogContent, DialogFooter, Textarea, Checkbox, Dropdown, Input,  RadioGroup, RadioGroupItem, Calendar, Label, Button,   } from "../UI";
+import { Dialog, DialogClose, DialogContent, DialogFooter, Textarea, Checkbox, Dropdown, Input,  RadioGroup, RadioGroupItem, Calendar, Label, Button, Switch  } from "../UI";
 
 export const UIRenderer = ({ element, onChange, field }: any) => {
   const [open, setOpen] = React.useState(false);
