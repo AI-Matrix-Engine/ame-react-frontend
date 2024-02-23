@@ -77,7 +77,7 @@ export const AppOverview = ({ handleAppOverViewChange }: Props) => {
   ]);
 
   return (
-    <div id="recipeOverviewContainer" className="flex gap-6">
+    <div id="recipeOverviewContainer" >
       <div className="w-full">
         <div>
           <label

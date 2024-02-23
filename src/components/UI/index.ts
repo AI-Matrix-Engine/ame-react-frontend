@@ -4,3 +4,6 @@ export * from "./Textarea";
 export * from "./Label";
 export * from "./Button";
 export * from "./Slider";
+export * from "./Switch";
+export * from "./Tabs";
+export * from "./progress"

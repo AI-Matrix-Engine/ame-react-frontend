@@ -14,6 +14,8 @@ import {
   FormMessage,
 } from "@/components/UI/form";
 import { Input } from "@/components/UI/Input";
+import { FilterForm, CustomValueForm, RunRecipe, MatrixResults } from ".";
+
 
 const formSchema = z.object({
   username: z.string().min(2, {
@@ -39,41 +41,11 @@ export const FormData = ({ additionalClasses = "" }: any) => {
   }
 
   return (
-    <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(onSubmit)}
-        className={` ${additionalClasses}`}
-      >
-        <FormField
-          control={form.control}
-          name="username"
-          render={({ field }) => (
-            <FormItem>
-              <FormControl>
-                <Input placeholder="shadcn" {...field} element="Email" />
-              </FormControl>
-              <FormDescription>
-                This is your public display name.
-              </FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="password"
-          render={({ field }) => (
-            <FormItem>
-              <FormControl>
-                <Input placeholder="Password" {...field} element="Password" />
-              </FormControl>
-              <FormDescription>This is your public Password.</FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <Button type="submit">Submit</Button>
-      </form>
-    </Form>
+      <>
+      <FilterForm/>
+      <CustomValueForm/>
+      <RunRecipe/>
+      <MatrixResults/>
+      </>
   );
 };

@@ -4,7 +4,7 @@ import { Checkbox } from "../UI/checkbox";
 import { Calendar } from "../UI/calendar";
 import { Label } from "@/components/UI/Label";
 import { RadioGroup, RadioGroupItem } from "@/components/UI/radio-group";
-import { Switch } from "@/components/UI/switch";
+import { Switch } from "@/components/UI/Switch";
 import { CopyIcon } from "@radix-ui/react-icons";
 import { useToast } from "@/components/UI/use-toast";
 
@@ -35,7 +35,7 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/UI/pagination";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/UI/tabs";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/UI/Tabs";
 import { Separator } from "@/components/UI/separator";
 import { Button } from "../UI/Button";
 import { Input } from "../UI";

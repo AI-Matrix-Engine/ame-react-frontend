@@ -3,7 +3,7 @@ import { Dropdown, Input } from "../UI";
 import { Textarea } from "../UI/Textarea";
 import { Checkbox } from "../UI/checkbox";
 import { RadioGroup, RadioGroupItem } from "../UI/radio-group";
-import { Switch } from "../UI/switch";
+import { Switch } from "../UI/Switch";
 import { Calendar } from "../UI/calendar";
 import { Label } from "../UI/Label";
 import { Dialog, DialogClose, DialogContent, DialogFooter } from "../UI/dialog";
