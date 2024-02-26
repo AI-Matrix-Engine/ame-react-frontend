@@ -34,7 +34,7 @@ export const UIFactory = () => {
       oldElement.id === element.id ? element : oldElement
     );
 
-    setUIData(updatedData);
+    setUIData(updatedData as any);
   };
   const handleRendering = (element: JsonDataType) => {
     return <UIRenderer element={{ ...element }} onChange={handleChange} />;

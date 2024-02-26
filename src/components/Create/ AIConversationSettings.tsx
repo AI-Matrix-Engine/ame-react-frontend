@@ -71,7 +71,7 @@ export const AIConversationSettings = () => {
       UUID: generateUUID(),
     };
 
-    setUserAssistantFields([...userAssistantFields, updatedCustomField]);
+    setUserAssistantFields([...userAssistantFields, updatedCustomField] as UserAssistantFields[]);
   };
 
   const onDeleteUserAssistantField = (id: string) => {

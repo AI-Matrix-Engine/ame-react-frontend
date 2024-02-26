@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, ReactNode } from "react";
 import { Header } from "./Header";
 import { LeftNavbar } from "./LeftNavbar";
 import {
@@ -91,7 +91,7 @@ const leftSideBars: leftSideBarType[] = [
   },
 ];
 
-export const Main = ({ children }) => {
+export const Main = ({ children }: {children: ReactNode}) => {
   const [sideBars, setSideBars] = useState(leftSideBars);
   console.log("Its really getting into page.");
   const handleNavigation = (id: string) => {

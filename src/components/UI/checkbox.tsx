@@ -18,9 +18,9 @@ const Checkbox = React.forwardRef<
         className
       )}
       value={value}
-      onCheckedChange={(event) => {
+      onCheckedChange={(event: any) => {
         onChange?.(event);
-        props?.onChange && props.onChange(event.target.checked);
+        // props?.onChange && props.onChange(event.target.checked);
       }}
       {...props}
     >

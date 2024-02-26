@@ -8,8 +8,8 @@ import {
 import { menuItems } from "./Data";
 import Link from "next/link";
 
-export const NavigationBar = ({ textColor, hoverColor, text = null }) => {
-  console.log("Menu Items **", menuItems);
+export const NavigationBar = ({ textColor, hoverColor, text = null }: any) => {
+  console.log("Menu Items **", menuItems, textColor, hoverColor);
 
   return (
     <div>

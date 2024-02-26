@@ -11,7 +11,7 @@ type CombinedOnChange = DefaultOnChange | CustomOnChange;
 export interface InputProps
   extends Omit<React.InputHTMLAttributes<HTMLInputElement>, "onChange"> {
   element?: string | JsonDataType;
-  onChange?: CombinedOnChange;
+  onChange?: any;
 }
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(

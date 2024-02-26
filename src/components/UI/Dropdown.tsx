@@ -16,10 +16,10 @@ type SelectType = {
 };
 
 type Props = {
-  onClick: (value: string) => void;
+  onClick?: (value: string) => void;
   options: SelectType[];
-  placeHolder: string;
-  value: string;
+  placeHolder?: string;
+  value?: string;
 };
 
 export const Dropdown = ({
@@ -30,7 +30,7 @@ export const Dropdown = ({
   ...rest
 }: Props) => {
   const handleChange = (value: string) => {
-    onClick(value);
+    onClick?.(value);
   };
 
   return (

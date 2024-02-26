@@ -5,9 +5,9 @@ import { cn } from "@/lib/utils"
 
 export interface TextareaProps
   extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
-    handleChange:(value:string)=>void,
-    element:any
-    minHeight:any
+    handleChange?:(value:string)=>void,
+    element?:any
+    minHeight?:any
   }
 
 const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
@@ -20,7 +20,7 @@ const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
         ref={ref}
         
         value={text}
-        onChange={(e)=>{setText(e.target?.value);handleChange(e?.target?.value)}}
+        onChange={(e)=>{setText(e.target?.value);handleChange?.(e?.target?.value)}}
         {...props}
       />
     )

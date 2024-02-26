@@ -21,8 +21,10 @@ type leftSideBarType = {
   expandedStyles: styleType;
   collapsedStyles: styleType;
   toggle: boolean;
+  title: string;
+  hover: any;
 };
-
+ 
 type LeftNavbarProps = {
   details: leftSideBarType;
   onHandle: (id: string) => void;

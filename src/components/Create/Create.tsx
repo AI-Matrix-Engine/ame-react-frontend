@@ -1,6 +1,6 @@
 "use client";
 import React, { useMemo, useState } from "react";
-import { useToast } from "@/components/UI/use-toast";
+import { useToast } from "@/components/UI/Use-toast";
 import { Input, Button, Dropdown, Label } from "../UI";
 import { AddCategory, AppOverview, AIConversationSettings } from ".";
 import { AIModelSpecifications } from "./AIModelSpecifications";
@@ -261,7 +261,7 @@ export const Create = () => {
     setToggleAddCategory("");
   };
 
-  const handleAppOverViewChange = (value: string) => {
+  const handleAppOverViewChange = (value: any) => {
     setAppOverView(value);
   };
 

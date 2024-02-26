@@ -6,7 +6,7 @@ import { Label } from "@/components/UI/Label";
 import { RadioGroup, RadioGroupItem } from "@/components/UI/Radio-group";
 import { Switch } from "@/components/UI/Switch";
 import { CopyIcon } from "@radix-ui/react-icons";
-import { useToast } from "@/components/UI/use-toast";
+import { useToast } from "@/components/UI/Use-toast";
 
 import { ComboboxDemo } from "./Combobox";
 import {
@@ -219,7 +219,7 @@ export const Playground = () => {
       </div>
       <div>
         <h4 className="text-sky-400 text-center">Data Table</h4>
-        <DataTable columns={columns} data={data} />
+        <DataTable columns={columns as any} data={data} />
       </div>
       <div>
         <h4 className="text-sky-400 text-center">Form Data</h4>

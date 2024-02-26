@@ -22,7 +22,7 @@ export const RightPane = ({ handleUiElements }: Props) => {
               key={index}
               variant="secondary"
               className="mb-2"
-              onClick={() => handleUiElements(item)}
+              onClick={() => handleUiElements(item as any)}
             >
               {item.label}
             </Button>
@@ -43,7 +43,7 @@ export const RightPane = ({ handleUiElements }: Props) => {
               key={index}
               variant="secondary"
               className="mb-2"
-              onClick={() => handleUiElements(item)}
+              onClick={() => handleUiElements(item as any)}
             >
               {item.label}
             </Button>

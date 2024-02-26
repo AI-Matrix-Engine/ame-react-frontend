@@ -14,4 +14,6 @@ export * from "./Calendar";
 export * from "./Form";
 export * from "./Command";
 export * from "./Popover";
-export * from "./Table"
+export * from "./Table";
+export * from "./Use-toast";
+export * from "./Toast";

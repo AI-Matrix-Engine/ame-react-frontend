@@ -2,23 +2,23 @@ import React from "react";
 import { Tabs,TabsList, TabsTrigger, TabsContent } from "../UI";
 import { Input } from "../UI";
 
-export const CustomTab = ({ data }) => {
+export const CustomTab = ({ data }: any) => {
   return (
     <Tabs defaultValue={data[0].id}>
       {" "}
       {/* Set the default tab value */}
       <TabsList>
-        {data.map((tab) => (
+        {data.map((tab: any) => (
           <TabsTrigger key={tab.id} value={tab.id}>
             {tab.label}
           </TabsTrigger>
         ))}
       </TabsList>
-      {data.map((tab) =>
-        tab.fields.map((field) => {
+      {data.map((tab: any) =>
+        tab.fields.map((field: any) => {
           return (
             <TabsContent key={field.id} value={tab.id}>
-              <Input id={field.id} name={field.id} label={field.label} />
+              <Input id={field.id} name={field.id} placeholder={field.label} />
             </TabsContent>
           );
         })

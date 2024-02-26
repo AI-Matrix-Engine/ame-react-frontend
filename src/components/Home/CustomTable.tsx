@@ -8,19 +8,19 @@ import {
   TableCaption,
 } from "../UI";
 
-export const CustomTable = ({ data }) => {
+export const CustomTable = ({ data }: any) => {
   return (
     <Table>
       <TableCaption>{data.label}</TableCaption>
       <TableHeader>
         <TableRow>
-          {data.tableColumns.map((column) => {
+          {data.tableColumns.map((column: any) => {
             return <TableCell key={column.id}>{column.header}</TableCell>;
           })}
         </TableRow>
       </TableHeader>
       <TableBody>
-        {data.tableData.map((attribute) => (
+        {data.tableData.map((attribute: any) => (
           <TableRow key={attribute.id}>
             <TableCell>{attribute.name}</TableCell>
             <TableCell>{attribute.email}</TableCell>
