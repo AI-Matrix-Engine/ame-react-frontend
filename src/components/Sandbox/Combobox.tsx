@@ -4,19 +4,15 @@ import * as React from "react"
 import { Check, ChevronsUpDown } from "lucide-react"
 
 import { cn } from "@/lib/utils"
-import { Button } from "@/components/UI"
-import {
-  Command,
+import { Button, Command,
   CommandEmpty,
   CommandGroup,
   CommandInput,
-  CommandItem,
-} from ".//UI"
-import {
+  CommandItem, 
   Popover,
   PopoverContent,
-  PopoverTrigger,
-} from "./UI"
+  PopoverTrigger, } from "../UI"
+
 
 const frameworks = [
   {

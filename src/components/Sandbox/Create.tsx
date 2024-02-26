@@ -2,10 +2,7 @@
 import React from "react";
 import { CopyIcon } from "@radix-ui/react-icons";
 import { useToast } from "@/components/UI/use-toast";
-import { Switch, Label, Calendar, Checkbox, RadioGroup, RadioGroupItem } from "./UI";
-
-import { ComboboxDemo } from "./Combobox";
-import {
+import { Switch, Label, Calendar, Checkbox, RadioGroup, RadioGroupItem,
   Dialog,
   DialogClose,
   DialogContent,
@@ -14,7 +11,9 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/UI/Dialog";
+} from "./UI";
+
+import { ComboboxDemo } from "./Combobox";
 
 import {
   Tooltip,

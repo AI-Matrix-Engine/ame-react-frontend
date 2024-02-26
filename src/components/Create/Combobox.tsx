@@ -16,7 +16,7 @@ import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/UI/popover"
+} from "@/components/UI/Popover"
 
 const frameworks = [
   {

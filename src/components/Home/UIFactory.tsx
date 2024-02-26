@@ -6,7 +6,7 @@ import { UIRenderer } from "./UIRenderer";
 import Link from "next/link";
 import { RightPane } from "./RightPane";
 import { IntakeForm } from "./IntakeForm";
-import { Button } from "../UI/Button";
+import { Button } from "../UI";
 import { Minus } from "lucide-react";
 
 type UIFactoryState = JsonDataType & { value: string };
