@@ -4,14 +4,14 @@ import * as React from "react"
 import { Check, ChevronsUpDown } from "lucide-react"
 
 import { cn } from "@/lib/utils"
-import { Button } from "@/components/UI/Button"
+import { Button } from "../UI"
 import {
   Command,
   CommandEmpty,
   CommandGroup,
   CommandInput,
   CommandItem,
-} from "@/components/UI/command"
+} from "@/components/UI/Command"
 import {
   Popover,
   PopoverContent,

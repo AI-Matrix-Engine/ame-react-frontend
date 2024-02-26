@@ -1,6 +1,6 @@
 import React from "react";
 import { JsonDataType, variables } from "./JsonData.";
-import { Button } from "../UI/Button";
+import { Button } from "../UI";
 
 type Props = {
   handleUiElements: (item: JsonDataType) => void;

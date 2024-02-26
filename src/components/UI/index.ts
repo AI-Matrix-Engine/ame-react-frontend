@@ -12,3 +12,4 @@ export * from "./checkbox";
 export * from "./Radio-group";
 export * from "./Calendar";
 export * from "./Form";
+export * from "./Command"
