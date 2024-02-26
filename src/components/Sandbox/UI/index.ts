@@ -17,5 +17,7 @@ export * from "./Popover";
 export * from "./Command";
 export * from "./Separator";
 export * from "./Tooltip";
-export * from "./Pagination"
+export * from "./Pagination";
+export * from "./Select"
+export * from "./Table";
 
