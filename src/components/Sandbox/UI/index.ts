@@ -12,7 +12,6 @@ export * from "./checkbox";
 export * from "./Radio-group";
 export * from "./Calendar";
 export * from "./Form";
-export * from "./Textarea";
 export * from "./Popover";
 export * from "./Command";
 export * from "./Separator";
