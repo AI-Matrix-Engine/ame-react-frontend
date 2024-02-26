@@ -6,7 +6,7 @@ import {
   TableRow,
   TableCell,
   TableCaption,
-} from "../UI/table";
+} from "../UI/Table";
 
 export const CustomTable = ({ data }) => {
   return (

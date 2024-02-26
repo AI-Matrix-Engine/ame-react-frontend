@@ -2,7 +2,13 @@
 import React from "react";
 import { CopyIcon } from "@radix-ui/react-icons";
 import { useToast } from "@/components/UI/use-toast";
-import { Switch, Label, Calendar, Checkbox, RadioGroup, RadioGroupItem,
+import {
+  Switch,
+  Label,
+  Calendar,
+  Checkbox,
+  RadioGroup,
+  RadioGroupItem,
   Dialog,
   DialogClose,
   DialogContent,
@@ -11,17 +17,17 @@ import { Switch, Label, Calendar, Checkbox, RadioGroup, RadioGroupItem,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "./UI";
-
-import { ComboboxDemo } from "./Combobox";
-
-import {
+  Input,
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+  Button,
+  Separator,
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "@/components/UI/tooltip";
-import {
   Pagination,
   PaginationContent,
   PaginationEllipsis,
@@ -29,11 +35,8 @@ import {
   PaginationLink,
   PaginationNext,
   PaginationPrevious,
-} from "@/components/UI/pagination";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/UI/Tabs";
-import { Separator } from "@/components/UI/separator";
-import { Button } from "../UI/Button";
-import { Input } from "../UI";
+} from "./UI";
+import { ComboboxDemo } from "./Combobox";
 import { DataTable } from "./DataTable";
 import { columns } from "./Columns";
 import { NavigationBar } from "../Home/NavigationBar";

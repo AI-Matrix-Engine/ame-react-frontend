@@ -11,18 +11,12 @@ import {
   getSortedRowModel,
   getPaginationRowModel,
 } from "@tanstack/react-table";
-
-import {
-  Table,
+import { Input, Label, Button,  Table,
   TableBody,
   TableCell,
   TableHead,
   TableHeader,
-  TableRow,
-} from "@/components/UI/table";
-import { Input } from "../UI";
-import { Label } from "../UI/Label";
-import { Button } from "../UI/Button";
+  TableRow, } from "../UI";
 interface TData  {
   id: string;
   amount: number;

@@ -13,4 +13,5 @@ export * from "./Radio-group";
 export * from "./Calendar";
 export * from "./Form";
 export * from "./Command";
-export * from "./Popover"
+export * from "./Popover";
+export * from "./Table"

@@ -36,7 +36,7 @@ import {
   PaginationPrevious,
 } from "@/components/UI/pagination";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/UI/Tabs";
-import { Separator } from "@/components/UI/separator";
+import { Separator } from "@/components/UI/Separator";
 import { Button } from "../UI/Button";
 import { Input } from "../UI";
 import { DataTable } from "./DataTable";
