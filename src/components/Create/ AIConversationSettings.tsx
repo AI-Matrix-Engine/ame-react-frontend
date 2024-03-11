@@ -6,7 +6,7 @@ import { generateUUID } from "@/lib/utils";
 import { IntakeForm } from "../Home/IntakeForm";
 import { MinusCircle } from "lucide-react";
 
-const userAssistantFields = {
+const defaultUserAssistantFields = {
   user: {
     value: "",
     source_params: {
@@ -67,7 +67,7 @@ export const AIConversationSettings = () => {
 
   const handleUserAssistantFields = () => {
     const updatedCustomField = {
-      ...userAssistantFields,
+      ...defaultUserAssistantFields,
       UUID: generateUUID(),
     };
 
@@ -78,6 +78,42 @@ export const AIConversationSettings = () => {
     const updatedData = userAssistantFields.filter((item) => item.UUID !== id);
     setUserAssistantFields(updatedData);
   };
+
+  const handleUserField = (id: string, value: string) => {
+    const updatedUserAssistantData = userAssistantFields.map((item, index) => {
+      if (item.UUID === id) {
+        return {
+          ...item,
+          user: {
+            value
+          }
+        }
+      }
+
+      return item
+    })
+
+    setUserAssistantFields(updatedUserAssistantData as UserAssistantFields[])
+
+  }
+
+  const handleAssistantField = (id: string, value: string) => {
+    const updatedUserAssistantData = userAssistantFields.map((item, index) => {
+      if (item.UUID === id) {
+        return {
+          ...item,
+          assistant: {
+            value
+          }
+        }
+      }
+
+      return item
+    })
+
+    setUserAssistantFields(updatedUserAssistantData as UserAssistantFields[])
+
+  }
 
   console.log(userAssistantFields);
 
@@ -98,7 +134,7 @@ export const AIConversationSettings = () => {
               onDelete={handleDeleteCustomFields}
               handleChange={handleCustomFieldsValueChange}
               customFields={formCustomFields}
-              isShowSubmit = {false}
+              isShowSubmit={false}
             />
             {/* <div className="mb-3" id="message1System1TextSection">
               <Textarea
@@ -159,11 +195,13 @@ export const AIConversationSettings = () => {
                     <div className="flex flex-col gap-3 mb-3 w-full">
                       <Textarea
                         placeholder={`User ${index + 1}`}
-                        // value={item.user.value}
+                        value={item?.user?.value}
+                        handleChange={(value) => handleUserField(item.UUID, value)}
                       />
                       <Textarea
                         placeholder={`Assistant ${index + 1}`}
-                        // value={item.assistant.value}
+                        value={item?.assistant?.value}
+                        handleChange={(value) => handleAssistantField(item.UUID, value)}
                       />
                     </div>
 
