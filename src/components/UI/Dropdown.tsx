@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React from "react";
 import {
   Select,
   SelectContent,
@@ -7,8 +7,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/UI/select";
-import { Label } from "./Label";
-import { Input } from ".";
+import { Label } from ".";
 
 type SelectType = {
   label: string;
