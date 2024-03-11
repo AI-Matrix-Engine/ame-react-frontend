@@ -1,6 +1,6 @@
 "use client";
 import React, { useMemo, useState } from "react";
-import { Input, Button, Dropdown, Label, useToast } from "../UI";
+import { Input, Button, Dropdown, Label } from "../UI";
 import { AddCategory, AppOverview, AIConversationSettings } from ".";
 import { AIModelSpecifications } from "./AIModelSpecifications";
 
@@ -163,7 +163,6 @@ const ADD_SUB_CATEGORY_BTN = "Add Sub Category";
 
 export const Create = () => {
   const [date, setDate] = React.useState<Date | undefined>(new Date());
-  const { toast } = useToast();
   const data = [
     { id: "728ed52f", amount: 100, status: "pending", email: "m@example.com" },
     { id: "728ed52f1", amount: 10, status: "start", email: "mmm@abc.com" },
