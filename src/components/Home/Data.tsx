@@ -1,6 +1,6 @@
-import { PersonIcon,ButtonIcon } from "@radix-ui/react-icons";
-import { FontAwesomeIcon,  } from "@fortawesome/react-fontawesome";
-import { MapIcon, MagnifyingGlassIcon,DocumentDuplicateIcon,ChatBubbleBottomCenterIcon ,Bars3Icon   } from "@heroicons/react/24/outline";
+import { PersonIcon, ButtonIcon } from "@radix-ui/react-icons";
+import { FontAwesomeIcon, } from "@fortawesome/react-fontawesome";
+import { MapIcon, MagnifyingGlassIcon, DocumentDuplicateIcon, ChatBubbleBottomCenterIcon, Bars3Icon } from "@heroicons/react/24/outline";
 import { faWordpress, faFontAwesome, faShopify, } from '@fortawesome/free-brands-svg-icons'
 
 export const menuItems = [
@@ -24,8 +24,8 @@ export const menuItems = [
     items: [
       {
         itemCategory: "AI API",
-        icon:  <PersonIcon className="h-4 w-4 text-white" />,
-        itemSubMenu: [{ name: "Create", route: "/create" }, { name: "Run", route: "/run"}, { name: "Manage", route: "/manage" }, { name: "Admin", route: "/admin" }],
+        icon: <PersonIcon className="h-4 w-4 text-white" />,
+        itemSubMenu: [{ name: "Create", route: "/create" }, { name: "Run", route: "/run" }, { name: "Manage", route: "/manage" }, { name: "Admin", route: "/admin" },{name:"Login",route:"/login"},{name:"Signup",route:"/signup"}],
       },
       // {
       //   itemCategory: "Chatbot",

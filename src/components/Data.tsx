@@ -20,7 +20,7 @@ export const menuItems = [
       {
         itemCategory: "AI API",
         icon: <PersonIcon className="h-4 w-4 text-white" />,
-        itemSubMenu: ["Create", "Run", "Manage", "Admin"],
+        itemSubMenu: ["Create", "Run", "Manage", "Admin", "Login", "Signup"],
       },
       {
         itemCategory: "Chatbot",
@@ -31,6 +31,7 @@ export const menuItems = [
           "AI infinity Matrix",
           "Chatbot Template",
           "Admin",
+          "Login"
         ],
       },
       {

@@ -9,6 +9,9 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@firebase/app": "^0.9.28",
+    "@firebase/auth": "^1.6.1",
+    "@firebase/database": "^1.0.3",
     "@fortawesome/fontawesome-svg-core": "^6.5.1",
     "@fortawesome/free-brands-svg-icons": "^6.5.1",
     "@fortawesome/free-solid-svg-icons": "^6.5.1",
@@ -39,6 +42,7 @@
     "clsx": "^2.1.0",
     "cmdk": "^0.2.1",
     "date-fns": "^3.3.1",
+    "firebase": "^10.8.1",
     "formik": "^2.4.5",
     "lucide-react": "^0.320.0",
     "next": "^14.1.0",

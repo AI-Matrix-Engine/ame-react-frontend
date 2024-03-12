@@ -2,7 +2,7 @@ import * as React from "react";
 
 import { cn } from "@/lib/utils";
 import { JsonDataType } from "../Home/JsonData.";
-import { Label } from ".";
+import { Label } from "./Label";
 
 type DefaultOnChange = React.ChangeEventHandler<HTMLInputElement>;
 
