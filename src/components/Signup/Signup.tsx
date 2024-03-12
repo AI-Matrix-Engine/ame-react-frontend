@@ -59,7 +59,7 @@ export const Signup = () => {
     alert(
       `Your First Name is ${values.firstName} and Your Email is ${values.email}`
     );
-  
+
     await set(ref(db, "users"), {
       firstName: values.firstName,
       lastName: values.lastName,
@@ -74,7 +74,6 @@ export const Signup = () => {
     <div className={" mx-auto mt-24 w-96 rounded overflow-hidden "}>
       <div className=" p-4 flex justify-center gap-1 bg-[#252b36] items-center">
         <h4 className="   text-[#f7f7f7] ">AIDRM</h4>
-        <Half2Icon color="white" width={16} height={16} />
       </div>
       <div className={"p-5 bg-white"}>
         <Form {...form}>
@@ -168,9 +167,7 @@ export const Signup = () => {
               }}
             />
             <div className="flex justify-center pt-3.5">
-              <Button className="bg-[#252b36] my-0.5">
-                Sign Up
-              </Button>
+              <Button className="bg-[#252b36] my-0.5">Sign Up</Button>
             </div>
           </form>
         </Form>

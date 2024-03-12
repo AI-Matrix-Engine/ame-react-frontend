@@ -33,7 +33,6 @@ export const Login = () => {
     <div className={" mx-auto mt-24 w-96 rounded overflow-hidden "}>
       <div className=" p-4 flex justify-center gap-1 bg-[#252b36] items-center">
         <h4 className="   text-[#f7f7f7] ">AIDRM</h4>
-        <Half2Icon color="white" width={16} height={16} />
       </div>
       <div className={"p-5 bg-white"}>
         <Form {...form}>
