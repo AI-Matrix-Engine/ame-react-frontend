@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Dropdown, Textarea } from "../UI";
+import { Dropdown, Label, Textarea } from "../UI";
+import { Combobox } from "../UI/Combobox";
 
 const apiProviders = [
   { label: "Choose the AI API to use...", value: "0" },
@@ -39,9 +40,17 @@ const aiModels = [
 ];
 
 const configurations = [
-  { label: "Choose Configuration Options...", value: "0" },
-  { label: "Use Default Configurations", value: "defaultConfigs" },
-  { label: "Enter Individual Values", value: "individualConfigs" },
+  { label: "Choose Configuration Options...", value: "0", disabled: false },
+  {
+    label: "Use Default Configurations",
+    value: "defaultConfigs",
+    disabled: false,
+  },
+  {
+    label: "Enter Individual Values",
+    value: "individualConfigs",
+    disabled: false,
+  },
   // For disabled options, you might want to indicate their disabled status in the objects.
   { label: "Paste or Edit JSON File", value: "jsonConfigs", disabled: true },
   { label: "Upload Json", value: "jsonUpload", disabled: true },
@@ -77,7 +86,7 @@ export const AppOverview = ({ handleAppOverViewChange }: Props) => {
   ]);
 
   return (
-    <div id="recipeOverviewContainer" >
+    <div id="recipeOverviewContainer" className="mt-2 mb-4">
       <div className="w-full">
         <div>
           <label
@@ -98,37 +107,48 @@ export const AppOverview = ({ handleAppOverViewChange }: Props) => {
         </div>
       </div>
       <div>
-        <div>
-          <Dropdown
+        <div className="mt-2">
+          <Label className="mb-2">API Provider</Label>
+          <Combobox
             placeHolder="API Provider"
+            options={apiProviders || []}
+            onClick={(value: string) => setApiProviderSelectedValue(value)}
             value={apiProviderSelectedValue}
-            onClick={setApiProviderSelectedValue}
-            options={apiProviders}
           />
         </div>
-        <div>
-          <Dropdown
-            placeHolder="AI Endpoint"
+        <div className="mt-2">
+          <Label className="mb-2">Specific Endpoint</Label>
+          <Combobox
+            placeHolder="API Endpoint"
+            options={apiEndpoints || []}
+            onClick={(value: string) => setApiEndpointSelectedValue(value)}
             value={apiEndpointSelectedValue}
-            onClick={setApiEndpointSelectedValue}
-            options={apiEndpoints}
           />
         </div>
-        <div>
-          <Dropdown
+        <div className="mt-2">
+          <Label className="mb-2">Specific AI Model</Label>
+          <Combobox
             placeHolder="Specific AI Model"
+            options={aiModels || []}
+            onClick={(value: string) => setAiModelSelectedValue(value)}
             value={aiModelSelectedValue}
-            onClick={setAiModelSelectedValue}
-            options={aiModels}
           />
         </div>
         <div>
-          <Dropdown
+          <Label className="mb-2">Configuration</Label>
+          <Combobox
+             placeHolder="Configuration"          
+             onClick={(value:string)=>setConfigurationSelectedValue(value)}
+             options={configurations || []}
+             value={configurationSelectedValue}
+          />
+
+          {/* <Dropdown
             placeHolder="Configuration"
             value={configurationSelectedValue}
             onClick={setConfigurationSelectedValue}
             options={configurations}
-          />
+          /> */}
         </div>
       </div>
     </div>

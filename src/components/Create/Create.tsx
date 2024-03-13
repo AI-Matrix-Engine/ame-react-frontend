@@ -3,6 +3,7 @@ import React, { useMemo, useState } from "react";
 import { Input, Button, Dropdown, Label } from "../UI";
 import { AddCategory, AppOverview, AIConversationSettings } from ".";
 import { AIModelSpecifications } from "./AIModelSpecifications";
+import { Combobox } from "../UI/Combobox";
 
 type SelectType = {
   label: string;
@@ -161,6 +162,29 @@ const TOGGLE_ADD_SUB_CATEGORY_VALUE = "Add_Sub_Category";
 const ADD_CATEGORY_BTN = "Add Category";
 const ADD_SUB_CATEGORY_BTN = "Add Sub Category";
 
+const frameworks = [
+  {
+    value: "next.js",
+    label: "Next.js",
+  },
+  {
+    value: "sveltekit",
+    label: "SvelteKit",
+  },
+  {
+    value: "nuxt.js",
+    label: "Nuxt.js",
+  },
+  {
+    value: "remix",
+    label: "Remix",
+  },
+  {
+    value: "astro",
+    label: "Astro",
+  },
+];
+
 export const Create = () => {
   const [date, setDate] = React.useState<Date | undefined>(new Date());
   const data = [
@@ -292,12 +316,20 @@ export const Create = () => {
       <Input type="input" placeholder={APP_INPUT_PLACEHOLDER} id="link" />
 
       <div className="flex justify-between items-end gap-4 mb-4 mt-2">
-        <Dropdown
+    
+      <Combobox
+            placeHolder="Category"
+            options={categories || []}
+            onClick={(value: string) => handleCategoryChange(value)}
+            value={categorySelectedValue}
+          />
+
+        {/* <Dropdown
           placeHolder="Category"
           value={categorySelectedValue}
           onClick={(value: string) => handleCategoryChange(value)}
           options={categories}
-        />
+        /> */}
         <Button onClick={() => setToggleAddCategory(TOGGLE_ADD_CATEGORY_VALUE)}>
           {ADD_CATEGORY_BTN}
         </Button>
@@ -305,11 +337,12 @@ export const Create = () => {
 
       {categorySelectedValue ? (
         <div className="flex justify-between items-end gap-4 mb-4 mt-2">
-          <Dropdown
+          
+          <Combobox
             placeHolder="Sub Category"
-            value={subCategorySelectedValue}
-            onClick={(value: string) => setSubCategorySelectedValue(value)}
             options={subCategories || []}
+            onClick={(value: string) => setSubCategorySelectedValue(value)}
+            value={subCategorySelectedValue}
           />
           <Button
             onClick={() => setToggleAddCategory(TOGGLE_ADD_SUB_CATEGORY_VALUE)}

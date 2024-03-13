@@ -125,11 +125,11 @@ export const AIConversationSettings = () => {
   );
 
   return (
-    <div className="card mb-4 ">
-      <div className="card-header p-4">Step 4: AI Conversation Settings</div>
-      <div className="card-body p-4">
+    <div className=" mb-4 mt-2 ">
+      <div className="card-header ">Step 4: AI Conversation Settings</div>
+      <div className="card-body ">
         <div className="flex flex-wrap" id="messagesRow">
-          <div className="flex-grow w-full md:w-3/4 p-2" id="messageContainer">
+          <div className="flex-grow w-full md:w-3/4 " id="messageContainer">
             <IntakeForm
               onDelete={handleDeleteCustomFields}
               handleChange={handleCustomFieldsValueChange}
@@ -191,7 +191,7 @@ export const AIConversationSettings = () => {
                 return (
                   <div
                     key={index}
-                    className="flex gap-3 p-3 mb-4 border rounded">
+                    className="flex gap-3  mb-4 border rounded">
                     <div className="flex flex-col gap-3 mb-3 w-full">
                       <Textarea
                         placeholder={`User ${index + 1}`}

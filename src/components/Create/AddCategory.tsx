@@ -35,10 +35,11 @@ export const AddCategory = ({
   };
 
   return (
-    <div className="p-6">
+    <div >
       <h5 className="text-xl font-bold dark:text-white">{title}</h5>
 
-      <Label htmlFor="email" className="mb-2">
+       <div className="mb-2">
+       <Label htmlFor="email" className="mb-2">
         {inputLabel}
       </Label>
       <Input
@@ -47,11 +48,13 @@ export const AddCategory = ({
         id="label"
         onChange={onChange}
       />
+       </div>
       <Textarea
         minHeight="120px"
         placeholder={TEXTAREA_PLACEHOLDER}
         id="description"
         handleChange={handleDescriptionChange}
+       
       />
 
       <div className="flex justify-end gap-4 mb-4 mt-2">
