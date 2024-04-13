@@ -6,7 +6,7 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/UI/select";
+} from "components/UI/select";
 import { Label } from ".";
 
 type SelectType = {
