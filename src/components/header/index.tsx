@@ -16,7 +16,6 @@ import { useRouter } from "next/router";
 
 export const Header = () => {
   const { user, logout } = useAuth();
-  console.log(user);
   const router = useRouter();
 
   return (
@@ -39,12 +38,12 @@ export const Header = () => {
                   <ul className="flex flex-col gap-3 px-3 py-2 w-full">
                     <li>
                       <NavigationMenuLink asChild>
-                        <a
+                        <Link
                           className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-2 no-underline outline-none focus:shadow-md hover:bg-[#EFF1F4]"
                           href="/"
                         >
                           Profile
-                        </a>
+                        </Link>
                       </NavigationMenuLink>
                     </li>
                     <li>

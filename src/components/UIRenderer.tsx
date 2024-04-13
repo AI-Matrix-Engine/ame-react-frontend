@@ -89,7 +89,7 @@ export const UIRenderer = ({ element, onChange, field }: any) => {
           {element?.source_params?.options.map(
             (item: { id: string; value: string; label: string }) => {
               return (
-                <div className="flex items-center space-x-2">
+                <div className="flex items-center space-x-2" key={item.id}>
                   <Checkbox
                     key={item.id}
                     id={item.id}
@@ -115,6 +115,7 @@ export const UIRenderer = ({ element, onChange, field }: any) => {
               return (
                 <RadioGroup
                   name={"radio"}
+                  key={item.id}
                   defaultValue={"option_1"}
                   onChange={(e: React.FormEvent<HTMLButtonElement>) => {
                     handleChangeValue((e.target as HTMLButtonElement).value);

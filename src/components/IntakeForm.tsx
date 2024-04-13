@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { JsonDataType } from "./JsonData";
 import { UIRenderer } from "./UIRenderer";
-// @ts-ignore
 import { MinusCircle } from "lucide-react";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
@@ -20,7 +19,6 @@ export const IntakeForm = ({
   customFields,
   onDelete,
   handleChange,
-  className,
   isShowSubmit = true,
 }: Props) => {
   const [hoveredIndex, setHoveredIndex] = useState(-1);

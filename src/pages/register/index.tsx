@@ -4,7 +4,6 @@ import type { NextPage } from "next";
 import { useRouter } from "next/router";
 import { Layout } from "layouts";
 import { useAuth } from "context/AuthContext";
-import { toast } from 'react-toastify';
 
 const Register: NextPage = () => {
   const [fname, setFname] = useState<string>("");
@@ -57,7 +56,6 @@ const Register: NextPage = () => {
         await register(fname, lname, email, password);
         await logout();
         await router.push("/login");
-        toast.success("Successfully registered!");
       } catch (error) {
         console.log(error);
       }

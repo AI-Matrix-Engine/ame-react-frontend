@@ -17,7 +17,7 @@ export default class CustomDocument extends Document {
           <meta name="title" content="Weather Dashboard" />
           <meta
             name="description"
-            content="Weather dashboard using Next.js and Tailwind CSS, where users can search for a city and view its current weather conditions."
+            content="Aimatrix-frontend using Next.js and Tailwind CSS"
             key="desc"
           />
           <meta name="keywords" content="weather" />

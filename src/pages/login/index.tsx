@@ -5,7 +5,6 @@ import Link from "next/link";
 import { Layout } from "layouts";
 import { useRouter } from "next/router";
 import { useAuth } from "../../context/AuthContext";
-import { toast } from 'react-toastify';
 
 
 const Login: NextPage = () => {
@@ -40,7 +39,6 @@ const Login: NextPage = () => {
       try {
         await login(email, password);
         await router.push("/");
-        toast.success("Successfully logged in!");
       } catch (error) {
         console.log(error);
       }

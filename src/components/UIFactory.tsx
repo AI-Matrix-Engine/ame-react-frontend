@@ -1,5 +1,4 @@
 "use client";
-// @ts-nocheck
 import React, { useState } from "react";
 import { variables, JsonDataType } from "../components/JsonData";
 import { UIRenderer } from "../components/UIRenderer";
@@ -9,7 +8,6 @@ import { IntakeForm } from "../components/IntakeForm";
 import { Button } from "../components/UI";
 import { Minus } from "lucide-react";
 
-type UIFactoryState = JsonDataType & { value: string };
 export const UIFactory = () => {
   const [UIData, setUIData] = useState(
     variables.map((element: any) => ({ ...element, value: "" }))
@@ -35,9 +33,6 @@ export const UIFactory = () => {
     );
 
     setUIData(updatedData as any);
-  };
-  const handleRendering = (element: JsonDataType) => {
-    return <UIRenderer element={{ ...element }} onChange={handleChange} />;
   };
 
   const handleUiElements = (element: JsonDataType) => {

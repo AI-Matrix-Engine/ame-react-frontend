@@ -1,5 +1,4 @@
 "use client";
-import { ChevronRightIcon } from "@heroicons/react/24/outline";
 import { CaretRightIcon } from "@radix-ui/react-icons";
 import { SidebarExpandedView } from "./SidebarExpandedView";
 import { PrimarySidebarCollapsedContent } from "./PrimarySidebarCollapsedContent";
@@ -28,8 +27,6 @@ type LeftNavbarProps = {
   onExpand: (id: number) => void;
   opacity: boolean;
 };
-
-const ID = "2";
 
 export const LeftNavbar = ({ details, onExpand, opacity }: LeftNavbarProps) => {
   const { id, toggle, title, hover } = details;

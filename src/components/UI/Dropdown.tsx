@@ -25,7 +25,6 @@ export const Dropdown = ({
   onClick,
   options = [],
   placeHolder,
-  value,
   ...rest
 }: Props) => {
   const handleChange = (value: string) => {

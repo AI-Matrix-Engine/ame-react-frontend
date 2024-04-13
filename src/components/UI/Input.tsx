@@ -4,10 +4,6 @@ import { cn } from "../../lib/utils";
 import { JsonDataType } from "../JsonData";
 import { Label } from "./label";
 
-type DefaultOnChange = React.ChangeEventHandler<HTMLInputElement>;
-
-type CustomOnChange = (value: string) => void;
-type CombinedOnChange = DefaultOnChange | CustomOnChange;
 export interface InputProps
   extends Omit<React.InputHTMLAttributes<HTMLInputElement>, "onChange"> {
   element?: string | JsonDataType;

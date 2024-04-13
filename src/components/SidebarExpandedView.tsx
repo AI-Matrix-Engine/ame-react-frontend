@@ -1,11 +1,6 @@
 "use client";
 import { ArrowsRightLeftIcon } from "@heroicons/react/24/outline";
-import {
-  CaretRightIcon,
-  CaretLeftIcon,
-  DividerVerticalIcon,
-} from "@radix-ui/react-icons";
-import React, { useState } from "react";
+import React from "react";
 import { NavigationBar } from "./NavigationBar";
 
 type SidebarExpandedViewProp = {
@@ -18,7 +13,6 @@ type SidebarExpandedViewProp = {
 export const SidebarExpandedView = ({
   id,
   title,
-  toggle,
   onExpand,
   opacity,
 }: SidebarExpandedViewProp) => {

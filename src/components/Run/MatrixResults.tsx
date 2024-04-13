@@ -25,7 +25,7 @@ export const MatrixResults = () => {
         Enter Custom Values
         </p> 
       <p className="mb-4" id="recipeDescription">
-        You'll see your results here...
+        {`You'll see your results here.`}
       </p>
       <div className="flex flex-wrap w-full" id="allResultsRow">
         <Tabs defaultValue={tabData[0].value} className="w-full">
