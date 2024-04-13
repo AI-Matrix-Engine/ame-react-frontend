@@ -5,6 +5,7 @@ import Link from "next/link";
 import { Layout } from "layouts";
 import { useRouter } from "next/router";
 import { useAuth } from "../../context/AuthContext";
+import { toast } from "react-toastify";
 
 
 const Login: NextPage = () => {
@@ -40,7 +41,7 @@ const Login: NextPage = () => {
         await login(email, password);
         await router.push("/");
       } catch (error) {
-        console.log(error);
+        toast.error("Invalid credential");
       }
     }
   }
