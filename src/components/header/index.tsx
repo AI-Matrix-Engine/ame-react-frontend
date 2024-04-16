@@ -13,14 +13,16 @@ import { Avatar, AvatarFallback, AvatarImage } from "components/UI/avatar";
 import Link from "next/link";
 import { useAuth } from "context/AuthContext";
 import { useRouter } from "next/router";
+import Image from "next/image";
+import Logo from "assets/img/logo.png";
 
 export const Header = () => {
   const { user, logout } = useAuth();
   const router = useRouter();
 
   return (
-    <div className="flex py-1 px-4 bg-[#252b36] items-center justify-center h-[64px]">
-      <h2 className="flex-1 text-2xl text-white font-arimo font-semibold">AIDRM</h2>
+    <div className="flex py-1 px-4 bg-[#252b36] items-center justify-between h-[64px] font-poppins">
+      <Image src={Logo} draggable={false} width={50} height={50} alt='logo' className="cursor-pointer"/>
 
       <div className="flex">
         {user ? (

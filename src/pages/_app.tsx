@@ -1,10 +1,11 @@
 import type { AppProps } from "next/app";
 import { useRouter } from "next/router";
 import "styles/globals.css";
+import "styles/phone-number.style.css";
 import { AuthProvider } from "context/AuthContext";
 import ProtectedRoute from "components/ProtectedRoute";
 
-const protectedRoutes = ["/dashboard"];
+const protectedRoutes = ["/dashboard", "/"];
 
 function MyApp({ Component, pageProps }: AppProps) {
   const router = useRouter();
