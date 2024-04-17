@@ -36,7 +36,7 @@ import {
   PaginationPrevious,
 } from "@/components/UI/pagination";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/UI/Tabs";
-import { Separator } from "@/components/UI/Separator";
+import { Separator } from "@/components/UI/separator";
 import { Button } from "../UI/Button";
 import { Input } from "../UI";
 import { DataTable } from "./DataTable";
@@ -133,7 +133,7 @@ export const Playground = () => {
         <Label htmlFor="airplane-mode">Airplane Mode</Label>
       </div>
       <div>
-        <h4 className="text-sky-400 text-center">Combobox</h4>
+        <h4 className="text-sky-400 text-center">combobox</h4>
         <ComboboxDemo />
       </div>
       <div>

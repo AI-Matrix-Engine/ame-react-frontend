@@ -4,26 +4,72 @@ import { MapIcon, MagnifyingGlassIcon, DocumentDuplicateIcon, ChatBubbleBottomCe
 import { faWordpress, faFontAwesome, faShopify, } from '@fortawesome/free-brands-svg-icons'
 
 export const menuItems = [
-  // {
-  //   category: "App Name Here",
-  //   items: [
-  //     {
-  //       itemCategory: "AI Prolog",
-  //       icon:   <PersonIcon className="h-4 w-4 text-white" />,
-  //     },
-  //     {
-  //       itemCategory: "Carry",
-  //       icon:   <PersonIcon className="h-4 w-4 text-white" />
-  //       ,
-  //     },
-  //   ],
-  // },
   {
-    category: "Intellegence Engin",
+    category: "App Name Here",
+    items: [
+      {
+        itemCategory: "Matrix Workbench",
+        icon:   <PersonIcon className="h-4 w-4 text-white" />,
+        route: "/create"
+      },
+      {
+        itemCategory: "Direct AI Caller",
+        icon:   <PersonIcon className="h-4 w-4 text-white" />
+        ,
+      },
+      {
+        itemCategory: "AI Recipe Caller",
+        icon:   <PersonIcon className="h-4 w-4 text-white" />
+        ,
+      },
+    ],
+  },
+  {
+    category: "Intelligence Engine",
 
     items: [
       {
-        itemCategory: "AI API",
+        itemCategory: "Matrix Apps",
+        icon: <PersonIcon className="h-4 w-4 text-white" />,
+        itemSubMenu: [{ name: "Create", route: "/create" }, { name: "Run", route: "/run" }, { name: "Manage", route: "/manage" }, { name: "Admin", route: "/admin" },{name:"Login",route:"/login"},{name:"Signup",route:"/signup"}],
+      },
+    ],
+  },
+];
+/*
+// Old menu:
+import { PersonIcon, ButtonIcon } from "@radix-ui/react-icons";
+import { FontAwesomeIcon, } from "@fortawesome/react-fontawesome";
+import { MapIcon, MagnifyingGlassIcon, DocumentDuplicateIcon, ChatBubbleBottomCenterIcon, Bars3Icon } from "@heroicons/react/24/outline";
+import { faWordpress, faFontAwesome, faShopify, } from '@fortawesome/free-brands-svg-icons'
+
+export const menuItems = [
+  {
+    category: "App Name Here",
+    items: [
+      {
+        itemCategory: "Matrix Workbench",
+        icon:   <PersonIcon className="h-4 w-4 text-white" />,
+        route: "/create"
+      },
+      {
+        itemCategory: "Direct AI Caller",
+        icon:   <PersonIcon className="h-4 w-4 text-white" />
+        ,
+      },
+      {
+        itemCategory: "AI Recipe Caller",
+        icon:   <PersonIcon className="h-4 w-4 text-white" />
+        ,
+      },
+    ],
+  },
+  {
+    category: "Intelligence Engine",
+
+    items: [
+      {
+        itemCategory: "Matrix Apps",
         icon: <PersonIcon className="h-4 w-4 text-white" />,
         itemSubMenu: [{ name: "Create", route: "/create" }, { name: "Run", route: "/run" }, { name: "Manage", route: "/manage" }, { name: "Admin", route: "/admin" },{name:"Login",route:"/login"},{name:"Signup",route:"/signup"}],
       },
@@ -203,3 +249,5 @@ export const menuItems = [
   //   ],
   // },
 ];
+
+ */

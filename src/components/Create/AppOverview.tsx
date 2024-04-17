@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Dropdown, Label, Textarea } from "../UI";
-import { Combobox } from "../UI/Combobox";
+import { ComboBox } from "../UI/combobox";
 
 const apiProviders = [
   { label: "Choose the AI API to use...", value: "0" },
@@ -89,14 +89,8 @@ export const AppOverview = ({ handleAppOverViewChange }: Props) => {
     <div id="recipeOverviewContainer" className="mt-2 mb-4">
       <div className="w-full">
         <div>
-          <label
-            htmlFor="recipeDescriptionText"
-            className="block text-sm font-medium text-gray-700"
-          >
-            AI App Description
-          </label>
           <Textarea
-            placeholder="Enter a description for your recipe..."
+            placeholder="Describe your app..."
             id="recipeDescriptionText"
             name="textareaRecipeDescription"
             value={aiDescription}
@@ -108,8 +102,7 @@ export const AppOverview = ({ handleAppOverViewChange }: Props) => {
       </div>
       <div>
         <div className="mt-2">
-          <Label className="mb-2">API Provider</Label>
-          <Combobox
+          <ComboBox
             placeHolder="API Provider"
             options={apiProviders || []}
             onClick={(value: string) => setApiProviderSelectedValue(value)}
@@ -117,8 +110,7 @@ export const AppOverview = ({ handleAppOverViewChange }: Props) => {
           />
         </div>
         <div className="mt-2">
-          <Label className="mb-2">Specific Endpoint</Label>
-          <Combobox
+          <ComboBox
             placeHolder="API Endpoint"
             options={apiEndpoints || []}
             onClick={(value: string) => setApiEndpointSelectedValue(value)}
@@ -126,23 +118,20 @@ export const AppOverview = ({ handleAppOverViewChange }: Props) => {
           />
         </div>
         <div className="mt-2">
-          <Label className="mb-2">Specific AI Model</Label>
-          <Combobox
-            placeHolder="Specific AI Model"
+          <ComboBox
+            placeHolder="AI Model"
             options={aiModels || []}
             onClick={(value: string) => setAiModelSelectedValue(value)}
             value={aiModelSelectedValue}
           />
         </div>
         <div>
-          <Label className="mb-2">Configuration</Label>
-          <Combobox
-             placeHolder="Configuration"          
-             onClick={(value:string)=>setConfigurationSelectedValue(value)}
-             options={configurations || []}
-             value={configurationSelectedValue}
+          <ComboBox
+              placeHolder="Configuration"
+              onClick={(value: string) => setConfigurationSelectedValue(value)}
+              options={configurations || []}
+              value={configurationSelectedValue}
           />
-
           {/* <Dropdown
             placeHolder="Configuration"
             value={configurationSelectedValue}

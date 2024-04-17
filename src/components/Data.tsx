@@ -14,7 +14,7 @@ export const menuItems = [
     ],
   },
   {
-    category: "Intellegence Engin",
+    category: "Intelligence Engine - From Components",
 
     items: [
       {

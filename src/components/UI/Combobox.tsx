@@ -21,7 +21,7 @@ value:string;
 placeHolder:string
 
 };
-export function Combobox({ options,onClick,value,placeHolder }: ComboboxTypes) {
+export function ComboBox({ options,onClick,value,placeHolder }: ComboboxTypes) {
   const [open, setOpen] = React.useState(false);
   const [inputValue, setInputValue] = React.useState("");
 
@@ -81,7 +81,7 @@ export function Combobox({ options,onClick,value,placeHolder }: ComboboxTypes) {
 
 // type Framework = Record<"value" | "label", string>;
 
-// export function Combobox({ options, value, setValue, multipleSelection }:any) {
+// export function combobox({ options, value, setValue, multipleSelection }:any) {
 //   const inputRef = React.useRef<HTMLInputElement>(null);
 //   const [open, setOpen] = React.useState(false);
 //   const [selected, setSelected] = React.useState([]);

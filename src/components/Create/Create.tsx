@@ -3,7 +3,7 @@ import React, { useMemo, useState } from "react";
 import { Input, Button, Dropdown, Label } from "../UI";
 import { AddCategory, AppOverview, AIConversationSettings } from ".";
 import { AIModelSpecifications } from "./AIModelSpecifications";
-import { Combobox } from "../UI/Combobox";
+import { ComboBox } from "../UI/combobox";
 
 type SelectType = {
   label: string;
@@ -139,8 +139,8 @@ const categoryList = [
 ];
 
 const PAGE_TITLE = "Create Matrix Recipes";
-const APP_IINPUT_LABEL = "AI App Name";
-const APP_INPUT_PLACEHOLDER = "Write your App Name here...";
+//const APP_INPUT_LABEL = "AI App Name";
+const APP_INPUT_PLACEHOLDER = "App name...";
 
 const NEW_CATEGORY_TITLE = "Add Category";
 const NEW_CATEGORY_INPUT_LABEL = "New Category Name";
@@ -244,13 +244,13 @@ export const Create = () => {
 
   const handleCategoryChange = (value: string) => {
     const filteredCategory = categories.find(
-      (category: SelectType) => category.value == value
+        (category: SelectType) => category.value == value
     );
-    const filteredSubcatories = filteredCategory?.subCategories;
+    const filteredSubcategories = filteredCategory?.subCategories;
     setCategorySelectedValue(value);
-    filteredSubcatories &&
-      filteredSubcatories.length &&
-      setSubCategories(filteredSubcatories);
+    filteredSubcategories &&
+    filteredSubcategories.length &&
+    setSubCategories(filteredSubcategories);
   };
 
   const handleNewCategory = (newCategory: any) => {
@@ -291,11 +291,11 @@ export const Create = () => {
 
   const isShowAiModelSpecifications = useMemo(() => {
     if (
-      appOverView?.aiDescription &&
-      appOverView?.apiProviderSelectedValue &&
-      appOverView?.apiEndpointSelectedValue &&
-      appOverView?.aiModelSelectedValue &&
-      appOverView?.configurationSelectedValue
+        appOverView?.aiDescription &&
+        appOverView?.apiProviderSelectedValue &&
+        appOverView?.apiEndpointSelectedValue &&
+        appOverView?.aiModelSelectedValue &&
+        appOverView?.configurationSelectedValue
     ) {
       return true;
     } else {
@@ -304,76 +304,72 @@ export const Create = () => {
   }, [appOverView]);
 
   return (
-    <div className="p-6">
-      <h2 className="text-4xl font-extrabold dark:text-white mb-8 text-center">
-        {PAGE_TITLE}
-      </h2>
+      <div className="p-6">
+        <h2 className="text-4xl font-extrabold dark:text-white mb-8 text-center">
+          {PAGE_TITLE}
+        </h2>
 
-      <Label htmlFor="text" className="mb-2">
-        {APP_IINPUT_LABEL}
-      </Label>
+        <Input type="input" placeholder={APP_INPUT_PLACEHOLDER} id="link" />
 
-      <Input type="input" placeholder={APP_INPUT_PLACEHOLDER} id="link" />
+        <div className="flex justify-between items-end gap-4 mb-4 mt-2">
 
-      <div className="flex justify-between items-end gap-4 mb-4 mt-2">
-    
-      <Combobox
-            placeHolder="Category"
-            options={categories || []}
-            onClick={(value: string) => handleCategoryChange(value)}
-            value={categorySelectedValue}
+          <ComboBox
+              placeHolder="Category"
+              options={categories || []}
+              onClick={(value: string) => handleCategoryChange(value)}
+              value={categorySelectedValue}
           />
 
-        {/* <Dropdown
+          {/* <Dropdown
           placeHolder="Category"
           value={categorySelectedValue}
           onClick={(value: string) => handleCategoryChange(value)}
           options={categories}
         /> */}
-        <Button onClick={() => setToggleAddCategory(TOGGLE_ADD_CATEGORY_VALUE)}>
-          {ADD_CATEGORY_BTN}
-        </Button>
-      </div>
-
-      {categorySelectedValue ? (
-        <div className="flex justify-between items-end gap-4 mb-4 mt-2">
-          
-          <Combobox
-            placeHolder="Sub Category"
-            options={subCategories || []}
-            onClick={(value: string) => setSubCategorySelectedValue(value)}
-            value={subCategorySelectedValue}
-          />
-          <Button
-            onClick={() => setToggleAddCategory(TOGGLE_ADD_SUB_CATEGORY_VALUE)}
-          >
-            {ADD_SUB_CATEGORY_BTN}
+          <Button onClick={() => setToggleAddCategory(TOGGLE_ADD_CATEGORY_VALUE)}>
+            {ADD_CATEGORY_BTN}
           </Button>
         </div>
-      ) : undefined}
 
-      {toggleAddCategory === TOGGLE_ADD_CATEGORY_VALUE && (
-        <AddCategory
-          {...NEW_CATEGORY_PROPS}
-          handleNewCategory={handleNewCategory}
-          onCancel={() => setToggleAddCategory("")}
-        />
-      )}
+        {categorySelectedValue ? (
+            <div className="flex justify-between items-end gap-4 mb-4 mt-2">
 
-      {toggleAddCategory === TOGGLE_ADD_SUB_CATEGORY_VALUE && (
-        <AddCategory
-          {...NEW_SUB_CATEGORY_PROPS}
-          handleNewCategory={handleNewSubCategory}
-          onCancel={() => setToggleAddCategory("")}
-        />
-      )}
-      {subCategorySelectedValue ? (
-        <AppOverview handleAppOverViewChange={handleAppOverViewChange} />
-      ) : undefined}
+              <ComboBox
+                  placeHolder="Sub Category"
+                  options={subCategories || []}
+                  onClick={(value: string) => setSubCategorySelectedValue(value)}
+                  value={subCategorySelectedValue}
+              />
+              <Button
+                  onClick={() => setToggleAddCategory(TOGGLE_ADD_SUB_CATEGORY_VALUE)}
+              >
+                {ADD_SUB_CATEGORY_BTN}
+              </Button>
+            </div>
+        ) : undefined}
 
-      {isShowAiModelSpecifications && <AIModelSpecifications />}
+        {toggleAddCategory === TOGGLE_ADD_CATEGORY_VALUE && (
+            <AddCategory
+                {...NEW_CATEGORY_PROPS}
+                handleNewCategory={handleNewCategory}
+                onCancel={() => setToggleAddCategory("")}
+            />
+        )}
 
-      {isShowAiModelSpecifications && <AIConversationSettings />}
-    </div>
+        {toggleAddCategory === TOGGLE_ADD_SUB_CATEGORY_VALUE && (
+            <AddCategory
+                {...NEW_SUB_CATEGORY_PROPS}
+                handleNewCategory={handleNewSubCategory}
+                onCancel={() => setToggleAddCategory("")}
+            />
+        )}
+        {subCategorySelectedValue ? (
+            <AppOverview handleAppOverViewChange={handleAppOverViewChange} />
+        ) : undefined}
+
+        {isShowAiModelSpecifications && <AIModelSpecifications />}
+
+        {isShowAiModelSpecifications && <AIConversationSettings />}
+      </div>
   );
 };
