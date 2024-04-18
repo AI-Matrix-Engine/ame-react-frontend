@@ -8,18 +8,7 @@ import {
   SelectValue,
 } from "@/components/UI/select";
 import { Label } from ".";
-
-type SelectType = {
-  label: string;
-  value: string;
-};
-
-type Props = {
-  onClick?: (value: string) => void;
-  options: SelectType[];
-  placeHolder?: string;
-  value?: string;
-};
+import { iDropDownProps } from "@/utils/types";
 
 export const Dropdown = ({
   onClick,
@@ -27,7 +16,7 @@ export const Dropdown = ({
   placeHolder,
   value,
   ...rest
-}: Props) => {
+}: iDropDownProps) => {
   const handleChange = (value: string) => {
     onClick?.(value);
   };

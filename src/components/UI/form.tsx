@@ -11,19 +11,13 @@ import {
 } from "react-hook-form"
 
 import { cn } from "@/lib/utils"
-import { Label } from "@/components/UI/Label"
+import { Label } from "@/components/UI/label"
+import { iFormFieldContextValue, iFormItemContextValue } from "@/utils/types"
 
 const Form = FormProvider
 
-type FormFieldContextValue<
-  TFieldValues extends FieldValues = FieldValues,
-  TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>
-> = {
-  name: TName
-}
-
-const FormFieldContext = React.createContext<FormFieldContextValue>(
-  {} as FormFieldContextValue
+const FormFieldContext = React.createContext<iFormFieldContextValue>(
+  {} as iFormFieldContextValue
 )
 
 const FormField = <
@@ -62,12 +56,10 @@ const useFormField = () => {
   }
 }
 
-type FormItemContextValue = {
-  id: string
-}
 
-const FormItemContext = React.createContext<FormItemContextValue>(
-  {} as FormItemContextValue
+
+const FormItemContext = React.createContext<iFormItemContextValue>(
+  {} as iFormItemContextValue
 )
 
 const FormItem = React.forwardRef<

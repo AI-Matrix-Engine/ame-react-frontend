@@ -5,33 +5,10 @@ import {
   ChevronRightIcon,
 } from "@heroicons/react/24/outline";
 import { NavigationBar } from "./NavigationBar";
+import { iLeftNavbarProps } from "@/utils/types";
 
-type navItem = {
-  name: string;
-  path: string;
-};
-
-type styleType = {
-  width: string;
-};
-
-type leftSideBarType = {
-  id: string;
-  navItems: navItem[];
-  expandedStyles: styleType;
-  collapsedStyles: styleType;
-  toggle: boolean;
-  title: string;
-  hover: any;
-};
- 
-type LeftNavbarProps = {
-  details: leftSideBarType;
-  onHandle: (id: string) => void;
-};
-
-export const LeftNavbar = ({ details, onHandle }: LeftNavbarProps) => {
-  const { id, navItems, toggle, title, hover } = details;
+export const LeftNavbar = ({ details, onHandle }: iLeftNavbarProps) => {
+  const { id, toggle, title, hover } = details;
   
   if (toggle || (id === "1" && hover)) {
     return (
@@ -105,17 +82,3 @@ export const LeftNavbar = ({ details, onHandle }: LeftNavbarProps) => {
     </div>
   );
 };
-// {menuItems.map((menuItem, index) => {
-//   console.log("menuItems: ", menuItem.items);
-//   return (
-//     <div key={index}>
-//      {menuItems.map((menuItem, index) => (
-//   <div key={index}>
-//     {menuItem.items.map((icon, iconIndex) => (
-//       <div key={iconIndex} className="mb-12 ">{icon.icon}</div>
-//     ))}
-//   </div>
-// ))}
-//     </div>
-//   );
-// })}

@@ -1,19 +1,11 @@
 import React, { useState } from "react";
-import { JsonDataType } from "./JsonData.";
 import { UIRenderer } from "./UIRenderer";
 import { MinusCircle } from "lucide-react";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button, Form, FormField, FormMessage  } from "../UI";
-
-type Props = {
-  customFields: JsonDataType[];
-  onDelete: (id: string) => void;
-  handleChange: (element: JsonDataType) => void;
-  className?: string;
-  isShowSubmit?: boolean;
-};
+import { iIntakeFormDesktopProps } from "@/utils/types";
 
 export const IntakeForm = ({
   customFields,
@@ -21,7 +13,7 @@ export const IntakeForm = ({
   handleChange,
   className,
   isShowSubmit = true,
-}: Props) => {
+}: iIntakeFormDesktopProps) => {
   const [hoveredIndex, setHoveredIndex] = useState(-1);
 
   const customFieldsSchema = z.object(

@@ -1,37 +1,12 @@
 "use client";
-import { ChevronRightIcon } from "@heroicons/react/24/outline";
-import { CaretRightIcon } from "@radix-ui/react-icons";
+
 import { SidebarExpandedView } from "./SidebarExpandedView";
 import { PrimarySidebarCollapsedContent } from "./PrimarySidebarCollapsedContent";
+import { FaChevronRight } from "react-icons/fa";
 
-type navItem = {
-  name: string;
-  path: string;
-};
+import { iLeftNavbarProps } from "@/utils/types";
 
-type styleType = {
-  width: string;
-};
-
-type leftSideBarType = {
-  id: number;
-  navItems: navItem[];
-  expandedStyles: styleType;
-  collapsedStyles: styleType;
-  toggle: boolean;
-  title: string;
-  hover: boolean;
-};
-
-type LeftNavbarProps = {
-  details: leftSideBarType;
-  onExpand: (id: number) => void;
-  opacity: boolean;
-};
-
-const ID = "2";
-
-export const LeftNavbar = ({ details, onExpand, opacity }: LeftNavbarProps) => {
+export const LeftNavbar = ({ details, onExpand, opacity }: iLeftNavbarProps) => {
   const { id, toggle, title, hover } = details;
   if (toggle || (id === 1 && hover)) {
     return (
@@ -55,7 +30,7 @@ export const LeftNavbar = ({ details, onExpand, opacity }: LeftNavbarProps) => {
         onClick={() => onExpand(id)}
         className={`absolute top-[50%] ${id === 1 && "left-[50%]"}  `}
       >
-        <CaretRightIcon className="h-6 w-6 text-black" />
+        <FaChevronRight />
       </button>
     </div>
   );

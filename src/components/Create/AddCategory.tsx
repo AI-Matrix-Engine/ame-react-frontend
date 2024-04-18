@@ -1,12 +1,6 @@
 import React from "react";
 import { Textarea, Input, Label, Button } from "../UI";
-
-type Props = {
-  title: string;
-  inputLabel: string;
-  handleNewCategory: (category: { label: string; description: string }) => void;
-  onCancel: () => void;
-};
+import { iAddCategoryProps } from "@/utils/types";
 
 const TEXTAREA_PLACEHOLDER = "Write your description here...";
 const INPUT_CATEGORY_NAME = "Write your category name here...";
@@ -16,7 +10,7 @@ export const AddCategory = ({
   inputLabel,
   handleNewCategory,
   onCancel,
-}: Props) => {
+}: iAddCategoryProps) => {
   const [category, setCategory] = React.useState({
     label: "",
     description: "",

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Button, Textarea } from "../UI";
 import { RightPane } from "../Home/RightPane";
-import { JsonDataType } from "../Home/JsonData.";
+import { JsonDataType, UserAssistantFields } from "@/utils/types";
 import { generateUUID } from "@/lib/utils";
 import { IntakeForm } from "../Home/IntakeForm";
 import { MinusCircle } from "lucide-react";
@@ -27,11 +27,6 @@ const defaultUserAssistantFields = {
   },
 };
 
-type UserAssistantFields = {
-  user: JsonDataType;
-  assistant: JsonDataType;
-  UUID: string;
-};
 
 export const AIConversationSettings = () => {
   const [customFields, setCustomFields] = useState<JsonDataType[]>([]);

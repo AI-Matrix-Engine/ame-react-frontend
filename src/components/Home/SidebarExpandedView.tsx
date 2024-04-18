@@ -1,27 +1,15 @@
 "use client";
-import { ArrowsRightLeftIcon } from "@heroicons/react/24/outline";
-import {
-  CaretRightIcon,
-  CaretLeftIcon,
-  DividerVerticalIcon,
-} from "@radix-ui/react-icons";
-import React, { useState } from "react";
+import React from "react";
 import { NavigationBar } from "./NavigationBar";
+import { iSidebarExpandedViewProp } from "@/utils/types";
 
-type SidebarExpandedViewProp = {
-  id: number;
-  title: string;
-  toggle: boolean;
-  onExpand: (id: number) => void;
-  opacity: boolean;
-};
 export const SidebarExpandedView = ({
   id,
   title,
   toggle,
   onExpand,
   opacity,
-}: SidebarExpandedViewProp) => {
+}: iSidebarExpandedViewProp) => {
   return (
     <div>
       <div className={`max-h-full  `}>
@@ -37,20 +25,6 @@ export const SidebarExpandedView = ({
           >
             {title}
           </h5>
-          <button
-            className={` ${id === 1 && "bg-[#51555e]"}    ${
-             id ===2 &&  opacity && "opacity-50"
-            } rounded-full p-2`}
-            onClick={() => {
-              onExpand(id);
-            }}
-          >
-            <ArrowsRightLeftIcon
-              className={`h-4 w-4 ${
-                id === 1 ? "text-white" : "text-black"
-              }    ${id===2 && opacity && "opacity-50"} flex justify-end`}
-            />
-          </button>
         </div>
         <NavigationBar
           textColor={

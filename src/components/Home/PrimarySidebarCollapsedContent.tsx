@@ -1,17 +1,12 @@
 import { ArrowsRightLeftIcon } from "@heroicons/react/24/outline";
 import React from "react";
 import { NavigationBar } from "./NavigationBar";
+import { iPrimarySidebarCollapsedContentProps } from "@/utils/types";
 
-type PrimarySidebarCollapsedContentProps = {
-  id: number;
-  onExpand: (id: number) => void;
- 
-};
 export const PrimarySidebarCollapsedContent = ({
   id,
   onExpand,
-
-}: PrimarySidebarCollapsedContentProps) => {
+}: iPrimarySidebarCollapsedContentProps) => {
   return (
     <div className="max-h-full ">
       <div className={`flex justify-center ml-2 items-center mb-8 mt-8 `}>

@@ -1,7 +1,6 @@
 "use client";
 import React, { useState, useCallback, ReactNode } from "react";
 import { Header } from "./Header";
-import { LeftNavbar } from "./LeftNavbar";
 import {
   Sheet,
   SheetContent,
@@ -17,24 +16,7 @@ import {
   EnvelopeIcon,
 } from "@heroicons/react/24/outline";
 import { PersonIcon, ChatBubbleIcon } from "@radix-ui/react-icons";
-import { RightNavbar } from "./RightNavbar";
-
-type navItem = {
-  name: string;
-  path: string;
-};
-type styleType = {
-  width: string;
-};
-type leftSideBarType = {
-  id: string;
-  navItems: navItem[];
-  expandedStyles: styleType;
-  collapsedStyles: styleType;
-  toggle: boolean;
-  hover: boolean;
-  title: string;
-};
+import { iLeftSideBarType } from "@/utils/types";
 
 const mostLeftNavItems = [
   {
@@ -70,7 +52,7 @@ const leftNavItems = [
     icon: <PersonIcon className="h-4 w-4 text-black" />,
   },
 ];
-const leftSideBars: leftSideBarType[] = [
+const leftSideBars: iLeftSideBarType[] = [
   {
     id: "1",
     navItems: mostLeftNavItems,
@@ -95,7 +77,7 @@ export const Main = ({ children }: {children: ReactNode}) => {
   const [sideBars, setSideBars] = useState(leftSideBars);
   console.log("Its really getting into page.");
   const handleNavigation = (id: string) => {
-    const updatedSideBars = sideBars.map((sideBar: leftSideBarType) => {
+    const updatedSideBars = sideBars.map((sideBar: iLeftSideBarType) => {
       if (sideBar.id === id) sideBar.toggle = !sideBar.toggle;
       if (sideBar.id === "1") {
         setSideBars((prev) => {
@@ -152,7 +134,7 @@ export const Main = ({ children }: {children: ReactNode}) => {
     <div className="flex h-screen flex-col">
       <Header />
       <div className="flex relative h-full ">
-        {sideBars.map((sideBar: leftSideBarType) => (
+        {sideBars.map((sideBar: iLeftSideBarType) => (
           <div
             onMouseEnter={() => handleMouseEvent(sideBar.id, true)}
             onMouseLeave={() => handleMouseEvent(sideBar.id, false)}

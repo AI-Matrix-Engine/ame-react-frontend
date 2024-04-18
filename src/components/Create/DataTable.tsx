@@ -19,10 +19,10 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/UI/Table";
+} from "@/components/UI/table";
 import { Input } from "../UI";
-import { Label } from "../UI/Label";
-import { Button } from "../UI/Button";
+import { Label } from "../UI/label";
+import { Button } from "../UI/button";
 interface TData  {
   id: string;
   amount: number;

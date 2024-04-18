@@ -1,15 +1,15 @@
 "use client";
 
 import React, { useState } from "react";
-import { variables, JsonDataType } from "./JsonData.";
+import { variables } from "./JsonData.";
 import { UIRenderer } from "./UIRenderer";
 import Link from "next/link";
 import { RightPane } from "./RightPane";
 import { IntakeForm } from "./IntakeForm";
 import { Button } from "../UI";
 import { Minus } from "lucide-react";
+import { JsonDataType } from "@/utils/types";
 
-type UIFactoryState = JsonDataType & { value: string };
 export const UIFactory = () => {
   const [UIData, setUIData] = useState(
     variables.map((element) => ({ ...element, value: "" }))
