@@ -1,12 +1,9 @@
 import React from "react";
-import { JsonDataType, variables } from "./JsonData.";
+import { variables } from "./JsonData.";
 import { Button } from "../UI";
+import { iRightPaneProps } from "@/utils/types";
 
-type Props = {
-  handleUiElements: (item: JsonDataType) => void;
-};
-
-export const RightPane = ({ handleUiElements }: Props) => {
+export const RightPane = ({ handleUiElements }: iRightPaneProps) => {
   return (
     <div className="flex flex-col h-full p-4 bg-gray-200">
       {variables

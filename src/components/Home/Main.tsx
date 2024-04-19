@@ -1,178 +1,121 @@
 "use client";
-import React, { useState, ReactNode } from "react";
+import React, { useState, useEffect } from "react";
 import { Header } from "./Header";
-import { LeftNavbar } from "./LeftNavbar";
-import {
-  PlusIcon,
-  ChatBubbleLeftIcon,
-  EnvelopeIcon,
-} from "@heroicons/react/24/outline";
-import { PersonIcon, ChatBubbleIcon } from "@radix-ui/react-icons";
 import { RightNavbar } from "./RightNavbar";
-import { SecondSidebarToggleButton } from "./SecondSidebarToggleButton";
+import { AuthProvider } from "@/context/AuthContext";
+import { NavigationBar } from "./NavigationBar";
+import { iLeftSidebarExpand, childrenProp } from "@/utils/types";
+import { TbMinusVertical } from "react-icons/tb";
+import { BsChevronCompactRight } from "react-icons/bs";
 
-type navItem = {
-  name: string;
-  path: string;
-};
-type childrenProp = {
-  children: ReactNode;
-};
-type styleType = {
-  width: string;
-};
-type leftSideBarType = {
-  id: number;
-  navItems: navItem[];
-  expandedStyles: styleType;
-  collapsedStyles: styleType;
-  toggle: boolean;
-  hover: boolean;
-  title: string;
-};
 
-const mostLeftNavItems = [
-  {
-    name: "Create",
-    path: "/create",
-    icon: <PlusIcon className="h-4 w-4 text-white" />,
-  },
-  {
-    name: "Run",
-    path: "/run",
-    icon: <PlusIcon className="h-4 w-4 text-white" />,
-  },
-  {
-    name: "Chatbot",
-    path: "/chatbot",
-    icon: <ChatBubbleLeftIcon className="h-4 w-4 text-white" />,
-  },
-];
-const leftNavItems = [
-  {
-    name: "WhatsApp",
-    path: "/create",
-    icon: <ChatBubbleIcon className="h-4 w-4 text-black" />,
-  },
-  {
-    name: "Emails",
-    path: "/run",
-    icon: <EnvelopeIcon className="h-4 w-4 text-black" />,
-  },
-  {
-    name: "Clients",
-    path: "/chatbot",
-    icon: <PersonIcon className="h-4 w-4 text-black" />,
-  },
-];
-const leftSideBars: leftSideBarType[] = [
-  {
-    id: 1,
-    navItems: mostLeftNavItems,
-    expandedStyles: { width: "  w-[300px]" },
-    collapsedStyles: {
-      width: " overflow-x-hidden overflow-y-scroll  max-h-full w-16",
-    },
-    toggle: false,
-    hover: false,
-    title: "Command Center",
-  },
-  {
-    id: 2,
-    navItems: leftNavItems,
-    expandedStyles: { width: "ml-[302px] w-30" },
-    collapsedStyles: { width: "ml-[58px] w-12" },
-    toggle: false,
-    hover: false,
-    title: "Title",
-  },
-];
 
 export const Main = ({ children }: childrenProp) => {
-  const [sideBars, setSideBars] = useState(leftSideBars);
+  const [darkMode, setDarkMode] = useState<boolean>(false);
+  const [isExpand, setIsExpand] = useState<iLeftSidebarExpand>({
+    command: true,
+    app: true,
+  });
 
-  const onExpand = (id: number) => {
-    const updatedSideBars = sideBars.map((sideBar: leftSideBarType) => {
-      if (sideBar.id === id) sideBar.toggle = !sideBar.toggle;
-      if (sideBar.id === 1) {
-        setSideBars((prev) => {
-          if (sideBar.toggle) {
-            prev[1].expandedStyles.width = "ml-[302px] w-30";
-            prev[1].collapsedStyles.width = "ml-[298px] w-12";
-          } else {
-            prev[1].expandedStyles.width = "ml-[58px] w-30";
-            prev[1].collapsedStyles.width = "ml-[58px] w-12";
-            prev[0].hover = false;
-          }
-          return [...prev];
-        });
-      } else {
-        setSideBars((prev) => {
-          prev[0].toggle
-            ? (prev[1].collapsedStyles.width = "ml-[302px] w-12")
-            : (prev[1].collapsedStyles.width = "ml-[58px] w-12");
+  useEffect(() => {
+    const isDark = localStorage.getItem("darkMode") === "true";
+    setDarkMode(isDark);
+  }, []);
 
-          return [...prev];
-        });
-      }
-      return sideBar;
-    });
-    setSideBars(updatedSideBars);
-  };
-  const handleMouseEvent = (id: number, hover: boolean) => {
-    const updatedSideBars = sideBars.map((item) => {
-      if (item.id === 1 && id === 1) {
-        item.hover = hover;
-      }
-      return { ...item };
-    });
-    setSideBars(updatedSideBars);
-  };
-
-  const [opacity, setOpacity] = useState(false);
-  const handleMouseEventButton = (opacity: boolean) => {
-    setOpacity(opacity);
-  };
+  useEffect(() => {
+    localStorage.setItem("darkMode", darkMode.toString());
+    if (darkMode) {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+    }
+  }, [darkMode]);
 
   return (
-    <div className="flex h-screen flex-col">
-      <Header />
-      <div className="flex relative h-full  overflow-x-hidden overflow-y-hidden    ">
-        {sideBars.map((sideBar: leftSideBarType) => (
-          <div
-            id="scrollableDiv"
-            onMouseEnter={() => handleMouseEvent(sideBar.id, true)}
-            onMouseLeave={() => handleMouseEvent(sideBar.id, false)}
-            key={sideBar.id}
-            className={`px-8  h-full  pl-4  ${
-              sideBar.id === 1
-                ? "bg-[#252b36] absolute left-0  z-30"
-                : "bg-[#F8F9FB]"
-            } ${
-              sideBar.toggle || (sideBar.id === 1 && sideBar.hover)
-                ? `overflow-y-scroll  ${sideBar.expandedStyles.width}`
-                : sideBar.collapsedStyles.width
-            } ${sideBar.id === 2 && !sideBar.toggle && "bg-transparent"}`}
-          >
-            <LeftNavbar
-              details={sideBar}
-              onExpand={onExpand}
-              opacity={opacity}
-            />
+    <AuthProvider>
+      <div className="flex h-screen flex-col">
+        <Header darkMode={darkMode} setMode={setDarkMode} />
+        <div className="flex relative h-full  overflow-x-hidden overflow-y-hidden">
+          {/* -----------Left side bar begin----------- */}
+          <div className="flex">
+            <div
+              className={`bg-[#252b36] ${isExpand.command && "w-[300px]"} flex`}
+            >
+              {isExpand.command && (
+                <div className="flex-1 py-[16px] pl-[16px] [transition:all_.3s_ease-in-out]">
+                  <h1 className="text-white font-semibold text-xl mb-[20px]">
+                    Command Center
+                  </h1>
+                  <NavigationBar textColor="text-white" />
+                </div>
+              )}
+              <div className="flex items-center px-2">
+                {isExpand.command ? (
+                  <TbMinusVertical 
+                    className="text-white cursor-pointer [transition:all_.3s_ease-in-out] hover:scale-150"
+                    onClick={() =>
+                      setIsExpand((prev) => ({
+                        ...prev,
+                        command: !prev.command,
+                      }))
+                    }
+                  />
+                ) : (
+                  <BsChevronCompactRight 
+                    className="text-white cursor-pointer [transition:all_.3s_ease-in-out] hover:scale-150"
+                    onClick={() =>
+                      setIsExpand((prev) => ({
+                        ...prev,
+                        command: !prev.command,
+                      }))
+                    }
+                  />
+                )}
+              </div>
+            </div>
+            <div className={`bg-white flex`}>
+              {isExpand.app && (
+                <div className="flex-1 py-[16px] pl-[16px]">
+                  <h1 className="text-black font-semibold text-lg mb-[20px]">
+                    App Controls
+                  </h1>
+                  <NavigationBar textColor="text-black" />
+                </div>
+              )}
+              <div className="flex items-center px-2">
+                {isExpand.app ? (
+                  <TbMinusVertical 
+                    className="text-gray-500 cursor-pointer [transition:all_.3s_ease-in-out] hover:scale-150"
+                    onClick={() =>
+                      setIsExpand((prev) => ({
+                        ...prev,
+                        app: !prev.app,
+                      }))
+                    }
+                  />
+                ) : (
+                  <BsChevronCompactRight
+                    className="text-gray-500 cursor-pointer [transition:all_.3s_ease-in-out] hover:scale-150"
+                    onClick={() =>
+                      setIsExpand((prev) => ({
+                        ...prev,
+                        app: !prev.app,
+                      }))
+                    }
+                  />
+                )}
+              </div>
+            </div>
           </div>
-        ))}
-        {sideBars[1].toggle && (
-          <SecondSidebarToggleButton
-            sideBarId={sideBars[1].id}
-            onHandle={onExpand}
-            handleMouseEvent={(toggle) => handleMouseEventButton(toggle)}
-            setOpacity={(value) => setOpacity(value)}
-            opacity={opacity}
-          />
-        )}
-        <div className={`flex-1 overflow-y-auto `}>{children}</div>
-        <RightNavbar />
+          {/* -----------Left side bar end----------- */}
+
+          <div className={`flex-1 overflow-y-auto `}>{children}</div>
+
+          {/* -----------Left side bar begin----------- */}
+          <RightNavbar />
+          {/* -----------Left side bar end----------- */}
+        </div>
       </div>
-    </div>
+    </AuthProvider>
   );
 };

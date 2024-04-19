@@ -1,177 +1,179 @@
 "use client";
-import React from "react";
-import { z } from "zod";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Input, Label, FormField, FormMessage, Form, Button } from "../UI";
-import { Half2Icon } from "@radix-ui/react-icons";
-import { auth, db } from "../../../firebaseConfig";
-import { getDatabase, ref, set } from "firebase/database";
-const formSchema = z
-  .object({
-    firstName: z
-      .string()
-      .min(2, {
-        message: "First Name must be at least 2 characters",
-      })
-      .max(15, {
-        message: "First Name should be less than 15 charadters",
-      }),
-    lastName: z
-      .string()
-      .min(2, {
-        message: "Last Name must be at least 2 characters",
-      })
-      .max(15, {
-        message: "Last Name should be less than 15 characters",
-      }),
-    email: z.string().email("This is not a valid email."),
-    createPassword: z.string().min(2, {
-      message: "Password must be at least 2 characters.",
-    }),
-    confirmPassword: z.string(),
-  })
-  .superRefine(({ confirmPassword, createPassword }, ctx) => {
-    if (confirmPassword !== createPassword) {
-      console.log("Hi");
+import { useState } from "react";
+import type { NextPage } from "next";
+import { useRouter } from "next/navigation";
+import { useAuth } from "@/context/AuthContext";
 
-      ctx.addIssue({
-        code: z.ZodIssueCode.custom,
-        message: "The passwords did not match",
-        path: ["confirmPassword"],
-      });
+export const Signup: NextPage = () => {
+  const [fname, setFname] = useState<string>("");
+  const [lname, setLname] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [cpassword, setCpassword] = useState<string>("");
+  const [errors, setErrors] = useState<{ [key: string]: string }>({});
+
+  const { register, logout } = useAuth();
+  const router = useRouter();
+
+  const validateForm = () => {
+    const newErrors: { [key: string]: string } = {};
+
+    if (!fname.trim()) {
+      newErrors.fname = "First name is required";
     }
-  });
 
-export const Signup = () => {
-  const form = useForm({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      firstName: "",
-      lastName: "",
-      email: "",
-      createPassword: "",
-      confirmPassword: "",
-    },
-  });
+    if (!lname.trim()) {
+      newErrors.lname = "Last name is required";
+    }
 
-  async function onSubmit(values) {
-    alert(
-      `Your First Name is ${values.firstName} and Your Email is ${values.email}`
-    );
+    if (!email.trim()) {
+      newErrors.email = "Email is required";
+    } else if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
+      newErrors.email = "Invalid email address";
+    }
 
-    await set(ref(db, "users"), {
-      firstName: values.firstName,
-      lastName: values.lastName,
-      email: values.email,
-      password: values.createPassword,
-    });
-    alert("Data Added successfully");
-    form.reset();
-  }
+    if (!password.trim()) {
+      newErrors.password = "Password is required";
+    } else if (password.length < 8) {
+      newErrors.password = "Password must be at least 8 characters long";
+    }
+
+    if (!cpassword.trim()) {
+      newErrors.cpassword = "Confirm password is required";
+    } else if (password !== cpassword) {
+      newErrors.cpassword = "Passwords do not match";
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (validateForm()) {
+      try {
+        await register(fname, lname, email, password);
+        await logout();
+        await router.push("/login");
+      } catch (error) {
+        console.log("Already a registered user.");
+      }
+    }
+  };
 
   return (
-    <div className={" mx-auto mt-24 w-96 rounded overflow-hidden "}>
-      <div className=" p-4 flex justify-center gap-1 bg-[#252b36] items-center">
-        <h4 className="   text-[#f7f7f7] ">AIDRM</h4>
+    <main className="p-4 font-poppins">
+      <div className="mx-auto mt-10 w-[384px] bg-[#fff] rounded-lg overflow-hidden">
+        <h1 className="text-[18px] text-center py-[16px] bg-[#252b36] text-white font-poppins">
+          AIDRM
+        </h1>
+        <form
+          className="w-[384px] max-w-md mx-auto p-[20px]"
+          onSubmit={onSubmit}
+        >
+          <div className="mb-4">
+            <label
+              htmlFor="fname"
+              className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+            >
+              First Name:
+            </label>
+            <input
+              className="flex h-9 rounded-md border w-full px-3 py-1 border-[#fff]-900 focus-visible:outline-none mt-1"
+              name="fname"
+              type="text"
+              value={fname}
+              onChange={(e) => setFname(e.target.value)}
+            />
+            {errors.fname && (
+              <div className="text-red-500 text-sm mt-1">{errors.fname}</div>
+            )}
+          </div>
+          <div className="mb-4">
+            <label
+              htmlFor="lname"
+              className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 mb-2"
+            >
+              Last Name:
+            </label>
+            <input
+              className="flex h-9 rounded-md border w-full px-3 py-1 border-[#E4E4E7]-200 focus-visible:outline-none mt-1"
+              name="lname"
+              type="text"
+              value={lname}
+              onChange={(e) => setLname(e.target.value)}
+            />
+            {errors.lname && (
+              <div className="text-red-500 text-sm mt-1">{errors.lname}</div>
+            )}
+          </div>
+          <div className="mb-4">
+            <label
+              htmlFor="email"
+              className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 mb-2"
+            >
+              Email:
+            </label>
+            <input
+              className="flex h-9 rounded-md border w-full px-3 py-1 border-[#E4E4E7]-200 focus-visible:outline-none mt-1"
+              name="email"
+              type="text"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+            {errors.email && (
+              <div className="text-red-500 text-sm mt-1">{errors.email}</div>
+            )}
+          </div>
+          <div className="mb-4">
+            <label
+              htmlFor="password"
+              className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 mb-2"
+            >
+              Password:
+            </label>
+            <input
+              className="flex h-9 rounded-md border w-full px-3 py-1 border-[#E4E4E7]-200 focus-visible:outline-none mt-1"
+              name="password"
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+            {errors.password && (
+              <div className="text-red-500 text-sm mt-1">{errors.password}</div>
+            )}
+          </div>
+          <div className="mb-4">
+            <label
+              htmlFor="Cpassword"
+              className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 mb-2"
+            >
+              Confirm Password:
+            </label>
+            <input
+              className="flex h-9 rounded-md border w-full px-3 py-1 border-[#E4E4E7]-200 focus-visible:outline-none mt-1"
+              name="Cpassword"
+              type="password"
+              value={cpassword}
+              onChange={(e) => setCpassword(e.target.value)}
+            />
+            {errors.cpassword && (
+              <div className="text-red-500 text-sm mt-1">
+                {errors.cpassword}
+              </div>
+            )}
+          </div>
+
+          <div className="mb-4">
+            <button
+              className="w-full py-2 px-6 text-gray-50 mt-3 bg-gray-900 rounded-lg"
+              type="submit"
+            >
+              Register
+            </button>
+          </div>
+        </form>
       </div>
-      <div className={"p-5 bg-white"}>
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)}>
-            <FormField
-              control={form.control}
-              name={"firstName"}
-              render={({ field }) => {
-                return (
-                  <div className="flex flex-col py-1 ">
-                    <Label className=" text-black  text-sm">First Name: </Label>
-                    <Input
-                      type="input"
-                      className="focus:border[#e0e0e0] text-black"
-                      {...field}
-                    />
-                    <FormMessage />
-                  </div>
-                );
-              }}
-            />
-            <FormField
-              control={form.control}
-              name={"lastName"}
-              render={({ field }) => {
-                return (
-                  <div className="flex flex-col py-1">
-                    <Label className=" text-black text-sm">Last Name: </Label>
-                    <Input
-                      type="input"
-                      className="focus:border[#e0e0e0] text-black"
-                      {...field}
-                    />
-                    <FormMessage />
-                  </div>
-                );
-              }}
-            />
-            <FormField
-              control={form.control}
-              name={"email"}
-              render={({ field }) => {
-                return (
-                  <div className="flex flex-col py-1">
-                    <Label className=" text-black text-sm">Email: </Label>
-                    <Input
-                      type="email"
-                      className="focus:border[#e0e0e0] text-black"
-                      {...field}
-                    />
-                    <FormMessage />
-                  </div>
-                );
-              }}
-            />
-            <FormField
-              control={form.control}
-              name={"createPassword"}
-              render={({ field }) => {
-                return (
-                  <div className="flex flex-col  py-1">
-                    <Label className=" text-black text-sm"> Password: </Label>
-                    <Input
-                      type="password"
-                      className="focus:border-[#e0e0e0] text-black"
-                      {...field}
-                    />
-                    <FormMessage />
-                  </div>
-                );
-              }}
-            />
-            <FormField
-              control={form.control}
-              name={"confirmPassword"}
-              render={({ field }) => {
-                return (
-                  <div className="flex flex-col  py-1">
-                    <Label className=" text-black text-sm">
-                      {" "}
-                      Confirm Password:{" "}
-                    </Label>
-                    <Input
-                      type="password"
-                      className="focus:border-[#e0e0e0] text-black"
-                      {...field}
-                    />
-                    <FormMessage />
-                  </div>
-                );
-              }}
-            />
-            <div className="flex justify-center pt-3.5">
-              <Button className="bg-[#252b36] my-0.5">Sign Up</Button>
-            </div>
-          </form>
-        </Form>
-      </div>
-    </div>
+    </main>
   );
 };

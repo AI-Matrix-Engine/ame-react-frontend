@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { Dropdown, Label, Textarea } from "../UI";
-import { ComboBox } from "../UI/combobox";
+import { Textarea } from "../UI";
+import { ComboBox } from "@/components/UI/Combobox";
+import { iAppOverviewProps } from "@/utils/types";
 
 const apiProviders = [
   { label: "Choose the AI API to use...", value: "0" },
@@ -57,11 +58,7 @@ const configurations = [
   { label: "Copy From Another App", value: "copyFromRecipe", disabled: true },
 ];
 
-type Props = {
-  handleAppOverViewChange: (item: any) => void;
-};
-
-export const AppOverview = ({ handleAppOverViewChange }: Props) => {
+export const AppOverview = ({ handleAppOverViewChange }: iAppOverviewProps) => {
   const [apiProviderSelectedValue, setApiProviderSelectedValue] = useState("");
   const [apiEndpointSelectedValue, setApiEndpointSelectedValue] = useState("");
   const [aiModelSelectedValue, setAiModelSelectedValue] = useState("");
@@ -132,12 +129,6 @@ export const AppOverview = ({ handleAppOverViewChange }: Props) => {
               options={configurations || []}
               value={configurationSelectedValue}
           />
-          {/* <Dropdown
-            placeHolder="Configuration"
-            value={configurationSelectedValue}
-            onClick={setConfigurationSelectedValue}
-            options={configurations}
-          /> */}
         </div>
       </div>
     </div>

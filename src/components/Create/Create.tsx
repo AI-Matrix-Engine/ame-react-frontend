@@ -3,18 +3,8 @@ import React, { useMemo, useState } from "react";
 import { Input, Button, Dropdown, Label } from "../UI";
 import { AddCategory, AppOverview, AIConversationSettings } from ".";
 import { AIModelSpecifications } from "./AIModelSpecifications";
-import { ComboBox } from "../UI/combobox";
-
-type SelectType = {
-  label: string;
-  value: string;
-};
-
-type categoriesType = {
-  label: string;
-  value: string;
-  subCategories: SelectType[];
-};
+import { ComboBox } from "@/components/UI/Combobox";
+import { iSelectType } from "@/utils/types";
 
 const categoryList = [
   {
@@ -231,7 +221,7 @@ export const Create = () => {
   ];
   const [categories, setCategories] = useState(categoryList);
   const [categorySelectedValue, setCategorySelectedValue] = useState("");
-  const [subCategories, setSubCategories] = useState<SelectType[]>([]);
+  const [subCategories, setSubCategories] = useState<iSelectType[]>([]);
   const [subCategorySelectedValue, setSubCategorySelectedValue] = useState("");
   const [toggleAddCategory, setToggleAddCategory] = useState<string>("");
   const [appOverView, setAppOverView] = useState({
@@ -244,7 +234,7 @@ export const Create = () => {
 
   const handleCategoryChange = (value: string) => {
     const filteredCategory = categories.find(
-        (category: SelectType) => category.value == value
+        (category: iSelectType) => category.value == value
     );
     const filteredSubcategories = filteredCategory?.subCategories;
     setCategorySelectedValue(value);
@@ -286,8 +276,6 @@ export const Create = () => {
   const handleAppOverViewChange = (value: any) => {
     setAppOverView(value);
   };
-
-  console.log(appOverView);
 
   const isShowAiModelSpecifications = useMemo(() => {
     if (

@@ -1,13 +1,8 @@
 import { CaretLeftIcon, DividerVerticalIcon } from '@radix-ui/react-icons'
 import React from 'react'
-type SecondSidebarToggleButtonProps = {
-    handleMouseEvent:(toggle:boolean) => void,
-    onHandle:(value:number)=>void,
-    sideBarId:number,
-    setOpacity:(value:boolean)=>void,
-    opacity:boolean
-}
-export const SecondSidebarToggleButton = ({handleMouseEvent,onHandle,sideBarId,setOpacity,opacity}:SecondSidebarToggleButtonProps) => {
+import { iSecondSidebarToggleButtonProps } from '@/utils/types'
+
+export const SecondSidebarToggleButton = ({handleMouseEvent,onHandle,sideBarId,setOpacity,opacity}:iSecondSidebarToggleButtonProps) => {
   return (
     <div className="h-full relative ">
     <button

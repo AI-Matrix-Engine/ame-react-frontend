@@ -1,82 +1,299 @@
 "use client";
-import React from "react";
-import { z } from "zod";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Input, Label, FormField, FormMessage, Form, Button } from "../UI";
-import { Half2Icon } from "@radix-ui/react-icons";
 
-const formSchema = z.object({
-  email: z.string().email("This is not a valid email."),
-  password: z.string().min(2, {
-    message: "Password must be at least 2 characters.",
-  }),
-});
+import { useState } from "react";
+import type { NextPage } from "next";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useAuth } from "@/context/AuthContext";
+import { SiApple } from "react-icons/si";
+import { FaGoogle, FaFacebookF } from "react-icons/fa";
+import { MdOutlinePhoneAndroid } from "react-icons/md";
+import PhoneInput from "react-phone-number-input";
+import Modal from "react-modal";
 
-export const Login = () => {
-  const form = useForm({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      email: "",
-      password: "",
-    },
-  });
+// firebase
+import {
+  signInWithPopup,
+  GoogleAuthProvider,
+  FacebookAuthProvider,
+  OAuthProvider,
+  RecaptchaVerifier,
+  signInWithPhoneNumber,
+} from "firebase/auth";
+import { auth } from "@/utils/firebase";
 
-  function onSubmit(values) {
-    alert(
-      `Your Name is ${values.username} and Your Password is ${values.password}`
-    );
-    form.reset();
-  }
+const customStyles = {
+  content: {
+    top: "20%",
+    left: "50%",
+    right: "auto",
+    bottom: "auto",
+    marginRight: "-50%",
+    transform: "translate(-50%, -50%)",
+  },
+};
+
+if (typeof window !== "undefined") {
+  Modal.setAppElement("body");
+}
+
+export const Login: NextPage = () => {
+  const { login } = useAuth();
+  const router = useRouter();
+
+  const [isSentCode, setIsSentCode] = useState<boolean>(false);
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [errors, setErrors] = useState<{ [key: string]: string }>({});
+
+  const [phoneNumber, setPhoneNumber] = useState<string>("");
+  const [code, setCode] = useState<string>("");
+  // const [verificationId, setVerificationId] = useState<string | null>(null);
+
+  const [phoneModalIsOpen, setPhoneIsOpen] = useState<boolean>(false);
+
+  const validateForm = () => {
+    const newErrors: { [key: string]: string } = {};
+
+    if (!email.trim()) {
+      newErrors.email = "Email is required";
+    } else if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
+      newErrors.email = "Invalid email address";
+    }
+
+    if (!password.trim()) {
+      newErrors.password = "Password is required";
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const onSubmit = async (e: any) => {
+    e.preventDefault();
+    if (validateForm()) {
+      try {
+        await login(email, password);
+        await router.push("/");
+      } catch (error) {
+        console.log("Invalid credential");
+      }
+    }
+  };
+
+  const handleGoogleSignIn = async () => {
+    const provider = new GoogleAuthProvider();
+    try {
+      await signInWithPopup(auth, provider);
+      await router.push("/");
+    } catch (error) {
+      console.error("Google sign-in error:", error);
+    }
+  };
+
+  const handleFacebookSignIn = async () => {
+    const provider = new FacebookAuthProvider();
+    try {
+      await signInWithPopup(auth, provider);
+      await router.push("/");
+    } catch (error) {
+      console.error("Facebook sign-in error:", error);
+    }
+  };
+
+  const handleAppleSignIn = async () => {
+    const provider = new OAuthProvider("apple.com");
+    try {
+      await signInWithPopup(auth, provider);
+      await router.push("/");
+    } catch (error) {
+      console.error("Apple sign-in error:", error);
+    }
+  };
+
+  const setUpRecaptcha = () => {
+    if (!window.recaptchaVerifier) {
+      window.recaptchaVerifier = new RecaptchaVerifier(auth, "sign-in-button", {
+        size: "invisible",
+        callback: (response: any) => {
+          // reCAPTCHA solved - allow signInWithPhoneNumber.
+          handlePhoneSignIn(response);
+        },
+      });
+      window.recaptchaVerifier.render();
+    }
+  };
+
+  const handlePhoneSignIn = (number: string): void => {
+    setUpRecaptcha();
+    const phoneNumberWithCode = number;
+    if (window.recaptchaVerifier) {
+      const appVerifier = window.recaptchaVerifier;
+      signInWithPhoneNumber(auth, phoneNumberWithCode, appVerifier)
+        .then((confirmationResult) => {
+          window.confirmationResult = confirmationResult;
+          // setVerificationId(confirmationResult.verificationId);
+          setIsSentCode(true);
+        })
+        .catch((error) => {
+          console.error("SMS not sent", error);
+        });
+    }
+  };
+
+  const onSubmitCode = (code: string) => {
+    if (window.confirmationResult) {
+      const credential = window.confirmationResult.confirm(code);
+      credential
+        .then(async (result) => {
+          const user = result.user;
+          console.log("User is signed in", user);
+          await router.push("/");
+          await setIsSentCode(false);
+          await setPhoneIsOpen(false);
+          await setPhoneNumber("");
+          await setCode("");
+        })
+        .catch((error) => {
+          console.error("Code not valid", error);
+        });
+    }
+  };
 
   return (
-    <div className={" mx-auto mt-24 w-96 rounded overflow-hidden "}>
-      <div className=" p-4 flex justify-center gap-1 bg-[#252b36] items-center">
-        <h4 className="   text-[#f7f7f7] ">AIDRM</h4>
-      </div>
-      <div className={"p-5 bg-white"}>
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)}>
-            <FormField
-              control={form.control}
-              name={"email"}
-              render={({ field }) => {
-                return (
-                  <div className="flex flex-col py-1">
-                    <Label className=" text-black text-sm">Email: </Label>
-                    <Input
-                      type="email"
-                      className="focus:border[#e0e0e0] text-black"
-                      {...field}
-                    />
-                    <FormMessage />
-                  </div>
-                );
-              }}
+    <main className="p-4 font-poppins">
+      <div className="mx-auto mt-10 w-[384px] bg-[#fff] rounded-lg overflow-hidden">
+        <h1 className="text-[18px] text-center py-[16px] bg-[#252b36] text-white">
+          AIDRM
+        </h1>
+        <form
+          className="w-[384px] max-w-md mx-auto p-[20px]"
+          onSubmit={(e) => onSubmit(e)}
+        >
+          <div className="mb-4">
+            <label
+              htmlFor="email"
+              className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+            >
+              Email:
+            </label>
+            <input
+              className="flex h-9 rounded-md border w-full px-3 py-1 border-[#fff]-900 focus-visible:outline-none mt-1"
+              name="email"
+              type="text"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
             />
-            <FormField
-              control={form.control}
-              name={"password"}
-              render={({ field }) => {
-                return (
-                  <div className="flex flex-col  py-1">
-                    <Label className=" text-black text-sm"> Password: </Label>
-                    <Input
-                      type="password"
-                      className="focus:border-[#e0e0e0] text-black"
-                      {...field}
-                    />
-                    <FormMessage />
-                  </div>
-                );
-              }}
+            {errors.email && (
+              <div className="text-red-500 text-sm mt-1">{errors.email}</div>
+            )}
+          </div>
+          <div className="mb-4">
+            <label
+              htmlFor="password"
+              className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+            >
+              Password:
+            </label>
+            <input
+              className="flex h-9 rounded-md border w-full px-3 py-1 border-[#fff]-900 focus-visible:outline-none mt-1"
+              name="password"
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
             />
-            <div className="flex justify-center pt-3.5">
-              <Button className="bg-[#252b36] my-0.5 ">Log in</Button>
+            {errors.password && (
+              <div className="text-red-500 text-sm mt-1">{errors.password}</div>
+            )}
+          </div>
+          <div className="mb-4">
+            <button
+              className="w-full py-2 px-6 text-gray-50 bg-gray-900 rounded-lg"
+              type="submit"
+            >
+              Login
+            </button>
+          </div>
+          <div className="relative border-t border-[#F3F3F3]-200 mb-6 mt-10 flex justify-center">
+            <div className="bg-white absolute w-[26px] h-[26px] rounded-full border border-[#F3F3F3]-200 flex justify-center items-center -top-[13px] text-xs">
+              or
             </div>
-          </form>
-        </Form>
+          </div>
+          <div className="grid grid-cols-[1fr_1fr] rounded-lg">
+            <div
+              className="text-white flex flex-1 justify-center items-center cursor-pointer text-base bg-[#349933] p-2 mr-[2px] mb-1"
+              onClick={() => handleGoogleSignIn()}
+            >
+              Google <FaGoogle className="ml-2" />
+            </div>
+            <div
+              className="text-white flex flex-1 justify-center items-center cursor-pointer text-base bg-[#3F3BA4] p-2 ml-[2px] mb-1"
+              onClick={() => handleFacebookSignIn()}
+            >
+              Facebook <FaFacebookF className="ml-2" />
+            </div>
+            <div
+              className="text-white flex flex-1 justify-center items-center cursor-pointer text-base bg-[#64CCF1] p-2 mr-[2px]"
+              onClick={() => handleAppleSignIn()}
+            >
+              Apple <SiApple className="ml-2 text-xl" />
+            </div>
+            <div
+              className="text-white flex flex-1 justify-center items-center cursor-pointer text-base bg-[#3B5998] p-2 ml-[2px]"
+              onClick={() => setPhoneIsOpen(true)}
+            >
+              Phone <MdOutlinePhoneAndroid className="ml-2 text-xl" />
+            </div>
+          </div>
+          <div className="text-center mt-4 text-sm text-[#f3f3f3]-400">
+            Need an account?{" "}
+            <Link href="/signup" className="font-semibold">
+              Register
+            </Link>
+          </div>
+          <button id="sign-in-button" type="submit" style={{ display: "none" }}>
+            Verify Phone Number
+          </button>
+
+          <Modal
+            isOpen={phoneModalIsOpen}
+            style={customStyles}
+            onRequestClose={() => setPhoneIsOpen(false)}
+            contentLabel="Phone verify"
+          >
+            <div className="flex flex-col items-center">
+              <h2 className="font-extrabold text-xl mb-10">Phone Verify</h2>
+              {isSentCode ? (
+                <input
+                  type="number"
+                  className="text-center flex h-9 rounded-md border w-full px-3 py-1 border-[#fff]-900 focus-visible:outline-none mt-1"
+                  autoFocus
+                  value={code}
+                  onChange={(e) => setCode(e.target.value)}
+                />
+              ) : (
+                <PhoneInput
+                  placeholder="Enter phone number"
+                  value={phoneNumber}
+                  onChange={(e: string) => setPhoneNumber(e)}
+                />
+              )}
+              <button
+                className="p-2 rounded-md bg-[#2DA44E] text-white mt-7 w-full [transition:all_.3s_ease-in-out] hover:[box-shadow:rgba(0,_0,_0,_0.24)_0px_3px_8px]"
+                onClick={() => {
+                  if (isSentCode) {
+                    onSubmitCode(code);
+                  } else {
+                    handlePhoneSignIn(phoneNumber);
+                  }
+                }}
+              >
+                {isSentCode ? "Verify" : "Send code"}
+              </button>
+            </div>
+          </Modal>
+        </form>
       </div>
-    </div>
+    </main>
   );
 };
