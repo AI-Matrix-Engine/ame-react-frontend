@@ -1,5 +1,5 @@
 import { PersonIcon } from "@radix-ui/react-icons";
-import { ReactNode } from 'react';
+import { ReactNode } from "react";
 
 interface MenuItem {
   itemCategory: string;
@@ -24,18 +24,16 @@ export const menuItems: MenuCategory[] = [
     items: [
       {
         itemCategory: "Matrix Workbench",
-        icon:   <PersonIcon className="h-4 w-4 text-gray-500" />,
-        route: "/create"
+        icon: <PersonIcon className="h-4 w-4 text-gray-500" />,
+        route: "/create",
       },
       {
         itemCategory: "Direct AI Caller",
-        icon:   <PersonIcon className="h-4 w-4 text-gray-500" />
-        ,
+        icon: <PersonIcon className="h-4 w-4 text-gray-500" />,
       },
       {
         itemCategory: "AI Recipe Caller",
-        icon:   <PersonIcon className="h-4 w-4 text-gray-500" />
-        ,
+        icon: <PersonIcon className="h-4 w-4 text-gray-500" />,
       },
     ],
   },
@@ -46,7 +44,15 @@ export const menuItems: MenuCategory[] = [
       {
         itemCategory: "Matrix Apps",
         icon: <PersonIcon className="h-4 w-4 text-gray-500" />,
-        itemSubMenu: [{ name: "Create", route: "/create" }, { name: "Run", route: "/run" }, { name: "Manage", route: "/manage" }, { name: "Admin", route: "/admin" },{name:"Login",route:"/login"},{name:"Signup",route:"/signup"}],
+        itemSubMenu: [
+          { name: "Create", route: "/create" },
+          { name: "Run", route: "/run" },
+          { name: "Manage", route: "/manage" },
+          { name: "Admin", route: "/admin" },
+          { name: "Login", route: "/login" },
+          { name: "Signup", route: "/signup" },
+          { name: "Playground", route: "/playground" },
+        ],
       },
     ],
   },
