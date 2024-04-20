@@ -73,7 +73,7 @@ export const Main = ({ children }: childrenProp) => {
                 )}
               </div>
             </div>
-            <div className={`bg-white flex`}>
+            <div className={`bg-[#F8F9FB] flex`}>
               {isExpand.app && (
                 <div className="flex-1 py-[16px] pl-[16px]">
                   <h1 className="text-black font-semibold text-lg mb-[20px]">

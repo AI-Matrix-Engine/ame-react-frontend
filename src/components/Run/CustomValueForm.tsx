@@ -38,7 +38,7 @@ export const CustomValueForm = () => {
         <Dropdown options={selectKeyWord} />
 
         <div className="input-group mb-3">
-          <Label>Input Range</Label>
+         <Label>Input Range</Label>
           <Input
             type="range"
             className="form-range w-full"

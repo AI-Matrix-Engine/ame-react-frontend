@@ -5,7 +5,7 @@
 @import url("./phone-number.style.css");
 /* width */
 ::-webkit-scrollbar {
-  width: 10px;
+  width: 5px;
 }
 
 /* Track */
@@ -31,4 +31,10 @@
 .dropdown-enter-from,
 .dropdown-leave-to {
   opacity: 0;
+}
+
+.container-height {
+  height: calc(100vh - 64px);
+  min-height: calc(100vh - 64px);
+  max-height: calc(100vh - 64px);
 }
