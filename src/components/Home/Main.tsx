@@ -74,15 +74,15 @@ export const Main = ({ children }: childrenProp) => {
               </div>
             </div>
             <div className={`bg-[#F8F9FB] flex`}>
-              {isExpand.app && (
+              {/* {isExpand.app && (
                 <div className="flex-1 py-[16px] pl-[16px]">
                   <h1 className="text-black font-semibold text-lg mb-[20px]">
                     App Controls
                   </h1>
                   <NavigationBar textColor="text-black" />
                 </div>
-              )}
-              <div className="flex items-center px-2">
+              )} */}
+              {/* <div className="flex items-center px-2">
                 {isExpand.app ? (
                   <TbMinusVertical 
                     className="text-gray-500 cursor-pointer [transition:all_.3s_ease-in-out] hover:scale-150"
@@ -104,7 +104,7 @@ export const Main = ({ children }: childrenProp) => {
                     }
                   />
                 )}
-              </div>
+              </div> */}
             </div>
           </div>
           {/* -----------Left side bar end----------- */}
