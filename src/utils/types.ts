@@ -116,10 +116,11 @@ export type iColumn = {
 };
 
 // src/components/Create/Create.tsx
-export type iSelectType = {
+export interface iSelectType {
   label: string;
   value: string;
-};
+  subCategories?: iSelectType[];  // Optional to handle cases where there might be no subcategories
+}
 
 export type iCategoriesType = {
   label: string;
