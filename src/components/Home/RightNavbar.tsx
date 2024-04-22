@@ -37,10 +37,10 @@ export const RightNavbar = () => {
       {sidebar ? (
         <div>
           <div className=" px-4 flex justify-between items-center mt-4">
-            <h1 className="text-black font-semibold text-xl">Matrix AI</h1>
+            {/* <h1 className="text-black font-semibold text-xl">Matrix AI</h1> */}
           </div>
           <div
-            className={`flex flex-col justify-between items-between text-black p-4 overflow-y-scroll`}
+            className={`flex flex-col justify-between items-between text-black p-4 overflow-y-auto`}
           >
             <h4 className="text-center">Form</h4>
             <FormData additionalClasses={"space-y-4"} />

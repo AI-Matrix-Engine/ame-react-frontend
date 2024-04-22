@@ -1,56 +1,38 @@
 "use client";
 import React from "react";
-import { BsArrowsAngleExpand, BsArrowsAngleContract } from "react-icons/bs";
-import { Textarea } from "@/components/UI/textarea";
+import { RiDeleteBin2Line } from "react-icons/ri";
+import { Label } from "../UI";
+
 interface iPrompt {
-  isExpand: boolean;
-  text: string;
-  role: string;
-  setIsExpand: Function;
+  isExpand?: boolean;
+  text?: string;
+  role?: string;
+  setIsExpand?: Function;
   index: number;
+  setPData: Function;
 }
-export const Prompt = ({
-  isExpand,
-  role,
-  text,
-  setIsExpand,
-  index,
-}: iPrompt) => {
+const Prompt = ({ role, text, setPData, index }: iPrompt) => {
+  const [isUpload, setIsUpload] = React.useState(false);
+
+  const removePrompt = (index: number) => {
+    setPData((prev:any) => prev.filter((_:any, i:number) => i !== index))
+  }
+
   return (
-    <div className="border rounded-xl p-2 mb-2">
-      <div className="flex items-center justify-between cursor-pointer">
-        <div className="flex items-center overflow-hidden mr-6 relative w-fill">
-          <p className="text-[#000] text-[10px] mr-3">{role.toUpperCase()}</p>
-          {!isExpand && (
-            <p className="text-[#71717A] text-[10px] whitespace-nowrap">
-              {text.substring(0, 15)}...
-            </p>
-          )}
-        </div>
-        <div className="min-w-[15px]">
-          {isExpand ? (
-            <BsArrowsAngleContract
-              color="#67686E"
-              className="text-[12px]"
-              size={12}
-              onClick={() => setIsExpand(index)}
-            />
-          ) : (
-            <BsArrowsAngleExpand
-              color="#67686E"
-              size={12}
-              className="text-[12px]"
-              onClick={() => setIsExpand(index)}
-            />
-          )}
-        </div>
+    <div className="flex flex-col group rounded-lg p-2 [transition:all_.3s_ease-in-out] border border-[#6b6b6b80] mb-2 hover:border-[#0e8157] hover:bg-[#dcdce0]">
+      <div className="flex items-center justify-between pb-1">
+        <Label>{role?.toUpperCase()}</Label>
+        <RiDeleteBin2Line className="cursor-pointer " onClick={() => removePrompt(index)} />
       </div>
-      {isExpand && (
-        <Textarea
-          className="text-black flex w-full rounded-md border border-zinc-200 bg-transparent px-3 py-2 text-[12px] shadow-sm placeholder:text-zinc-500 focus-visible:outline-none min-h-[120px]"
-          value={text}
-        />
-      )}
+      <div
+        contentEditable={true}
+        spellCheck={false}
+        className="p-1 outline-none bg-transparent h-fit min-h-fit break-words rounded-md whitespace-break-spaces group-hover:bg-danger-200 relative focus:border-[#0e8157] focus:bg-white text-[#353740]"
+      >
+        {text}
+      </div>
     </div>
   );
 };
+
+export default Prompt;

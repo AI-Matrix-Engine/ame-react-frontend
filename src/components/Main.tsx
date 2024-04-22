@@ -145,7 +145,7 @@ export const Main = ({ children }: {children: ReactNode}) => {
                 : "bg-[#f9f9f9]"
             } ${
               sideBar.toggle || (sideBar.id === "1" && sideBar.hover)
-                ? `max-h-full overflow-y-scroll ${sideBar.expandedStyles.width}`
+                ? `max-h-full overflow-y-auto ${sideBar.expandedStyles.width}`
                 : sideBar.collapsedStyles.width
             }`}
           >
