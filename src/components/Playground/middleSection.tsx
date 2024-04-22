@@ -40,6 +40,7 @@ const MiddleSection = ({ width, index, isResizable, onMouseDown }: any) => {
           isExpand={index === isExpand ? true : false}
           role={prompt.role}
           index={index}
+          key={index}
           setIsExpand={handleExpand}
           setPData={setPData}
           pData={pData}

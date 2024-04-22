@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { RiDeleteBin2Line } from "react-icons/ri";
 import { IoImageOutline } from "react-icons/io5";
 import { Label, Textarea } from "../UI";
@@ -13,7 +13,15 @@ interface iPrompt {
   setPData: Function;
   pData?: any;
 }
-const Prompt = ({ role, text, setPData, index, pData }: iPrompt) => {
+const Prompt = ({
+  isExpand,
+  text,
+  role,
+  setIsExpand,
+  index,
+  setPData,
+  pData,
+}: iPrompt) => {
   const [isUpload, setIsUpload] = React.useState(false);
 
   const removePrompt = (index: number) => {
@@ -21,29 +29,20 @@ const Prompt = ({ role, text, setPData, index, pData }: iPrompt) => {
     setPData(updateData);
   };
 
-  const handleTextChange = (event: React.ChangeEvent<HTMLDivElement>) => {
-    // Get the current cursor position
-    const selection = window.getSelection();
-    const range = selection?.getRangeAt(0);
-    const start = range?.startOffset;
-
-    // Update the state or content of the div
-    // For example, if 'text' is a state variable:
-    const utext = event.target.innerText;
-
+  const handleChange = (event: any) => {
+    const utext = event.target.value;
     const updateData = pData.map((data: any, i: number) => {
       if (i === index) data.text = utext;
       return data;
     });
 
-    // Restore the cursor position
-    selection?.removeAllRanges();
-    start &&
-      range?.setStart(
-        event.target.childNodes[0],
-        Math.min(start, event.target.innerText.length)
-      );
-    range && selection?.addRange(range);
+    setPData(updateData);
+  };
+
+  const handleKeyDown = (e:any) => {
+    const textarea: any = e.currentTarget;
+    textarea.style.height = "auto";
+    textarea.style.height = textarea.scrollHeight + "px";
   };
 
   return (
@@ -60,14 +59,15 @@ const Prompt = ({ role, text, setPData, index, pData }: iPrompt) => {
           />
         </div>
       </div>
-      <div
-        contentEditable={true}
+      <textarea
+        id="auto-expanding-textarea"
+        value={text}
+        onChange={handleChange}
+        onKeyDown={handleKeyDown}
         spellCheck={false}
-        onInput={handleTextChange}
-        className="p-1 outline-none bg-transparent h-fit min-h-fit rounded-md group-hover:bg-danger-200 relative focus:border-[#0e8157] focus:bg-white text-[#353740] dark:focus:bg-[#2b2b2b] dark:text-[#d9d9e3]"
-      >
-        {text}
-      </div>
+        className="resize-none overflow-y-hidden p-1 outline-none bg-transparent h-fit min-h-fit rounded-md group-hover:bg-danger-200 relative focus:border-[#0e8157] focus:bg-white text-[#353740] dark:focus:bg-[#2b2b2b] dark:text-[#d9d9e3]"
+        placeholder="Auto-Expanding Textarea"
+      />
     </div>
   );
 };

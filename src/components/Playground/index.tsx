@@ -3,7 +3,8 @@ import React, { useState } from "react";
 import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
 import SectionSplitter from "./spliter";
 import { GoPlusCircle } from "react-icons/go";
-import { HiMiniBars3BottomLeft } from "react-icons/hi2";
+import { FaBars } from "react-icons/fa6";
+
 import { Button, Dropdown, Input } from "../UI";
 import { MdOutlineLightMode, MdOutlineNightlight } from "react-icons/md";
 import { HiDotsVertical } from "react-icons/hi";
@@ -27,12 +28,7 @@ const HorizontalAdjustableSections: React.FC = () => {
           <div className="p-2 rounded-full  [box-shadow:#0d704c80_0px_0px_20px_0px,_#0d704c80_0px_0px_20px_0px] cursor-pointer">
             <GoPlusCircle size={20} className="dark:text-white" />
           </div>
-          <div>
-            <HiMiniBars3BottomLeft
-              size={25}
-              className="ml-[31px] mr-[25px] cursor-pointer font-semibold dark:text-white"
-            />
-          </div>
+          <FaBars className="ml-[31px] text-[25px] mr-[25px] cursor-pointer dark:text-white" />
           <Input
             className="min-w-[300px] w-[300px]"
             aria-label="Full name"
