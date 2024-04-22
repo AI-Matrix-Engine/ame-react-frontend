@@ -39,8 +39,8 @@ export const LeftModel = ({
   return (
     <div
       className={`w-full px-2 [transition:all_.3s_ease-in-out] py-[12px] ${
-        !isOpen ? " hover:bg-[#dcdce0]" : "border border-[#dcdce0]"
-      } rounded-md`}
+        !isOpen ? " hover:bg-[#dcdce0] dark:hover:bg-[#ffffff0d]" : "border border-[#dcdce0]"
+      } rounded-md dark:border-[#27272a]`}
     >
       <p
         className="flex items-center text-[16px] cursor-pointer w-full justify-between"
@@ -50,9 +50,9 @@ export const LeftModel = ({
           {modelName.toLocaleUpperCase()}
         </Label>
         {isOpen ? (
-          <MdOutlineKeyboardArrowDown className="ml-1" />
+          <MdOutlineKeyboardArrowDown className="ml-1 dark:text-white" />
         ) : (
-          <MdOutlineKeyboardArrowRight className="ml-1" />
+          <MdOutlineKeyboardArrowRight className="ml-1 dark:text-white" />
         )}
       </p>
       {isOpen && (
@@ -65,10 +65,10 @@ export const LeftModel = ({
                 value="show_on_events_page"
                 defaultChecked
               />
-              <p className="text-[14px] ml-1">Required</p>
+              <p className="text-[14px] ml-1 dark:text-white">Required</p>
             </div>
             <div
-              className="text-[14px] ml-1 flex items-center cursor-pointer"
+              className="text-[14px] ml-1 flex items-center cursor-pointer dark:text-white"
               onClick={() => setIsOpenAdvanced()}
             >
               Advanced

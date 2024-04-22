@@ -42,15 +42,16 @@ const MiddleSection = ({ width, index, isResizable, onMouseDown }: any) => {
           index={index}
           setIsExpand={handleExpand}
           setPData={setPData}
+          pData={pData}
           text={prompt.text}
         />
       ))}
       <div
-        className="flex items-center cursor-pointer p-2 rounded-md [transition:all_.3s_ease-in-out] hover:border-[#0e8157] hover:bg-[#dcdce0]"
+        className="flex items-center cursor-pointer p-2 rounded-md [transition:all_.3s_ease-in-out] hover:border-[#0e8157] hover:bg-[#dcdce0] dark:hover:bg-[#2b2b2b]"
         onClick={() => addPrompt()}
       >
-        <LuPlusCircle className="text-black text-[16px] mr-[8.35px]" />
-        <span className="text-[14px] font-semibold text-black">
+        <LuPlusCircle className="text-black text-[16px] mr-[8.35px] dark:text-[#d9d9e3]" />
+        <span className="text-[14px] font-semibold text-black dark:text-[#d9d9e3]">
           Add Messages
         </span>
       </div>

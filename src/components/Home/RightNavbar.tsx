@@ -30,7 +30,7 @@ export const RightNavbar = () => {
   };
   return (
     <div
-      className={`bg-[#F8F9FB] text-white ${
+      className={`bg-[#F8F9FB] dark:bg-[#18181b] dark:border-l dark:border-l-[#ffffff1a] text-white ${
         sidebar ? "w-[300px] pl-2" : "w-6"
       } relative`}
     >
@@ -42,8 +42,8 @@ export const RightNavbar = () => {
           <div
             className={`flex flex-col justify-between items-between text-black p-4 overflow-y-auto`}
           >
-            <h4 className="text-center">Form</h4>
-            <FormData additionalClasses={"space-y-4"} />
+            {/* <h4 className="text-center">Form</h4> */}
+            {/* <FormData additionalClasses={"space-y-4"} /> */}
           </div>
           <TbMinusVertical
             className="text-gray-500 cursor-pointer [transition:all_.3s_ease-in-out] hover:scale-150 absolute -left-[0px] top-[50%]"

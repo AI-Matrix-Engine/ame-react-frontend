@@ -21,11 +21,11 @@ const recipies = [
 
 const HorizontalAdjustableSections: React.FC = () => {
   return (
-    <div className="h-full container-height pb-1">
+    <div className="h-full container-height pb-1 dark:bg-[#18181b]">
       <div className="flex items-center px-[30px] justify-between h-[60px]">
         <div className="flex items-center">
           <div className="p-2 rounded-full  [box-shadow:#0d704c80_0px_0px_20px_0px,_#0d704c80_0px_0px_20px_0px] cursor-pointer">
-            <GoPlusCircle size={20} />
+            <GoPlusCircle size={20} className="dark:text-white" />
           </div>
           <div>
             <HiMiniBars3BottomLeft
@@ -53,19 +53,19 @@ const HorizontalAdjustableSections: React.FC = () => {
         </div>
       </div>
       <PanelGroup direction="horizontal" className="adjustable-height">
-        <Panel defaultSize={20} minSize={15}>
+        <Panel defaultSize={20} minSize={0}>
           <LeftSection />
         </Panel>
-        <PanelResizeHandle>
+        <PanelResizeHandle className="group">
           <SectionSplitter />
         </PanelResizeHandle>
-        <Panel minSize={20}>
+        <Panel minSize={0}>
           <MiddleSection />
         </Panel>
-        <PanelResizeHandle>
+        <PanelResizeHandle className="group">
           <SectionSplitter />
         </PanelResizeHandle>
-        <Panel defaultSize={30} minSize={20}>
+        <Panel defaultSize={30} minSize={0}>
           <RightSection />
         </Panel>
       </PanelGroup>

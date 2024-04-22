@@ -11,13 +11,13 @@ const RightSection = ({ width, index, isResizable, onMouseDown }: any) => {
   };
   return (
     <div
-      className={`overflow-y-auto relative text-black px-[12px] pt-[6px]`}
+      className={`overflow-y-auto relative text-black dark:text-white px-[12px] pt-[6px]`}
       style={{
         width: `${width}%`,
         borderLeft: index === 1 ? "1px solid #3F3F46" : "",
       }}
     >
-      Prompt
+      Response
       {isResizable && (
         <div
           className="absolute right-0 top-0 bottom-0 w-[1px] cursor-col-resize bg-[#ececf1] [transition:all_.3s_ease-in-out] hover:bg-[#0e8157cc]"
