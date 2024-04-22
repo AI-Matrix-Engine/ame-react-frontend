@@ -56,8 +56,17 @@ export const fetchCategoryById = async (id: number): Promise<iSelectType | null>
 
         return result || null;
     } catch (err) {
-        console.error(`Failed to fetch category by ${id}:`, err);
-        // Re-throw the error if necessary or return a default value
-        throw err;  // You can also return null or another fallback value
+        console.error(`Failed to fetch category by id`, err);
+        
+        return null;
     }
 };
+
+export const updateCategoryById = async (id: number, category: { name: string, parent_category: number | null }): Promise<void> => {
+    try {
+        const response = await axios.put(`${aiMatrixAPI.defaults.baseURL}oai/allcategory/${id}/`, category);
+        console.log('Category updated successfully.', response.data)
+    } catch (err) {
+        console.error(`Failed to update category by id`, err);
+    }
+}
