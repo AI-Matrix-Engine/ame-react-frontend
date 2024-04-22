@@ -15,6 +15,7 @@ export const Dropdown = ({
   options = [],
   placeHolder,
   value,
+  className,
   ...rest
 }: iDropDownProps) => {
   const handleChange = (value: string) => {
@@ -30,10 +31,10 @@ export const Dropdown = ({
         }}
         defaultValue={options[0]?.value}
       >
-        <SelectTrigger>
+        <SelectTrigger className={className}>
           <SelectValue placeholder={placeHolder} />
         </SelectTrigger>
-        <SelectContent>
+        <SelectContent className={className}>
           {options?.map((item, index) => {
             return (
               <SelectItem key={index} value={item?.value} {...rest}>
@@ -42,8 +43,8 @@ export const Dropdown = ({
             );
           })}
 
-          <SelectItem value="dark">Dark</SelectItem>
-          <SelectItem value="system">System</SelectItem>
+          {/* <SelectItem value="dark">Dark</SelectItem> */}
+          {/* <SelectItem value="system">System</SelectItem> */}
         </SelectContent>
       </Select>
     </div>

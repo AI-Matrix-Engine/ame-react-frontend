@@ -203,48 +203,20 @@ export const menuItems = [
 ];
 
 export const promptData = [
-  {
-    role: "system",
-    text: "I’m going on one of the most amazing trips of life and need you to help me decide on the best places to visit. I’m going to be visiting New York, Colorado and areas around San Francisco and it’s really important that I go to the best spots! Some of my favorite things to do are: Biking, walking, going to dinner and enjoying the city! This is really important for me so please give me the best places I should go!",
-  },
-  {
-    role: "assistant",
-    text: "Note to the development team: This is only here to show what would happen if someone clicked “add message” twice",
-  },
-  {
-    role: "user",
-    text: "Lorem Ipsum is simply for dummy text of the printing and typesetting in the industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer.",
-  },
-  {
-    role: "user",
-    text: "I’m going on one of the most amazing trips of life and need you to help me decide on the best places to visit. I’m going to be visiting New York, Colorado and areas around San Francisco and it’s really important that I go to the best spots! Some of my favorite things to do are: Biking, walking, going to dinner and enjoying the city! This is really important for me so please give me the best places I should go!",
-  },
-  {
-    role: "assistant",
-    text: "I’m going on one of the most amazing trips of life and need you to help me decide on the best places to visit. I’m going to be visiting New York, Colorado and areas around San Francisco and it’s really important that I go to the best spots! Some of my favorite things to do are: Biking, walking, going to dinner and enjoying the city! This is really important for me so please give me the best places I should go!",
-  },
-  {
-    role: "system",
-    text: "I’m going on one of the most amazing trips of life and need you to help me decide on the best places to visit. I’m going to be visiting New York, Colorado and areas around San Francisco and it’s really important that I go to the best spots! Some of my favorite things to do are: Biking, walking, going to dinner and enjoying the city! This is really important for me so please give me the best places I should go!",
-  },
-  {
-    role: "assistant",
-    text: "Note to the development team: This is only here to show what would happen if someone clicked “add message” twice",
-  },
-  {
-    role: "user",
-    text: "Lorem Ipsum is simply for dummy text of the printing and typesetting in the industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer.",
-  },
-  {
-    role: "user",
-    text: "I’m going on one of the most amazing trips of life and need you to help me decide on the best places to visit. I’m going to be visiting New York, Colorado and areas around San Francisco and it’s really important that I go to the best spots! Some of my favorite things to do are: Biking, walking, going to dinner and enjoying the city! This is really important for me so please give me the best places I should go!",
-  },
-  {
-    role: "assistant",
-    text: "I’m going on one of the most amazing trips of life and need you to help me decide on the best places to visit. I’m going to be visiting New York, Colorado and areas around San Francisco and it’s really important that I go to the best spots! Some of my favorite things to do are: Biking, walking, going to dinner and enjoying the city! This is really important for me so please give me the best places I should go!",
-  },
-  {
-    role: "system",
-    text: "I’m going on one of the most amazing trips of life and need you to help me decide on the best places to visit. I’m going to be visiting New York, Colorado and areas around San Francisco and it’s really important that I go to the best spots! Some of my favorite things to do are: Biking, walking, going to dinner and enjoying the city! This is really important for me so please give me the best places I should go!",
-  }
+  // {
+  //   role: "system",
+  //   text: "I’m going on one of the most amazing trips of life and need you to help me decide on the best places to visit. I’m going to be visiting New York, Colorado and areas around San Francisco and it’s really important that I go to the best spots! Some of my favorite things to do are: Biking, walking, going to dinner and enjoying the city! This is really important for me so please give me the best places I should go!",
+  // },
+  // {
+  //   role: "assistant",
+  //   text: "Note to the development team: This is only here to show what would happen if someone clicked “add message” twice",
+  // },
+  // {
+  //   role: "user",
+  //   text: "Lorem Ipsum is simply for dummy text of the printing and typesetting in the industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer.",
+  // },
+  // {
+  //   role: "user",
+  //   text: "I’m going on one of the most amazing trips of life and need you to help me decide on the best places to visit. I’m going to be visiting New York, Colorado and areas around San Francisco and it’s really important that I go to the best spots! Some of my favorite things to do are: Biking, walking, going to dinner and enjoying the city! This is really important for me so please give me the best places I should go!",
+  // }
 ];

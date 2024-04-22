@@ -37,12 +37,18 @@ export const LeftModel = ({
   setIsOpenAdvanced,
 }: iModel) => {
   return (
-    <div className="w-full border-b border-zinc-200 pb-1 pt-4">
+    <div
+      className={`w-full px-2 [transition:all_.3s_ease-in-out] py-[12px] ${
+        !isOpen ? " hover:bg-[#dcdce0]" : "border border-[#dcdce0]"
+      } rounded-md`}
+    >
       <p
-        className="flex items-center text-[12px] mb-1 cursor-pointer w-full justify-between"
+        className="flex items-center text-[16px] cursor-pointer w-full justify-between"
         onClick={() => setIsOpenModel(modelId)}
       >
-        <Label className="cursor-pointer">{modelName.toLocaleUpperCase()}</Label>
+        <Label className="cursor-pointer">
+          {modelName.toLocaleUpperCase()}
+        </Label>
         {isOpen ? (
           <MdOutlineKeyboardArrowDown className="ml-1" />
         ) : (
@@ -50,19 +56,19 @@ export const LeftModel = ({
         )}
       </p>
       {isOpen && (
-        <>
+        <div className="mt-[10px]">
           <Textarea name="description" />
-          <div className="flex items-center justify-between mt-2 mb-1">
+          <div className="flex items-center justify-between mt-[17px]">
             <div className="flex items-center">
               <Checkbox
                 name="discoverability"
                 value="show_on_events_page"
                 defaultChecked
               />
-              <p className="text-[12px] ml-1">Required</p>
+              <p className="text-[14px] ml-1">Required</p>
             </div>
             <div
-              className="text-[12px] ml-1 flex items-center cursor-pointer"
+              className="text-[14px] ml-1 flex items-center cursor-pointer"
               onClick={() => setIsOpenAdvanced()}
             >
               Advanced
@@ -74,13 +80,13 @@ export const LeftModel = ({
             </div>
           </div>
           {isAdvancedOpen && (
-            <div>
+            <div className="mt-[15px]">
               <Dropdown options={recipies} />
-              <Input name="full_name" className="my-1" />
+              <Input name="full_name" className="my-[15px]" />
               <Dropdown options={recipies} />
             </div>
           )}
-        </>
+        </div>
       )}
     </div>
   );

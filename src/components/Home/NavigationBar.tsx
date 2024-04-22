@@ -16,7 +16,7 @@ export const NavigationBar = ({
   opacity,
 }: iNavigationBar) => {
   return (
-    <div>
+    <div className="far-sidebar-height">
       {menuItems.map((item, index) => (
         <div key={index}>
           <h4

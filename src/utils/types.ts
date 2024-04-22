@@ -217,6 +217,7 @@ export type iDropDownProps = {
   options: iSelectType[];
   placeHolder?: string;
   value?: string;
+  className?: string;
 };
 
 // src/components/UI/input.tsx
