@@ -1,8 +1,9 @@
 import React from 'react'
 import { Form } from '@/components/Chatbot/Form';
+import { Chatbot } from "@/components/Chatbot/Chatbot";
  const page = () => {
   return (
-         <Form/>
+         <Chatbot/>
   )
 }
 export default page;
