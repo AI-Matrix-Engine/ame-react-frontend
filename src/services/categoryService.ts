@@ -1,7 +1,7 @@
 // src/services/categoryService.ts
 import axios from 'axios';
 import { iSelectType } from "@/utils/types";
-import {aiMatrixAPI} from './api';
+import { aiMatrixAPI } from './api';
 
 export const fetchCategories = async (): Promise<iSelectType[]> => {
     try {
@@ -45,5 +45,19 @@ export const addCategory = async (category: { name: string, parent_category: num
         console.log('Category added successfully:', response.data);
     } catch (error) {
         console.error('Failed to add category', error);
+    }
+};
+
+export const fetchCategoryById = async (id: number): Promise<iSelectType | null> => {
+    try {
+        const categories: iSelectType[] = await fetchCategories();
+
+        const result = categories.find((item: iSelectType) => item.value === id.toString());
+
+        return result || null;
+    } catch (err) {
+        console.error(`Failed to fetch category by ${id}:`, err);
+        // Re-throw the error if necessary or return a default value
+        throw err;  // You can also return null or another fallback value
     }
 };
