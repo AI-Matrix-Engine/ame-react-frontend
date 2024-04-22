@@ -14,15 +14,9 @@ const routes = require('./services/mongo/routes/todoListRoutes'); // importing r
 
 const bodyParser = require('body-parser');
 
-mongoose
-  .connect('mongodb://localhost:27017/TodoDB', {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-  })
-  .catch(err => {
-    console.log('Unable to connect', err);
-  });
-
+await mongoose
+  .connect('mongodb://localhost:27017/TodoDB')
+  
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 

@@ -1,7 +1,7 @@
 // src/services/categoryService.ts
 import axios from 'axios';
 import { iSelectType } from "@/utils/types";
-import {aiMatrixAPI} from './api';
+import { aiMatrixAPI } from './api';
 
 export const fetchCategories = async (): Promise<iSelectType[]> => {
     try {
@@ -47,3 +47,35 @@ export const addCategory = async (category: { name: string, parent_category: num
         console.error('Failed to add category', error);
     }
 };
+
+export const fetchCategoryById = async (id: number): Promise<iSelectType | null> => {
+    try {
+        const categories: iSelectType[] = await fetchCategories();
+
+        const result = categories.find((item: iSelectType) => item.value === id.toString());
+
+        return result || null;
+    } catch (err) {
+        console.error(`Failed to fetch category by id`, err);
+        
+        return null;
+    }
+};
+
+export const updateCategoryById = async (id: number, category: { name: string, parent_category: number | null }): Promise<void> => {
+    try {
+        const response = await axios.put(`${aiMatrixAPI.defaults.baseURL}oai/allcategory/${id}/`, category);
+        console.log('Category updated successfully.', response.data)
+    } catch (err) {
+        console.error(`Failed to update category by id`, err);
+    }
+}
+
+export const patchCategoryById = async (id: number, category: { name: string, parent_category: number | null }): Promise<void> => {
+    try {
+        const response = await axios.patch(`${aiMatrixAPI.defaults.baseURL}oai/allcategory/${id}/`, category);
+        console.log('Category patched successfully.', response.data)
+    } catch (err) {
+        console.error(`Failed to patch category by id`, err);
+    }
+}
