@@ -5,16 +5,7 @@ import * as Yup from "yup";
 import { Input } from "../UI";
 import { useState, useEffect, useRef } from "react";
 import { socketService } from "@/lib/socket";
-
-enum eMsgType {
-  SENT = 'sent',
-  RECIEVE = 'recieve'
-}
-
-interface iMessage {
-  type: eMsgType,
-  message: string
-}
+import { iMessage, eMsgType } from "@/utils/types";
 
 export const Form = () => {
   const validationSchema = Yup.object().shape({
@@ -44,7 +35,6 @@ export const Form = () => {
 
     if (socket) {
       socket.on('ai_response', (receivedData: any) => {
-        console.log('recievedData', receivedData)
         displayUserMessage(receivedData, eMsgType.RECIEVE);
       });
     }
