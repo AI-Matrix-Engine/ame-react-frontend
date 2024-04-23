@@ -25,7 +25,15 @@ const MiddleSection = ({ width, index, isResizable, onMouseDown }: any) => {
       role: "user",
       text: "",
     };
-    setPData((prev: iPData[]) => [...prev, newAssistPrompt, newUserPrompt]);
+    if(pData.length === 1) {
+      setPData((prev: iPData[]) => [...prev, newAssistPrompt]);
+    } else {
+      if(pData[pData.length - 1].role === 'user') {
+        setPData((prev: iPData[]) => [...prev, newAssistPrompt]);
+      } else {
+        setPData((prev: iPData[]) => [...prev, newUserPrompt]);
+      }
+    }
   };
   return (
     <div

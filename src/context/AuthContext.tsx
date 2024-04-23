@@ -32,6 +32,30 @@ const AuthContext = createContext<{
     email: string,
     password: string
   ) => Promise<void>;
+  models: {
+    isOpen: false,
+    api: string;
+    mode: string;
+    temperature: number;
+    maxTokens: number;
+    topP: number;
+    frequencyPenalty: number;
+    presencePenalty: number;
+    text: string;
+    sequence: string;
+  }[];
+  setModels: React.Dispatch<React.SetStateAction<{
+    isOpen: boolean;
+    api: string;
+    mode: string;
+    temperature: number;
+    maxTokens: number;
+    topP: number;
+    frequencyPenalty: number;
+    presencePenalty: number;
+    text: string;
+    sequence: string;
+  }[]>>;
 }>({
   user: null,
   loading: true,
@@ -46,13 +70,45 @@ const AuthContext = createContext<{
   ) => {
     await createUserWithEmailAndPassword(auth, email, password);
     if (auth.currentUser) {
-      await updateProfile(auth.currentUser, { displayName: `${firstName} ${lastName}` });
+      await updateProfile(auth.currentUser, {
+        displayName: `${firstName} ${lastName}`,
+      });
     }
   },
+  models: [
+    // Provide initial value for models
+    {
+      isOpen: false,
+      api: "",
+      mode: "",
+      temperature: 0.3,
+      maxTokens: 1120,
+      topP: 1,
+      frequencyPenalty: 0,
+      presencePenalty: 0,
+      text: "",
+      sequence: "",
+    },
+  ],
+  setModels: () => {},
 });
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [loading, setLoading] = useState<boolean>(true);
+  const [models, setModels] = useState<any>([
+    {
+      isOpen: false,
+      api: "",
+      mode: "",
+      temperature: 0.3,
+      maxTokens: 1120,
+      topP: 1,
+      frequencyPenalty: 0,
+      presencePenalty: 0,
+      text: "",
+      sequence: "",
+    },
+  ]);
   const [user, setUser] = useState<{
     uid: string;
     email: string | null;
@@ -95,7 +151,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   ) => {
     await createUserWithEmailAndPassword(auth, email, password);
     if (auth.currentUser) {
-      await updateProfile(auth.currentUser, { displayName: `${firstName} ${lastName}` });
+      await updateProfile(auth.currentUser, {
+        displayName: `${firstName} ${lastName}`,
+      });
       await logout();
     }
   };
@@ -108,6 +166,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         login,
         logout,
         register,
+        models,
+        setModels
       }}
     >
       {loading ? null : children}
