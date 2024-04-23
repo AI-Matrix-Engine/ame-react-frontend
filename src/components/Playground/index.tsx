@@ -37,10 +37,10 @@ const HorizontalAdjustableSections: React.FC = () => {
           <div className="ml-[20px] mr-[20px]">
             <Dropdown options={recipies} className="outline-none" />
           </div>
-          <Button className="cursor-pointer bg-[#202020] border border-[#3F3F46]">
+          <Button className="cursor-pointer bg-[#202020] border border-[#3F3F46] text-[12px]">
             Save Update
           </Button>
-          <Button className="cursor-pointer ml-[20px] bg-[#202020] border border-[#3F3F46]">
+          <Button className="cursor-pointer ml-[20px] bg-[#202020] border border-[#3F3F46] text-[12px]">
             Save New
           </Button>
         </div>
@@ -55,13 +55,13 @@ const HorizontalAdjustableSections: React.FC = () => {
         <PanelResizeHandle className="group">
           <SectionSplitter />
         </PanelResizeHandle>
-        <Panel minSize={0}>
+        <Panel defaultSize={30} minSize={0}>
           <MiddleSection />
         </Panel>
         <PanelResizeHandle className="group">
           <SectionSplitter />
         </PanelResizeHandle>
-        <Panel defaultSize={30} minSize={0}>
+        <Panel minSize={0}>
           <RightSection />
         </Panel>
       </PanelGroup>
