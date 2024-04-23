@@ -287,3 +287,20 @@ export interface iApiType {
   api_costs: number[],
   errors: number[]
 }
+
+// apiCallHistory Service Type
+
+export interface iApiCallHistoryType {
+  id: number,
+  full_request: object,
+  full_response: object,
+  additional_details: object,
+  created_at: string,
+  response_quality: number,
+  response_quality_feedback: string,
+  use_for_training: boolean,
+  api: number | null,
+  ai_model: number | null,
+  recipe_category: number | null,
+  prompt_recipe: number | null
+}
