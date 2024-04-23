@@ -23,7 +23,7 @@ export const Dropdown = ({
   };
 
   return (
-    <div className="w-full">
+    <div className="w-full dark:text-[#fafafa] dark:bg-[#ffffff0d] dark:border-[#ffffff1a] dark:border outline-none rounded-md">
       <Label className="mb-2">{placeHolder}</Label>
       <Select
         onValueChange={(value: string) => {

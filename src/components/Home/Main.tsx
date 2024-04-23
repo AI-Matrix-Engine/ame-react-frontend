@@ -51,7 +51,7 @@ export const Main = ({ children }: childrenProp) => {
             <div
               className={`bg-[#252b36] relative ${
                 isExpand.command && "w-[300px]"
-              } flex`}
+              } flex dark:bg-[#18181b] dark:border-r dark:border-r-[#ffffff1a]`}
             >
               {isExpand.command && (
                 <div className="flex-1 py-[16px] pl-[16px] [transition:all_.3s_ease-in-out]">

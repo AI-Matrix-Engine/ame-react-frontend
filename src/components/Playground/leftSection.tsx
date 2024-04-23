@@ -30,10 +30,10 @@ const LeftSection = () => {
     <div className={`container-height flex overflow-y-auto`}>
       {isExpand && (
         <div className="w-full h-full flex flex-col items-center border-zinc-200 pl-[9.92px] pr-[0.37em]">
-          {/* <div> */}
           <Button className="w-full rounded">Convert to Variable</Button>
-          <Button className="w-full rounded mt-[10px]">Make Section Optional</Button>
-          {/* </div> */}
+          <Button className="w-full rounded mt-[10px]">
+            Make Section Optional
+          </Button>
           <div className="w-full mt-[10px]">
             {modelName.map((model: string, key: number) => (
               <LeftModel
