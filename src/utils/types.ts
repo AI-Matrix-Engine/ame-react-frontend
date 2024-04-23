@@ -60,17 +60,17 @@ export type JsonDataType = {
       readOnly?: boolean;
     };
     type:
-      | "input"
-      | "dropdown"
-      | "dropdown_with_other_option"
-      | "textarea"
-      | "radio"
-      | "checkbox"
-      | "switch"
-      | "dialog"
-      | "table"
-      | "tab"
-      | "calendar";
+    | "input"
+    | "dropdown"
+    | "dropdown_with_other_option"
+    | "textarea"
+    | "radio"
+    | "checkbox"
+    | "switch"
+    | "dialog"
+    | "table"
+    | "tab"
+    | "calendar";
     validation: {
       maxLength: number;
       minLength: number;
@@ -248,3 +248,42 @@ export type iLeftSidebarExpand = {
 export type childrenProp = {
   children: ReactNode;
 };
+
+// Api Service Types
+
+export enum eApiPurpose {
+  BROAD_AI_TASKS = "broad_ai_tasks",
+  SPECIFIC_AI_TASK = "specific_ai_task",
+  AI_MANAGEMENT_TASKS = "ai_management_tasks",
+  PRE_AI_REQUEST_TASKS = "pre_ai_request_tasks",
+  POST_AI_REQUEST_TASKS = "post_ai_request_tasks",
+  NON_AI_RELATED_TASKS = "non_ai_related_tasks",
+  RESPONSE_PROCESSING = "response_processing",
+  DATA_PROCESSING = "data_processing",
+  OTHER_TASK = "other_task"
+}
+
+export enum eApiProvider {
+  OPENAI = "openai",
+  GOOGLE = "google",
+  CODEBERT = "codebert"
+}
+
+export interface iApiType {
+  value: string,
+  name: string,
+  provider: eApiProvider,
+  purpose: eApiPurpose,
+  version: string,
+  is_active: boolean,
+  link_to_documentation: string,
+  chat_completion_requests: number[],
+  image_task_Requests: number[],
+  audio_speech_requests: number[],
+  audio_transcription_requests: number[],
+  audio_translation_requests: number[],
+  endpoints: number[],
+  response: number[],
+  apiCosts: number[],
+  errors: number[]
+}
