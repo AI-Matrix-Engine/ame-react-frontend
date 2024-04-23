@@ -317,3 +317,15 @@ export interface iApiCallHistoryInputType {
   recipe_category: number | null,
   prompt_recipe: number | null
 }
+
+//chatbot interfaces
+
+export enum eMsgType {
+  SENT = 'sent',
+  RECIEVE = 'recieve'
+}
+
+export interface iMessage {
+  type: eMsgType,
+  message: string
+}
