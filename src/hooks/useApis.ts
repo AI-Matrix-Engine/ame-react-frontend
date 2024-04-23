@@ -1,17 +1,31 @@
 import { useState, useEffect } from "react";
-import { iApiType } from "@/utils/types";
-import { fetchApis, createApi } from "@/services/apiService";
+import { iApiType, eApiProvider, eApiPurpose } from "@/utils/types";
+import { fetchApis, createApi, fetchApiById, updateApiById, deleteApiById } from "@/services/apiService";
 
 export const useApis = () => {
     const [apis, setApis] = useState<iApiType[]>([]);
+    const [api, setApi] = useState<iApiType | null>(null);
 
     const getApis = async () => {
         const fetchedApis = await fetchApis();
         setApis(fetchedApis);
     }
 
-    const handleAPI = async (api: iApiType) => {
+    const handleCreateAPI = async (api: iApiType) => {
         await createApi(api)
+    }
+
+    const handleFetchApiById = async (id: number) => {
+        const result = await fetchApiById(id);
+        setApi(result);
+    }
+
+    const handleDeleteApiById = async (id: number) => {
+        await deleteApiById(id);
+    }
+
+    const handleUpdateApiById = async (id: number, api: iApiType) => {
+        await updateApiById(id, api)
     }
 
     useEffect(() => {
@@ -21,6 +35,9 @@ export const useApis = () => {
     return {
         apis,
         setApis,
-        handleAPI
+        handleCreateAPI,
+        handleFetchApiById,
+        handleUpdateApiById,
+        handleDeleteApiById
     };
 };
