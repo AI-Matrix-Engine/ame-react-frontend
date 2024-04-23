@@ -8,5 +8,5 @@ export const aiMatrixAPI = axios.create({
 
 export const subAiAPI = {
     api: "oai/api",
-    apiCallHistory: "/oai/apicallhistory"
+    apiCallHistory: "oai/apicallhistory"
 }
