@@ -46,7 +46,7 @@ export const menuItems: MenuCategory[] = [
       {
         itemCategory: "Matrix Apps",
         icon: <PersonIcon className="h-4 w-4 text-gray-500" />,
-        itemSubMenu: [{ name: "Create", route: "/matrix-apps/create" }, { name: "Run", route: "/matrix-apps/run" }, { name: "Manage", route: "/matrix-apps/manage" }, { name: "Admin", route: "/matrix-apps/admin" }, { name: "Login", route: "/matrix-apps/login" }, { name: "Signup", route: "/matrix-apps/signup" }],
+        itemSubMenu: [{ name: "Create", route: "/matrix-apps/create" }, { name: "Run", route: "/matrix-apps/run" }, { name: "Manage", route: "/matrix-apps/manage" }, { name: "Admin", route: "/matrix-apps/admin" }, { name: "Login", route: "/login" }, { name: "Signup", route: "/signup" }],
       },
     ],
   },

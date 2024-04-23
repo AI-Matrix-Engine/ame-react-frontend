@@ -82,7 +82,7 @@ export const Header = ({ darkMode, setMode }: iHeader) => {
             </Menu.Items>
           </Menu>
         ) : (
-          <Link href="/matrix-apps/login" className="text-white">
+          <Link href="/login" className="text-white">
             Login
           </Link>
         )}
