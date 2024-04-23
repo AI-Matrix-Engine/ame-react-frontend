@@ -14,8 +14,7 @@ export const fetchApis = async (): Promise<iApiType[]> => {
 };
 
 export const createApi = async (api: any): Promise<void> => {
-    try {
-        console.log('api', api)
+    try {  
         const response = await axios.post(`${aiMatrixAPI.defaults.baseURL}oai/api/`, api);
         console.log('Api added successfully.', response.data);
     } catch (error) {

@@ -284,6 +284,6 @@ export interface iApiType {
   audio_translation_requests: number[],
   endpoints: number[],
   response: number[],
-  apiCosts: number[],
+  api_costs: number[],
   errors: number[]
 }
