@@ -61,7 +61,7 @@ export const NavigationBar = ({
                     <div>{menuItem.icon}</div>
                     <Link
                       key={subIndex}
-                      href="#"
+                      href={menuItem.route ? menuItem.route : '#'}
                       className={`flex-1 text-left ${textColor}`}
                     >
                       {!text && menuItem.itemCategory}

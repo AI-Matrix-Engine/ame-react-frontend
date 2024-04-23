@@ -73,7 +73,7 @@ const leftSideBars: iLeftSideBarType[] = [
   },
 ];
 
-export const Main = ({ children }: {children: ReactNode}) => {
+export const Main = ({ children }: { children: ReactNode }) => {
   const [sideBars, setSideBars] = useState(leftSideBars);
   console.log("Its really getting into page.");
   const handleNavigation = (id: string) => {
@@ -139,15 +139,13 @@ export const Main = ({ children }: {children: ReactNode}) => {
             onMouseEnter={() => handleMouseEvent(sideBar.id, true)}
             onMouseLeave={() => handleMouseEvent(sideBar.id, false)}
             key={sideBar.id}
-            className={`px-8 h-full  pl-4  ${
-              sideBar.id === "1"
-                ? "bg-[#252b36] absolute left-0 "
-                : "bg-[#f9f9f9]"
-            } ${
-              sideBar.toggle || (sideBar.id === "1" && sideBar.hover)
-                ? `max-h-full overflow-y-auto ${sideBar.expandedStyles.width}`
+            className={`px-8 h-full  pl-4  ${sideBar.id === "1"
+              ? "bg-[#252b36] absolute left-0 "
+              : "bg-[#f9f9f9]"
+              } ${sideBar.toggle || (sideBar.id === "1" && sideBar.hover)
+                ? `max-h-full overflow-y-scroll ${sideBar.expandedStyles.width}`
                 : sideBar.collapsedStyles.width
-            }`}
+              }`}
           >
             {/* <LeftNavbar details={sideBar} onHandle={handleNavigation} /> */}
           </div>

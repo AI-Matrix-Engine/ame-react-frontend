@@ -53,9 +53,8 @@ export const Header = ({ darkMode, setMode }: iHeader) => {
               <Menu.Item>
                 {({ active }) => (
                   <button
-                    className={`${
-                      active ? "bg-gray-100" : ""
-                    } block px-4 py-2 text-sm text-gray-700 w-full text-left`}
+                    className={`${active ? "bg-gray-100" : ""
+                      } block px-4 py-2 text-sm text-gray-700 w-full text-left`}
                     onClick={() => router.push("/profile")}
                   >
                     Profile
@@ -65,9 +64,8 @@ export const Header = ({ darkMode, setMode }: iHeader) => {
               <Menu.Item>
                 {({ active }) => (
                   <button
-                    className={`${
-                      active ? "bg-gray-100" : ""
-                    } block px-4 py-2 text-sm text-gray-700 w-full text-left`}
+                    className={`${active ? "bg-gray-100" : ""
+                      } block px-4 py-2 text-sm text-gray-700 w-full text-left`}
                     onClick={async () => {
                       try {
                         await logout();
@@ -84,7 +82,7 @@ export const Header = ({ darkMode, setMode }: iHeader) => {
             </Menu.Items>
           </Menu>
         ) : (
-          <Link href="/login" className="text-white">
+          <Link href="/matrix-apps/login" className="text-white">
             Login
           </Link>
         )}

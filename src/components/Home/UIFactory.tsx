@@ -110,7 +110,7 @@ export const UIFactory = () => {
           onDelete={handleDeleteCustomFields}
           handleChange={handleCustomFieldsValueChange}
         />
-        <div 
+        <div
           className="mt-4"
         >
           {customFields
