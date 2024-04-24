@@ -21,14 +21,15 @@ interface iPData {
 
 const RightSection = ({ width, index, isResizable, onMouseDown }: any) => {
   const { models, setModels } = useAuth();
-  const [isExpand, setIsExpand] = React.useState(-1);
+
   const handleExpand = (index: number) => {
     const currentModels = [...models];
     const updateModels = currentModels.map((model:any, key:number) => {
-      if(key === index) {
-        model.isOpen = true;
+      if (key === index) {
+        if(model.isOpen) model.isOpen = false;
+        else model.isOpen = true;
       } else model.isOpen = false;
-      return model
+      return model;
     })
     setModels(updateModels);
   };
