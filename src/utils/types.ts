@@ -320,12 +320,12 @@ export interface iApiCallHistoryInputType {
 
 //chatbot interfaces
 
-export enum eMsgType {
-  SENT = 'sent',
-  RECIEVE = 'recieve'
+export enum eRoleType {
+  USER = 'user',
+  ASSISTANT = 'assistant'
 }
 
 export interface iMessage {
-  type: eMsgType,
-  message: string
+  role: eRoleType,
+  content: string
 }
