@@ -244,7 +244,7 @@ export const Form = () => {
                   {
                     index === chatHistory.length - 1 && chat.type === eMsgType.RECIEVE ? (
                       <div className="pt-4 flex flex-row items-start">
-                        <PersonIcon className="h-6 w-6 text-gray"></PersonIcon>
+                        <ChatBubbleIcon className="h-6 w-6 text-gray"></ChatBubbleIcon>
                         <div className="pl-2 flex flex-col">
                           <div className="font-bold">Chatbot</div>
                           <div className="pt-2">{streamText}</div>
@@ -252,7 +252,7 @@ export const Form = () => {
                       </div>
                     ) : (
                       <div className="pt-4 flex flex-row items-start">
-                        <PersonIcon className="h-6 w-6 text-gray"></PersonIcon>
+                        {chat.type === eMsgType.SENT ? <PersonIcon className="h-6 w-6 text-gray"></PersonIcon> : <ChatBubbleIcon className="h-6 w-6 text-gray"></ChatBubbleIcon>}
                         <div className="pl-2 flex flex-col">
                           <div className="font-bold">{chat.type === eMsgType.SENT ? "You" : "Chatbot"}</div>
                           <div className="pt-2">{chat.message}</div>
@@ -315,51 +315,6 @@ export const Form = () => {
               )
             }
           </div>
-
-          {/* {
-            customOptionVisible && (
-              <>
-                <div className="pt-4 flex flex-row items-center">
-                  <div className="flex items-center pr-4">
-                    <input id="make-small-talk" type="checkbox" checked={makeSmallTalk} onChange={() => setMakeSmallTalk(!makeSmallTalk)} className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
-                    <label htmlFor="make-small-talk" className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Make Small Talk</label>
-                  </div>
-
-                  <div className="flex items-center pr-4">
-                    <input id="answer-quickly-please" type="checkbox" checked={answerQuickly} onChange={() => setAnswerQuickly(!answerQuickly)} className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
-                    <label htmlFor="answer-quickly-please" className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Answer quickly please!</label>
-                  </div>
-
-                  <div className="flex items-center pr-4">
-                    <input id="improve-my-questions" type="checkbox" checked={improveQuestion} onChange={() => setImproveQuestion(!improveQuestion)} className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
-                    <label htmlFor="improve-my-questions" className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Improve My Questions</label>
-                  </div>
-
-                  <div className="flex items-center pr-4">
-                    <input id="submit-on-enter" type="checkbox" checked={submitOnEnter} onChange={() => setSubmitOnEnter(!submitOnEnter)} className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
-                    <label htmlFor="submit-on-enter" className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Submit on Enter</label>
-                  </div>
-                </div>
-
-                <div className="pt-4 flex flex-row items-center">
-                  <select id="form1" value={aiPreferencesMain} onChange={(e) => setAIPreferencesMain(e.target.value)} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5">
-                    <option value="Direct AI chat">Direct AI chat</option>
-                    <option value="Ask me Some Questions">Ask me Some Questions</option>
-                    <option value="Give Me a Few Options">Give Me a Few Options</option>
-                    <option value="I'll Fill Out a Form">I'll Fill Out a Form</option>
-                  </select>
-
-                  <select id="form2" value={aiPreferencesSecond} onChange={(e) => setAIPreferencesSecond(e.target.value)} className="ml-4 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5">
-                    <option value="Chat With One AI">Chat With One AI</option>
-                    <option value="Two AIs Side by Side">Two AIs Side by Side</option>
-                    <option value="Let's Get a Team">Let's Get a Team</option>
-                    <option value="Show Me What You Can Do">Show Me What You Can Do</option>
-                    <option value="Unleash Infinity Matrix">Unleash Infinity Matrix!</option>
-                  </select>
-                </div>
-              </>
-            )
-          } */}
         </div>
       </div>
     </div>
