@@ -48,6 +48,28 @@ export const Form = () => {
     };
   }, [])
 
+  const sendMessage = () => {
+    const messageData = {
+      message,
+      history: chatHistory,
+      settings: getUserSettings(),
+      page: "chatbot.backend_functions.openai_chatbot"
+    };
+
+    if (!socketService.getSocket()) {
+      socketService.init();
+    }
+
+    const socket = socketService.getSocket();
+
+    if (socket) {
+      socket.emit('user_message', messageData, (response: any) => {
+        console.log('response', response);
+      });
+      console.log('Socket emit completed, awaiting callback...');
+    }
+  }
+
   const processIncomingMessages = (data: string): void => {
     const dataArr: string[] = data.split('\n\n');
 
@@ -140,28 +162,6 @@ export const Form = () => {
   const scrollToBottom = () => {
     if (chatBoxRef.current) {
       chatBoxRef.current.scrollTop = chatBoxRef.current.scrollHeight;
-    }
-  }
-
-  const sendMessage = () => {
-    const messageData = {
-      message,
-      history: chatHistory,
-      settings: getUserSettings(),
-      page: "chatbot.backend_functions.openai_chatbot"
-    };
-
-    if (!socketService.getSocket()) {
-      socketService.init();
-    }
-
-    const socket = socketService.getSocket();
-
-    if (socket) {
-      socket.emit('user_message', messageData, (response: any) => {
-        console.log('response', response);
-      });
-      console.log('Socket emit completed, awaiting callback...');
     }
   }
 
