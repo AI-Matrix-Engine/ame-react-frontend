@@ -165,9 +165,13 @@ function ChatFrom() {
   useEffect(() => {
     const storedChats = localStorage.getItem("previousChats");
     if (storedChats) {
-      // setLocalChats(JSON.parse(storedChats));
+      setChatHistory(JSON.parse(storedChats));
     }
   }, []);
+
+  useEffect(() => {
+    localStorage.setItem("previousChats", JSON.stringify(chatHistory))
+  }, [chatHistory])
 
   const toggleSidebar = useCallback((): void => {
     setIsShowSidebar((prev) => !prev);
