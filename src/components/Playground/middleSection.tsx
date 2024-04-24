@@ -25,7 +25,15 @@ const MiddleSection = ({ width, index, isResizable, onMouseDown }: any) => {
       role: "user",
       text: "",
     };
-    setPData((prev: iPData[]) => [...prev, newAssistPrompt, newUserPrompt]);
+    if(pData.length === 1) {
+      setPData((prev: iPData[]) => [...prev, newUserPrompt]);
+    } else {
+      if(pData[pData.length - 1].role === 'user') {
+        setPData((prev: iPData[]) => [...prev, newAssistPrompt]);
+      } else {
+        setPData((prev: iPData[]) => [...prev, newUserPrompt]);
+      }
+    }
   };
   return (
     <div
@@ -40,17 +48,19 @@ const MiddleSection = ({ width, index, isResizable, onMouseDown }: any) => {
           isExpand={index === isExpand ? true : false}
           role={prompt.role}
           index={index}
+          key={index}
           setIsExpand={handleExpand}
           setPData={setPData}
+          pData={pData}
           text={prompt.text}
         />
       ))}
       <div
-        className="flex items-center cursor-pointer p-2 rounded-md [transition:all_.3s_ease-in-out] hover:border-[#0e8157] hover:bg-[#dcdce0]"
+        className="flex items-center cursor-pointer p-2 rounded-md [transition:all_.3s_ease-in-out] hover:border-[#0e8157] hover:bg-[#dcdce0] dark:hover:bg-[#2b2b2b]"
         onClick={() => addPrompt()}
       >
-        <LuPlusCircle className="text-black text-[16px] mr-[8.35px]" />
-        <span className="text-[14px] font-semibold text-black">
+        <LuPlusCircle className="text-black text-[16px] mr-[8.35px] dark:text-[#d9d9e3]" />
+        <span className="text-[14px] font-semibold text-black dark:text-[#d9d9e3]">
           Add Messages
         </span>
       </div>

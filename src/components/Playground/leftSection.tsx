@@ -4,7 +4,7 @@ import * as React from "react";
 import { Button } from "@/components/UI/button";
 import { LeftModel } from "@/components/Playground/model";
 
-const modelName = ["PLACES TO VISIT", "PLACES TO VISIT", "PLACES TO VISIT"];
+const modelName = ["PLACES TO VISIT", "FAVORITE THINGS TO DO", "FAVORITE FOOD", "HOBBIES", "ALLERGIES"];
 
 interface iModelOpenFlag {
   model: number;
@@ -30,10 +30,10 @@ const LeftSection = () => {
     <div className={`container-height flex overflow-y-auto`}>
       {isExpand && (
         <div className="w-full h-full flex flex-col items-center border-zinc-200 pl-[9.92px] pr-[0.37em]">
-          {/* <div> */}
-          <Button className="w-full rounded">Convert to Variable</Button>
-          <Button className="w-full rounded mt-[10px]">Make Section Optional</Button>
-          {/* </div> */}
+          <Button className="w-full text-[#3478F7] dark:text-[#3478F7]" size='sm'>Convert to Variable</Button>
+          <Button className="w-full mt-[10px] text-[#B4B8FF] dark:text-[#B4B8FF]" size='sm'>
+            Make Section Optional
+          </Button>
           <div className="w-full mt-[10px]">
             {modelName.map((model: string, key: number) => (
               <LeftModel

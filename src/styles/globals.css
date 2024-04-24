@@ -38,9 +38,9 @@ html {
 }
 
 .container-height {
-  height: calc(100vh - 64px);
-  min-height: calc(100vh - 64px);
-  max-height: calc(100vh - 64px);
+  height: calc(100vh - 61px);
+  min-height: calc(100vh - 61px);
+  max-height: calc(100vh - 61px);
 }
 
 .far-sidebar-height {
@@ -51,4 +51,28 @@ html {
 
 .adjustable-height {
   height: calc(100% - 60px) !important;
+}
+
+/* input range slider */
+
+input[type="range"] {
+  width: 100%;
+  appearance: none;
+  overflow: hidden;
+  border-radius: 32px;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  background: #ffffff;
+  height: 5px;
+  width: 5px;
+  border-radius: 50%;
+  box-shadow: -1024px 0 0 1008px #505ad7;
+}
+
+input[type="range"]::-webkit-slider-runnable-track {
+  background: #e6e6e6;
+  box-shadow: inset 0px 0px 0px 8px #ffffff;
+  border-radius: 32px;
 }
