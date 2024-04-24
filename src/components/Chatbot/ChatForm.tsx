@@ -11,6 +11,7 @@ import { BiPlus, BiUser, BiSend, BiSolidUserCircle } from "react-icons/bi";
 import { MdOutlineArrowLeft, MdOutlineArrowRight } from "react-icons/md";
 import { socketService } from "@/lib/socket";
 import { iMessage, eRoleType } from "@/utils/types";
+import { ChatBubbleIcon } from "@radix-ui/react-icons";
 
 function ChatFrom() {
   const [message, setMessage] = useState<string>("");
@@ -208,17 +209,18 @@ function ChatFrom() {
                 {chatMsg.role === eRoleType.USER ? (
                   <BiSolidUserCircle size={36} />
                 ) : (
-                  <img
-                    src="images/chatgpt-logo.svg"
-                    alt="ChatGPT"
-                    className="w-9 h-9"
-                  />
+                  // <img
+                  //   src="images/chatgpt-logo.svg"
+                  //   alt="ChatGPT"
+                  //   className="w-9 h-9"
+                  // />
+                  <ChatBubbleIcon className="w-8 h-8"></ChatBubbleIcon>
                 )}
                 <div>
                   <p className="text-sm font-semibold">
                     {chatMsg.role === eRoleType.USER ? "You" : "ChatGPT"}
                   </p>
-                  <p>{chatMsg.content}</p>
+                  <p>{idx === chatHistory.length - 1 && chatMsg.role === eRoleType.ASSISTANT ? streamText : chatMsg.content}</p>
                 </div>
               </li>
             ))}
