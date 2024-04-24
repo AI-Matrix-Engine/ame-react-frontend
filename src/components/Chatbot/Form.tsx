@@ -5,7 +5,7 @@ import * as Yup from "yup";
 import { Input } from "../UI";
 import { useState, useEffect, useRef } from "react";
 import { socketService } from "@/lib/socket";
-import { iMessage, eMsgType } from "@/utils/types";
+import { iMessage, eRoleType } from "@/utils/types";
 import { PersonIcon, ChatBubbleIcon } from "@radix-ui/react-icons";
 
 export const Form = () => {
@@ -38,7 +38,7 @@ export const Form = () => {
     if (socket) {
       socket.on('ai_response', (receivedData: any) => {
         setStreamText("");
-        displayUserMessage(receivedData, eMsgType.RECIEVE);
+        displayUserMessage(receivedData, eRoleType.ASSISTANT);
         processIncomingMessages(receivedData);
       });
     }
@@ -96,10 +96,10 @@ export const Form = () => {
     setCustomOptionVisible(!customOptionVisible);
   }
 
-  const displayUserMessage = (msg: string, type: eMsgType) => {
+  const displayUserMessage = (msg: string, type: eRoleType) => {
     const newMessage: iMessage = {
-      type: type,
-      message: msg
+      role: type,
+      content: msg
     };
 
     setChatHistory(prev => [
@@ -117,21 +117,11 @@ export const Form = () => {
   const handleSubmit = () => {
     if (message) {
       sendMessage();
-      displayUserMessage(message, eMsgType.SENT);
+      displayUserMessage(message, eRoleType.USER);
       clearMessageInput();
     } else {
       console.log('No message to send.');
     }
-  }
-
-  const getChatHistory = () => {
-    let data = '';
-    for (let i = 0; i < chatHistory.length; i++) {
-      const messageData: iMessage = chatHistory[i];
-      data += `${messageData.message}\n`
-    }
-
-    return data;
   }
 
   const getUserSettings = () => {
@@ -156,7 +146,7 @@ export const Form = () => {
   const sendMessage = () => {
     const messageData = {
       message,
-      history: getChatHistory(),
+      history: chatHistory,
       settings: getUserSettings(),
       page: "chatbot.backend_functions.openai_chatbot"
     };
@@ -242,7 +232,7 @@ export const Form = () => {
               chatHistory.map((chat: iMessage, index: number) => (
                 <div key={index}>
                   {
-                    index === chatHistory.length - 1 && chat.type === eMsgType.RECIEVE ? (
+                    index === chatHistory.length - 1 && chat.role === eRoleType.ASSISTANT ? (
                       <div className="pt-4 flex flex-row items-start">
                         <ChatBubbleIcon className="h-6 w-6 text-gray"></ChatBubbleIcon>
                         <div className="pl-2 flex flex-col">
@@ -252,10 +242,10 @@ export const Form = () => {
                       </div>
                     ) : (
                       <div className="pt-4 flex flex-row items-start">
-                        {chat.type === eMsgType.SENT ? <PersonIcon className="h-6 w-6 text-gray"></PersonIcon> : <ChatBubbleIcon className="h-6 w-6 text-gray"></ChatBubbleIcon>}
+                        {chat.role === eRoleType.USER ? <PersonIcon className="h-6 w-6 text-gray"></PersonIcon> : <ChatBubbleIcon className="h-6 w-6 text-gray"></ChatBubbleIcon>}
                         <div className="pl-2 flex flex-col">
-                          <div className="font-bold">{chat.type === eMsgType.SENT ? "You" : "Chatbot"}</div>
-                          <div className="pt-2">{chat.message}</div>
+                          <div className="font-bold">{chat.role === eRoleType.USER ? "You" : "Chatbot"}</div>
+                          <div className="pt-2">{chat.content}</div>
                         </div>
                       </div>
                     )
