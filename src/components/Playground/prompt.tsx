@@ -1,8 +1,8 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { IoCloseCircleOutline } from "react-icons/io5";
 
-import { Label, Textarea } from "../UI";
+import { Label } from "../UI";
 import { SlCloudUpload } from "react-icons/sl";
 import { CiImageOn } from "react-icons/ci";
 import { GoVideo } from "react-icons/go";
@@ -13,6 +13,9 @@ import {
 } from "react-icons/ai";
 import TextareaAutosize from "react-textarea-autosize";
 import { BsArrowsAngleContract, BsArrowsAngleExpand } from "react-icons/bs";
+import { useAuth } from "@/context/AuthContext";
+
+let selectedStr: any = "";
 
 interface iPrompt {
   isExpand?: boolean;
@@ -32,7 +35,13 @@ const Prompt = ({
   setPData,
   pData,
 }: iPrompt) => {
-  const [isUpload, setIsUpload] = React.useState(false);
+  const [isUpload, setIsUpload] = useState(false);
+  const [componentMounted, setComponentMounted] = useState<boolean>(false);
+  const { flag1, flag2, variableData, setVariableData } = useAuth();
+
+  const handleMouseUp = () => {
+    if (window) selectedStr = window?.getSelection()?.toString();
+  };
 
   const removePrompt = (index: number) => {
     const updateData = pData.filter((_: any, i: number) => i !== index);
@@ -40,15 +49,103 @@ const Prompt = ({
     setIsUpload(false);
   };
 
-  const handleChange = (event: any) => {
-    const utext = event.target.value;
+  useEffect(() => {
+    setComponentMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (componentMounted) handleHighlight();
+  }, [flag1]);
+
+  useEffect(() => {
+    if (componentMounted) handleHighlightoOpt();
+  }, [flag2]);
+
+  const handleChange = (e: any) => {
+    const utext = e.target.value;
     const updateData = pData.map((data: any, i: number) => {
       if (i === index) data.text = utext;
       return data;
     });
+    setPData(updateData);
+    // setIsUpload(false);
+  };
+
+  const handleHighlightoOpt = () => {
+    const expandIndex = pData
+      .map((prop: any, index: number) => {
+        if (prop.isExpand) return index;
+      })
+      .filter((e: any) => e !== undefined)[0];
+    const tempText = document.getElementById("prompt-content");
+    let temp = tempText?.innerHTML.replace(
+      selectedStr,
+      `<span style="color: orange; font-style: italic; font-weight: bold;">${selectedStr}</span>`
+    );
+    const updateData = pData.map((data: any, i: number) => {
+      if (i === expandIndex) data.text = temp;
+      return data;
+    });
+
+    const currentVariableData = [...variableData];
+    const newVariableData = [
+      ...currentVariableData,
+      {
+        title: "",
+        text: `<span style="color: orange; font-style: italic; font-weight: bold;">${selectedStr}</span>`,
+        advanced: {
+          tarea: "",
+          dValue: "",
+          databaseField: "",
+        },
+      },
+    ];
+    setPData(updateData);
+    if (selectedStr !== "") setVariableData(newVariableData);
+    // selectedStr = "";
+  };
+
+  const handleHighlight = () => {
+    const expandIndex = pData
+      .map((prop: any, index: number) => {
+        if (prop.isExpand) return index;
+      })
+      .filter((e: any) => e !== undefined)[0];
+    const tempText = document.getElementById("prompt-content");
+    let temp = tempText?.innerHTML.replace(
+      selectedStr,
+      `<span style="color: blue; font-style: italic; font-weight: bold;">${selectedStr}</span>`
+    );
+    const updateData = pData.map((data: any, i: number) => {
+      if (i === expandIndex) data.text = temp;
+      return data;
+    });
+
+    const currentVariableData = [...variableData];
+    const newVariableData = [
+      ...currentVariableData,
+      {
+        title: "",
+        text: `<span style="color: blue; font-style: italic; font-weight: bold;">${selectedStr}</span>`,
+        advanced: {
+          tarea: "",
+          dValue: "",
+          databaseField: "",
+        },
+      },
+    ];
+    setPData(updateData);
+    if (selectedStr !== "") setVariableData(newVariableData);
+    // selectedStr = "";
+  };
+
+  const handleTextChange = (newText: string) => {
+    const updateData = pData.map((data: any, i: number) => {
+      if (i === index) data.text = newText;
+      return data;
+    });
 
     setPData(updateData);
-    setIsUpload(false);
   };
 
   return (
@@ -74,24 +171,24 @@ const Prompt = ({
               isExpand && "absolute right-2 top-2"
             } cursor-pointer ml-2 dark:text-[#d9d9e3]`}
           >
-            {role?.toLowerCase() === "user" &&
-              role?.toLocaleLowerCase() !== "system" && (
-                <>
-                  {isUpload ? (
-                    <IoCloseCircleOutline
-                      color="#67686E"
-                      className="text-[#37383a] cursor-pointer dark:text-[#d9d9e3] font-bold text-[18px] mr-2"
-                      onClick={() => setIsUpload(false)}
-                    />
-                  ) : (
-                    <AiOutlineUpload
-                      className="text-[#37383a] cursor-pointer dark:text-[#d9d9e3] mr-2"
-                      onClick={() => setIsUpload(true)}
-                    />
-                  )}
-                </>
-              )}
-            {role?.toLocaleLowerCase() !== "system" && (
+            {(role?.toLowerCase() === "user" ||
+              role?.toLowerCase() === "assistant") && (
+              <>
+                {isUpload ? (
+                  <IoCloseCircleOutline
+                    color="#67686E"
+                    className="text-[#37383a] cursor-pointer dark:text-[#d9d9e3] font-bold text-[18px] mr-2"
+                    onClick={() => setIsUpload(false)}
+                  />
+                ) : (
+                  <AiOutlineUpload
+                    className="text-[#37383a] cursor-pointer dark:text-[#d9d9e3] mr-2"
+                    onClick={() => setIsUpload(true)}
+                  />
+                )}
+              </>
+            )}
+            {role?.toLocaleLowerCase() !== "system" && index > 1 && (
               <AiOutlineDelete
                 className="text-[#37383a] dark:text-[#d9d9e3] mr-2"
                 onClick={() => removePrompt(index)}
@@ -171,15 +268,30 @@ const Prompt = ({
                     </div>
                   </div>
                 ) : (
-                  <TextareaAutosize
-                    rows={4}
-                    value={text}
-                    onChange={handleChange}
-                    spellCheck={false}
-                    className={`${
-                      role?.toLocaleLowerCase() !== "system" && "mt-[0px]"
-                    } w-full resize-none overflow-y-hidden p-1 outline-none bg-transparent h-fit min-h-fit rounded-md group-hover:bg-danger-200 relative focus:border-[#0e8157] text-[#353740]  dark:text-[#d9d9e3]`}
-                  />
+                  // <TextareaAutosize
+                  //   rows={4}
+                  //   value={text}
+                  //   onChange={handleChange}
+                  //   spellCheck={false}
+                  //   className={`${
+                  //     role?.toLocaleLowerCase() !== "system" && "mt-[0px]"
+                  //   } w-full resize-none overflow-y-hidden p-1 outline-none bg-transparent h-fit min-h-fit rounded-md group-hover:bg-danger-200 relative focus:border-[#0e8157] text-[#353740]  dark:text-[#d9d9e3]`}
+                  // />
+                  // <div>1232131232</div>
+                  <div>
+                    <div
+                      contentEditable="true"
+                      id="prompt-content"
+                      className="outline-none p-[5px] min-h-[100px] dark:text-white"
+                      dangerouslySetInnerHTML={{
+                        __html: text,
+                      }}
+                      onBlur={(evt) =>
+                        handleTextChange(evt.currentTarget.innerHTML)
+                      }
+                      onMouseUp={() => handleMouseUp()}
+                    />
+                  </div>
                 )}
               </div>
             )}

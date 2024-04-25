@@ -101,7 +101,7 @@ const ResponsePrompt = ({
 
           {!isExpand && (
             <p className="text-[#71717A] text-[14px] whitespace-nowrap">
-              {text.length === 0
+              {text && text.length === 0 || text == undefined
                 ? "Some Response..."
                 : text.substring(0, 15) + "..."}
             </p>

@@ -216,8 +216,9 @@ export type iDropDownProps = {
   onClick?: (value: string) => void;
   options: iSelectType[];
   placeHolder?: string;
-  value?: string;
+  value?: string | null | undefined;
   className?: string;
+  disabled?: boolean;
 };
 
 // src/components/UI/input.tsx

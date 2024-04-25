@@ -16,17 +16,6 @@ interface iModelOpenFlag {
   advanced: boolean;
 }
 
-const modelName = [
-  "model 1",
-  "model 2",
-  "model 3",
-  "model 4",
-  "model 5",
-  "model 6",
-  "model 7",
-  "model 8",
-];
-
 export const RightNavbar = () => {
   const { models, setModels } = useAuth();
   const navItems = [
@@ -60,7 +49,7 @@ export const RightNavbar = () => {
     const currentModels = [...models];
     const updateModels = currentModels.map((model: any, key: number) => {
       if (key === modelID) {
-        if(model.isOpen) model.isOpen = false;
+        if (model.isOpen) model.isOpen = false;
         else model.isOpen = true;
       } else model.isOpen = false;
       return model;
@@ -73,15 +62,19 @@ export const RightNavbar = () => {
   const addModel = () => {
     const newModel = {
       isOpen: false,
-      api: "",
-      mode: "",
-      temperature: 0.3,
-      maxTokens: 1120,
-      topP: 1,
-      frequencyPenalty: 0,
-      presencePenalty: 0,
-      text: "",
-      sequence: "",
+      _id: "",
+      model: "",
+      name: "",
+      class: "",
+      limitations: {
+        context_window: 16000,
+        max_tokens: 4096,
+        capabilities: ["text", "image", "video", "audio", "search", "tools"],
+      },
+      api: {
+        provider: "",
+        endpoint: "",
+      }
     };
     const updatedModels = [...models, newModel];
     setModels(updatedModels);
@@ -89,7 +82,7 @@ export const RightNavbar = () => {
 
   return (
     <div
-      className={`bg-[#F8F9FB] mr-2 dark:bg-[#18181b] dark:border-l dark:border-l-[#ffffff1a] text-white ${
+      className={`bg-[#F8F9FB] dark:bg-[#18181b] dark:border-l dark:border-l-[#ffffff1a] text-white ${
         sidebar ? "w-[300px] pl-2" : "w-6"
       } relative`}
     >

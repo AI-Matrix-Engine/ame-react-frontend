@@ -22,6 +22,7 @@ interface iModel {
   isOpen: boolean;
   isAdvancedOpen: boolean;
   modelId: number;
+  text: string;
   setIsOpenModel: Function;
   setIsOpenAdvanced: Function;
 }
@@ -45,6 +46,7 @@ export const LeftModel = ({
   isAdvancedOpen,
   setIsOpenModel,
   setIsOpenAdvanced,
+  text,
 }: iModel) => {
   const [isUpload, setIsUpload] = React.useState(false);
   return (
@@ -70,7 +72,14 @@ export const LeftModel = ({
       {isOpen && (
         <div className="mt-[10px]">
           <div className="relative">
-            <Textarea rows={5} className="pt-[23px]"/>
+            <div
+              contentEditable="true"
+              className="border border-zinc-200 outline-none p-[5px] min-h-[100px] pt-[23px] dark:text-[#fafafa] dark:bg-[#ffffff0d] dark:border-[#ffffff1a] rounded-xl"
+              dangerouslySetInnerHTML={{
+                __html: text,
+              }}
+              // onBlur={(evt) => handleTextChange(evt.currentTarget.innerHTML)}
+            />
             <div
               className={`flex items-center ${"absolute right-2 top-2"} cursor-pointer ml-2 dark:text-[#d9d9e3]`}
             >

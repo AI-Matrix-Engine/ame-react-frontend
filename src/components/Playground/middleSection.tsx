@@ -1,8 +1,8 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import Prompt from "./prompt";
-import { promptData } from "../Data";
 import { LuPlusCircle } from "react-icons/lu";
+import { useAuth } from "@/context/AuthContext";
 
 interface iPData {
   role: string;
@@ -10,11 +10,24 @@ interface iPData {
 }
 
 const MiddleSection = ({ width, index, isResizable, onMouseDown }: any) => {
+  const { promptData, setPromptData } = useAuth();
   const [isExpand, setIsExpand] = React.useState(-1);
-  const [pData, setPData] = React.useState<iPData[]>(promptData);
+  // const [pData, setPData] = React.useState<iPData[]>(promptData);
   const handleExpand = (index: number) => {
     if (index === isExpand) setIsExpand(-1);
     else setIsExpand(index);
+
+    const currentPromptData = [...promptData];
+    const updatePromptData = currentPromptData.map(
+      (prompt: any, key: number) => {
+        if (key === index) prompt.isExpand = !prompt.isExpand;
+        else prompt.isExpand = false;
+
+        return prompt;
+      }
+    );
+
+    setPromptData(updatePromptData);
   };
   const addPrompt = () => {
     const newAssistPrompt: iPData = {
@@ -25,13 +38,13 @@ const MiddleSection = ({ width, index, isResizable, onMouseDown }: any) => {
       role: "user",
       text: "",
     };
-    if(pData.length === 1) {
-      setPData((prev: iPData[]) => [...prev, newUserPrompt]);
+    if (promptData.length === 1) {
+      setPromptData((prev: any) => [...prev, newUserPrompt]);
     } else {
-      if(pData[pData.length - 1].role === 'user') {
-        setPData((prev: iPData[]) => [...prev, newAssistPrompt]);
+      if (promptData[promptData.length - 1].role === "user") {
+        setPromptData((prev: any) => [...prev, newAssistPrompt]);
       } else {
-        setPData((prev: iPData[]) => [...prev, newUserPrompt]);
+        setPromptData((prev: any) => [...prev, newUserPrompt]);
       }
     }
   };
@@ -43,15 +56,15 @@ const MiddleSection = ({ width, index, isResizable, onMouseDown }: any) => {
         borderLeft: index === 1 ? "1px solid #3F3F46" : "",
       }}
     >
-      {pData.map((prompt, index) => (
+      {promptData.map((prompt, index) => (
         <Prompt
           isExpand={index === isExpand ? true : false}
           role={prompt.role}
           index={index}
           key={index}
           setIsExpand={handleExpand}
-          setPData={setPData}
-          pData={pData}
+          setPData={setPromptData}
+          pData={promptData}
           text={prompt.text}
         />
       ))}

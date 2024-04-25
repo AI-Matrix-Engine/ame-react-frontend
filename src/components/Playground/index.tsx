@@ -5,6 +5,8 @@ import SectionSplitter from "./spliter";
 import { GoPlusCircle } from "react-icons/go";
 import { FaBars } from "react-icons/fa6";
 
+import { RightNavbar } from "@/components/Home/RightNavbar";
+
 import { Button, Dropdown, Input } from "../UI";
 import { MdOutlineLightMode, MdOutlineNightlight } from "react-icons/md";
 import { HiDotsVertical } from "react-icons/hi";
@@ -48,23 +50,26 @@ const HorizontalAdjustableSections: React.FC = () => {
           <HiDotsVertical className="font-semibold text-xl cursor-pointer dark:text-white" />
         </div>
       </div>
-      <PanelGroup direction="horizontal" className="adjustable-height">
-        <Panel defaultSize={20} minSize={0}>
-          <LeftSection />
-        </Panel>
-        <PanelResizeHandle className="group">
-          <SectionSplitter />
-        </PanelResizeHandle>
-        <Panel defaultSize={30} minSize={0}>
-          <MiddleSection />
-        </Panel>
-        <PanelResizeHandle className="group">
-          <SectionSplitter />
-        </PanelResizeHandle>
-        <Panel minSize={0}>
-          <RightSection />
-        </Panel>
-      </PanelGroup>
+      <div className="flex for-playground-height">
+        <PanelGroup direction="horizontal">
+          <Panel defaultSize={20} minSize={0}>
+            <LeftSection />
+          </Panel>
+          <PanelResizeHandle className="group">
+            <SectionSplitter />
+          </PanelResizeHandle>
+          <Panel defaultSize={30} minSize={0}>
+            <MiddleSection />
+          </Panel>
+          <PanelResizeHandle className="group">
+            <SectionSplitter />
+          </PanelResizeHandle>
+          <Panel minSize={0}>
+            <RightSection />
+          </Panel>
+        </PanelGroup>
+        <RightNavbar />
+      </div>
     </div>
   );
 };
