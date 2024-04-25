@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Slider from "react-slider";
 
 interface iRandSlider {
   min: number;
@@ -17,7 +18,14 @@ const RangeSlider = ({ min, max, step, label, defaultValue }: iRandSlider) => {
         <p>{label}</p>
         <p>{value}</p>
       </div>
-      <input type="range" className="w-full border" min={min} max={max} step={step} value={value} onChange={(e: any) => setValue(e.target.value)}/>
+      <Slider
+        min={min}
+        max={max}
+        step={step}
+        value={value}
+        className="slider"
+        onChange={(e: any) => setValue(e)}
+      />
     </div>
   );
 };

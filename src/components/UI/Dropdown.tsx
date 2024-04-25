@@ -31,6 +31,7 @@ export const Dropdown = ({
           handleChange(value);
         }}
         value={value || undefined}
+        defaultValue={value || undefined}
         disabled={disabled}
       >
         <SelectTrigger className={className}>

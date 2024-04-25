@@ -20,7 +20,7 @@ export const Header = ({ darkMode, setMode }: iHeader) => {
   return (
     <div className="flex py-1 px-4 bg-[#252b36] dark:bg-[#18181b] dark:border-b dark:border-b-[#ffffff1a] items-center justify-center h-[64px] z-[1]">
       <h2 className="flex-1 text-2xl text-white font-arimo font-semibold">
-        AIDRM
+        AI Matrix Engine
       </h2>
 
       <div className="flex items-center">
