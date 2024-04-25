@@ -217,6 +217,7 @@ export type iDropDownProps = {
   options: iSelectType[];
   placeHolder?: string;
   value?: string | null | undefined;
+  defaultValue?: string | null | undefined;
   className?: string;
   disabled?: boolean;
 };

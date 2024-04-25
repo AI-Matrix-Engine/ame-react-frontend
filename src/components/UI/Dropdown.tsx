@@ -16,6 +16,7 @@ export const Dropdown = ({
   placeHolder,
   value,
   className,
+  defaultValue,
   disabled = false,
   ...rest
 }: iDropDownProps) => {
