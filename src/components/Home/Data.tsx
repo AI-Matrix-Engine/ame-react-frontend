@@ -125,12 +125,10 @@ export const menuItems: MenuCategory[] = [
         category: "Big Category Here",
         items: [
             {
-                itemCategory: "App Name Here",
+                itemCategory: "AI Chatbot",
                 icon: <PersonIcon className="h-4 w-4 text-gray-500"/>,
                 itemSubMenu: [
-                    {name: "Page Name Here", route: ""},
-                    {name: "Another Page Here", route: ""},
-                    {name: "One More Page", route: ""},
+                    {name: "Chatbot", route: "/chatbot"},
                 ],
             },
         ],
