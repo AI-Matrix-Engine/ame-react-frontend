@@ -58,13 +58,13 @@ const HorizontalAdjustableSections: React.FC = () => {
             <SectionSplitter />
           </PanelResizeHandle>
           <Panel defaultSize={30} minSize={0}>
-            <ResponsePanel />
+            <MessagesPanel />
           </Panel>
           <PanelResizeHandle className="group">
             <SectionSplitter />
           </PanelResizeHandle>
           <Panel minSize={0}>
-            <MessagesPanel />
+            <ResponsePanel />
           </Panel>
         </PanelGroup>
         <ModelSettingsDrawer />
