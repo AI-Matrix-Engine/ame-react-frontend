@@ -16,7 +16,7 @@ interface iModelOpenFlag {
   advanced: boolean;
 }
 
-export const RightNavbar = () => {
+export const ModelSettingsDrawer = () => {
   const { models, setModels } = useAuth();
   const navItems = [
     {

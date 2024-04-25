@@ -5,15 +5,14 @@ import SectionSplitter from "./spliter";
 import { GoPlusCircle } from "react-icons/go";
 import { FaBars } from "react-icons/fa6";
 
-import { RightNavbar } from "@/components/Home/RightNavbar";
+import { ModelSettingsDrawer } from "@/components/Home/modelSettingsDrawer";
 
 import { Button, Dropdown, Input } from "../UI";
-import { MdOutlineLightMode, MdOutlineNightlight } from "react-icons/md";
 import { HiDotsVertical } from "react-icons/hi";
 
-import LeftSection from "./leftSection";
-import RightSection from "./rightSection";
-import MiddleSection from "./middleSection";
+import VariablesPanel from "./variablesPanel";
+import ResponsePanel from "./responsePanel";
+import MessagesPanel from "./messagesPanel";
 
 const recipies = [
   { value: "0", label: "Version 1" },
@@ -53,22 +52,22 @@ const HorizontalAdjustableSections: React.FC = () => {
       <div className="flex for-playground-height">
         <PanelGroup direction="horizontal">
           <Panel defaultSize={20} minSize={0}>
-            <LeftSection />
+            <VariablesPanel />
           </Panel>
           <PanelResizeHandle className="group">
             <SectionSplitter />
           </PanelResizeHandle>
           <Panel defaultSize={30} minSize={0}>
-            <MiddleSection />
+            <ResponsePanel />
           </Panel>
           <PanelResizeHandle className="group">
             <SectionSplitter />
           </PanelResizeHandle>
           <Panel minSize={0}>
-            <RightSection />
+            <MessagesPanel />
           </Panel>
         </PanelGroup>
-        <RightNavbar />
+        <ModelSettingsDrawer />
       </div>
     </div>
   );

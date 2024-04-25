@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { Header } from "./Header";
-import { RightNavbar } from "./RightNavbar";
+import { RightNavbar } from "./modelSettingsDrawer";
 import { AuthProvider, useAuth } from "@/context/AuthContext";
 import { NavigationBar } from "./NavigationBar";
 import { iLeftSidebarExpand, childrenProp } from "@/utils/types";
