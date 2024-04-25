@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { IoCloseCircleOutline } from "react-icons/io5";
 
 import { Label } from "../UI";
@@ -35,6 +35,8 @@ const Prompt = ({
   setPData,
   pData,
 }: iPrompt) => {
+  const contentEditableRef = useRef<HTMLDivElement>(null);
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
   const [isUpload, setIsUpload] = useState(false);
   const [componentMounted, setComponentMounted] = useState<boolean>(false);
   const { flag1, flag2, variableData, setVariableData } = useAuth();
@@ -52,6 +54,40 @@ const Prompt = ({
   useEffect(() => {
     setComponentMounted(true);
   }, []);
+
+  useEffect(() => {
+    if (isExpand) {
+      if (
+        contentEditableRef.current &&
+        contentEditableRef.current.innerText === ""
+      ) {
+        contentEditableRef.current.focus();
+      } else if (
+        contentEditableRef.current &&
+        contentEditableRef.current.innerText !== ""
+      ) {
+        const range = document.createRange();
+        const selection = window.getSelection();
+        const lastChild = contentEditableRef.current.lastChild;
+
+        if (lastChild) {
+          range.selectNodeContents(lastChild);
+          range.collapse(false);
+          if (selection) {
+            selection.removeAllRanges();
+            selection.addRange(range);
+          }
+        }
+      }
+    }
+    if (textareaRef.current) {
+      textareaRef.current.focus();
+      textareaRef.current.setSelectionRange(
+        textareaRef.current.value.length,
+        textareaRef.current.value.length
+      );
+    }
+  }, [isExpand]);
 
   useEffect(() => {
     if (componentMounted) handleHighlight();
@@ -223,6 +259,7 @@ const Prompt = ({
               <div className="w-full">
                 <TextareaAutosize
                   rows={4}
+                  ref={textareaRef}
                   value={text}
                   onChange={handleChange}
                   spellCheck={false}
@@ -282,6 +319,8 @@ const Prompt = ({
                     <div
                       contentEditable="true"
                       id="prompt-content"
+                      autoFocus={true}
+                      ref={contentEditableRef}
                       className="outline-none p-[5px] min-h-[100px] dark:text-white"
                       dangerouslySetInnerHTML={{
                         __html: text,

@@ -22,6 +22,7 @@ const recipies = [
 ];
 
 const HorizontalAdjustableSections: React.FC = () => {
+  const [version, setVersion] = useState("0");
   return (
     <div className="h-full container-height pb-1 dark:bg-[#18181b]">
       <div className="flex items-center px-[30px] justify-between h-[60px]">
@@ -36,7 +37,7 @@ const HorizontalAdjustableSections: React.FC = () => {
             defaultValue="Start Generic Job Posting from Job Title"
           />
           <div className="ml-[20px] mr-[20px]">
-            <Dropdown options={recipies} className="outline-none" />
+            <Dropdown options={recipies} className="outline-none" value={version} onClick={(e:any) => setVersion(e)} />
           </div>
           <Button className="cursor-pointer bg-[#202020] border border-[#3F3F46] text-[12px]">
             Save Update
