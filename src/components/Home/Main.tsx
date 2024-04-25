@@ -1,16 +1,11 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { Header } from "./Header";
-import { RightNavbar } from "./modelSettingsDrawer";
 import { AuthProvider, useAuth } from "@/context/AuthContext";
 import { NavigationBar } from "./NavigationBar";
 import { iLeftSidebarExpand, childrenProp } from "@/utils/types";
 import { TbMinusVertical } from "react-icons/tb";
 import { BsChevronCompactRight } from "react-icons/bs";
-import { Dropdown } from "../UI";
-import { Menu } from "@headlessui/react";
-import { Avatar, AvatarFallback, AvatarImage } from "../UI/avatar";
-import { ChevronDownIcon } from "@radix-ui/react-icons";
 
 const recipies = [
   { value: "0", label: "danielove323@g" },
