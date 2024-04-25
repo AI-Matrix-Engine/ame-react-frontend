@@ -6,3 +6,7 @@ export const aiMatrixAPI = axios.create({
     baseURL: 'https://aimatrixengine.com/'
 });
 
+export const subAiAPI = {
+    api: "oai/api",
+    apiCallHistory: "oai/apicallhistory"
+}

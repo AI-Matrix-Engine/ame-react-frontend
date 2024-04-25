@@ -288,3 +288,45 @@ export interface iApiType {
   api_costs: number[],
   errors: number[]
 }
+
+// apiCallHistory Service Type
+
+export interface iApiCallHistoryType {
+  id: number,
+  full_request: object,
+  full_response: object,
+  additional_details: object,
+  created_at: string,
+  response_quality: number,
+  response_quality_feedback: string,
+  use_for_training: boolean,
+  api: number | null,
+  ai_model: number | null,
+  recipe_category: number | null,
+  prompt_recipe: number | null
+}
+
+export interface iApiCallHistoryInputType {
+  full_request: object,
+  full_response: object,
+  additional_details: object,
+  response_quality: number,
+  response_quality_feedback: string,
+  use_for_training: boolean,
+  api: number | null,
+  ai_model: number | null,
+  recipe_category: number | null,
+  prompt_recipe: number | null
+}
+
+//chatbot interfaces
+
+export enum eRoleType {
+  USER = 'user',
+  ASSISTANT = 'assistant'
+}
+
+export interface iMessage {
+  role: eRoleType,
+  content: string
+}

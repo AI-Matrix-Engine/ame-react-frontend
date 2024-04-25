@@ -6,7 +6,8 @@ import {AddCategory, AppOverview, AIConversationSettings} from ".";
 import {AIModelSpecifications} from "./AIModelSpecifications";
 import {ComboBox} from "@/components/UI/Combobox";
 import {useCategories} from '@/hooks/useCategories';
-import {iSelectType} from "@/utils/types";
+import { useApis } from "@/hooks/useApis";
+import {iSelectType, iApiType} from "@/utils/types";
 
 interface CategoryInfo {
     label: string;
@@ -49,6 +50,8 @@ export const Create = () => {
         setSubCategorySelectedValue,
         handleCategoryChange
     } = useCategories();
+
+    const {apis, setApis} = useApis();
 
     const [toggleAddCategory, setToggleAddCategory] = React.useState<string>("");
     const [appOverview, setAppOverview] = React.useState({

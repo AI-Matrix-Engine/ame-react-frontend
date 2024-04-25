@@ -9,58 +9,132 @@ import {
 } from "react";
 import { BiPlus, BiUser, BiSend, BiSolidUserCircle } from "react-icons/bi";
 import { MdOutlineArrowLeft, MdOutlineArrowRight } from "react-icons/md";
-
-interface ChatMessage {
-  title: string;
-  role: "user" | "gpt";
-  content: string;
-}
+import { socketService } from "@/lib/socket";
+import { iMessage, eRoleType } from "@/utils/types";
+import { ChatBubbleIcon } from "@radix-ui/react-icons";
 
 function ChatFrom() {
-  const [text, setText] = useState<string>("");
-  const [message, setMessage] = useState<ChatMessage | null>(null);
-  const [previousChats, setPreviousChats] = useState<ChatMessage[]>([]);
-  const [localChats, setLocalChats] = useState<ChatMessage[]>([]);
-  const [currentTitle, setCurrentTitle] = useState<string | null>(null);
+  const [message, setMessage] = useState<string>("");
+  const [currentTitle, setCurrentTitle] = useState<string | null>("")
+  const [chatHistory, setChatHistory] = useState<iMessage[]>([]);
+  const [streamText, setStreamText] = useState<string>('');
+  const scrollToLastItem = useRef<HTMLDivElement | null>(null);
   const [isResponseLoading, setIsResponseLoading] = useState<boolean>(false);
   const [errorText, setErrorText] = useState<string>("");
   const [isShowSidebar, setIsShowSidebar] = useState<boolean>(false);
-  const scrollToLastItem = useRef<HTMLLIElement | null>(null);
 
-  const createNewChat = (): void => {
-    setMessage(null);
-    setText("");
-    setCurrentTitle(null);
+  const getChatHistory = () => {
+    let data = '';
+    chatHistory.map((chat: iMessage) => {
+      data += `${chat.content}\n`
+    })
+    return data;
+  }
+
+  const fetchChatsFromStorage = () => {
+    const storedChats: string | null = localStorage.getItem("previousChats");
+    if (storedChats && storedChats.length > 2) {
+      setChatHistory(JSON.parse(storedChats));
+    }
+  }
+
+  const displayUserMessage = (msg: string, type: eRoleType) => {
+    const newMessage: iMessage = {
+      role: type,
+      content: msg
+    };
+
+    setChatHistory(prev => [
+      ...prev,
+      newMessage
+    ]);
+  }
+
+  const typeMessageCharacterByCharacter = (message: string) => {
+    return new Promise<void>((resolve) => {
+      var i = -1;
+      var typingInterval = setInterval(() => {
+        if (i < message.length - 1) {
+          setStreamText(prev => prev + message[i]);
+          i++;
+        } else {
+          clearInterval(typingInterval);
+          resolve();
+        }
+      }, 25);
+    });
+  }
+
+  const processIncomingMessages = (data: string): void => {
+    const dataArr: string[] = data.split('\n\n');
+
+    dataArr.reduce((promise: Promise<void>, msg: string): Promise<void> => {
+      return promise.then(() => typeMessageCharacterByCharacter(msg));
+    }, Promise.resolve())
+      .catch(error => {
+        console.error('An error occurred while processing messages:', error);
+      });
   };
 
-  const backToHistoryPrompt = (uniqueTitle: string): void => {
-    setCurrentTitle(uniqueTitle);
-    setMessage(null);
-    setText("");
-  };
+  const sendMessage = () => {
+    const messageData = {
+      message,
+      history: getChatHistory(),
+      settings: {
+        customOptions: false,
+        aiPreferencesMain: "Direct AI chat",
+        aiPreferencesSecond: "Chat With One AI",
+        quickAnswer: true,
+        improveQuestions: false,
+        makeSmallTalk: true,
+        submitOnEnter: true
+      },
+      page: "chatbot.backend_functions.openai_chatbot"
+    };
 
-  const toggleSidebar = useCallback((): void => {
-    setIsShowSidebar((prev) => !prev);
-  }, []);
+    if (!socketService.getSocket()) {
+      socketService.init();
+    }
+
+    const socket = socketService.getSocket();
+
+    if (socket) {
+      socket.emit('user_message', messageData, (response: any) => {
+
+      });
+      console.log('Socket emit completed, awaiting callback...');
+    }
+  }
+
+  const clearMessageInput = () => {
+    setMessage('');
+  }
+
+  const scrollToBottom = () => {
+    if (scrollToLastItem.current) {
+      scrollToLastItem.current.scrollTop = scrollToLastItem.current.scrollHeight;
+    }
+  }
 
   const submitHandler = async (
     e: React.FormEvent<HTMLFormElement>
   ): Promise<void> => {
     e.preventDefault();
-    if (!text) return;
+    if (!message) return;
 
     setIsResponseLoading(true);
     setErrorText("");
-
     // add the code for your socket or anything
 
     try {
       // Simulate API call
+      sendMessage();
+      displayUserMessage(message, eRoleType.USER);
+      clearMessageInput();
     } catch (e: any) {
       setErrorText(e.message);
       console.error(e);
     } finally {
-      setIsResponseLoading(false);
     }
   };
 
@@ -77,57 +151,43 @@ function ChatFrom() {
   }, []);
 
   useEffect(() => {
-    const storedChats = localStorage.getItem("previousChats");
-    if (storedChats) {
-      setLocalChats(JSON.parse(storedChats));
+    fetchChatsFromStorage();
+
+    if (!socketService.getSocket()) {
+      socketService.init();
     }
-  }, []);
+
+    const socket = socketService.getSocket();
+
+    if (socket) {
+      socket.on('ai_response', (receivedData: any) => {
+        setStreamText("");
+        processIncomingMessages(receivedData);
+        displayUserMessage(receivedData, eRoleType.ASSISTANT);
+      });
+    }
+
+    return () => {
+      socket?.off('ai_response');
+    };
+  }, [])
 
   useEffect(() => {
-    if (!currentTitle && text && message) {
-      setCurrentTitle(text);
-    }
+    if (streamText == '' || !isResponseLoading)
+      return;
 
-    if (currentTitle && text && message) {
-      const newChat = {
-        title: currentTitle,
-        role: "user",
-        content: text,
-      };
+    setIsResponseLoading(false);
+    scrollToBottom();
+  }, [streamText])
 
-      const responseMessage = {
-        title: currentTitle,
-        role: message!.role,
-        content: message!.content,
-      };
+  useEffect(() => {
+    localStorage.setItem("previousChats", JSON.stringify(chatHistory));
+    scrollToBottom();
+  }, [chatHistory])
 
-      setPreviousChats((prevChats: any) => [
-        ...prevChats,
-        newChat,
-        responseMessage,
-      ]);
-      setLocalChats((prevChats: any) => [
-        ...prevChats,
-        newChat,
-        responseMessage,
-      ]);
-
-      const updatedChats = [...localChats, newChat, responseMessage];
-      localStorage.setItem("previousChats", JSON.stringify(updatedChats));
-    }
-  }, [message, currentTitle, text, localChats]);
-
-  const currentChat = (localChats || previousChats).filter(
-    (prevChat) => prevChat.title === currentTitle
-  );
-
-  const uniqueTitles = Array.from(
-    new Set(previousChats.map((prevChat) => prevChat.title).reverse())
-  );
-
-  const localUniqueTitles = Array.from(
-    new Set(localChats.map((prevChat) => prevChat.title).reverse())
-  ).filter((title) => !uniqueTitles.includes(title));
+  const toggleSidebar = useCallback((): void => {
+    setIsShowSidebar((prev) => !prev);
+  }, []);
 
   return (
     <div className="flex h-[90vh] bg-gray-800 w-full">
@@ -153,30 +213,26 @@ function ChatFrom() {
           />
         )}
 
-        <div className="flex flex-col h-full overflow-y-auto">
+        <div ref={scrollToLastItem} className="flex flex-col h-full overflow-y-auto">
           <ul className="space-y-4 p-4">
-            {currentChat.map((chatMsg, idx) => (
+            {chatHistory.map((chatMsg, idx) => (
               <li
                 key={idx}
-                ref={scrollToLastItem}
-                className={`flex items-center gap-4 p-4 ${
-                  chatMsg.role === "user" ? "bg-blue-600" : "bg-gray-700"
-                } rounded-lg`}
+                className={`flex items-center gap-4 p-4 ${chatMsg.role === eRoleType.USER ? "bg-blue-600" : "bg-gray-700"
+                  } rounded-lg`}
               >
-                {chatMsg.role === "user" ? (
-                  <BiSolidUserCircle size={36} />
-                ) : (
-                  <img
-                    src="images/chatgpt-logo.svg"
-                    alt="ChatGPT"
-                    className="w-9 h-9"
-                  />
-                )}
+                <div className="w-8 h-8">
+                  {chatMsg.role === eRoleType.USER ? (
+                    <BiSolidUserCircle size={36} />
+                  ) : (
+                    <ChatBubbleIcon className="w-8 h-8"></ChatBubbleIcon>
+                  )}
+                </div>
                 <div>
                   <p className="text-sm font-semibold">
-                    {chatMsg.role === "user" ? "You" : "ChatGPT"}
+                    {chatMsg.role === eRoleType.USER ? "You" : "ChatGPT"}
                   </p>
-                  <p>{chatMsg.content}</p>
+                  <p>{idx === chatHistory.length - 1 && chatMsg.role === eRoleType.ASSISTANT && streamText.length > 0 ? streamText : chatMsg.content}</p>
                 </div>
               </li>
             ))}
@@ -190,8 +246,8 @@ function ChatFrom() {
               placeholder="Send a message."
               className="flex-1 p-2 bg-gray-700 text-white rounded-lg outline-none"
               spellCheck="false"
-              value={isResponseLoading ? "Processing..." : text}
-              onChange={(e) => setText(e.target.value)}
+              value={isResponseLoading ? "Processing..." : message}
+              onChange={(e) => setMessage(e.target.value)}
               readOnly={isResponseLoading}
             />
             {!isResponseLoading && (
