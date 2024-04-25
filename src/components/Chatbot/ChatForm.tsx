@@ -18,41 +18,25 @@ function ChatFrom() {
   const [currentTitle, setCurrentTitle] = useState<string | null>("")
   const [chatHistory, setChatHistory] = useState<iMessage[]>([]);
   const [streamText, setStreamText] = useState<string>('');
-  const scrollToLastItem = useRef<HTMLLIElement | null>(null);
+  const scrollToLastItem = useRef<HTMLDivElement | null>(null);
   const [isResponseLoading, setIsResponseLoading] = useState<boolean>(false);
   const [errorText, setErrorText] = useState<string>("");
   const [isShowSidebar, setIsShowSidebar] = useState<boolean>(false);
-
 
   const getChatHistory = () => {
     let data = '';
     chatHistory.map((chat: iMessage) => {
       data += `${chat.content}\n`
     })
-
     return data;
   }
 
-  useEffect(() => {
-    if (!socketService.getSocket()) {
-      socketService.init();
+  const fetchChatsFromStorage = () => {
+    const storedChats: string | null = localStorage.getItem("previousChats");
+    if (storedChats && storedChats.length > 2) {
+      setChatHistory(JSON.parse(storedChats));
     }
-
-    const socket = socketService.getSocket();
-
-    if (socket) {
-      socket.on('ai_response', (receivedData: any) => {
-        setStreamText("");
-        setIsResponseLoading(false);
-        displayUserMessage(receivedData, eRoleType.ASSISTANT);
-        processIncomingMessages(receivedData);
-      });
-    }
-
-    return () => {
-      socket?.off('ai_response');
-    };
-  }, [])
+  }
 
   const displayUserMessage = (msg: string, type: eRoleType) => {
     const newMessage: iMessage = {
@@ -116,7 +100,7 @@ function ChatFrom() {
 
     if (socket) {
       socket.emit('user_message', messageData, (response: any) => {
-        console.log('response', response);
+
       });
       console.log('Socket emit completed, awaiting callback...');
     }
@@ -126,6 +110,11 @@ function ChatFrom() {
     setMessage('');
   }
 
+  const scrollToBottom = () => {
+    if (scrollToLastItem.current) {
+      scrollToLastItem.current.scrollTop = scrollToLastItem.current.scrollHeight;
+    }
+  }
 
   const submitHandler = async (
     e: React.FormEvent<HTMLFormElement>
@@ -146,7 +135,6 @@ function ChatFrom() {
       setErrorText(e.message);
       console.error(e);
     } finally {
-      setIsResponseLoading(false);
     }
   };
 
@@ -163,14 +151,38 @@ function ChatFrom() {
   }, []);
 
   useEffect(() => {
-    const storedChats = localStorage.getItem("previousChats");
-    if (storedChats) {
-      setChatHistory(JSON.parse(storedChats));
+    fetchChatsFromStorage();
+
+    if (!socketService.getSocket()) {
+      socketService.init();
     }
-  }, []);
+
+    const socket = socketService.getSocket();
+
+    if (socket) {
+      socket.on('ai_response', (receivedData: any) => {
+        setStreamText("");
+        processIncomingMessages(receivedData);
+        displayUserMessage(receivedData, eRoleType.ASSISTANT);
+      });
+    }
+
+    return () => {
+      socket?.off('ai_response');
+    };
+  }, [])
 
   useEffect(() => {
-    localStorage.setItem("previousChats", JSON.stringify(chatHistory))
+    if (streamText == '' || !isResponseLoading)
+      return;
+
+    setIsResponseLoading(false);
+    scrollToBottom();
+  }, [streamText])
+
+  useEffect(() => {
+    localStorage.setItem("previousChats", JSON.stringify(chatHistory));
+    scrollToBottom();
   }, [chatHistory])
 
   const toggleSidebar = useCallback((): void => {
@@ -201,30 +213,26 @@ function ChatFrom() {
           />
         )}
 
-        <div className="flex flex-col h-full overflow-y-auto">
+        <div ref={scrollToLastItem} className="flex flex-col h-full overflow-y-auto">
           <ul className="space-y-4 p-4">
             {chatHistory.map((chatMsg, idx) => (
               <li
                 key={idx}
-                ref={scrollToLastItem}
                 className={`flex items-center gap-4 p-4 ${chatMsg.role === eRoleType.USER ? "bg-blue-600" : "bg-gray-700"
                   } rounded-lg`}
               >
-                {chatMsg.role === eRoleType.USER ? (
-                  <BiSolidUserCircle size={36} />
-                ) : (
-                  // <img
-                  //   src="images/chatgpt-logo.svg"
-                  //   alt="ChatGPT"
-                  //   className="w-9 h-9"
-                  // />
-                  <ChatBubbleIcon className="w-8 h-8"></ChatBubbleIcon>
-                )}
+                <div className="w-8 h-8">
+                  {chatMsg.role === eRoleType.USER ? (
+                    <BiSolidUserCircle size={36} />
+                  ) : (
+                    <ChatBubbleIcon className="w-8 h-8"></ChatBubbleIcon>
+                  )}
+                </div>
                 <div>
                   <p className="text-sm font-semibold">
                     {chatMsg.role === eRoleType.USER ? "You" : "ChatGPT"}
                   </p>
-                  <p>{idx === chatHistory.length - 1 && chatMsg.role === eRoleType.ASSISTANT ? streamText : chatMsg.content}</p>
+                  <p>{idx === chatHistory.length - 1 && chatMsg.role === eRoleType.ASSISTANT && streamText.length > 0 ? streamText : chatMsg.content}</p>
                 </div>
               </li>
             ))}
