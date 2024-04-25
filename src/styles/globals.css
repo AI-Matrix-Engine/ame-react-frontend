@@ -49,6 +49,12 @@ html {
   max-height: calc(100vh - 140px);
 }
 
+.for-playground-height {
+  height: calc(100vh - 120px);
+  min-height: calc(100vh - 120px);
+  max-height: calc(100vh - 120px);
+}
+
 .adjustable-height {
   height: calc(100% - 60px) !important;
 }

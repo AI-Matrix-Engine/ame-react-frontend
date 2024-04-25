@@ -1,16 +1,11 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { Header } from "./Header";
-import { RightNavbar } from "./RightNavbar";
 import { AuthProvider, useAuth } from "@/context/AuthContext";
 import { NavigationBar } from "./NavigationBar";
 import { iLeftSidebarExpand, childrenProp } from "@/utils/types";
 import { TbMinusVertical } from "react-icons/tb";
 import { BsChevronCompactRight } from "react-icons/bs";
-import { Dropdown } from "../UI";
-import { Menu } from "@headlessui/react";
-import { Avatar, AvatarFallback, AvatarImage } from "../UI/avatar";
-import { ChevronDownIcon } from "@radix-ui/react-icons";
 
 const recipies = [
   { value: "0", label: "danielove323@g" },
@@ -126,7 +121,7 @@ export const Main = ({ children }: childrenProp) => {
           <div className={`flex-1 overflow-y-auto `}>{children}</div>
 
           {/* -----------Left side bar begin----------- */}
-          <RightNavbar />
+          {/* <RightNavbar /> */}
           {/* -----------Left side bar end----------- */}
         </div>
       </div>
