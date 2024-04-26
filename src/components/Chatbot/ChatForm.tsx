@@ -214,14 +214,13 @@ function ChatFrom() {
         )}
 
         <div ref={scrollToLastItem} className="flex flex-col h-full overflow-y-auto">
-          <ul className="space-y-4 p-4">
+          <ul className="space-y-2 p-4">
             {chatHistory.map((chatMsg, idx) => (
               <li
                 key={idx}
-                className={`flex items-center gap-4 p-4 ${chatMsg.role === eRoleType.USER ? "bg-blue-600" : "bg-gray-700"
-                  } rounded-lg`}
+                className={`flex items-center gap-4 p-4 rounded-lg`}
               >
-                <div className="w-8 h-8">
+                <div className="text-white w-8 h-8">
                   {chatMsg.role === eRoleType.USER ? (
                     <BiSolidUserCircle size={36} />
                   ) : (
@@ -229,10 +228,10 @@ function ChatFrom() {
                   )}
                 </div>
                 <div>
-                  <p className="text-sm font-semibold">
+                  <p className="text-white text-sm font-semibold">
                     {chatMsg.role === eRoleType.USER ? "You" : "ChatGPT"}
                   </p>
-                  <p>{idx === chatHistory.length - 1 && chatMsg.role === eRoleType.ASSISTANT && streamText.length > 0 ? streamText : chatMsg.content}</p>
+                  <p className="text-white">{idx === chatHistory.length - 1 && chatMsg.role === eRoleType.ASSISTANT && streamText.length > 0 ? streamText : chatMsg.content}</p>
                 </div>
               </li>
             ))}
