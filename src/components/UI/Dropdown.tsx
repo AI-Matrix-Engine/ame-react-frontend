@@ -14,6 +14,7 @@ export const Dropdown = ({
   onClick,
   options = [],
   placeHolder,
+  label,
   value,
   className,
   defaultValue,
@@ -26,7 +27,7 @@ export const Dropdown = ({
 
   return (
     <div className="w-full overflow-hidden border rounded-xl dark:text-[#fafafa] dark:bg-[#ffffff0d] dark:border-[#ffffff1a] dark:border outline-none">
-      <Label className="mb-2">{placeHolder}</Label>
+      <Label className="mb-2">{label}</Label>
       <Select
         onValueChange={(value: string) => {
           handleChange(value);
