@@ -61,7 +61,7 @@ export const ModelSettingsDrawer = () => {
   };
   const addModel = () => {
     const newModel = {
-      isOpen: false,
+      isOpen: true,
       _id: "",
       model: "",
       name: "",
@@ -74,9 +74,16 @@ export const ModelSettingsDrawer = () => {
       api: {
         provider: "",
         endpoint: "",
-      }
+      },
     };
-    const updatedModels = [...models, newModel];
+    const currentModels = [...models];
+
+    const updatedModels = [...currentModels, newModel].map((e:any, index:number) => {
+      if(index !== currentModels.length) {
+        e.isOpen = false;
+      }
+      return e;
+    });
     setModels(updatedModels);
   };
 
@@ -88,14 +95,9 @@ export const ModelSettingsDrawer = () => {
     >
       {sidebar ? (
         <div className="overflow-y-auto h-full">
-          <div className=" px-4 flex justify-between items-center mt-4">
-            {/* <h1 className="text-black font-semibold text-xl">Matrix AI</h1> */}
-          </div>
           <div
             className={`flex flex-col justify-between items-between text-black p-4 overflow-y-auto`}
           >
-            {/* <h4 className="text-center">Form</h4> */}
-            {/* <FormData additionalClasses={"space-y-4"} /> */}
             <div className="w-full h-full flex flex-col items-center px-1 overflow-y-auto">
               <Button className="text-[12px]">Test All</Button>
               {models.map((model: any, key: number) => (

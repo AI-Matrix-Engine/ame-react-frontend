@@ -1,21 +1,13 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { Header } from "./Header";
-import { AuthProvider, useAuth } from "@/context/AuthContext";
+import { AuthProvider } from "@/context/AuthContext";
 import { NavigationBar } from "./NavigationBar";
 import { iLeftSidebarExpand, childrenProp } from "@/utils/types";
 import { TbMinusVertical } from "react-icons/tb";
 import { BsChevronCompactRight } from "react-icons/bs";
 
-const recipies = [
-  { value: "0", label: "danielove323@g" },
-  { value: "3", label: "Content Writing" },
-  { value: "1", label: "SEO" },
-];
-
 export const Main = ({ children }: childrenProp) => {
-  const { user, logout } = useAuth();
-
   const [darkMode, setDarkMode] = useState<boolean>(false);
   const [isExpand, setIsExpand] = useState<iLeftSidebarExpand>({
     command: true,
@@ -82,47 +74,8 @@ export const Main = ({ children }: childrenProp) => {
                 )}
               </div>
             </div>
-            <div className={`bg-[#F8F9FB] flex`}>
-              {/* {isExpand.app && (
-                <div className="flex-1 py-[16px] pl-[16px]">
-                  <h1 className="text-black font-semibold text-lg mb-[10px]">
-                    App Controls
-                  </h1>
-                  <NavigationBar textColor="text-black" />
-                </div>
-              )} */}
-              {/* <div className="flex items-center px-2">
-                {isExpand.app ? (
-                  <TbMinusVertical
-                    className="text-gray-500 cursor-pointer [transition:all_.3s_ease-in-out] hover:scale-150"
-                    onClick={() =>
-                      setIsExpand((prev) => ({
-                        ...prev,
-                        app: !prev.app,
-                      }))
-                    }
-                  />
-                ) : (
-                  <BsChevronCompactRight
-                    className="text-gray-500 cursor-pointer [transition:all_.3s_ease-in-out] hover:scale-150"
-                    onClick={() =>
-                      setIsExpand((prev) => ({
-                        ...prev,
-                        app: !prev.app,
-                      }))
-                    }
-                  />
-                )}
-              </div> */}
-            </div>
           </div>
-          {/* -----------Left side bar end----------- */}
-
           <div className={`flex-1 overflow-y-auto `}>{children}</div>
-
-          {/* -----------Left side bar begin----------- */}
-          {/* <RightNavbar /> */}
-          {/* -----------Left side bar end----------- */}
         </div>
       </div>
     </AuthProvider>
