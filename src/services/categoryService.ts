@@ -79,12 +79,3 @@ export const patchCategoryById = async (id: number, category: { name: string, pa
         console.error(`Failed to patch category by id`, err);
     }
 }
-
-export const deleteCategoryById = async (id: number): Promise<void> => {
-    try {
-        const response = await axios.delete(`${aiMatrixAPI.defaults.baseURL}oai/allcategory/${id}/`);
-        console.log('Category deleted successfully.', response.data)
-    } catch (err) {
-        console.error(`Failed to delete category by id`, err);
-    }
-}
