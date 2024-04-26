@@ -6,12 +6,14 @@ import { NavigationBar } from "./NavigationBar";
 import { iLeftSidebarExpand, childrenProp } from "@/utils/types";
 import { TbMinusVertical } from "react-icons/tb";
 import { BsChevronCompactRight } from "react-icons/bs";
-import Router from "next/router";
-import { useRouter, usePathname } from "next/navigation";
+import { usePathname } from "next/navigation";
+
+import { useRouter } from "next/compat/router";
 
 import Spinner from "@/components/Spinner";
 
 export const Main = ({ children }: childrenProp) => {
+  const router = useRouter();
   const pathname = usePathname();
   const [loading, setLoading] = useState(false);
   const [darkMode, setDarkMode] = useState<boolean>(false);
@@ -20,12 +22,26 @@ export const Main = ({ children }: childrenProp) => {
     app: true,
   });
 
+  const startLoading = () => setLoading(true);
+  const stopLoading = () => setLoading(false);
+
   useEffect(() => {
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
-    }, 2000);
+    }, 1000);
   }, [pathname]);
+
+  useEffect(() => {
+    if (router) {
+      router.events.on("routeChangeStart", startLoading);
+      router.events.on("routeChangeComplete", stopLoading);
+      return () => {
+        router.events.off("routeChangeStart", startLoading);
+        router.events.off("routeChangeComplete", stopLoading);
+      };
+    }
+  }, [router]);
 
   useEffect(() => {
     const isDark = localStorage.getItem("darkMode") === "true";
