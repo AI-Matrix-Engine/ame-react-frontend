@@ -92,10 +92,6 @@ function ChatFrom() {
       page: "chatbot.backend_functions.openai_chatbot"
     };
 
-    if (!socketService.getSocket()) {
-      socketService.init();
-    }
-
     const socket = socketService.getSocket();
 
     if (socket) {
@@ -218,7 +214,7 @@ function ChatFrom() {
             {chatHistory.map((chatMsg, idx) => (
               <li
                 key={idx}
-                className={`flex items-center gap-4 p-4 rounded-lg`}
+                className={`flex items-start gap-4 p-4 rounded-lg`}
               >
                 <div className="text-white w-8 h-8">
                   {chatMsg.role === eRoleType.USER ? (
