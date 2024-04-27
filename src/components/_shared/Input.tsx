@@ -1,35 +1,35 @@
-import { InputHTMLAttributes, ReactNode, forwardRef } from "react";
+import * as React from "react";
 
-interface InputI extends InputHTMLAttributes<HTMLInputElement> {
-    label?: string;
-    placeholder?: string;
-    disabled?: boolean;
-    value?: string;
-    icon?: ReactNode;
-    overrideStyles?: string;
-}
+import { cn } from "@/lib/utils";
+import { Label } from "./label";
+import { iInputProps } from "@/utils/types";
 
-const Input = forwardRef<HTMLInputElement, InputI>(
-    ({ label, placeholder, disabled = false, value = "", icon, overrideStyles = "", ...rest }, ref) => {
-        return (
-            <div className="flex flex-col">
-                {label && <label className="font-normal text-sm leading-6 text-charoalBlack mb-2">{label}</label>}
-
-                <div className="relative">
-                    <span className="absolute inset-y-0 left-0 pl-4 flex items-center">{icon}</span>
-                    <input
-                        ref={ref}
-                        className={`w-full ${icon && "pl-16"
-                            } px-4 py-3 rounded-lg min-h-12 border border-border bg-white outline-none placeholder:text-textGrey text-charoalBlack ${overrideStyles}`}
-                        placeholder={placeholder}
-                        disabled={disabled}
-                        value={value}
-                        {...rest}
-                    />
-                </div>
-            </div>
-        );
-    }
+const Input = React.forwardRef<HTMLInputElement, iInputProps>(
+  ({ className, onChange, type, element, placeholder, ...props }, ref) => {
+    return (
+      <>
+        {
+          <Label htmlFor="email" className="mb-2">
+            {typeof element === "object"
+              ? element?.source_params?.options?.placeholder
+              : element}
+          </Label>
+        }
+        <input
+          type={type}
+          className={cn(
+            "flex h-9 w-full rounded-md border border-zinc-200 bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-zinc-500  focus-visible:outline-none  disabled:cursor-not-allowed disabled:opacity-50 dark:border-zinc-800 dark:placeholder:text-zinc-400 dark:focus-visible:ring-zinc-300 dark:text-[#fafafa] dark:bg-[#ffffff0d] dark:border-[#ffffff1a]",
+            className
+          )}
+          ref={ref}
+          {...props}
+          placeholder={placeholder}
+          onChange={onChange}
+        />
+      </>
+    );
+  }
 );
+Input.displayName = "Input";
 
 export { Input };
