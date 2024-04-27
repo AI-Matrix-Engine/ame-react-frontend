@@ -1,14 +1,14 @@
 "use client";
 import React from "react";
-import { Checkbox } from "@/components/_shared/Checkbox";
-import { Calendar } from "@/components/_shared/Calendar";
-import { Label } from "@/components/_shared/Label";
-import { RadioGroup, RadioGroupItem } from "@/components/_shared/Radio-group";
-import { Switch } from "@/components/_shared/Switch";
+import { Checkbox } from "@/component/_shared/Checkbox";
+import { Calendar } from "@/component/_shared/Calendar";
+import { Label } from "@/component/_shared/Label";
+import { RadioGroup, RadioGroupItem } from "@/component/_shared/Radio-group";
+import { Switch } from "@/component/_shared/Switch";
 import { CopyIcon } from "@radix-ui/react-icons";
 import { useToast } from "@/hooks/useToast"
 
-import { ComboboxDemo } from "@/components/matrix_apps/create/Combobox";
+import { ComboboxDemo } from "@/component/matrix_apps/create/Combobox";
 import {
   Dialog,
   DialogClose,
@@ -18,14 +18,14 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/_shared/Dialog";
+} from "@/component/_shared/Dialog";
 
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "@/components/_shared/Tooltip";
+} from "@/component/_shared/Tooltip";
 import {
   Pagination,
   PaginationContent,
@@ -35,10 +35,10 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/_shared/Pagination";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/_shared/Tabs";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/component/_shared/Tabs";
 import { Separator } from "@/components/_shared/Separator";
-import { Button } from "@/components/_shared/Button";
-import { Input } from "@/components/_shared";
+import { Button } from "@/component/_shared/Button";
+import { Input } from "@/component/_shared";
 import { DataTable } from "./DataTable";
 import { columns } from "./Columns";
 import { NavigationBar } from "../../home/NavigationBar";

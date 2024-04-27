@@ -1,5 +1,5 @@
 import React from 'react'
-import { Form } from '@/components/chatbot/Form';
+import { Form } from '@/component/chatbot/Form';
 const page = () => {
        return (
               <Form />

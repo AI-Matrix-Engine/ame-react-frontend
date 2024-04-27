@@ -1,6 +1,6 @@
 
 import React from 'react'
-import { Login } from '@/components/login/Login'
+import { Login } from '@/component/login/Login'
 
 const LoginScreen = () => {
   return <Login />

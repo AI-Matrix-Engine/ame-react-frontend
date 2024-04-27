@@ -19,7 +19,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/_shared/Table";
+} from "@/component/_shared/Table";
 import { Input } from "../../_shared";
 import { Label } from "../../_shared/Label";
 import { Button } from "../../_shared/button";

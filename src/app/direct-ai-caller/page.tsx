@@ -1,4 +1,4 @@
-import { DirectAICaller } from '@/components/direct-ai-caller/DirectAICaller'
+import { DirectAICaller } from '@/component/direct-ai-caller/DirectAICaller'
 import React from 'react'
 
 const page = () => {

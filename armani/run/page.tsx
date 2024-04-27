@@ -1,5 +1,5 @@
 import React from 'react'
-import { FormData } from '@/components/matrix_apps/run/Run'
+import { FormData } from '@/component/matrix_apps/run/Run'
 const page = () => {
   return (
     <FormData />

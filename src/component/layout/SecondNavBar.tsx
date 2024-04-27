@@ -1,7 +1,7 @@
 "use client";
 import { iSecondNavbarProps, iLeftSidebarExpand } from "@/utils/types";
 import React, { useState } from "react";
-import { NavigationBar } from "@/components/home/NavigationBar";
+import { NavigationBar } from "@/component/home/NavigationBar";
 import { usePathname } from "next/navigation";
 import { TbMinusVertical } from "react-icons/tb";
 import { BsChevronCompactRight } from "react-icons/bs";

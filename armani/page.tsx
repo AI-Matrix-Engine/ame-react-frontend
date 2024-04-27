@@ -1,4 +1,4 @@
-import { UIFactory } from "@/components/home/UIFactory";
+import { UIFactory } from "@/component/home/UIFactory";
 
 const Home = () => {
   return (

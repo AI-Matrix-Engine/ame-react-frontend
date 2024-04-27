@@ -1,5 +1,5 @@
 import React from 'react'
-import { Create } from '@/components/matrix_apps/create/Create'
+import { Create } from '@/component/matrix_apps/create/Create'
 const page = () => {
    return (
       <div>

@@ -1,4 +1,4 @@
-import { AIRecipeCaller } from '@/components/ai-recipe-caller/AIRecipeCaller'
+import { AIRecipeCaller } from '@/component/ai-recipe-caller/AIRecipeCaller'
 import React from 'react'
 
 const page = () => {

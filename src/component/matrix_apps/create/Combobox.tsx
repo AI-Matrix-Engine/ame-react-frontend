@@ -11,12 +11,12 @@ import {
   CommandGroup,
   CommandInput,
   CommandItem,
-} from "@/components/_shared/Command"
+} from "@/component/_shared/Command"
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/_shared/Popover"
+} from "@/component/_shared/Popover"
 
 const frameworks = [
   {

@@ -5,10 +5,10 @@ import {
   MdOutlineKeyboardArrowRight,
   MdOutlineKeyboardArrowDown,
 } from "react-icons/md";
-import { Textarea } from "@/components/_shared/Textarea";
-import { Checkbox } from "@/components/_shared/Checkbox";
-import { Input } from "@/components/_shared/index";
-import { Dropdown, Label } from "@/components/_shared";
+import { Textarea } from "@/component/_shared/Textarea";
+import { Checkbox } from "@/component/_shared/Checkbox";
+import { Input } from "@/component/_shared/index";
+import { Dropdown, Label } from "@/component/_shared";
 
 interface iModel {
   modelName: string;
