@@ -9,7 +9,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/_shared/Sheet";
-import { FormData } from "./matrix_apps/run/Run";
+import { FormData } from "../matrix_apps/run/Run";
 import {
   PlusIcon,
   ChatBubbleLeftIcon,
