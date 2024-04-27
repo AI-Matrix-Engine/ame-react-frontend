@@ -1,4 +1,9 @@
-import { PersonIcon } from "@radix-ui/react-icons";
+import { PersonIcon, GridIcon } from "@radix-ui/react-icons";
+import { TfiHeadphoneAlt, TfiHeadphone } from "react-icons/tfi";
+import { BiGrid } from 'react-icons/bi';
+import { MdCreateNewFolder, MdManageAccounts, MdAdminPanelSettings, MdOutlineLogin } from "react-icons/md";
+import { VscVmRunning } from "react-icons/vsc";
+import { IoCreate } from "react-icons/io5";
 import { ReactNode } from "react";
 
 interface MenuItem {
@@ -10,7 +15,9 @@ interface MenuItem {
 
 interface MenuItemSubMenu {
   name: string;
+  icon: ReactNode;
   route: string;
+
 }
 
 interface MenuCategory {
@@ -24,17 +31,17 @@ export const menuItems: MenuCategory[] = [
     items: [
       {
         itemCategory: "Matrix Workbench",
-        icon: <PersonIcon className="h-4 w-4 text-gray-500" />,
+        icon: <GridIcon className="h-4 w-4" />,
         route: "/matrix-workbench"
       },
       {
         itemCategory: "Direct AI Caller",
-        icon: <PersonIcon className="h-4 w-4 text-gray-500" />,
+        icon: <TfiHeadphoneAlt className="h-4 w-4" />,
         route: "/direct-ai-caller"
       },
       {
         itemCategory: "AI Recipe Caller",
-        icon: <PersonIcon className="h-4 w-4 text-gray-500" />,
+        icon: <TfiHeadphone className="h-4 w-4" />,
         route: "/ai-recipe-caller"
       },
     ],
@@ -45,8 +52,24 @@ export const menuItems: MenuCategory[] = [
     items: [
       {
         itemCategory: "Matrix Apps",
-        icon: <PersonIcon className="h-4 w-4 text-gray-500" />,
-        itemSubMenu: [{ name: "Create", route: "/matrix-apps/create" }, { name: "Run", route: "/matrix-apps/run" }, { name: "Manage", route: "/matrix-apps/manage" }, { name: "Admin", route: "/matrix-apps/admin" }, { name: "Login", route: "/login" }, { name: "Signup", route: "/signup" }],
+        icon: <BiGrid className="h-4 w-4" />,
+        route: "/matrix-apps/create",
+        itemSubMenu: [{ name: "Create", route: "/matrix-apps/create", icon: <MdCreateNewFolder className="h-4 w-4" />, }, {
+          name: "Run", route: "/matrix-apps/run",
+          icon: <VscVmRunning className="h-4 w-4" />,
+        }, {
+          name: "Manage", route: "/matrix-apps/manage",
+          icon: <MdManageAccounts className="h-4 w-4" />,
+        }, {
+          name: "Admin", route: "/matrix-apps/admin",
+          icon: <MdAdminPanelSettings className="h-4 w-4" />,
+        }, {
+          name: "Login", route: "/login",
+          icon: <MdOutlineLogin className="h-4 w-4" />,
+        }, {
+          name: "Signup", route: "/signup",
+          icon: <IoCreate className="h-4 w-4" />,
+        }],
       },
     ],
   },

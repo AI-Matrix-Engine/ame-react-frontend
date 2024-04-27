@@ -11,12 +11,11 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   };
 
   return (
-    <div className="flex h-full bg-gray-800 relative">
+    <div className="flex h-full grow bg-gray-900 relative">
       {isSidebarOpen && <Sidebar isOpen={isSidebarOpen} />}
       <div
-        className={`absolute top-1/2 left-0 transform -translate-y-1/2 ${
-          isSidebarOpen ? "translate-x-full ml-48" : "translate-x-0"
-        } cursor-pointer z-20 text-white`}
+        className={`absolute top-1/2 left-0 transform -translate-y-1/2 ${isSidebarOpen ? "translate-x-full ml-48" : "translate-x-0"
+          } cursor-pointer z-20 text-white`}
         style={{ transition: "transform 0.3s ease-in-out" }}
       >
         {isSidebarOpen ? (

@@ -130,7 +130,7 @@ function ChatFrom() {
   ).filter((title) => !uniqueTitles.includes(title));
 
   return (
-    <div className="flex h-[90vh] bg-gray-800 w-full">
+    <div className="flex h-[90vh] bg-gray-900 w-full">
       <main className="flex-1 flex flex-col">
         {!currentTitle && (
           <div className="flex flex-col items-center justify-center text-white p-4">
@@ -159,9 +159,8 @@ function ChatFrom() {
               <li
                 key={idx}
                 ref={scrollToLastItem}
-                className={`flex items-center gap-4 p-4 ${
-                  chatMsg.role === "user" ? "bg-blue-600" : "bg-gray-700"
-                } rounded-lg`}
+                className={`flex items-center gap-4 p-4 ${chatMsg.role === "user" ? "bg-blue-600" : "bg-gray-700"
+                  } rounded-lg`}
               >
                 {chatMsg.role === "user" ? (
                   <BiSolidUserCircle size={36} />

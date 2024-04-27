@@ -61,7 +61,7 @@ export const Main = ({ children }: childrenProp) => {
                     Command Center
                   </h1>
                   <div className="overflow-y-auto pr-[.35rem]">
-                    <NavigationBar textColor="text-white" />
+                    <NavigationBar textColor="text-gray-400" hoverColor="text-gray-500" />
                   </div>
                 </div>
               )}
@@ -95,7 +95,7 @@ export const Main = ({ children }: childrenProp) => {
                   <h1 className="text-black font-semibold text-lg mb-[20px]">
                     {(menuItems[0].items.find((item) => item.route === currentUrl)?.itemCategory || "Matrix Apps") + ' Controls'}
                   </h1>
-                  <NavigationBar textColor="text-black" />
+                  <NavigationBar textColor="text-gray-400" hoverColor="text-gray-500" />
                 </div>
               )}
               <div className="flex items-center px-2">
