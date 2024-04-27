@@ -2,6 +2,8 @@ import React from "react";
 import { BiPlus } from "react-icons/bi";
 import { useChat } from "@/context/ChatContext";
 import { iChat } from "@/utils/types";
+import { AiFillEdit } from "react-icons/ai";
+import ChatItem from "./ChatItem";
 
 interface SidebarProps {
   isOpen: boolean;
@@ -9,6 +11,8 @@ interface SidebarProps {
 
 const Sidebar: React.FC<SidebarProps> = ({ isOpen }) => {
   const { currentChat, chatHistory, setCurrentChat, setChatHistory } = useChat();
+
+  console.log('chatHistory', chatHistory)
 
   const AddNewChat = () => {
     const newChat: iChat = {
@@ -36,8 +40,8 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen }) => {
         <div className="mt-4 pt-4 border-t border-gray-700">
           {
             chatHistory?.map((chat, index) => (
-              <div key={index} onClick={() => ChatClicked(index)} className="cursor-pointer">
-                {chat.title}
+              <div key={index} onClick={() => ChatClicked(index)} className="w-full">
+                <ChatItem chatIndex={index} chatTitle={chat.title}></ChatItem>
               </div>
             ))
           }

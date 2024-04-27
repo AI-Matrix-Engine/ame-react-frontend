@@ -38,6 +38,19 @@ function ChatFrom() {
     return data;
   }
 
+  useEffect(() => {
+    const intervalFunction = () => {
+      //Call api for saving current chat data.
+      
+    };
+
+    const intervalId: NodeJS.Timeout = setInterval(intervalFunction, 3000);
+
+    return () => {
+      clearInterval(intervalId);
+    };
+  }, []); 
+
   const displayUserMessage = (msg: string, type: eRoleType) => {
     const newMessage: iMessage = {
       role: type,
@@ -147,7 +160,7 @@ function ChatFrom() {
   }, []);
 
   useEffect(() => {
-    if(chatHistory.length > currentChat) {
+    if (chatHistory.length > currentChat) {
       setMsgHistory(chatHistory[currentChat].msgArr)
     }
 
@@ -181,9 +194,9 @@ function ChatFrom() {
   useEffect(() => {
     scrollToBottom();
 
-    if(msgHistory.length === 0) return;
+    if (msgHistory.length === 0) return;
 
-    if(chatHistory.length === 0) {
+    if (chatHistory.length === 0) {
       setChatHistory(prev => [...prev, {
         title: 'New Chat',
         msgArr: msgHistory
@@ -195,13 +208,13 @@ function ChatFrom() {
         title: chatHistory[currentChat].title,
         msgArr: msgHistory
       };
-  
+
       setChatHistory(data);
     }
   }, [msgHistory])
 
   useEffect(() => {
-    if(chatHistory.length > currentChat) {
+    if (chatHistory.length > currentChat) {
       setMsgHistory(chatHistory[currentChat].msgArr);
     }
   }, [currentChat])
