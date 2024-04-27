@@ -11,7 +11,7 @@ import {
 } from "react-hook-form"
 
 import { cn } from "@/lib/utils"
-import { Label } from "@/component/_shared/Label"
+import { Label } from "@/components/_shared/Label"
 import { iFormFieldContextValue, iFormItemContextValue } from "@/utils/types"
 
 const Form = FormProvider

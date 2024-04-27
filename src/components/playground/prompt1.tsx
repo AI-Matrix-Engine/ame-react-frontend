@@ -5,7 +5,7 @@ import {
   BsArrowsAngleContract,
   BsUpload,
 } from "react-icons/bs";
-import { Textarea } from "@/component/_shared/Textarea";
+import { Textarea } from "@/components/_shared/Textarea";
 import { AiOutlineDelete, AiOutlineFileText } from "react-icons/ai";
 import { SlCloudUpload } from "react-icons/sl";
 import { CiImageOn } from "react-icons/ci";

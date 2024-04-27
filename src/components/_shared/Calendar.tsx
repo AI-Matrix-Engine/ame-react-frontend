@@ -5,7 +5,7 @@ import { ChevronLeftIcon, ChevronRightIcon } from "@radix-ui/react-icons"
 import { DayPicker } from "react-day-picker"
 
 import { cn } from "@/lib/utils"
-import { buttonVariants } from "@/component/_shared/Button"
+import { buttonVariants } from "@/components/_shared/Button"
 import { iCalendarProps } from "@/utils/types"
 
 

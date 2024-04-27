@@ -1,5 +1,5 @@
 "use client";
-import Sidebar from "@/component/chatbot/Sidebar";
+import Sidebar from "@/components/chatbot/Sidebar";
 import React, { useState } from "react";
 import { MdOutlineArrowLeft, MdOutlineArrowRight } from "react-icons/md";
 

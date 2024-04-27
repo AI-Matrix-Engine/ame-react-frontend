@@ -1,5 +1,5 @@
 import React from 'react'
-import Playground from "@/component/playground";
+import Playground from "@/components/playground";
 
 const PlaygroundSection = () => {
   return (

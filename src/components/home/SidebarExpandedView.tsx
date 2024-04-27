@@ -2,6 +2,7 @@
 import React from "react";
 import { NavigationBar } from "./NavigationBar";
 import { iSidebarExpandedViewProp } from "@/utils/types";
+import { menuItems } from "./Data";
 
 export const SidebarExpandedView = ({
   id,
@@ -20,20 +21,21 @@ export const SidebarExpandedView = ({
         >
           <h5
             className={`${id === 1 ? "text-white" : "text-black"}
-            ${id===2 && opacity && "opacity-50"}
+            ${id === 2 && opacity && "opacity-50"}
             text-center`}
           >
             {title}
           </h5>
         </div>
         <NavigationBar
+          navItems={menuItems}
           textColor={
             id === 1
               ? "text-white"
               : `${`text-black  ${opacity && "opacity-50"}`}`
           }
           hoverColor={id === 1 ? "bg-[#454b54]" : "bg-[#EFF1F4]"}
-          opacity={`${id===2 && opacity && "opacity-50"}`}
+          opacity={`${id === 2 && opacity && "opacity-50"}`}
         />
       </div>
     </div>

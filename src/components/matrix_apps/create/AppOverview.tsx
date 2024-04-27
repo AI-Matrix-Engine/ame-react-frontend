@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Textarea } from "../../_shared";
-import { ComboBox } from "@/component/_shared/Combobox";
+import { ComboBox } from "@/components/_shared/Combobox";
 import { iAppOverviewProps } from "@/utils/types";
 
 const apiProviders = [

@@ -9,7 +9,7 @@ export * from "./Tabs";
 export * from "./Progress";
 export * from "./Dialog";
 export * from "./Checkbox";
-export * from "./Radio-group";
+export * from "./RadioGroup";
 export * from "./Calendar";
 export * from "./Form";
 export * from "./Command";

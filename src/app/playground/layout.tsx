@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import { SecondNavbar } from "@/component/layout/SecondNavBar";
+import { SecondNavbar } from "@/components/layout/SecondNavBar";
 import { MenuCategory } from "@/utils/types";
 import { GridIcon } from "lucide-react";
 import { TfiHeadphone, TfiHeadphoneAlt } from "react-icons/tfi";

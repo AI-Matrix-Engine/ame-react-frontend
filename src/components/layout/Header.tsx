@@ -8,7 +8,7 @@ import {
   NavigationMenuLink,
   NavigationMenuList,
   NavigationMenuTrigger,
-} from "@/components/_shared/Navigation-menu";
+} from "@/components/_shared/NavigationMenu";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/_shared/Avatar";
 

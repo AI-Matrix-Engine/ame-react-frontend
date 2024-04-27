@@ -5,7 +5,6 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/_shared/Accordion";
-import { menuItems } from "@/component/home/Data";
 import Link from "next/link";
 import { iNavigationBar } from "@/utils/types";
 

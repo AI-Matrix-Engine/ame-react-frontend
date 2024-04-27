@@ -4,7 +4,7 @@ import axios from 'axios';
 import { Input, Button, Dropdown, Label } from "../../_shared";
 import { AddCategory, AppOverview, AIConversationSettings } from ".";
 import { AIModelSpecifications } from "./AIModelSpecifications";
-import { ComboBox } from "@/component/_shared/Combobox";
+import { ComboBox } from "@/components/_shared/Combobox";
 import { useCategories } from '@/hooks/useCategories';
 import { iSelectType } from "@/utils/types";
 

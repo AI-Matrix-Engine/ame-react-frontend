@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import Prompt from "./Prompt";
+import Prompt from "./prompt";
 import { promptData } from "../Data";
 import { LuPlusCircle } from "react-icons/lu";
 

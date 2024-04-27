@@ -6,7 +6,7 @@ import {
     SelectItem,
     SelectTrigger,
     SelectValue,
-} from "./select";
+} from "@/components/_shared/Select";
 import { Label } from ".";
 import { iDropDownProps } from "@/utils/types";
 
