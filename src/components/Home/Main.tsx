@@ -13,7 +13,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "../_shared/Avatar";
 import { ChevronDownIcon } from "@radix-ui/react-icons";
 import { usePathname } from "next/navigation";
 import { menuItems } from "./Data";
-import { FirstNavBar } from "../_shared/FirstNavBar";
+import { FirstNavBar } from "../layout/FirstNavBar";
 
 const recipies = [
   { value: "0", label: "danielove323@g" },
