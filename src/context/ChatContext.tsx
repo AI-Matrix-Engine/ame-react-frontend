@@ -23,10 +23,7 @@ const ChatContext = createContext<{
 
 export const ChatProvider = ({ children }: { children: ReactNode }) => {
     const [currentChat, setCurrentChat] = useState<number>(0);
-    const [chatHistory, setChatHistory] = useState<iChat[]>([{
-        title: "Chat Number1",
-        msgArr: []
-    }]);
+    const [chatHistory, setChatHistory] = useState<iChat[]>([]);
 
     return (
         <ChatContext.Provider
