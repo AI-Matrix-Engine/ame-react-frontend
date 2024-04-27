@@ -10,7 +10,7 @@ interface ChatItemProps {
 
 const ChatItem: React.FC<ChatItemProps> = ({ chatIndex, chatTitle }) => {
     const [isChangeTitle, setIsChangeTitle] = useState<boolean>(false);
-    const { currentChat, setCurrentChat, chatHistory, setChatHistory } = useChat();
+    const { chatHistory, setChatHistory } = useChat();
     const [title, setTitle] = useState<string>(chatTitle)
 
     const submitHandler = async (
@@ -45,7 +45,7 @@ const ChatItem: React.FC<ChatItemProps> = ({ chatIndex, chatTitle }) => {
                     <div>{title}</div>
                 )
             }
-            <AiFillEdit onClick={() => setIsChangeTitle(!isChangeTitle)} />
+            <AiFillEdit className="ml-2" onClick={() => setIsChangeTitle(!isChangeTitle)} />
         </div>
     )
 }
