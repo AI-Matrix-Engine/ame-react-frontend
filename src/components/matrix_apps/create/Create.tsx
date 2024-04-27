@@ -1,12 +1,12 @@
 "use client";
-import React, {useEffect, useState, useMemo} from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import axios from 'axios';
-import {Input, Button, Dropdown, Label} from "../UI";
-import {AddCategory, AppOverview, AIConversationSettings} from ".";
-import {AIModelSpecifications} from "./AIModelSpecifications";
-import {ComboBox} from "@/components/UI/Combobox";
-import {useCategories} from '@/hooks/useCategories';
-import {iSelectType} from "@/utils/types";
+import { Input, Button, Dropdown, Label } from "../../_shared";
+import { AddCategory, AppOverview, AIConversationSettings } from ".";
+import { AIModelSpecifications } from "./AIModelSpecifications";
+import { ComboBox } from "@/components/_shared/Combobox";
+import { useCategories } from '@/hooks/useCategories';
+import { iSelectType } from "@/utils/types";
 
 interface CategoryInfo {
     label: string;
@@ -106,11 +106,11 @@ export const Create = () => {
 
     return (
         <div className="p-6">
-            <h2 className="text-4xl font-extrabold dark:text-white mb-8 text-center">
+            <h2 className="text-4xl font-extrabold mb-8 text-center">
                 {PAGE_TITLE}
             </h2>
-            <Input type="input" placeholder={APP_INPUT_PLACEHOLDER} id="link"/>
-            <div className="flex justify-between items-end gap-4 mb-4 mt-2">
+            <Input type="input" placeholder={APP_INPUT_PLACEHOLDER} id="link" />
+            <div className="flex justify-between items-end gap-4 mb-4 mt-2 dark:text-white">
                 <ComboBox
                     placeHolder="Category"
                     options={categories}
@@ -122,7 +122,7 @@ export const Create = () => {
                 </Button>
             </div>
             {categorySelectedValue && (
-                <div className="flex justify-between items-end gap-4 mb-4 mt-2">
+                <div className="flex justify-between items-end gap-4 mb-4 mt-2 dark:text-white">
                     <ComboBox
                         placeHolder="Sub Category"
                         options={subCategories}
@@ -149,10 +149,10 @@ export const Create = () => {
                 />
             )}
             {subCategorySelectedValue ? (
-                <AppOverview handleAppOverViewChange={handleAppOverviewChange}/>
+                <AppOverview handleAppOverViewChange={handleAppOverviewChange} />
             ) : undefined}
-            {isShowAiModelSpecifications && <AIModelSpecifications/>}
-            {isShowAiModelSpecifications && <AIConversationSettings/>}
+            {isShowAiModelSpecifications && <AIModelSpecifications />}
+            {isShowAiModelSpecifications && <AIConversationSettings />}
         </div>
     );
 };

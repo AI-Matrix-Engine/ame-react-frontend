@@ -4,7 +4,7 @@ import { MinusCircle } from "lucide-react";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Button, Form, FormField, FormMessage  } from "../UI";
+import { Button, Form, FormField, FormMessage } from "../_shared";
 import { iIntakeProps } from "@/utils/types";
 
 export const IntakeForm = ({
@@ -87,7 +87,7 @@ export const IntakeForm = ({
 
     console.log("Submitted Value", submittedValue);
   };
-  
+
   return (
     <div className='w-full'>
       <Form {...form}>

@@ -4,19 +4,19 @@ import * as React from "react"
 import { Check, ChevronsUpDown } from "lucide-react"
 
 import { cn } from "@/lib/utils"
-import { Button } from "../UI"
+import { Button } from "../../_shared"
 import {
   Command,
   CommandEmpty,
   CommandGroup,
   CommandInput,
   CommandItem,
-} from "@/components/UI/command"
+} from "@/components/_shared/Command"
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/UI/popover"
+} from "@/components/_shared/Popover"
 
 const frameworks = [
   {
@@ -41,7 +41,7 @@ const frameworks = [
   },
 ]
 
-export const  ComboboxDemo = () => {
+export const ComboboxDemo = () => {
   const [open, setOpen] = React.useState(false)
   const [value, setValue] = React.useState("")
 

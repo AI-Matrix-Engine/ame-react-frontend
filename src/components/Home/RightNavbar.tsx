@@ -5,7 +5,7 @@ import { ChatBubbleIcon, PersonIcon } from "@radix-ui/react-icons";
 import { BsChevronCompactLeft } from "react-icons/bs";
 import { TbMinusVertical } from "react-icons/tb";
 
-import { FormData } from "../Run/Run";
+import { FormData } from "../matrix_apps/run/Run";
 export const RightNavbar = () => {
   const navItems = [
     {
@@ -30,16 +30,16 @@ export const RightNavbar = () => {
   };
   return (
     <div
-      className={`bg-[#F8F9FB] dark:bg-[#18181b] dark:border-l dark:border-l-[#ffffff1a] text-white ${sidebar ? "w-[300px] pl-2" : "w-6"
+      className={`bg-white dark:bg-[#18181b] dark:border-l dark:border-l-[#ffffff1a] text-white ${sidebar ? "w-[300px] pl-2" : "w-6"
         } relative`}
     >
       {sidebar ? (
         <div>
           <div className=" px-4 flex justify-between items-center mt-4">
-            <h1 className="text-black font-semibold text-xl">Matrix AI</h1>
+            <h1 className="text-black dark:text-white font-semibold text-xl">Matrix AI</h1>
           </div>
           <div
-            className={`flex flex-col justify-between items-between text-black p-4 overflow-y-auto`}
+            className={`flex flex-col justify-between items-between text-black dark:text-white p-4 overflow-y-auto`}
           >
             <h4 className="text-center">Form</h4>
             <FormData additionalClasses={"space-y-4"} />

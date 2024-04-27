@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { RiDeleteBin2Line } from "react-icons/ri";
 import { IoImageOutline } from "react-icons/io5";
-import { Label, Textarea } from "../UI";
+import { Label, Textarea } from "../_shared";
 
 interface iPrompt {
   isExpand?: boolean;
@@ -39,7 +39,7 @@ const Prompt = ({
     setPData(updateData);
   };
 
-  const handleKeyDown = (e:any) => {
+  const handleKeyDown = (e: any) => {
     const textarea: any = e.currentTarget;
     textarea.style.height = "auto";
     textarea.style.height = textarea.scrollHeight + "px";

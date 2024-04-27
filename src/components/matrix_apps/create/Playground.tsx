@@ -1,14 +1,14 @@
 "use client";
 import React from "react";
-import { Checkbox } from "../UI/checkbox";
-import { Calendar } from "../UI/calendar";
-import { Label } from "@/components/UI/label";
-import { RadioGroup, RadioGroupItem } from "@/components/UI/radio-group";
-import { Switch } from "@/components/UI/switch";
+import { Checkbox } from "@/components/_shared/Checkbox";
+import { Calendar } from "@/components/_shared/Calendar";
+import { Label } from "@/components/_shared/Label";
+import { RadioGroup, RadioGroupItem } from "@/components/_shared/Radio-group";
+import { Switch } from "@/components/_shared/Switch";
 import { CopyIcon } from "@radix-ui/react-icons";
-import { useToast } from "@/components/UI/use-toast";
+import { useToast } from "@/hooks/useToast"
 
-import { ComboboxDemo } from "./Combobox";
+import { ComboboxDemo } from "@/components/matrix_apps/create/Combobox";
 import {
   Dialog,
   DialogClose,
@@ -18,14 +18,14 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/UI/dialog";
+} from "@/components/_shared/Dialog";
 
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "@/components/UI/tooltip";
+} from "@/components/_shared/Tooltip";
 import {
   Pagination,
   PaginationContent,
@@ -34,14 +34,14 @@ import {
   PaginationLink,
   PaginationNext,
   PaginationPrevious,
-} from "@/components/UI/pagination";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/UI/tabs";
-import { Separator } from "@/components/UI/separator";
-import { Button } from "../UI/button";
-import { Input } from "../UI";
+} from "@/components/_shared/Pagination";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/_shared/Tabs";
+import { Separator } from "@/components/_shared/Separator";
+import { Button } from "@/components/_shared/Button";
+import { Input } from "@/components/_shared";
 import { DataTable } from "./DataTable";
 import { columns } from "./Columns";
-import { NavigationBar } from "../Home/NavigationBar";
+import { NavigationBar } from "../../home/NavigationBar";
 
 export const Playground = () => {
   const [date, setDate] = React.useState<Date | undefined>(new Date());

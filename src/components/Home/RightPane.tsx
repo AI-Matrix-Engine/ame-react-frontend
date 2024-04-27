@@ -1,6 +1,6 @@
 import React from "react";
 import { variables } from "./JsonData.";
-import { Button } from "../UI";
+import { Button } from "../_shared";
 import { iRightPaneProps } from "@/utils/types";
 
 export const RightPane = ({ handleUiElements }: iRightPaneProps) => {

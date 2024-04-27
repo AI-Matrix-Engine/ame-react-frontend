@@ -4,7 +4,7 @@ import {
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from "@/components/UI/accordion";
+} from "@/components/_shared/Accordion";
 import { menuItems } from "./Data";
 import Link from "next/link";
 

@@ -1,8 +1,8 @@
-import { AIRecipeCaller } from '@/components/AIRecipeCaller/AIRecipeCaller'
+import { AIRecipeCaller } from '@/components/ai-recipe-caller/AIRecipeCaller'
 import React from 'react'
 
-const Admin = () => {
+const page = () => {
     return <AIRecipeCaller />
 }
 
-export default Admin
+export default page

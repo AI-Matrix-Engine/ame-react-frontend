@@ -1,8 +1,8 @@
 "use client";
 
 import * as React from "react";
-import { Button } from "@/components/UI/button";
-import { LeftModel } from "@/components/Playground/model";
+import { Button } from "@/components/_shared/Button";
+import { LeftModel } from "@/components/playground/Model";
 
 const modelName = ["PLACES TO VISIT", "PLACES TO VISIT", "PLACES TO VISIT"];
 

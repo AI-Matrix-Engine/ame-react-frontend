@@ -4,12 +4,13 @@ import {
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from "@/components/UI/accordion";
-import { menuItems } from "./Data";
+} from "@/components/_shared/Accordion";
+import { menuItems } from "@/components/home/Data";
 import Link from "next/link";
 import { iNavigationBar } from "@/utils/types";
 
 export const NavigationBar = ({
+  navItems,
   textColor,
   hoverColor,
   text = null,
@@ -19,7 +20,7 @@ export const NavigationBar = ({
   return (
     <div className="far-sidebar-height flex flex-col justify-between">
       <div>
-        {menuItems.map((item, index) => (
+        {navItems.map((item, index) => (
           <div key={index}>
             <h4
               className={`${opacity} text-[#92959b] pl-2  text-left text-xs font-bold mt-[15px]`}

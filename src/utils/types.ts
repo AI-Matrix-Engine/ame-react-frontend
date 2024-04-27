@@ -30,6 +30,28 @@ export type iLeftNavbarProps = {
   opacity: boolean;
 };
 
+interface MenuItem {
+  itemCategory: string;
+  icon: ReactNode;
+  route?: string;
+  itemSubMenu?: MenuItemSubMenu[];
+}
+
+interface MenuItemSubMenu {
+  name: string;
+  icon: ReactNode;
+  route: string;
+}
+
+export type MenuCategory = {
+  category: string;
+  items: MenuItem[];
+};
+
+export type iSecondNavbarProps = {
+  navItems: MenuCategory[];
+};
+
 // src/components/Create/AIConversationSettings.tsx
 export type JsonDataType = {
   id: number;
@@ -60,17 +82,17 @@ export type JsonDataType = {
       readOnly?: boolean;
     };
     type:
-    | "input"
-    | "dropdown"
-    | "dropdown_with_other_option"
-    | "textarea"
-    | "radio"
-    | "checkbox"
-    | "switch"
-    | "dialog"
-    | "table"
-    | "tab"
-    | "calendar";
+      | "input"
+      | "dropdown"
+      | "dropdown_with_other_option"
+      | "textarea"
+      | "radio"
+      | "checkbox"
+      | "switch"
+      | "dialog"
+      | "table"
+      | "tab"
+      | "calendar";
     validation: {
       maxLength: number;
       minLength: number;
@@ -119,7 +141,7 @@ export type iColumn = {
 export interface iSelectType {
   label: string;
   value: string;
-  subCategories?: iSelectType[];  // Optional to handle cases where there might be no subcategories
+  subCategories?: iSelectType[]; // Optional to handle cases where there might be no subcategories
 }
 
 export type iCategoriesType = {
@@ -154,6 +176,7 @@ export type iIntakeProps = {
 
 // src/components/Home/Navigationbar.tsx
 export type iNavigationBar = {
+  navItems: MenuCategory[];
   textColor?: string;
   hoverColor?: string;
   text?: null | string;
@@ -193,17 +216,17 @@ export type iSidebarExpandedViewProp = {
 // src/components/Home/UIFactory.tsx
 export type UIFactoryState = JsonDataType & { value: string };
 
-// src/components/UI/accordion.tsx
+// src/components/_shared/accordion.tsx
 export type iAccordionTriggerProps = React.ComponentPropsWithoutRef<
   typeof AccordionPrimitive.Trigger
 > & {
   iconStyle?: null | string | boolean; // Define the type for iconStyle prop
 };
 
-// src/components/UI/calendar.tsx
+// src/components/_shared/calendar.tsx
 export type iCalendarProps = React.ComponentProps<typeof DayPicker>;
 
-// src/components/UI/Combobox.tsx
+// src/components/_shared/Combobox.tsx
 export type iComboboxTypes = {
   options: { label: string; value: string }[];
   onClick: (value: string) => void;
@@ -211,7 +234,7 @@ export type iComboboxTypes = {
   placeHolder: string;
 };
 
-// src/components/UI/Dropddown.tsx
+// src/components/_shared/Dropddown.tsx
 export type iDropDownProps = {
   onClick?: (value: string) => void;
   options: iSelectType[];
@@ -220,14 +243,14 @@ export type iDropDownProps = {
   className?: string;
 };
 
-// src/components/UI/input.tsx
+// src/components/_shared/input.tsx
 export interface iInputProps
   extends Omit<React.InputHTMLAttributes<HTMLInputElement>, "onChange"> {
   element?: string | JsonDataType;
   onChange?: any;
 }
 
-// src/components/UI/form.tsx
+// src/components/_shared/form.tsx
 export type iFormFieldContextValue<
   TFieldValues extends FieldValues = FieldValues,
   TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>
@@ -239,13 +262,14 @@ export type iFormItemContextValue = {
   id: string;
 };
 
-// src/components/UI/Main.tsx
+// src/components/_shared/Main.tsx
 export type iLeftSidebarExpand = {
   command: boolean;
   app: boolean;
 };
 
 export type childrenProp = {
+  navItems: MenuCategory[];
   children: ReactNode;
 };
 
@@ -260,30 +284,30 @@ export enum eApiPurpose {
   NON_AI_RELATED_TASKS = "non_ai_related_tasks",
   RESPONSE_PROCESSING = "response_processing",
   DATA_PROCESSING = "data_processing",
-  OTHER_TASK = "other_task"
+  OTHER_TASK = "other_task",
 }
 
 export enum eApiProvider {
   OPENAI = "openai",
   GOOGLE = "google",
-  CODEBERT = "codebert"
+  CODEBERT = "codebert",
 }
 
 export interface iApiType {
-  value: string,
-  name: string,
-  provider: eApiProvider,
-  purpose: eApiPurpose,
-  version: string,
-  is_active: boolean,
-  link_to_documentation: string,
-  chat_completion_requests: number[],
-  image_task_Requests: number[],
-  audio_speech_requests: number[],
-  audio_transcription_requests: number[],
-  audio_translation_requests: number[],
-  endpoints: number[],
-  response: number[],
-  api_costs: number[],
-  errors: number[]
+  value: string;
+  name: string;
+  provider: eApiProvider;
+  purpose: eApiPurpose;
+  version: string;
+  is_active: boolean;
+  link_to_documentation: string;
+  chat_completion_requests: number[];
+  image_task_Requests: number[];
+  audio_speech_requests: number[];
+  audio_transcription_requests: number[];
+  audio_translation_requests: number[];
+  endpoints: number[];
+  response: number[];
+  api_costs: number[];
+  errors: number[];
 }

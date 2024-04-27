@@ -19,11 +19,11 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/UI/table";
-import { Input } from "../UI";
-import { Label } from "../UI/label";
-import { Button } from "../UI/button";
-interface TData  {
+} from "@/components/_shared/Table";
+import { Input } from "../../_shared";
+import { Label } from "../../_shared/Label";
+import { Button } from "../../_shared/button";
+interface TData {
   id: string;
   amount: number;
   status: string;
@@ -80,9 +80,9 @@ export function DataTable<TData, TValue>({
                         {header.isPlaceholder
                           ? null
                           : flexRender(
-                              header.column.columnDef.header,
-                              header.getContext()
-                            )}
+                            header.column.columnDef.header,
+                            header.getContext()
+                          )}
                       </TableHead>
                     );
                   })}

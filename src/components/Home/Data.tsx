@@ -5,25 +5,7 @@ import { MdCreateNewFolder, MdManageAccounts, MdAdminPanelSettings, MdOutlineLog
 import { VscVmRunning } from "react-icons/vsc";
 import { IoCreate } from "react-icons/io5";
 import { ReactNode } from "react";
-
-interface MenuItem {
-  itemCategory: string;
-  icon: ReactNode;
-  route?: string;
-  itemSubMenu?: MenuItemSubMenu[];
-}
-
-interface MenuItemSubMenu {
-  name: string;
-  icon: ReactNode;
-  route: string;
-
-}
-
-interface MenuCategory {
-  category: string;
-  items: MenuItem[];
-}
+import { MenuCategory } from "@/utils/types";
 
 export const menuItems: MenuCategory[] = [
   {

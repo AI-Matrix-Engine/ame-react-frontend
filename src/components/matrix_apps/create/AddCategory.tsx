@@ -1,5 +1,5 @@
 import React from "react";
-import { Textarea, Input, Label, Button } from "../UI";
+import { Textarea, Input, Label, Button } from "../../_shared";
 import { iAddCategoryProps } from "@/utils/types";
 
 const TEXTAREA_PLACEHOLDER = "Write your description here...";
@@ -30,25 +30,25 @@ export const AddCategory = ({
 
   return (
     <div >
-      <h5 className="text-xl font-bold dark:text-white">{title}</h5>
+      <h5 className="text-xl font-bold dark:text-black">{title}</h5>
 
-       <div className="mb-2">
-       <Label htmlFor="email" className="mb-2">
-        {inputLabel}
-      </Label>
-      <Input
-        type="input"
-        placeholder={INPUT_CATEGORY_NAME}
-        id="label"
-        onChange={onChange}
-      />
-       </div>
+      <div className="mb-2 ">
+        <Label htmlFor="email" className="mb-2">
+          {inputLabel}
+        </Label>
+        <Input
+          type="input"
+          placeholder={INPUT_CATEGORY_NAME}
+          id="label"
+          onChange={onChange}
+        />
+      </div>
       <Textarea
         minHeight="120px"
         placeholder={TEXTAREA_PLACEHOLDER}
         id="description"
         handleChange={handleDescriptionChange}
-       
+
       />
 
       <div className="flex justify-end gap-4 mb-4 mt-2">

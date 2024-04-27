@@ -1,8 +1,8 @@
-import { DirectAICaller } from '@/components/DirectAICaller/DirectAICaller'
+import { DirectAICaller } from '@/components/direct-ai-caller/DirectAICaller'
 import React from 'react'
 
-const Admin = () => {
+const page = () => {
     return <DirectAICaller />
 }
 
-export default Admin
+export default page

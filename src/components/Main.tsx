@@ -8,8 +8,8 @@ import {
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from "@/components/UI/sheet";
-import { FormData } from "./Run/Run";
+} from "@/components/_shared/Sheet";
+import { FormData } from "./matrix_apps/run/Run";
 import {
   PlusIcon,
   ChatBubbleLeftIcon,

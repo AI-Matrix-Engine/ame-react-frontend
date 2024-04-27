@@ -2,7 +2,7 @@
 import React from "react";
 import { Formik } from "formik";
 import * as Yup from "yup";
-import { Input } from "../UI";
+import { Input } from "../_shared";
 
 export const Form = () => {
   const validationSchema = Yup.object().shape({

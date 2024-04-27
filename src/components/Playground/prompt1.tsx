@@ -5,7 +5,7 @@ import {
   BsArrowsAngleContract,
   BsUpload,
 } from "react-icons/bs";
-import { Textarea } from "@/components/UI/textarea";
+import { Textarea } from "@/components/_shared/Textarea";
 import { AiOutlineDelete, AiOutlineFileText } from "react-icons/ai";
 import { SlCloudUpload } from "react-icons/sl";
 import { CiImageOn } from "react-icons/ci";
@@ -29,9 +29,8 @@ export const Prompt = ({
   const [isUpload, setIsUpload] = React.useState(false);
   return (
     <div
-      className={`${
-        !isExpand ? "hover:border" : "border"
-      } rounded-xl p-2 mt-[11px] group`}
+      className={`${!isExpand ? "hover:border" : "border"
+        } rounded-xl p-2 mt-[11px] group`}
     >
       <div className="flex items-center justify-between">
         <div className="flex items-center overflow-hidden mr-6 relative w-fill">

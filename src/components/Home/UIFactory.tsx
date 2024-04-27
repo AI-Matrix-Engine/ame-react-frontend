@@ -6,7 +6,7 @@ import { UIRenderer } from "./UIRenderer";
 import Link from "next/link";
 import { RightPane } from "./RightPane";
 import { IntakeForm } from "./IntakeForm";
-import { Button } from "../UI";
+import { Button } from "../_shared";
 import { Minus } from "lucide-react";
 import { JsonDataType } from "@/utils/types";
 

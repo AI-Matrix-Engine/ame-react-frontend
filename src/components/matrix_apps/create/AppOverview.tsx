@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Textarea } from "../UI";
-import { ComboBox } from "@/components/UI/Combobox";
+import { Textarea } from "../../_shared";
+import { ComboBox } from "@/components/_shared/Combobox";
 import { iAppOverviewProps } from "@/utils/types";
 
 const apiProviders = [
@@ -124,10 +124,10 @@ export const AppOverview = ({ handleAppOverViewChange }: iAppOverviewProps) => {
         </div>
         <div>
           <ComboBox
-              placeHolder="Configuration"
-              onClick={(value: string) => setConfigurationSelectedValue(value)}
-              options={configurations || []}
-              value={configurationSelectedValue}
+            placeHolder="Configuration"
+            onClick={(value: string) => setConfigurationSelectedValue(value)}
+            options={configurations || []}
+            value={configurationSelectedValue}
           />
         </div>
       </div>

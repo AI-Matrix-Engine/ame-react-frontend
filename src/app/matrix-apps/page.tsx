@@ -1,5 +1,5 @@
 import React from 'react'
-import { MatrixApps } from '@/components/MatrixApps/MatrixApps';
+import { MatrixApps } from '@/components/matrix_apps/MatrixApps';
 
 const MatixAppsScreen = () => {
     return <MatrixApps />

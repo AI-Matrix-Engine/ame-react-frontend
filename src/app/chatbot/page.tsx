@@ -1,6 +1,6 @@
 import React from 'react'
-import { Form } from '@/components/Chatbot/Form';
-import { Chatbot } from "@/components/Chatbot/Chatbot";
+import { Form } from '@/components/chatbot/Form';
+import { Chatbot } from "@/components/chatbot/Chatbot";
 const page = () => {
        return (
               <Chatbot />

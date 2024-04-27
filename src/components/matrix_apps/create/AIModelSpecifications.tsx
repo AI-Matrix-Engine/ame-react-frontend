@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Input, Label, Slider, Button } from "../UI";
+import { Input, Label, Slider, Button } from "../../_shared";
 
 const LABEL = "AI Model Specifications";
 

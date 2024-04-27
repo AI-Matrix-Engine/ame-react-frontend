@@ -1,5 +1,5 @@
 import React from "react";
-import { Input, Dropdown, Textarea, Label } from "../UI";
+import { Input, Dropdown, Textarea, Label } from "../../_shared";
 
 const selectKeyWord = [
   { value: "0", label: "Select Keyword Type" },
@@ -15,10 +15,10 @@ const selectKeyWord = [
 export const CustomValueForm = () => {
   return (
     <div className="flex flex-wrap mt-10" id="variablesRow">
-       <p id="initialText" className="text-gray-500 mb-4">
+      <p id="initialText" className="text-gray-500 dark:text-white mb-4">
         Enter Custom Values
-        </p>
-       
+      </p>
+
       <div className="w-full" id="containerVariables">
         <div className="mb-3">
           <div className="flex">
@@ -38,7 +38,7 @@ export const CustomValueForm = () => {
         <Dropdown options={selectKeyWord} />
 
         <div className="input-group mb-3">
-         <Label>Input Range</Label>
+          <Label>Input Range</Label>
           <Input
             type="range"
             className="form-range w-full"

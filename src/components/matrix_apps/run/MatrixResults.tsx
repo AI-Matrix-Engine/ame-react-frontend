@@ -1,5 +1,5 @@
-import React, {useState, useEffect} from "react";
-import { Tabs, TabsContent, TabsList, TabsTrigger, Textarea, Progress, Label } from "../UI";
+import React, { useState, useEffect } from "react";
+import { Tabs, TabsContent, TabsList, TabsTrigger, Textarea, Progress, Label } from "../../_shared";
 
 const tabData = [
   { value: "ResultTab1", label: "Text" },
@@ -13,17 +13,17 @@ const tabData = [
 ];
 
 export const MatrixResults = () => {
-    const [progress, setProgress] = useState(13)
- 
+  const [progress, setProgress] = useState(13)
+
   useEffect(() => {
     const timer = setTimeout(() => setProgress(86), 1000)
     return () => clearTimeout(timer)
   }, [])
   return (
     <div className="w-full">
-       <p id="initialText" className="text-gray-500 mt-10 mb-4">
+      <p id="initialText" className="text-gray-500 mt-10 mb-4">
         Enter Custom Values
-        </p> 
+      </p>
       <p className="mb-4" id="recipeDescription">
         You'll see your results here...
       </p>
@@ -42,7 +42,7 @@ export const MatrixResults = () => {
           </TabsList>
           <div className="mt-4 w-6/12">
             <Label>Progress bar</Label>
-          <Progress value={progress} className="w-[60%]" />
+            <Progress value={progress} className="w-[60%]" />
           </div>
           {tabData.map((tab) => (
             <TabsContent
@@ -53,9 +53,9 @@ export const MatrixResults = () => {
               Content for {tab.label}
             </TabsContent>
           ))}
-           
+
         </Tabs>
-         <div className="w-full mt-8">
+        <div className="w-full mt-8">
           <Textarea />
         </div>
 

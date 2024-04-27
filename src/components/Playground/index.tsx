@@ -1,17 +1,17 @@
 "use client";
 import React, { useState } from "react";
 import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
-import SectionSplitter from "./spliter";
+import SectionSplitter from "./Spliter";
 import { GoPlusCircle } from "react-icons/go";
 import { FaBars } from "react-icons/fa6";
 
-import { Button, Dropdown, Input } from "../UI";
+import { Button, Dropdown, Input } from "../_shared";
 import { MdOutlineLightMode, MdOutlineNightlight } from "react-icons/md";
 import { HiDotsVertical } from "react-icons/hi";
 
-import LeftSection from "./leftSection";
-import RightSection from "./rightSection";
-import MiddleSection from "./middleSection";
+import LeftSection from "./LeftSection";
+import RightSection from "./RightSection";
+import MiddleSection from "./MiddleSection";
 
 const recipies = [
   { value: "0", label: "Version 1" },

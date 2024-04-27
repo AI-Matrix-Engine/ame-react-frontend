@@ -1,5 +1,5 @@
 import React from "react";
-import { Dropdown } from "../UI";
+import { Dropdown } from "../../_shared";
 
 const recipies = [
   { value: "0", label: "Select the Recipe Category" },

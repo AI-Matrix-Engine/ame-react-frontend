@@ -8,9 +8,9 @@ import {
   NavigationMenuLink,
   NavigationMenuList,
   NavigationMenuTrigger,
-} from "@/components/UI/navigation-menu";
+} from "@/components/_shared/Navigation-menu";
 
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/UI/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/_shared/Avatar";
 
 export const Header = () => {
   return (
@@ -39,7 +39,7 @@ export const Header = () => {
                     <NavigationMenuLink asChild>
                       <a
                         className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-2 no-underline outline-none focus:shadow-md hover:bg-[#EFF1F4]"
-                        // href="/"
+                      // href="/"
                       >
                         New Profile
                       </a>
@@ -49,7 +49,7 @@ export const Header = () => {
                     <NavigationMenuLink asChild>
                       <a
                         className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-2 no-underline outline-none focus:shadow-md hover:bg-[#EFF1F4]"
-                        // href="/"
+                      // href="/"
                       >
                         Log Out
                       </a>

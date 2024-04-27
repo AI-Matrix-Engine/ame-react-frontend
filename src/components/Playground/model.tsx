@@ -5,10 +5,10 @@ import {
   MdOutlineKeyboardArrowRight,
   MdOutlineKeyboardArrowDown,
 } from "react-icons/md";
-import { Textarea } from "@/components/UI/textarea";
-import { Checkbox } from "@/components/UI/checkbox";
-import { Input } from "@/components/UI/index";
-import { Dropdown, Label } from "@/components/UI";
+import { Textarea } from "@/components/_shared/Textarea";
+import { Checkbox } from "@/components/_shared/Checkbox";
+import { Input } from "@/components/_shared/index";
+import { Dropdown, Label } from "@/components/_shared";
 
 interface iModel {
   modelName: string;
@@ -38,9 +38,8 @@ export const LeftModel = ({
 }: iModel) => {
   return (
     <div
-      className={`w-full px-2 [transition:all_.3s_ease-in-out] py-[12px] ${
-        !isOpen ? " hover:bg-[#dcdce0] dark:hover:bg-[#ffffff0d]" : "border border-[#dcdce0]"
-      } rounded-md dark:border-[#27272a]`}
+      className={`w-full px-2 [transition:all_.3s_ease-in-out] py-[12px] ${!isOpen ? " hover:bg-[#dcdce0] dark:hover:bg-[#ffffff0d]" : "border border-[#dcdce0]"
+        } rounded-md dark:border-[#27272a]`}
     >
       <p
         className="flex items-center text-[16px] cursor-pointer w-full justify-between"

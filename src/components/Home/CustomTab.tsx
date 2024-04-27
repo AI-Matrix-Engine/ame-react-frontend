@@ -1,6 +1,6 @@
 import React from "react";
-import { Tabs,TabsList, TabsTrigger, TabsContent } from "../UI";
-import { Input } from "../UI";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "../_shared";
+import { Input } from "../_shared";
 
 export const CustomTab = ({ data }: any) => {
   return (

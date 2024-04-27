@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import { Button, Textarea } from "../UI";
-import { RightPane } from "../Home/RightPane";
+import { Button, Textarea } from "../../_shared";
+import { RightPane } from "../../home/RightPane";
 import { JsonDataType, UserAssistantFields } from "@/utils/types";
 import { generateUUID } from "@/lib/utils";
-import { IntakeForm } from "../Home/IntakeForm";
+import { IntakeForm } from "../../home/IntakeForm";
 import { MinusCircle } from "lucide-react";
 
 const defaultUserAssistantFields = {

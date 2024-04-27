@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/UI/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/_shared/Avatar";
 
 import { Menu } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
