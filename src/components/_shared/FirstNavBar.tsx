@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { NavigationBar } from "./home/NavigationBar";
+import { NavigationBar } from "../home/NavigationBar";
 import { iLeftSidebarExpand, childrenProp, iSecondNavbarProps } from "@/utils/types";
 import { TbMinusVertical } from "react-icons/tb";
 import { BsChevronCompactRight } from "react-icons/bs";

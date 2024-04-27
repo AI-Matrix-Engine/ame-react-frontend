@@ -11,7 +11,7 @@ import {
   ArrowsRightLeftIcon,
   ChevronLeftIcon,
 } from "@heroicons/react/24/outline";
-import { FormData } from "./matrix_apps/run/Run";
+import { FormData } from "../matrix_apps/run/Run";
 export const RightNavbar = () => {
   const navItems = [
     {

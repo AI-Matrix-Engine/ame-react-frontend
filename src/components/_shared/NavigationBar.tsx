@@ -5,7 +5,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/_shared/Accordion";
-import { menuItems } from "./Data";
+import { menuItems } from "../Data";
 import Link from "next/link";
 
 export const NavigationBar = ({ textColor, hoverColor, text = null }: any) => {

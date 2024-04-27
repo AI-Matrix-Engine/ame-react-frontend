@@ -9,16 +9,15 @@ import { iLeftNavbarProps } from "@/utils/types";
 
 export const LeftNavbar = ({ details, onHandle }: iLeftNavbarProps) => {
   const { id, toggle, title, hover } = details;
-  
+
   if (toggle || (id === "1" && hover)) {
     return (
       <div>
         <div>
           <div className={`flex justify-between items-center mb-8 mt-8 `}>
             <h5
-              className={`${
-                id === "1" ? "text-white" : "text-black"
-              } text-center`}
+              className={`${id === "1" ? "text-white" : "text-black"
+                } text-center`}
             >
               {title}
             </h5>
@@ -29,9 +28,8 @@ export const LeftNavbar = ({ details, onHandle }: iLeftNavbarProps) => {
               }}
             >
               <ArrowsRightLeftIcon
-                className={`h-4 w-4 ${
-                  id === "1" ? "text-white" : "text-black"
-                } flex justify-end`}
+                className={`h-4 w-4 ${id === "1" ? "text-white" : "text-black"
+                  } flex justify-end`}
               />
             </button>
           </div>
@@ -55,9 +53,8 @@ export const LeftNavbar = ({ details, onHandle }: iLeftNavbarProps) => {
             }}
           >
             <ArrowsRightLeftIcon
-              className={`h-4 w-4 ${
-                id === "1" ? "text-white" : "text-black"
-              } flex justify-end`}
+              className={`h-4 w-4 ${id === "1" ? "text-white" : "text-black"
+                } flex justify-end`}
             />
           </button>
         </div>
@@ -74,9 +71,8 @@ export const LeftNavbar = ({ details, onHandle }: iLeftNavbarProps) => {
     <div className="relative w-full h-full flex justify-center items-center">
       <button onClick={() => onHandle(id)} className="absolute top-[50%]  ">
         <ChevronRightIcon
-          className={`h-4 w-4 ${
-            id === "1" ? "text-white" : "text-black"
-          } flex   justify-end`}
+          className={`h-4 w-4 ${id === "1" ? "text-white" : "text-black"
+            } flex   justify-end`}
         />
       </button>
     </div>

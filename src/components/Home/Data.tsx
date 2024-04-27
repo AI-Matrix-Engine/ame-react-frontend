@@ -6,6 +6,7 @@ import { VscVmRunning } from "react-icons/vsc";
 import { IoCreate } from "react-icons/io5";
 import { ReactNode } from "react";
 import { MenuCategory } from "@/utils/types";
+import { TbMessageChatbot } from "react-icons/tb";
 
 export const menuItems: MenuCategory[] = [
   {
@@ -26,6 +27,16 @@ export const menuItems: MenuCategory[] = [
         icon: <TfiHeadphone className="h-4 w-4" />,
         route: "/ai-recipe-caller"
       },
+      {
+        itemCategory: "Chatbot",
+        icon: <TbMessageChatbot className="h-4 w-4" />,
+        route: "/chatbot"
+      },
+      {
+        itemCategory: "Play Ground",
+        icon: <TfiHeadphone className="h-4 w-4" />,
+        route: "/playground"
+      },
     ],
   },
   {
@@ -45,12 +56,6 @@ export const menuItems: MenuCategory[] = [
         }, {
           name: "Admin", route: "/matrix-apps/admin",
           icon: <MdAdminPanelSettings className="h-4 w-4" />,
-        }, {
-          name: "Login", route: "/login",
-          icon: <MdOutlineLogin className="h-4 w-4" />,
-        }, {
-          name: "Signup", route: "/signup",
-          icon: <IoCreate className="h-4 w-4" />,
         }],
       },
     ],
