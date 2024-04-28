@@ -12,8 +12,6 @@ interface SidebarProps {
 const Sidebar: React.FC<SidebarProps> = ({ isOpen }) => {
   const { currentChat, chatHistory, setCurrentChat, setChatHistory } = useChat();
 
-  console.log('chatHistory', chatHistory)
-
   const AddNewChat = () => {
     const newChat: iChat = {
       title: 'New Chat',

@@ -13,6 +13,7 @@ import { socketService } from "@/lib/socket";
 import { iMessage, eRoleType, iChat } from "@/utils/types";
 import { ChatBubbleIcon } from "@radix-ui/react-icons";
 import { useChat } from "@/context/ChatContext";
+import axios from "axios";
 
 function ChatFrom() {
   const [message, setMessage] = useState<string>("");
@@ -27,6 +28,8 @@ function ChatFrom() {
   const {
     currentChat,
     chatHistory,
+    index,
+    setIndex,
     setChatHistory,
   } = useChat();
 
@@ -39,9 +42,24 @@ function ChatFrom() {
   }
 
   useEffect(() => {
-    const intervalFunction = () => {
-      //Call api for saving current chat data.
-      
+    const intervalFunction = async () => {
+      try {
+        console.log('index', index)
+        // Call API for saving current chat data
+        const response = await axios.put('https://aimatrix-api.vercel.app/api/aichat', {
+          id: index,
+          history: chatHistory
+        });
+
+        if (response.status === 200) {
+          console.log('Chat data saved successfully:', response.data);
+        } else {
+          console.log('Unexpected response status:', response.status);
+        }
+      } catch (error) {
+        // Handle any errors during the API call
+        console.error('Error saving chat data:', error);
+      }
     };
 
     const intervalId: NodeJS.Timeout = setInterval(intervalFunction, 3000);
@@ -49,7 +67,7 @@ function ChatFrom() {
     return () => {
       clearInterval(intervalId);
     };
-  }, []); 
+  }, []);
 
   const displayUserMessage = (msg: string, type: eRoleType) => {
     const newMessage: iMessage = {
@@ -222,6 +240,25 @@ function ChatFrom() {
   const toggleSidebar = useCallback((): void => {
     setIsShowSidebar((prev) => !prev);
   }, []);
+
+  useEffect(() => {
+    if (index !== '') return;
+
+    const handledata = async () => {
+      const result = await axios.get('https://aimatrix-api.vercel.app/api/aichat')
+
+      const chatData = result.data;
+
+      if (chatData) {
+        setIndex(chatData._id)
+        if (chatData?.history) {
+          setChatHistory(chatData?.history);
+        }
+      }
+    }
+
+    handledata();
+  }, [])
 
   return (
     <div className="flex h-[90vh] bg-gray-800 w-full">
