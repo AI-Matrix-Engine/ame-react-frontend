@@ -10,33 +10,64 @@ import {
 import { BiPlus, BiUser, BiSend, BiSolidUserCircle } from "react-icons/bi";
 import { MdOutlineArrowLeft, MdOutlineArrowRight } from "react-icons/md";
 import { socketService } from "@/lib/socket";
-import { iMessage, eRoleType } from "@/utils/types";
+import { iMessage, eRoleType, iChat } from "@/utils/types";
 import { ChatBubbleIcon } from "@radix-ui/react-icons";
+import { useChat } from "@/context/ChatContext";
+import axios from "axios";
 
 function ChatFrom() {
   const [message, setMessage] = useState<string>("");
   const [currentTitle, setCurrentTitle] = useState<string | null>("")
-  const [chatHistory, setChatHistory] = useState<iMessage[]>([]);
+  const [msgHistory, setMsgHistory] = useState<iMessage[]>([]);
   const [streamText, setStreamText] = useState<string>('');
   const scrollToLastItem = useRef<HTMLDivElement | null>(null);
   const [isResponseLoading, setIsResponseLoading] = useState<boolean>(false);
   const [errorText, setErrorText] = useState<string>("");
   const [isShowSidebar, setIsShowSidebar] = useState<boolean>(false);
 
+  const {
+    currentChat,
+    chatHistory,
+    index,
+    setIndex,
+    setChatHistory,
+  } = useChat();
+
   const getChatHistory = () => {
     let data = '';
-    chatHistory.map((chat: iMessage) => {
+    msgHistory.map((chat: iMessage) => {
       data += `${chat.content}\n`
     })
     return data;
   }
 
-  const fetchChatsFromStorage = () => {
-    const storedChats: string | null = localStorage.getItem("previousChats");
-    if (storedChats && storedChats.length > 2) {
-      setChatHistory(JSON.parse(storedChats));
-    }
-  }
+  useEffect(() => {
+    const intervalFunction = async () => {
+      try {
+        console.log('index', index)
+        // Call API for saving current chat data
+        const response = await axios.put('https://aimatrix-api.vercel.app/api/aichat', {
+          id: index,
+          history: chatHistory
+        });
+
+        if (response.status === 200) {
+          console.log('Chat data saved successfully:', response.data);
+        } else {
+          console.log('Unexpected response status:', response.status);
+        }
+      } catch (error) {
+        // Handle any errors during the API call
+        console.error('Error saving chat data:', error);
+      }
+    };
+
+    const intervalId: NodeJS.Timeout = setInterval(intervalFunction, 3000);
+
+    return () => {
+      clearInterval(intervalId);
+    };
+  }, []);
 
   const displayUserMessage = (msg: string, type: eRoleType) => {
     const newMessage: iMessage = {
@@ -44,7 +75,7 @@ function ChatFrom() {
       content: msg
     };
 
-    setChatHistory(prev => [
+    setMsgHistory(prev => [
       ...prev,
       newMessage
     ]);
@@ -147,7 +178,9 @@ function ChatFrom() {
   }, []);
 
   useEffect(() => {
-    fetchChatsFromStorage();
+    if (chatHistory.length > currentChat) {
+      setMsgHistory(chatHistory[currentChat].msgArr)
+    }
 
     if (!socketService.getSocket()) {
       socketService.init();
@@ -177,13 +210,55 @@ function ChatFrom() {
   }, [streamText])
 
   useEffect(() => {
-    localStorage.setItem("previousChats", JSON.stringify(chatHistory));
     scrollToBottom();
-  }, [chatHistory])
+
+    if (msgHistory.length === 0) return;
+
+    if (chatHistory.length === 0) {
+      setChatHistory(prev => [...prev, {
+        title: 'New Chat',
+        msgArr: msgHistory
+      }])
+    } else {
+      let data: iChat[] = chatHistory;
+
+      data[currentChat] = {
+        title: chatHistory[currentChat].title,
+        msgArr: msgHistory
+      };
+
+      setChatHistory(data);
+    }
+  }, [msgHistory])
+
+  useEffect(() => {
+    if (chatHistory.length > currentChat) {
+      setMsgHistory(chatHistory[currentChat].msgArr);
+    }
+  }, [currentChat])
 
   const toggleSidebar = useCallback((): void => {
     setIsShowSidebar((prev) => !prev);
   }, []);
+
+  useEffect(() => {
+    if (index !== '') return;
+
+    const handledata = async () => {
+      const result = await axios.get('https://aimatrix-api.vercel.app/api/aichat')
+
+      const chatData = result.data;
+
+      if (chatData) {
+        setIndex(chatData._id)
+        if (chatData?.history) {
+          setChatHistory(chatData?.history);
+        }
+      }
+    }
+
+    handledata();
+  }, [])
 
   return (
     <div className="flex h-[90vh] bg-gray-800 w-full">
@@ -211,7 +286,7 @@ function ChatFrom() {
 
         <div ref={scrollToLastItem} className="flex flex-col h-full overflow-y-auto">
           <ul className="space-y-2 p-4">
-            {chatHistory.map((chatMsg, idx) => (
+            {msgHistory.map((chatMsg, idx) => (
               <li
                 key={idx}
                 className={`flex items-start gap-4 p-4 rounded-lg`}
@@ -227,7 +302,7 @@ function ChatFrom() {
                   <p className="text-white text-sm font-semibold">
                     {chatMsg.role === eRoleType.USER ? "You" : "ChatGPT"}
                   </p>
-                  <p className="text-white">{idx === chatHistory.length - 1 && chatMsg.role === eRoleType.ASSISTANT && streamText.length > 0 ? streamText : chatMsg.content}</p>
+                  <p className="text-white">{idx === msgHistory.length - 1 && chatMsg.role === eRoleType.ASSISTANT && streamText.length > 0 ? streamText : chatMsg.content}</p>
                 </div>
               </li>
             ))}
