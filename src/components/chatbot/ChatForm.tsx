@@ -9,7 +9,7 @@ import {
 } from "react";
 import { BiPlus, BiUser, BiSend, BiSolidUserCircle } from "react-icons/bi";
 import { MdOutlineArrowLeft, MdOutlineArrowRight } from "react-icons/md";
-import MarkdownComponent from "../_shared/MarkdownView";
+import MarkdownView from "../_shared/MarkdownView";
 
 interface ChatMessage {
   title: string;
@@ -205,7 +205,7 @@ function ChatFrom() {
                       {chatMsg.role === "user" ? "You" : "ChatGPT"}
                     </p>
                   </div>
-                  <MarkdownComponent
+                  <MarkdownView
                     content={chatMsg.content}
                     width="800px"
                   />

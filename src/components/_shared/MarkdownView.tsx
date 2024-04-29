@@ -78,20 +78,16 @@ const MarkdownView: React.FC<MarkdownViewProps> = ({
   };
 
   const handleCopyText = () => {
-    const el = contentRef.current;
-    if (el) {
-      const selection = window.getSelection();
-      const range = document.createRange();
-      range.selectNodeContents(el);
-      selection?.removeAllRanges();
-      selection?.addRange(range);
-      document.execCommand('copy');
-      selection?.removeAllRanges();
-      setShowCopyText(true);
-      setTimeout(() => {
-        setShowCopyText(false);
-      }, 5000);
-    }
+    const el = document.createElement('textarea');
+    el.value = content;
+    document.body.appendChild(el);
+    el.select();
+    document.execCommand('copy');
+    document.body.removeChild(el);
+    setShowCopyText(true);
+    setTimeout(() => {
+      setShowCopyText(false);
+    }, 5000);
   };
 
   const addNumbersToMarkdownList = (markdown: string) => {
