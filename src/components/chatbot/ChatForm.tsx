@@ -9,6 +9,7 @@ import {
 } from "react";
 import { BiPlus, BiUser, BiSend, BiSolidUserCircle } from "react-icons/bi";
 import { MdOutlineArrowLeft, MdOutlineArrowRight } from "react-icons/md";
+import MarkdownComponent from "../_shared/MarkdownView";
 
 interface ChatMessage {
   title: string;
@@ -26,6 +27,32 @@ function ChatFrom() {
   const [errorText, setErrorText] = useState<string>("");
   const [isShowSidebar, setIsShowSidebar] = useState<boolean>(false);
   const scrollToLastItem = useRef<HTMLLIElement | null>(null);
+
+  const test = [{
+    title: "test", role: "user", content: `
+  # Example Markdown Content
+  
+  ## This is a subheading
+  
+  - List item 1
+  - List item 2
+  - List item 3
+  
+  \`\`\`javascript
+  console.log("Hello, world!");
+  \`\`\`
+  
+  This is an inline code: \`const message = "Hello, world!";\`
+  
+  **Bold text**
+  
+  *Italic text*
+  
+  | Header 1 | Header 2 | Header 3 |
+  |----------|----------|----------|
+  | Cell 1   | Cell 2   | Cell 3   |
+  | Cell 4   | Cell 5   | Cell 6   |
+  `}]
 
   const createNewChat = (): void => {
     setMessage(null);
@@ -155,27 +182,33 @@ function ChatFrom() {
 
         <div className="flex flex-col h-full overflow-y-auto">
           <ul className="space-y-4 p-4">
-            {currentChat.map((chatMsg, idx) => (
+            {test.map((chatMsg, idx) => (
               <li
                 key={idx}
                 ref={scrollToLastItem}
-                className={`flex items-center gap-4 p-4 ${chatMsg.role === "user" ? "bg-blue-600" : "bg-gray-700"
+                className={`flex items-center gap-4 p-4 dark:bg-gray-900 ${chatMsg.role === "user" ? "bg-white" : "bg-gray-700"
                   } rounded-lg`}
               >
-                {chatMsg.role === "user" ? (
-                  <BiSolidUserCircle size={36} />
-                ) : (
-                  <img
-                    src="images/chatgpt-logo.svg"
-                    alt="ChatGPT"
-                    className="w-9 h-9"
-                  />
-                )}
                 <div>
-                  <p className="text-sm font-semibold">
-                    {chatMsg.role === "user" ? "You" : "ChatGPT"}
-                  </p>
-                  <p>{chatMsg.content}</p>
+                  <div className='flex dark:text-white'>
+                    <div className='pr-2'>{chatMsg.role === "user" ? (
+                      <BiSolidUserCircle size={36} />
+                    ) : (
+                      <img
+                        src="images/chatgpt-logo.svg"
+                        alt="ChatGPT"
+                        className="w-9 h-9"
+                      />
+                    )}
+                    </div>
+                    <p className="text-sm font-semibold pt-2 ">
+                      {chatMsg.role === "user" ? "You" : "ChatGPT"}
+                    </p>
+                  </div>
+                  <MarkdownComponent
+                    content={chatMsg.content}
+                    width="800px"
+                  />
                 </div>
               </li>
             ))}
