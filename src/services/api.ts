@@ -3,7 +3,7 @@ import axios from 'axios';
 
 // Centralized Axios instance for REST APIs for AI Matrix Engine Backend
 export const aiMatrixAPI = axios.create({
-    baseURL: 'https://aimatrixengine.com/'
+    baseURL: 'https://dev-back.aimatrixengine.com/'
 });
 
 export const subAiAPI = {

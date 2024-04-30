@@ -6,7 +6,7 @@ class SocketIOService {
 
     public init(): void {
         if (!this.socket) {
-            this.socket = io("https://aimatrixengine.com/", {
+            this.socket = io("https://dev-back.aimatrixengine.com/", {
 
                 // Do we need anything else here? Such as configurations here, e.g., auth tokens
 

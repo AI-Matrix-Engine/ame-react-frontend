@@ -31,6 +31,7 @@ function ChatFrom() {
     index,
     setIndex,
     setChatHistory,
+    setCurrentChat
   } = useChat();
 
   const getChatHistory = () => {
@@ -43,9 +44,11 @@ function ChatFrom() {
 
   useEffect(() => {
     const intervalFunction = async () => {
+      if(index.length === 0) return;
+
       try {
-        console.log('index', index)
         // Call API for saving current chat data
+
         const response = await axios.put('https://aimatrix-api.vercel.app/api/aichat', {
           id: index,
           history: chatHistory
@@ -62,12 +65,12 @@ function ChatFrom() {
       }
     };
 
-    const intervalId: NodeJS.Timeout = setInterval(intervalFunction, 3000);
+    const intervalId: NodeJS.Timeout = setInterval(intervalFunction, 5000);
 
     return () => {
       clearInterval(intervalId);
     };
-  }, []);
+  }, [index, chatHistory]);
 
   const displayUserMessage = (msg: string, type: eRoleType) => {
     const newMessage: iMessage = {
@@ -202,6 +205,12 @@ function ChatFrom() {
   }, [])
 
   useEffect(() => {
+    if(chatHistory.length > currentChat) {
+      setMsgHistory(chatHistory[currentChat].msgArr)
+    }
+  }, [chatHistory])
+
+  useEffect(() => {
     if (streamText == '' || !isResponseLoading)
       return;
 
@@ -240,25 +249,6 @@ function ChatFrom() {
   const toggleSidebar = useCallback((): void => {
     setIsShowSidebar((prev) => !prev);
   }, []);
-
-  useEffect(() => {
-    if (index !== '') return;
-
-    const handledata = async () => {
-      const result = await axios.get('https://aimatrix-api.vercel.app/api/aichat')
-
-      const chatData = result.data;
-
-      if (chatData) {
-        setIndex(chatData._id)
-        if (chatData?.history) {
-          setChatHistory(chatData?.history);
-        }
-      }
-    }
-
-    handledata();
-  }, [])
 
   return (
     <div className="flex h-[90vh] bg-gray-800 w-full">
