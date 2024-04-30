@@ -3,7 +3,9 @@ import {
     ReactNode,
     useContext,
     useState,
+    useEffect
 } from "react";
+import axios from "axios";
 
 import { iChat } from "@/utils/types";
 
@@ -29,6 +31,26 @@ export const ChatProvider = ({ children }: { children: ReactNode }) => {
     const [currentChat, setCurrentChat] = useState<number>(0);
     const [chatHistory, setChatHistory] = useState<iChat[]>([]);
     const [index, setIndex] = useState<string>('');
+
+    useEffect(() => {    
+        const handledata = async () => {
+          const result = await axios.get('https://aimatrix-api.vercel.app/api/aichat')
+    
+          const chatData = result.data;
+    
+          if (chatData) {
+            setIndex(chatData._id)
+            if (chatData?.history) {
+              setChatHistory(chatData?.history);
+              if(chatData?.history.length > 0) {
+                setCurrentChat(0);
+              }
+            }
+          }
+        }
+    
+        handledata();
+      }, [])
 
     return (
         <ChatContext.Provider
