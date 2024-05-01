@@ -5,7 +5,7 @@ export const menuItems = [
     items: [
       {
         itemCategory: "AI Prolog",
-        icon: <PersonIcon className="h-4 w-4 text-white" />,
+        icon: <PersonIcon className="h-4 w-4 text-red-400" />,
       },
       {
         itemCategory: "Carry",
