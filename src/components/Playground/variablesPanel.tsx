@@ -1,8 +1,8 @@
 "use client";
 
 import * as React from "react";
-import { Button } from "@/components/UI/button";
-import { LeftModel } from "@/components/Playground/model";
+import { Button } from "@/components/_shared/Button";
+import { LeftModel } from "@/components/playground/model";
 import { useAuth } from "@/context/AuthContext";
 
 const modelName = [
