@@ -7,20 +7,13 @@ import {
   useCallback,
   useLayoutEffect,
 } from "react";
-import { BiPlus, BiUser, BiSend, BiSolidUserCircle } from "react-icons/bi";
+import { BiPlus, BiUser, BiChat, BiSend, BiSolidUserCircle } from "react-icons/bi";
 import { MdOutlineArrowLeft, MdOutlineArrowRight } from "react-icons/md";
 import { socketService } from "@/lib/socket";
 import { iMessage, eRoleType, iChat } from "@/utils/types";
-import { ChatBubbleIcon } from "@radix-ui/react-icons";
 import { useChat } from "@/context/ChatContext";
 import axios from "axios";
 import MarkdownView from "../_shared/MarkdownView";
-
-interface ChatMessage {
-  title: string;
-  role: "user" | "gpt";
-  content: string;
-}
 
 function ChatForm() {
   const [message, setMessage] = useState<string>("");
@@ -51,7 +44,7 @@ function ChatForm() {
 
   useEffect(() => {
     const intervalFunction = async () => {
-      if(index.length === 0) return;
+      if (index.length === 0) return;
 
       try {
         // Call API for saving current chat data
@@ -115,7 +108,7 @@ function ChatForm() {
       .catch(error => {
         console.error('An error occurred while processing messages:', error);
       });
-    }
+  }
   const test = [{
     title: "test", role: "user", content: `
   # Example Markdown Content
@@ -225,8 +218,9 @@ function ChatForm() {
 
     if (socket) {
       socket.on('ai_response', (receivedData: any) => {
-        setStreamText("");
-        processIncomingMessages(receivedData);
+        // setStreamText("");
+        // processIncomingMessages(receivedData);
+        setStreamText(receivedData)
         displayUserMessage(receivedData, eRoleType.ASSISTANT);
       });
     }
@@ -237,7 +231,7 @@ function ChatForm() {
   }, [])
 
   useEffect(() => {
-    if(chatHistory.length > currentChat) {
+    if (chatHistory.length > currentChat) {
       setMsgHistory(chatHistory[currentChat].msgArr)
     }
   }, [chatHistory])
@@ -306,35 +300,41 @@ function ChatForm() {
           />
         )}
 
-        <div className="flex flex-col h-full overflow-y-auto">
-          <ul className="space-y-4 p-4">
-            {test.map((chatMsg, idx) => (
+        <div ref={scrollToLastItem} className="flex flex-col h-full overflow-y-auto">
+          <ul className="space-y-2 p-4">
+            {msgHistory.map((chatMsg, idx) => (
               <li
                 key={idx}
-                ref={scrollToLastItem}
-                className={`flex items-center gap-4 p-4 dark:bg-gray-900 ${chatMsg.role === "user" ? "bg-white" : "bg-gray-700"
-                  } rounded-lg`}
+                className={`flex items-start gap-4 p-4 rounded-lg`}
               >
+                <div className="text-white w-8 h-8">
+                  {chatMsg.role === eRoleType.USER ? (
+                    <BiSolidUserCircle size={36} />
+                  ) : (
+                    <BiChat size={36} />
+                  )}
+                </div>
                 <div>
-                  <div className='flex dark:text-white'>
-                    <div className='pr-2'>{chatMsg.role === "user" ? (
-                      <BiSolidUserCircle size={36} />
-                    ) : (
-                      <img
-                        src="images/chatgpt-logo.svg"
-                        alt="ChatGPT"
-                        className="w-9 h-9"
+                  <p className="text-white text-sm font-semibold">
+                    {chatMsg.role === eRoleType.USER ? "You" : "ChatGPT"}
+                  </p>
+                  <p className="text-white">
+                    <MarkdownView
+                      content={chatMsg.content}
+                      width="800px"
+                    />
+                    {/* {idx === msgHistory.length - 1 && chatMsg.role === eRoleType.ASSISTANT && streamText.length > 0 ?
+                      <MarkdownView
+                        content={streamText}
+                        width="800px"
                       />
-                    )}
-                    </div>
-                    <p className="text-sm font-semibold pt-2 ">
-                      {chatMsg.role === "user" ? "You" : "ChatGPT"}
-                    </p>
-                  </div>
-                  <MarkdownView
-                    content={chatMsg.content}
-                    width="800px"
-                  />
+                      :
+                      <MarkdownView
+                        content={chatMsg.content}
+                        width="800px"
+                      />
+                    } */}
+                  </p>
                 </div>
               </li>
             ))}
