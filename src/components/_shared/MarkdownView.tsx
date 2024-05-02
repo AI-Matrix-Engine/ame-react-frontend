@@ -105,13 +105,14 @@ const MarkdownView: React.FC<MarkdownViewProps> = ({
   const numberedContent = addNumbersToMarkdownList(content);
 
   return (
-    <div className={`bg-white dark:bg-gray-900 dark:text-white m-auto relative rounded-md overflow-auto`} style={{ width: width, height: height, fontSize: fontSize }}>
+    <div className={`dark:bg-gray-900 dark:text-white m-auto relative rounded-md`} style={{ width: width, height: height, fontSize: fontSize }}>
       <button onClick={handleCopyText} className="absolute top-0 right-0 p-2">
         <IoIosCopy size={20} />
       </button>
-      <div ref={contentRef} className='pl-10'><ReactMarkdown remarkPlugins={[remarkGfm]} components={components}>
-        {numberedContent}
-      </ReactMarkdown>
+      <div ref={contentRef}>
+        <ReactMarkdown remarkPlugins={[remarkGfm]} components={components}>
+          {numberedContent}
+        </ReactMarkdown>
       </div>
       {showCopyText && (
         <div className="absolute left-1/2 -translate-x-1/2 bottom-0 dark:text-black my-4 text-center">
