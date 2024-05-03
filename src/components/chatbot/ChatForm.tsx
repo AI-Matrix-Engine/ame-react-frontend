@@ -15,6 +15,7 @@ import MarkdownView from "../_shared/MarkdownView";
 import MyMessageView from "../_shared/MyMessageView";
 import { socketService } from "@/lib/socket";
 import { iMessage, eRoleType, iChat } from "@/utils/types";
+import Icon from "../icons";
 import { ChatBubbleIcon } from "@radix-ui/react-icons";
 import { useChat } from "@/context/ChatContext";
 import axios from "axios";
@@ -49,6 +50,7 @@ function ChatFrom() {
   };
 
   const editHandler = (index: number, content: string): void => {
+    setIsResponseLoading(true);
     const updatedTest = msgHistory
       .filter((item, i) => i <= index)
       .map((item, i) => {
@@ -299,7 +301,7 @@ function ChatFrom() {
   }, []);
 
   return (
-    <div className="flex h-full chatbot-messages-area w-full">
+    <div className={`flex h-full chatbot-messages-area w-full`}>
       <main className="flex-1 flex flex-col">
         {!currentTitle && (
           <div className="flex flex-col items-center justify-center p-4 ">
@@ -356,8 +358,8 @@ function ChatFrom() {
                     <MarkdownView
                       content={
                         idx === msgHistory.length - 1 &&
-                        chatMsg.role === eRoleType.ASSISTANT &&
-                        streamText.length > 0
+                          chatMsg.role === eRoleType.ASSISTANT &&
+                          streamText.length > 0
                           ? streamText
                           : chatMsg.content
                       }
@@ -397,7 +399,7 @@ function ChatFrom() {
             className="mx-2 flex flex-row gap-3 last:mb-2 md:mx-4 lg:mx-auto lg:max-w-2xl xl:max-w-3xl"
             onSubmit={submitHandler}
           >
-            <div className="relative h-full max-w-full flex-1 overflow-hidden textarea-container flex flex-col w-full flex-grow border rounded-xl bg-token-main-surface-primary border-token-border-medium">
+            <div className="relative h-full max-w-full flex-1 overflow-hidden textarea-container flex flex-col w-full p-2 flex-grow border rounded-xl bg-token-main-surface-primary border-token-border-medium">
               <textarea
                 ref={messageTextareaRef}
                 id="messageTextarea"
@@ -410,13 +412,10 @@ function ChatFrom() {
               ></textarea>
               {!isResponseLoading && (
                 <button
-                  disabled={!message}
-                  className="absolute bottom-1.5 right-1.5 rounded-md border border-black p-1.5  transition-colors  disabled:bg-gray-300 disabled:opacity-50 enabled:opacity-100 enabled:bg-black dark:border-white dark:bg-white"
+                  className="absolute bottom-1.5 right-1.5 rounded-md border p-1.5  transition-colors disabled:bg-gray-300 enabled:bg-current bg-black dark:bg-white"
                   data-testid="send-button"
                 >
-                  <span className="text-white" data-state="closed">
-                    <img src="/icons/sendIcon.svg" alt="Send" />
-                  </span>
+                  <Icon name="sendMsg" className="" color={'white'} />
                 </button>
               )}
             </div>
