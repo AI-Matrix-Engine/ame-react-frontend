@@ -6,12 +6,19 @@ import remarkGfm from 'remark-gfm';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { IoIosCheckmarkCircleOutline, IoIosCopy } from "react-icons/io";
+import { BiSolidDislike } from "react-icons/bi";
+import { FiClipboard } from "react-icons/fi";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from './Tooltip';
+import { SlReload } from "react-icons/sl";
 
 interface MarkdownViewProps {
   content: string;
   fontSize?: string;
   width?: string;
   height?: string;
+  reloadIcon?: boolean;
+  reloadHandler: () => void;
+  index: number;
 }
 
 const MarkdownView: React.FC<MarkdownViewProps> = ({
@@ -19,6 +26,9 @@ const MarkdownView: React.FC<MarkdownViewProps> = ({
   fontSize = 'inherit',
   width = 'auto',
   height = 'auto',
+  reloadIcon = false,
+  reloadHandler,
+  index
 }) => {
   const contentRef = useRef(null);
   const [showCopyText, setShowCopyText] = useState(false);
@@ -65,7 +75,7 @@ const MarkdownView: React.FC<MarkdownViewProps> = ({
       </td>
     ),
     inlineCode: ({ children }) => (
-      <code className={`bg-gray-100 px-2 py-1 rounded-md`}>
+      <code className={`px-2 py-1 rounded-md`}>
         {children}
       </code>
     ),
@@ -90,6 +100,10 @@ const MarkdownView: React.FC<MarkdownViewProps> = ({
     }, 5000);
   };
 
+  const handleDislike = () => {
+    console.log('dislike click')
+  };
+
   const addNumbersToMarkdownList = (markdown: string) => {
     const lines = markdown.split("\n");
 
@@ -105,10 +119,7 @@ const MarkdownView: React.FC<MarkdownViewProps> = ({
   const numberedContent = addNumbersToMarkdownList(content);
 
   return (
-    <div className={`bg-white dark:bg-gray-900 dark:text-white m-auto relative rounded-md overflow-auto`} style={{ width: width, height: height, fontSize: fontSize }}>
-      <button onClick={handleCopyText} className="absolute top-0 right-0 p-2">
-        <IoIosCopy size={20} />
-      </button>
+    <div key={index} className={`chatbot-messages-area text-opacity-50 dark:text-white text-md font-semibold m-auto relative rounded-md overflow-auto group`} style={{ width: width, height: height, fontSize: fontSize }}>
       <div ref={contentRef} className='pl-10'><ReactMarkdown remarkPlugins={[remarkGfm]} components={components}>
         {numberedContent}
       </ReactMarkdown>
@@ -118,6 +129,34 @@ const MarkdownView: React.FC<MarkdownViewProps> = ({
           <p className="bg-gray-300 bg-opacity-75 p-2 rounded-md">Text copied!</p>
         </div>
       )}
+      < div className='h-[70px]'>
+        <div className='hidden group-hover:flex gap-2 pt-4 pl-10'>
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger onClick={handleCopyText} className='opacity-50 hover:opacity-100 duration-150'>
+                <FiClipboard size={18} />
+              </TooltipTrigger>
+              <TooltipContent sideOffset={12}>Copy</TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+          {reloadIcon && <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger onClick={reloadHandler} className='opacity-50 hover:opacity-100 duration-150'>
+                <SlReload size={18} />
+              </TooltipTrigger>
+              <TooltipContent sideOffset={12}>Reload</TooltipContent>
+            </Tooltip>
+          </TooltipProvider>}
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger onClick={handleDislike} className='opacity-50 hover:opacity-100 duration-150'>
+                <BiSolidDislike size={18} />
+              </TooltipTrigger>
+              <TooltipContent sideOffset={12}>Bad response</TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+        </div>
+      </div>
     </div >
   );
 };

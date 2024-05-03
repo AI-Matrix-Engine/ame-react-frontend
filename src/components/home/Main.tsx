@@ -14,6 +14,7 @@ import { ChevronDownIcon } from "@radix-ui/react-icons";
 import { usePathname } from "next/navigation";
 import { menuItems } from "./Data";
 import { FirstNavBar } from "../layout/FirstNavBar";
+import { ChatProvider } from "@/context/ChatContext";
 
 const recipies = [
   { value: "0", label: "danielove323@g" },
@@ -39,20 +40,22 @@ export const Main = ({ navItems, children }: childrenProp) => {
 
   return (
     <AuthProvider>
-      <div className="flex h-screen flex-col">
-        <Header darkMode={darkMode} setMode={setDarkMode} />
-        <div className="flex relative h-full  overflow-x-hidden overflow-y-hidden">
-          {/* -----------Left side bar begin----------- */}
-          <FirstNavBar navItems={navItems} />
-          {/* -----------Left side bar end----------- */}
+      <ChatProvider>
+        <div className="flex h-screen flex-col">
+          <Header darkMode={darkMode} setMode={setDarkMode} />
+          <div className="flex relative h-full  overflow-x-hidden overflow-y-hidden">
+            {/* -----------Left side bar begin----------- */}
+            <FirstNavBar navItems={navItems} />
+            {/* -----------Left side bar end----------- */}
 
-          <div className={`flex-1 overflow-y-auto `}>{children}</div>
+            <div className={`flex-1 overflow-y-auto `}>{children}</div>
 
-          {/* -----------Right side bar begin----------- */}
-          <RightNavbar />
-          {/* -----------Right side bar end----------- */}
+            {/* -----------Right side bar begin----------- */}
+            {/* <RightNavbar /> */}
+            {/* -----------Right side bar end----------- */}
+          </div>
         </div>
-      </div>
+      </ChatProvider>
     </AuthProvider>
   );
 };

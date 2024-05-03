@@ -8,86 +8,208 @@ import {
   useLayoutEffect,
 } from "react";
 import { BiPlus, BiUser, BiSend, BiSolidUserCircle } from "react-icons/bi";
+import { SiChatwoot } from "react-icons/si";
+import { BsChatQuote } from "react-icons/bs";
 import { MdOutlineArrowLeft, MdOutlineArrowRight } from "react-icons/md";
 import MarkdownView from "../_shared/MarkdownView";
-
-interface ChatMessage {
-  title: string;
-  role: "user" | "gpt";
-  content: string;
-}
+import MyMessageView from "../_shared/MyMessageView";
+import { socketService } from "@/lib/socket";
+import { iMessage, eRoleType, iChat } from "@/utils/types";
+import { ChatBubbleIcon } from "@radix-ui/react-icons";
+import { useChat } from "@/context/ChatContext";
+import axios from "axios";
 
 function ChatFrom() {
-  const [text, setText] = useState<string>("");
-  const [message, setMessage] = useState<ChatMessage | null>(null);
-  const [previousChats, setPreviousChats] = useState<ChatMessage[]>([]);
-  const [localChats, setLocalChats] = useState<ChatMessage[]>([]);
-  const [currentTitle, setCurrentTitle] = useState<string | null>(null);
+  const messageTextareaRef = useRef<HTMLTextAreaElement | null>(null);
+  const [message, setMessage] = useState<string>("");
+  const [currentTitle, setCurrentTitle] = useState<string | null>("");
+  const [msgHistory, setMsgHistory] = useState<iMessage[]>([]);
+  const [streamText, setStreamText] = useState<string>("");
+  const scrollToLastItem = useRef<HTMLDivElement | null>(null);
   const [isResponseLoading, setIsResponseLoading] = useState<boolean>(false);
   const [errorText, setErrorText] = useState<string>("");
   const [isShowSidebar, setIsShowSidebar] = useState<boolean>(false);
-  const scrollToLastItem = useRef<HTMLLIElement | null>(null);
+  const [textareaHeight, setTextareaHeight] = useState(22);
 
-  const test = [{
-    title: "test", role: "user", content: `
-  # Example Markdown Content
-  
-  ## This is a subheading
-  
-  - List item 1
-  - List item 2
-  - List item 3
-  
-  \`\`\`javascript
-  console.log("Hello, world!");
-  \`\`\`
-  
-  This is an inline code: \`const message = "Hello, world!";\`
-  
-  **Bold text**
-  
-  *Italic text*
-  
-  | Header 1 | Header 2 | Header 3 |
-  |----------|----------|----------|
-  | Cell 1   | Cell 2   | Cell 3   |
-  | Cell 4   | Cell 5   | Cell 6   |
-  `}]
+  const {
+    currentChat,
+    chatHistory,
+    index,
+    setIndex,
+    setChatHistory,
+    setCurrentChat,
+  } = useChat();
 
-  const createNewChat = (): void => {
-    setMessage(null);
-    setText("");
-    setCurrentTitle(null);
+  const getChatHistory = () => {
+    let data = "";
+    msgHistory.map((chat: iMessage) => {
+      data += `${chat.content}\n`;
+    });
+    return data;
   };
 
-  const backToHistoryPrompt = (uniqueTitle: string): void => {
-    setCurrentTitle(uniqueTitle);
-    setMessage(null);
-    setText("");
+  const editHandler = (index: number, content: string): void => {
+    const updatedTest = msgHistory
+      .filter((item, i) => i <= index)
+      .map((item, i) => {
+        if (i === index) {
+          return { ...item, content: content };
+        }
+        return item;
+      });
+
+    setMsgHistory(updatedTest);
+    sendMessage(content);
   };
 
-  const toggleSidebar = useCallback((): void => {
-    setIsShowSidebar((prev) => !prev);
-  }, []);
+  const reloadHandler = (): void => {
+    const updatedTest = msgHistory.filter(
+      (item, i) => i < msgHistory.length - 1
+    );
+
+    setMsgHistory(updatedTest);
+    sendMessage(updatedTest[updatedTest.length - 1].content);
+  };
+
+  useEffect(() => {
+    const textarea = document.getElementById("messageTextarea");
+    if (textarea) {
+      textarea.style.height = "auto";
+      textarea.style.height = textarea.scrollHeight + "px";
+      setTextareaHeight(textarea.scrollHeight);
+    }
+  }, [message]);
+
+  useEffect(() => {
+    const intervalFunction = async () => {
+      if (index.length === 0) return;
+
+      try {
+        // Call API for saving current chat data
+
+        const response = await axios.put(
+          "https://aimatrix-api.vercel.app/api/aichat",
+          {
+            id: index,
+            history: chatHistory,
+          }
+        );
+
+        if (response.status === 200) {
+          console.log("Chat data saved successfully:", response.data);
+        } else {
+          console.log("Unexpected response status:", response.status);
+        }
+      } catch (error) {
+        // Handle any errors during the API call
+        console.error("Error saving chat data:", error);
+      }
+    };
+
+    const intervalId: NodeJS.Timeout = setInterval(intervalFunction, 5000);
+
+    return () => {
+      clearInterval(intervalId);
+    };
+  }, [index, chatHistory]);
+
+  const displayUserMessage = (msg: string, type: eRoleType) => {
+    const newMessage: iMessage = {
+      role: type,
+      content: msg,
+    };
+
+    setMsgHistory((prev) => [...prev, newMessage]);
+  };
+
+  const typeMessageCharacterByCharacter = (message: string) => {
+    return new Promise<void>((resolve) => {
+      var i = -1;
+      var typingInterval = setInterval(() => {
+        if (i < message.length - 1) {
+          setStreamText((prev) => prev + message[i]);
+          i++;
+        } else {
+          clearInterval(typingInterval);
+          resolve();
+        }
+      }, 25);
+    });
+  };
+
+  const processIncomingMessages = (data: string): void => {
+    const dataArr: string[] = data.split("\n\n");
+
+    dataArr
+      .reduce((promise: Promise<void>, msg: string): Promise<void> => {
+        return promise.then(() => typeMessageCharacterByCharacter(msg));
+      }, Promise.resolve())
+      .catch((error) => {
+        console.error("An error occurred while processing messages:", error);
+      });
+  };
+
+  const sendMessage = (msg: string) => {
+    const messageData = {
+      message: msg,
+      history: getChatHistory(),
+      settings: {
+        customOptions: false,
+        aiPreferencesMain: "Direct AI chat",
+        aiPreferencesSecond: "Chat With One AI",
+        quickAnswer: true,
+        improveQuestions: false,
+        makeSmallTalk: true,
+        submitOnEnter: true,
+      },
+      page: "chatbot.backend_functions.openai_chatbot",
+    };
+
+    const socket = socketService.getSocket();
+
+    if (socket) {
+      socket.emit("user_message", messageData, (response: any) => { });
+      console.log("Socket emit completed, awaiting callback...");
+    }
+  };
+
+  const clearMessageInput = () => {
+    setMessage("");
+  };
+
+  const scrollToBottom = () => {
+    if (scrollToLastItem.current) {
+      scrollToLastItem.current.scrollTop =
+        scrollToLastItem.current.scrollHeight;
+    }
+  };
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      submitHandler(e);
+    }
+  };
 
   const submitHandler = async (
-    e: React.FormEvent<HTMLFormElement>
+    e:
+      | React.FormEvent<HTMLFormElement>
+      | React.KeyboardEvent<HTMLTextAreaElement>
   ): Promise<void> => {
     e.preventDefault();
-    if (!text) return;
-
+    if (!message) return;
     setIsResponseLoading(true);
     setErrorText("");
-
     // add the code for your socket or anything
 
     try {
       // Simulate API call
+      sendMessage(message);
+      displayUserMessage(message, eRoleType.USER);
+      clearMessageInput();
     } catch (e: any) {
       setErrorText(e.message);
       console.error(e);
     } finally {
-      setIsResponseLoading(false);
     }
   };
 
@@ -104,143 +226,213 @@ function ChatFrom() {
   }, []);
 
   useEffect(() => {
-    const storedChats = localStorage.getItem("previousChats");
-    if (storedChats) {
-      setLocalChats(JSON.parse(storedChats));
+    if (chatHistory.length > currentChat) {
+      setMsgHistory(chatHistory[currentChat].msgArr);
     }
+
+    if (!socketService.getSocket()) {
+      socketService.init();
+    }
+
+    const socket = socketService.getSocket();
+
+    if (socket) {
+      socket.on("ai_response", (receivedData: any) => {
+        console.log("ai_response", receivedData);
+        setStreamText("");
+        processIncomingMessages(receivedData);
+        displayUserMessage(receivedData, eRoleType.ASSISTANT);
+      });
+    }
+
+    return () => {
+      socket?.off("ai_response");
+    };
   }, []);
 
   useEffect(() => {
-    if (!currentTitle && text && message) {
-      setCurrentTitle(text);
+    if (chatHistory.length > currentChat) {
+      setMsgHistory(chatHistory[currentChat].msgArr);
     }
+  }, [chatHistory]);
 
-    if (currentTitle && text && message) {
-      const newChat = {
-        title: currentTitle,
-        role: "user",
-        content: text,
+  useEffect(() => {
+    if (streamText == "" || !isResponseLoading) return;
+
+    setIsResponseLoading(false);
+    scrollToBottom();
+  }, [streamText]);
+
+  useEffect(() => {
+    scrollToBottom();
+
+    if (msgHistory.length === 0) return;
+
+    if (chatHistory.length === 0) {
+      setChatHistory((prev: any) => [
+        {
+          title: "New Chat",
+          msgArr: msgHistory,
+        },
+      ]);
+    } else {
+      let data: iChat[] = chatHistory;
+
+      data[currentChat] = {
+        title: chatHistory[currentChat].title,
+        msgArr: msgHistory,
       };
 
-      const responseMessage = {
-        title: currentTitle,
-        role: message!.role,
-        content: message!.content,
-      };
-
-      setPreviousChats((prevChats: any) => [
-        ...prevChats,
-        newChat,
-        responseMessage,
-      ]);
-      setLocalChats((prevChats: any) => [
-        ...prevChats,
-        newChat,
-        responseMessage,
-      ]);
-
-      const updatedChats = [...localChats, newChat, responseMessage];
-      localStorage.setItem("previousChats", JSON.stringify(updatedChats));
+      setChatHistory(data);
     }
-  }, [message, currentTitle, text, localChats]);
+  }, [msgHistory]);
 
-  const currentChat = (localChats || previousChats).filter(
-    (prevChat) => prevChat.title === currentTitle
-  );
+  useEffect(() => {
+    if (chatHistory.length > currentChat) {
+      setMsgHistory(chatHistory[currentChat].msgArr);
+    }
+    messageTextareaRef.current?.focus();
+  }, [currentChat]);
 
-  const uniqueTitles = Array.from(
-    new Set(previousChats.map((prevChat) => prevChat.title).reverse())
-  );
-
-  const localUniqueTitles = Array.from(
-    new Set(localChats.map((prevChat) => prevChat.title).reverse())
-  ).filter((title) => !uniqueTitles.includes(title));
+  const toggleSidebar = useCallback((): void => {
+    setIsShowSidebar((prev) => !prev);
+  }, []);
 
   return (
-    <div className="flex h-[90vh] bg-gray-900 w-full">
+    <div className="flex h-full chatbot-messages-area w-full">
       <main className="flex-1 flex flex-col">
         {!currentTitle && (
-          <div className="flex flex-col items-center justify-center text-white p-4">
-            <h1>Chat GPT Clone</h1>
+          <div className="flex flex-col items-center justify-center p-4 font-bold text-lg">
+            <h1>AIDRM</h1>
             <h3>How can I help you today?</h3>
           </div>
         )}
 
         {isShowSidebar ? (
           <MdOutlineArrowRight
-            className="absolute top-1/2 left-0 transform -translate-x-full text-white cursor-pointer"
+            className="absolute top-1/2 left-0 transform -translate-x-full cursor-pointer"
             size={36}
             onClick={toggleSidebar}
           />
         ) : (
           <MdOutlineArrowLeft
-            className="absolute top-1/2 left-0 transform -translate-x-full text-white cursor-pointer"
+            className="absolute top-1/2 left-0 transform -translate-x-full cursor-pointer"
             size={36}
             onClick={toggleSidebar}
           />
         )}
 
-        <div className="flex flex-col h-full overflow-y-auto">
+        <div
+          ref={scrollToLastItem}
+          className="flex flex-col h-full overflow-y-auto ml-4"
+        >
           <ul className="space-y-4 p-4">
-            {test.map((chatMsg, idx) => (
+            {msgHistory.map((chatMsg, idx) => (
               <li
                 key={idx}
-                ref={scrollToLastItem}
-                className={`flex items-center gap-4 p-4 dark:bg-gray-900 ${chatMsg.role === "user" ? "bg-white" : "bg-gray-700"
-                  } rounded-lg`}
+                className={`flex items-center gap-4 p-4 mx-auto lg:pl-32 rounded-lg`}
               >
                 <div>
-                  <div className='flex dark:text-white'>
-                    <div className='pr-2'>{chatMsg.role === "user" ? (
-                      <BiSolidUserCircle size={36} />
-                    ) : (
-                      <img
-                        src="images/chatgpt-logo.svg"
-                        alt="ChatGPT"
-                        className="w-9 h-9"
-                      />
-                    )}
+                  <div className="flex">
+                    <div className="pr-2">
+                      {chatMsg.role === eRoleType.USER ? (
+                        <BiSolidUserCircle className="w-8 h-8" />
+                      ) : (
+                        <SiChatwoot className="w-8 h-8"></SiChatwoot>
+                      )}
                     </div>
-                    <p className="text-sm font-semibold pt-2 ">
-                      {chatMsg.role === "user" ? "You" : "ChatGPT"}
+                    <p className="font-bold text-lg">
+                      {chatMsg.role === "user" ? "You" : "AIDRM"}
                     </p>
                   </div>
-                  <MarkdownView
-                    content={chatMsg.content}
-                    width="800px"
-                  />
+                  {chatMsg.role === "user" ? (
+                    <MyMessageView
+                      content={chatMsg.content}
+                      index={idx}
+                      uniqueKey={`${idx}${currentChat}`}
+                      onSave={editHandler}
+                    />
+                  ) : (
+                    <MarkdownView
+                      content={
+                        idx === msgHistory.length - 1 &&
+                          chatMsg.role === eRoleType.ASSISTANT &&
+                          streamText.length > 0
+                          ? streamText
+                          : chatMsg.content
+                      }
+                      reloadIcon={idx === msgHistory.length - 1}
+                      reloadHandler={reloadHandler}
+                      index={idx}
+                    />
+                  )}
                 </div>
               </li>
             ))}
+            {isResponseLoading && <li
+              key={msgHistory.length + 1}
+              className={`flex items-center gap-4 p-4 mx-auto lg:pl-32 rounded-lg`}
+            >
+              <div>
+                <div className='flex'>
+                  <div className='pr-2'>
+                    <SiChatwoot className="w-8 h-8" />
+                  </div>
+                  <p className="font-bold text-lg">
+                    {"AIDRM"}
+                  </p>
+                </div>
+                <div className="flex flex-grow flex-col max-w-full mb-20">
+                  <div>
+                    <div className="relative h-5 w-5 rounded-full bg-black"></div>
+                  </div>
+                </div>
+              </div>
+            </li>
+            }
           </ul>
         </div>
-        <div className="mt-auto p-4">
+        <div className="w-full pt-2 md:pt-0 dark:border-white/20 md:border-transparent md:dark:border-transparent md:w-[calc(100%-.5rem)] stretch">
           {errorText && <p className="text-red-500">{errorText}</p>}
-          <form className="flex items-center gap-2" onSubmit={submitHandler}>
-            <input
-              type="text"
-              placeholder="Send a message."
-              className="flex-1 p-2 bg-gray-700 text-white rounded-lg outline-none"
-              spellCheck="false"
-              value={isResponseLoading ? "Processing..." : text}
-              onChange={(e) => setText(e.target.value)}
-              readOnly={isResponseLoading}
-            />
-            {!isResponseLoading && (
-              <button
-                type="submit"
-                className="p-2 bg-blue-600 text-white rounded-lg"
-              >
-                <BiSend size={24} />
-              </button>
-            )}
+          <form
+            className="mx-2 flex flex-row gap-3 last:mb-2 md:mx-4 lg:mx-auto lg:max-w-2xl xl:max-w-3xl"
+            onSubmit={submitHandler}
+          >
+            <div className="relative h-full max-w-full flex-1 overflow-hidden textarea-container flex flex-col w-full flex-grow border rounded-xl bg-token-main-surface-primary border-token-border-medium">
+              <textarea
+                ref={messageTextareaRef}
+                id="messageTextarea"
+                value={message}
+                onChange={(e) => setMessage(e.target.value)}
+                onKeyDown={handleKeyPress}
+                placeholder="Message ChatGPT…"
+                className="m-0 w-full text-md resize-none bg-transparent dark:bg-transparent py-[10px] pr-10 md:p-3.5 md:pr-12 max-h-[200px] placeholder-black/50 dark:placeholder-white/50 pl-4 md:pl-6 textarea-field outline-none"
+                rows={1}
+              ></textarea>
+              {!isResponseLoading && (
+                <button
+                  disabled={!message}
+                  className="absolute bottom-2.5 right-3.5 rounded-md border border-black p-1.5  transition-colors  disabled:bg-gray-300 disabled:opacity-50 enabled:opacity-100 enabled:bg-black dark:border-white dark:bg-white"
+                  data-testid="send-button"
+                >
+                  <span className="text-white" data-state="closed">
+                    <img
+                      src="/icons/sendIcon.svg"
+                      alt="Send"
+                    />
+                  </span>
+                </button>
+              )}
+            </div>
           </form>
-          <p className="text-center text-gray-400 text-sm mt-2">
-            ChatGPT can make mistakes. Consider checking important information.
-          </p>
+          <div className="relative px-2 py-2 text-center text-xs text-token-text-secondary md:px-[60px]">
+            <span>
+              AIDRM can make mistakes. Consider checking important information.
+            </span>
+          </div>
         </div>
-      </main>
-    </div>
+      </main >
+    </div >
   );
 }
 

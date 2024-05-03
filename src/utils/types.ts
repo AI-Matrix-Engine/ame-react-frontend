@@ -239,8 +239,11 @@ export type iDropDownProps = {
   onClick?: (value: string) => void;
   options: iSelectType[];
   placeHolder?: string;
-  value?: string;
+  value?: string | null | undefined;
+  defaultValue?: string | null | undefined;
   className?: string;
+  disabled?: boolean;
+  label?: string;
 };
 
 // src/components/_shared/input.tsx
@@ -310,4 +313,51 @@ export interface iApiType {
   response: number[];
   api_costs: number[];
   errors: number[];
+}
+
+// apiCallHistory Service Type
+
+export interface iApiCallHistoryType {
+  id: number;
+  full_request: object;
+  full_response: object;
+  additional_details: object;
+  created_at: string;
+  response_quality: number;
+  response_quality_feedback: string;
+  use_for_training: boolean;
+  api: number | null;
+  ai_model: number | null;
+  recipe_category: number | null;
+  prompt_recipe: number | null;
+}
+
+export interface iApiCallHistoryInputType {
+  full_request: object;
+  full_response: object;
+  additional_details: object;
+  response_quality: number;
+  response_quality_feedback: string;
+  use_for_training: boolean;
+  api: number | null;
+  ai_model: number | null;
+  recipe_category: number | null;
+  prompt_recipe: number | null;
+}
+
+//chatbot interfaces
+
+export enum eRoleType {
+  USER = "user",
+  ASSISTANT = "assistant",
+}
+
+export interface iMessage {
+  role: eRoleType;
+  content: string;
+}
+
+export interface iChat {
+  title: string;
+  msgArr: iMessage[];
 }
