@@ -302,9 +302,9 @@ function ChatFrom() {
     <div className="flex h-full chatbot-messages-area w-full">
       <main className="flex-1 flex flex-col">
         {!currentTitle && (
-          <div className="flex flex-col items-center justify-center p-4 font-bold text-lg">
-            <h1>AIDRM</h1>
-            <h3>How can I help you today?</h3>
+          <div className="flex flex-col items-center justify-center p-4 ">
+            <h1 className="text-lg font-bold">AIDRM</h1>
+            <h3 className="text-md">How can I help you today?</h3>
           </div>
         )}
 
@@ -330,7 +330,7 @@ function ChatFrom() {
             {msgHistory.map((chatMsg, idx) => (
               <li
                 key={idx}
-                className={`flex items-center gap-4 p-4 mx-auto lg:pl-32 rounded-lg`}
+                className={`flex items-center mx-auto lg:pl-32 rounded-lg`}
               >
                 <div>
                   <div className="flex">
@@ -356,8 +356,8 @@ function ChatFrom() {
                     <MarkdownView
                       content={
                         idx === msgHistory.length - 1 &&
-                          chatMsg.role === eRoleType.ASSISTANT &&
-                          streamText.length > 0
+                        chatMsg.role === eRoleType.ASSISTANT &&
+                        streamText.length > 0
                           ? streamText
                           : chatMsg.content
                       }
@@ -369,27 +369,26 @@ function ChatFrom() {
                 </div>
               </li>
             ))}
-            {isResponseLoading && <li
-              key={msgHistory.length + 1}
-              className={`flex items-center gap-4 p-4 mx-auto lg:pl-32 rounded-lg`}
-            >
-              <div>
-                <div className='flex'>
-                  <div className='pr-2'>
-                    <SiChatwoot className="w-8 h-8" />
+            {isResponseLoading && (
+              <li
+                key={msgHistory.length + 1}
+                className={`flex items-center mx-auto lg:pl-32 rounded-lg`}
+              >
+                <div>
+                  <div className="flex">
+                    <div className="pr-2">
+                      <SiChatwoot className="w-8 h-8" />
+                    </div>
+                    <p className="font-bold text-lg">{"AIDRM"}</p>
                   </div>
-                  <p className="font-bold text-lg">
-                    {"AIDRM"}
-                  </p>
-                </div>
-                <div className="flex flex-grow flex-col max-w-full mb-20">
-                  <div>
-                    <div className="relative h-5 w-5 rounded-full bg-black"></div>
+                  <div className="flex flex-grow flex-col max-w-full ml-10 animate-pulse mb-20">
+                    <div>
+                      <div className="relative h-5 w-5 rounded-full bg-black"></div>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </li>
-            }
+              </li>
+            )}
           </ul>
         </div>
         <div className="w-full pt-2 md:pt-0 dark:border-white/20 md:border-transparent md:dark:border-transparent md:w-[calc(100%-.5rem)] stretch">
@@ -405,21 +404,18 @@ function ChatFrom() {
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
                 onKeyDown={handleKeyPress}
-                placeholder="Message ChatGPT…"
+                placeholder="Message AIDRM …"
                 className="m-0 w-full text-md resize-none bg-transparent dark:bg-transparent py-[10px] pr-10 md:p-3.5 md:pr-12 max-h-[200px] placeholder-black/50 dark:placeholder-white/50 pl-4 md:pl-6 textarea-field outline-none"
                 rows={1}
               ></textarea>
               {!isResponseLoading && (
                 <button
                   disabled={!message}
-                  className="absolute bottom-2.5 right-3.5 rounded-md border border-black p-1.5  transition-colors  disabled:bg-gray-300 disabled:opacity-50 enabled:opacity-100 enabled:bg-black dark:border-white dark:bg-white"
+                  className="absolute bottom-1.5 right-1.5 rounded-md border border-black p-1.5  transition-colors  disabled:bg-gray-300 disabled:opacity-50 enabled:opacity-100 enabled:bg-black dark:border-white dark:bg-white"
                   data-testid="send-button"
                 >
                   <span className="text-white" data-state="closed">
-                    <img
-                      src="/icons/sendIcon.svg"
-                      alt="Send"
-                    />
+                    <img src="/icons/sendIcon.svg" alt="Send" />
                   </span>
                 </button>
               )}
@@ -431,8 +427,8 @@ function ChatFrom() {
             </span>
           </div>
         </div>
-      </main >
-    </div >
+      </main>
+    </div>
   );
 }
 

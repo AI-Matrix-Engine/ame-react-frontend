@@ -119,7 +119,7 @@ const MarkdownView: React.FC<MarkdownViewProps> = ({
   const numberedContent = addNumbersToMarkdownList(content);
 
   return (
-    <div key={index} className={`chatbot-messages-area text-opacity-50 dark:text-white text-md font-semibold m-auto relative rounded-md overflow-auto group`} style={{ width: width, height: height, fontSize: fontSize }}>
+    <div key={index} className={`chatbot-messages-area text-opacity-50 dark:text-white text-md font-semibold m-auto relative rounded-md overflow-auto group`} style={{ width: width, fontSize: fontSize }}>
       <div ref={contentRef} className='pl-10'><ReactMarkdown remarkPlugins={[remarkGfm]} components={components}>
         {numberedContent}
       </ReactMarkdown>
@@ -129,8 +129,8 @@ const MarkdownView: React.FC<MarkdownViewProps> = ({
           <p className="bg-gray-300 bg-opacity-75 p-2 rounded-md">Text copied!</p>
         </div>
       )}
-      < div className='h-[70px]'>
-        <div className='hidden group-hover:flex gap-2 pt-4 pl-10'>
+      < div className='min-h-[40px]'>
+        <div className='hidden group-hover:flex p-2 space-x-2 pl-10'>
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger onClick={handleCopyText} className='opacity-50 hover:opacity-100 duration-150'>
