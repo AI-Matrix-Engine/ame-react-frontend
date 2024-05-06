@@ -1,7 +1,7 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
-import SectionSplitter from "./spliter";
+import SectionSplitter from "@/components/playground/spliter";
 import { GoPlusCircle } from "react-icons/go";
 import { FaBars } from "react-icons/fa6";
 
@@ -11,19 +11,75 @@ import { Button, Dropdown, Input } from "../_shared";
 import { MdOutlineLightMode, MdOutlineNightlight } from "react-icons/md";
 import { HiDotsVertical } from "react-icons/hi";
 
-import VariablesPanel from "./variablesPanel";
-import ResponsePanel from "./responsePanel";
-import MessagesPanel from "./messagesPanel";
+import VariablesPanel from "@/components/playground/variablesPanel";
+import ResponsePanel from "@/components/playground/responsePanel";
+import MessagesPanel from "@/components/playground/messagesPanel";
+import { useAuth } from "@/context/AuthContext";
 
-const recipies = [
-  { value: "0", label: "Version 1" },
-  { value: "1", label: "Version 2" },
-  { value: "2", label: "Version 3" },
-  { value: "3", label: "Version 4" },
-];
+const initialData: any = {
+  promptData: [
+    {
+      isFocus: false,
+      isExpand: false,
+      role: "system",
+      text: ``,
+    },
+    {
+      isFocus: false,
+      isExpand: false,
+      role: `user`,
+      text: ``,
+    },
+  ],
+  variablesData: [],
+  OptionalText: [],
+  responseData: [
+    {
+      isOpen: false,
+      isMoved: false,
+      _id: "6616e8d7c4dd135b3e82fddb",
+      model: "gpt-4-turbo",
+      name: "GPT-4 Turbo Latest 2024-04-09",
+      class: "gpt-4",
+      text: "**This is bold text.** *This is italic text.*",
+      limitations: {
+        context_window: 16000,
+        max_tokens: 4096,
+        capabilities: ["text", "image", "video", "audio", "search", "tools"],
+      },
+      api: {
+        provider: "OpenAI",
+        endpoint: "chat_completions",
+      },
+      controls: [
+        {
+          id: "temperature",
+          componentType: "slider",
+          label: "Temperature",
+          helpText:
+            "The higher the temperature, the more random the text. 0.0 is deterministic.",
+          type: "float",
+          value: 0.7,
+          min: 0.0,
+          max: 1.0,
+          step: 0.01,
+        },
+      ],
+    },
+  ],
+};
 
 const HorizontalAdjustableSections: React.FC = () => {
-  const [version, setVersion] = useState("0");
+  const { version, setVersion, contextData, setContextData } = useAuth();
+
+  const handleSaveNew = () => {
+    const newVersionNumber = contextData.length + 1;
+    const newAddContextData = { version: newVersionNumber, ...initialData };
+    contextData.push(newAddContextData);
+    setContextData(contextData);
+    setVersion(newVersionNumber);
+  };
+
   return (
     <div className="h-full container-height pb-1 dark:bg-[#18181b]">
       <div className="flex items-center px-[30px] justify-between h-[60px]">
@@ -38,12 +94,23 @@ const HorizontalAdjustableSections: React.FC = () => {
             defaultValue="Start Generic Job Posting from Job Title"
           />
           <div className="ml-[20px] mr-[20px]">
-            <Dropdown options={recipies} className="outline-none" value={version} onClick={(e:any) => setVersion(e)} />
+            <Dropdown
+              options={contextData.map((item: any) => ({
+                value: item.version,
+                label: "Version " + item.version,
+              }))}
+              className="outline-none"
+              value={version}
+              onClick={(e: any) => setVersion(e)}
+            />
           </div>
           <Button className="cursor-pointer bg-[#202020] border border-[#3F3F46] text-[12px]">
             Save Update
           </Button>
-          <Button className="cursor-pointer ml-[20px] bg-[#202020] border border-[#3F3F46] text-[12px]">
+          <Button
+            className="cursor-pointer ml-[20px] bg-[#202020] border border-[#3F3F46] text-[12px]"
+            onClick={handleSaveNew}
+          >
             Save New
           </Button>
         </div>

@@ -153,7 +153,7 @@ export const Model = ({
         className="flex items-center text-[#000] text-[14px] font-medium mb-1 cursor-pointer [transition:all_.3s_ease-in-out] dark:text-white"
         onClick={() => setIsOpenModel(modelId)}
       >
-        {`MODEL ${modelId + 1}`}
+        {model.name == "" ? `MODEL ${modelId + 1}` : model.name}
         {isOpen ? (
           <MdOutlineKeyboardArrowDown className="ml-1" />
         ) : (
@@ -202,6 +202,7 @@ export const Model = ({
                       return (
                         <RangeSlider
                           key={`${index}sliderindex`}
+                          helpText={opt.helpText}
                           min={opt.min}
                           max={opt.max}
                           step={opt.step}
@@ -247,7 +248,7 @@ export const Model = ({
                           </Label>
                           <div className="">
                             {opt.choices.map((item: any, index: number) => (
-                              <div className="flex flex-col mb-[5px]">
+                              <div className="flex flex-col mb-[5px]" key={`${index}switcGP`}>
                                 <Label
                                   className="text-[12px] font-normal mr-2"
                                   key={`${index}label2index`}

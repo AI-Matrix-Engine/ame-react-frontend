@@ -61,10 +61,9 @@ const AuthContext = createContext<{
     >
   >;
   promptData: {
-    isFocus: boolean;
     isExpand: boolean;
     role: string;
-    text: string | any;
+    text: string;
   }[];
   setPromptData: React.Dispatch<
     React.SetStateAction<
@@ -74,14 +73,6 @@ const AuthContext = createContext<{
         text: "";
       }[]
     >
-  >;
-  contextData: any;
-  setContextData: React.Dispatch<
-    React.SetStateAction<any>
-  >;
-  version: number;
-  setVersion: React.Dispatch<
-    React.SetStateAction<number>
   >;
 }>({
   user: null,
@@ -152,88 +143,23 @@ const AuthContext = createContext<{
   setVariableData: () => {},
   promptData: [
     {
-      isFocus: false,
       isExpand: false,
       role: "system",
       text: ``,
     },
   ],
   setPromptData: () => {},
-  contextData: [],
-  setContextData: () => {},
-  version: 0,
-  setVersion: () => {},
 });
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [loading, setLoading] = useState<boolean>(true);
-  const [version, setVersion] = useState<number>(1);
-  const [contextData, setContextData] = useState<any>([
-    {
-      recipeID: '662db1f04b8b9c73488be089',
-      autoSave: false,
-      version: 1,
-      userID: {},
-      promptData: [
-        {
-          isFocus: false,
-          isExpand: false,
-          role: "system",
-          text: ``,
-        },
-        {
-          isFocus: false,
-          isExpand: false,
-          role: `user`,
-          text: ``,
-        },
-      ],
-      variablesData: [],
-      responseData: [
-        {
-          isOpen: false,
-          isMoved: false,
-          _id: "6616e8d7c4dd135b3e82fddb",
-          model: "gpt-3.5-turbo",
-          name: "GPT-4 Turbo Latest 2024-04-09",
-          class: "gpt-4",
-          text: '**This is bold text.** *This is italic text.*',
-          limitations: {
-            context_window: 16000,
-            max_tokens: 4096,
-            capabilities: ["text", "image", "video", "audio", "search", "tools"],
-          },
-          api: {
-            provider: "OpenAI",
-            endpoint: "chat_completions",
-          },
-          controls: [
-            {
-              id: "temperature",
-              componentType: "slider",
-              label: "Temperature",
-              helpText:
-                "The higher the temperature, the more random the text. 0.0 is deterministic.",
-              type: "float",
-              value: 0.7,
-              min: 0.0,
-              max: 1.0,
-              step: 0.01,
-            },
-          ],
-        },
-      ]
-    },
-  ]);
   const [models, setModels] = useState<any>([
     {
       isOpen: false,
-      isMoved: false,
       _id: "6616e8d7c4dd135b3e82fddb",
       model: "gpt-4-turbo",
       name: "GPT-4 Turbo Latest 2024-04-09",
       class: "gpt-4",
-      text: '**This is bold text.** *This is italic text.*',
       limitations: {
         context_window: 16000,
         max_tokens: 4096,
@@ -261,13 +187,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   ]);
   const [promptData, setPromptData] = useState<any>([
     {
-      isFocus: false,
       isExpand: false,
       role: "system",
       text: ``,
     },
     {
-      isFocus: false,
       isExpand: false,
       role: `user`,
       text: ``,
@@ -355,10 +279,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         setVariableData,
         promptData,
         setPromptData,
-        contextData,
-        setContextData,
-        version,
-        setVersion
       }}
     >
       {loading ? null : children}

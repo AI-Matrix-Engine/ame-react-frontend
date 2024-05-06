@@ -5,7 +5,6 @@ import {
   MdOutlineKeyboardArrowRight,
   MdOutlineKeyboardArrowDown,
 } from "react-icons/md";
-import { IoCloseCircleOutline } from "react-icons/io5";
 import { FiUpload } from "react-icons/fi";
 import { RiDeleteBin2Line } from "react-icons/ri";
 import { SlCloudUpload } from "react-icons/sl";
@@ -16,6 +15,7 @@ import { Textarea } from "@/components/_shared/Textarea";
 import { Checkbox } from "@/components/_shared/Checkbox";
 import { Input } from "@/components/_shared/index";
 import { Dropdown, Label } from "@/components/_shared";
+import { useAuth } from "@/context/AuthContext";
 
 interface iModel {
   modelName: string;
@@ -25,6 +25,8 @@ interface iModel {
   text: string;
   setIsOpenModel: Function;
   setIsOpenAdvanced: Function;
+  changeTitle: Function;
+  messageIndex: number;
 }
 
 const recipies = [
@@ -46,16 +48,60 @@ export const LeftModel = ({
   isAdvancedOpen,
   setIsOpenModel,
   setIsOpenAdvanced,
+  changeTitle,
   text,
+  messageIndex,
 }: iModel) => {
+  const { contextData, setContextData, version } = useAuth();
   const [isUpload, setIsUpload] = React.useState(false);
+
+  const isLastCharacterSpecial = (inputString: string) => {
+    var specialCharacterRegex = /[!@#$%^&*()+\-=\[\] {};':"\\|,.<>\/?]/;
+    var lastCharacter = inputString.slice(-1);
+    return specialCharacterRegex.test(lastCharacter);
+  };
+
+  const handleChangeTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const currentVariableData = contextData[version - 1].variablesData;
+    const currentPromptData = contextData[version - 1].promptData;
+    if (!isLastCharacterSpecial(e.target.value)) {
+      const updatedPromptData = currentPromptData.map(
+        (prompt: any, key: number) => {
+          if (key === messageIndex)
+            prompt.text = prompt.text.replace(
+              currentVariableData[modelId].title,
+              e.target.value.toUpperCase()
+            );
+          return prompt;
+        }
+      );
+
+      const updateContextData = contextData.map((item: any, key: number) => {
+        if (key == version - 1) {
+          item.promptData = updatedPromptData;
+        }
+        return item;
+      });
+      setContextData(updateContextData);
+
+      changeTitle(modelId, e.target.value.toUpperCase());
+    }
+  };
+
   return (
     <div
-      className={`w-full px-2 [transition:all_.3s_ease-in-out] py-[12px] ${!isOpen ? " hover:bg-[#dcdce0] dark:hover:bg-[#ffffff0d]" : "border border-[#dcdce0]"
-        } rounded-md dark:border-[#27272a]`}
+      className={`w-full px-2 [transition:all_.3s_ease-in-out] py-[12px] ${
+        !isOpen
+          ? " hover:bg-[#dcdce0] dark:hover:bg-[#ffffff0d]"
+          : "border border-[#dcdce0]"
+      } rounded-md dark:border-[#27272a]`}
     >
       <p className="flex items-center text-[16px] cursor-pointer w-full justify-between">
-        <Input defaultValue={modelName.toLocaleUpperCase()} />
+        <Input
+          value={modelName}
+          autoFocus={true}
+          onChange={handleChangeTitle}
+        />
         {isOpen ? (
           <MdOutlineKeyboardArrowDown
             className="ml-1 dark:text-white"
@@ -77,7 +123,6 @@ export const LeftModel = ({
               dangerouslySetInnerHTML={{
                 __html: text,
               }}
-              // onBlur={(evt) => handleTextChange(evt.currentTarget.innerHTML)}
             />
             <div
               className={`flex items-center ${"absolute right-2 top-2"} cursor-pointer ml-2 dark:text-[#d9d9e3]`}

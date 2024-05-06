@@ -5,14 +5,6 @@ import { Button } from "@/components/_shared/Button";
 import { LeftModel } from "@/components/playground/model";
 import { useAuth } from "@/context/AuthContext";
 
-const modelName = [
-  "PLACES TO VISIT",
-  "FAVORITE THINGS TO DO",
-  "FAVORITE FOOD",
-  "HOBBIES",
-  "ALLERGIES",
-];
-
 interface iModelOpenFlag {
   model: number;
   advanced: boolean;
@@ -24,13 +16,16 @@ const LeftSection = () => {
     advanced: false,
   });
   const [isExpand, setIsExpand] = React.useState<boolean>(true);
-  const { flag1, flag2, setFlag1, setFlag2, variableData, setVariableData } =
+  const { flag1, flag2, setFlag1, setFlag2, setContextData, version, contextData } =
     useAuth();
 
   React.useEffect(() => {
-    // console.log("variable data length",variableData.length);
-    setIsOpenModel((prev) => ({ ...prev, model: variableData.length - 1, advanced:true }));
-  }, [variableData]);
+    setIsOpenModel((prev) => ({
+      ...prev,
+      model: contextData[version-1].variablesData.length - 1,
+      advanced: true,
+    }));
+  }, [contextData]);
 
   const handleModelOpen = (modelID: number) => {
     if (modelID === isOpenModel.model)
@@ -40,6 +35,24 @@ const LeftSection = () => {
   const handleAdvancedOpen = () => {
     setIsOpenModel((prev) => ({ ...prev, advanced: !prev.advanced }));
   };
+
+  const changeTitle = (id: number, text: string) => {
+    const currentVariableData = contextData[version - 1].variablesData;
+    
+    const updateVariableData = currentVariableData.map((item:any, index:number) => {
+      if(index === id) item.title = text.replace(/[^a-zA-Z0-9]/g, '_');
+      return item;
+    })
+    const updateContextData = contextData.map((item: any, key: number) => {
+      if (key == version - 1) {
+        item.variablesData = updateVariableData;
+      }
+      return item;
+    });
+
+    setContextData(updateContextData);
+  };
+
   return (
     <div className={`container-height flex overflow-y-auto`}>
       {isExpand && (
@@ -59,12 +72,14 @@ const LeftSection = () => {
             Make Section Optional
           </Button>
           <div className="w-full mt-[10px]">
-            {variableData.map((vdata: any, key: number) => (
+            {contextData[version-1].variablesData.map((vdata: any, key: number) => (
               <LeftModel
                 modelName={vdata.title}
+                messageIndex={vdata.messageIndex}
                 text={vdata.text}
                 key={key}
                 modelId={key}
+                changeTitle={changeTitle}
                 isAdvancedOpen={isOpenModel.advanced}
                 isOpen={isOpenModel.model === key ? true : false}
                 setIsOpenModel={handleModelOpen}
