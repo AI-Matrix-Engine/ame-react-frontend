@@ -239,8 +239,8 @@ export type iDropDownProps = {
   onClick?: (value: string) => void;
   options: iSelectType[];
   placeHolder?: string;
-  value?: string | null | undefined;
-  defaultValue?: string | null | undefined;
+  value?: any | null;
+  defaultValue?: any;
   className?: string;
   disabled?: boolean;
   label?: string;

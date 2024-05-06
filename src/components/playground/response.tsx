@@ -1,20 +1,14 @@
 "use client";
-import React, { useEffect, useRef } from "react";
-import { RiDeleteBin2Line } from "react-icons/ri";
-import { IoCloseCircleOutline } from "react-icons/io5";
-import { FiUpload } from "react-icons/fi";
+import React, { useEffect, useRef, useState } from "react";
+import { Button, Label } from "@/components/_shared";
 
-import { Button, Label, Textarea } from "../_shared";
-import { SlCloudUpload } from "react-icons/sl";
-import { CiImageOn } from "react-icons/ci";
-import { GoVideo } from "react-icons/go";
-import {
-  AiOutlineDelete,
-  AiOutlineFileText,
-  AiOutlineUpload,
-} from "react-icons/ai";
+import { AiOutlineDelete } from "react-icons/ai";
 import TextareaAutosize from "react-textarea-autosize";
+import { FaPlus } from "react-icons/fa6";
 import { BsArrowsAngleContract, BsArrowsAngleExpand } from "react-icons/bs";
+import ReactMarkdown from "react-markdown";
+import { useAuth } from "@/context/AuthContext";
+import MarkdownView from "@/components/_shared/MarkdownView";
 
 interface iPrompt {
   isExpand?: boolean;
@@ -22,46 +16,89 @@ interface iPrompt {
   role?: string;
   setIsExpand: Function;
   index: number;
-  setPData: Function;
+  removePrompt: Function;
   pData?: any;
+  clearTextByID: Function;
 }
 const ResponsePrompt = ({
   isExpand,
   text,
   role,
   setIsExpand,
+  clearTextByID,
   index,
-  setPData,
+  removePrompt,
   pData,
 }: iPrompt) => {
-  const [isUpload, setIsUpload] = React.useState(false);
+  const { promptData, setPromptData, contextData, version, setContextData } = useAuth();
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const [isButtonFlag, setButtonFlag] = useState<number>(0);
 
-  const removePrompt = (index: number) => {
-    setPData(index);
+  const erasePromptByID = (index: number) => {
+    removePrompt(index);
   };
 
   const handleChange = (event: any) => {
     const utext = event.target.value;
-    const updateData = pData.map((data: any, i: number) => {
+    const currentResponseData = contextData[version - 1].responseData;
+    const updateData = currentResponseData.map((data: any, i: number) => {
       if (i === index) data.text = utext;
       return data;
     });
 
-    setPData(updateData);
+    const updateContextData = contextData.map((item:any, key:number) => {
+      if(key == (version-1)) {
+        item.responseData = updateData;
+      }
+      return item;
+    })
+    setContextData(updateContextData);
   };
 
+  // const handleAddMessage = () => {
+  //   const plainText = text.replace(/\*\*(.*?)\*\*/g, "$1").replace(/\*(.*?)\*/g, "$1");
+
+  //   const currentPromptData = [...promptData];
+  //   currentPromptData.push({
+  //     isExpand: true,
+  //     role: "assistant",
+  //     text: plainText,
+  //   });
+
+  //   setPromptData(currentPromptData);
+  // };
+
   useEffect(() => {
-    if (isExpand) {
-      if (textareaRef.current) {
+    if (isButtonFlag !== 1) {
+      if (textareaRef.current && textareaRef.current.innerText === "") {
         textareaRef.current.focus();
-        textareaRef.current.setSelectionRange(
-          textareaRef.current.value.length,
-          textareaRef.current.value.length
-        );
+      } else if (textareaRef.current && textareaRef.current.innerText !== "") {
+        const range = document.createRange();
+        const selection = window.getSelection();
+        const lastChild = textareaRef.current.lastChild;
+
+        if (lastChild) {
+          range.selectNodeContents(lastChild);
+          range.collapse(false);
+          if (selection) {
+            selection.removeAllRanges();
+            selection.addRange(range);
+          }
+        }
       }
     }
-  }, [isExpand]);
+    if (textareaRef.current) {
+      textareaRef.current.focus();
+      textareaRef.current.setSelectionRange(
+        textareaRef.current.value.length,
+        textareaRef.current.value.length
+      );
+    }
+  }, [isButtonFlag, isExpand]);
+
+  const clearText = () => {
+    if (clearTextByID) clearTextByID(index);
+  };
 
   return (
     <div
@@ -74,7 +111,13 @@ const ResponsePrompt = ({
           isExpand && ""
         } border-[#6b6b6b80] mb-2 hover:border-[#0e8157] hover:bg-[#dcdce0] dark:hover:bg-[#ffffff0d] flex justify-between p-2`}
       >
-        <div className="">
+        <div
+          onClick={() => {
+            if (!isExpand) {
+              setIsExpand(index);
+            }
+          }}
+        >
           <div className="flex items-center justify-between mb-[5px]">
             <div className="flex items-center justify-between">
               <Label className="text-[12px]">{`RESPONSE ${index + 1}`}</Label>
@@ -86,12 +129,15 @@ const ResponsePrompt = ({
             >
               <AiOutlineDelete
                 className="text-[#37383a] dark:text-[#d9d9e3] mr-2"
-                onClick={() => removePrompt(index)}
+                onClick={() => erasePromptByID(index)}
               />
               {isExpand ? (
                 <BsArrowsAngleContract
                   className="text-[#37383a] text-[12px] dark:text-[#d9d9e3]"
-                  onClick={() => setIsExpand(index)}
+                  onClick={() => {
+                    setIsExpand(index);
+                    setButtonFlag(0);
+                  }}
                 />
               ) : (
                 <BsArrowsAngleExpand
@@ -101,60 +147,91 @@ const ResponsePrompt = ({
               )}
             </div>
           </div>
-          {isExpand && (
-            <div className="w-full">
-              <TextareaAutosize
-                ref={textareaRef}
-                rows={4}
-                autoFocus={true}
-                value={text}
-                onChange={handleChange}
-                className={`w-full resize-none overflow-y-hidden p-1 outline-none bg-transparent h-fit min-h-fit rounded-md group-hover:bg-danger-200 relative focus:border-[#0e8157] text-[#353740] dark:text-[#d9d9e3]`}
-              />
-            </div>
-          )}
 
-          {!isExpand && (
+          {isExpand ? (
+            <div className="w-full">
+              {isButtonFlag === 0 && (
+                <TextareaAutosize
+                  ref={textareaRef}
+                  rows={4}
+                  autoFocus={true}
+                  value={text}
+                  onChange={handleChange}
+                  className={`w-full resize-none overflow-y-hidden p-1 outline-none bg-transparent h-fit min-h-fit rounded-md group-hover:bg-danger-200 relative focus:border-[#0e8157] text-[#353740] dark:text-[#d9d9e3]`}
+                />
+              )}
+              {isButtonFlag === 1 && <MarkdownView content={text} />}
+            </div>
+          ) : (
             <p className="text-[#71717A] text-[14px] whitespace-nowrap">
               {(text && text.length === 0) || text == undefined
                 ? "Some Response..."
-                : text.substring(0, 15) + "..."}
+                : text.replace(/\*/g, "").substring(0, 15) + "..."}
             </p>
           )}
         </div>
         {isExpand && (
           <div className="flex items-center justify-between mt-1">
             <div>
-              <Label className="text-[12px] cursor-pointer">Text</Label>
               <Button
-                className="text-[12px] rounded-lg h-[24px] bg-[#2B2B2B] ml-2"
+                className={`text-[12px] rounded-lg h-[24px] bg-[#2B2B2B] ${
+                  isButtonFlag === 0 && "bg-[#acacac]"
+                }`}
                 size="sm"
+                onClick={() => setButtonFlag(0)}
+              >
+                Text
+              </Button>
+              <Button
+                className={`text-[12px] rounded-lg h-[24px] bg-[#2B2B2B] ml-2 ${
+                  isButtonFlag === 1 && "bg-[#acacac]"
+                }`}
+                size="sm"
+                onClick={() => setButtonFlag(1)}
               >
                 Markdown
               </Button>
               <Button
-                className="text-[12px] rounded-lg h-[24px] bg-[#2B2B2B] ml-2"
+                className={`text-[12px] rounded-lg h-[24px] bg-[#2B2B2B] ml-2 ${
+                  isButtonFlag === 2 && "bg-[#acacac]"
+                }`}
                 size="sm"
+                onClick={() => setButtonFlag(2)}
               >
                 Form
               </Button>
               <Button
-                className="text-[12px] rounded-lg h-[24px] bg-[#2B2B2B] ml-2"
+                className={`text-[12px] rounded-lg h-[24px] bg-[#2B2B2B] ml-2 ${
+                  isButtonFlag === 3 && "bg-[#acacac]"
+                }`}
                 size="sm"
+                onClick={() => setButtonFlag(3)}
               >
                 Table
               </Button>
               <Button
-                className="text-[12px] rounded-lg h-[24px] bg-[#2B2B2B] ml-2"
+                className={`text-[12px] rounded-lg h-[24px] bg-[#2B2B2B] ml-2 ${
+                  isButtonFlag === 4 && "bg-[#acacac]"
+                }`}
                 size="sm"
+                onClick={() => setButtonFlag(4)}
               >
                 JSON
               </Button>
             </div>
-            <div>
+            <div className="flex items-center">
+              {/* <Button
+                className="text-[12px] rounded-lg h-[24px] ml-2"
+                size="sm"
+                onClick={handleAddMessage}
+              >
+                <FaPlus className="mr-1" />
+                Add Messages
+              </Button> */}
               <Button
                 className="text-[12px] rounded-lg h-[24px] ml-2"
                 size="sm"
+                onClick={clearText}
               >
                 Clear
               </Button>

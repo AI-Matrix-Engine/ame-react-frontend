@@ -29,7 +29,7 @@ export const Dropdown = ({
                 onValueChange={(value: string) => {
                     handleChange(value);
                 }}
-                defaultValue={options[0]?.value}
+                value={value}
             >
                 <SelectTrigger className={className}>
                     <SelectValue placeholder={placeHolder} />

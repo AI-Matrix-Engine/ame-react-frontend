@@ -16,24 +16,8 @@ interface iModelOpenFlag {
 }
 
 export const ModelSettingsDrawer = () => {
-  const { models, setModels } = useAuth();
-  const navItems = [
-    {
-      name: "WhatsApp",
-      path: "/create",
-      icon: <ChatBubbleIcon className="h-4 w-4 text-gray-500" />,
-    },
-    {
-      name: "Emails",
-      path: "/run",
-      icon: <EnvelopeIcon className="h-4 w-4 text-gray-500" />,
-    },
-    {
-      name: "Clients",
-      path: "/chatbot",
-      icon: <PersonIcon className="h-4 w-4 text-gray-500" />,
-    },
-  ];
+  const { models, setModels, contextData, setContextData, version} = useAuth();
+
   const [sidebar, setSidebar] = useState<boolean>(true);
   const handleSidebar = () => {
     setSidebar(!sidebar);
@@ -45,7 +29,7 @@ export const ModelSettingsDrawer = () => {
   });
 
   const handleModelOpen = (modelID: number) => {
-    const currentModels = [...models];
+    const currentModels = contextData[version - 1].responseData;
     const updateModels = currentModels.map((model: any, key: number) => {
       if (key === modelID) {
         if (model.isOpen) model.isOpen = false;
@@ -53,18 +37,28 @@ export const ModelSettingsDrawer = () => {
       } else model.isOpen = false;
       return model;
     });
-    setModels(updateModels);
-  };
+    const updateContextData = contextData.map((item:any, key:number) => {
+      if(key == (version-1)) {
+        item.responseData = updateModels;
+      }
+      return item;
+    })
+    setContextData(updateContextData);
+  }
+
   const handleAdvancedOpen = () => {
     setIsOpenModel((prev) => ({ ...prev, advanced: !prev.advanced }));
   };
+
   const addModel = () => {
     const newModel = {
       isOpen: true,
+      isMoved: false,
       _id: "",
       model: "",
       name: "",
       class: "",
+      text: "",
       limitations: {
         context_window: 16000,
         max_tokens: 4096,
@@ -75,7 +69,7 @@ export const ModelSettingsDrawer = () => {
         endpoint: "",
       },
     };
-    const currentModels = [...models];
+    const currentModels = contextData[version - 1].responseData;
 
     const updatedModels = [...currentModels, newModel].map((e:any, index:number) => {
       if(index !== currentModels.length) {
@@ -83,7 +77,14 @@ export const ModelSettingsDrawer = () => {
       }
       return e;
     });
-    setModels(updatedModels);
+    
+    const updateContextData = contextData.map((item:any, key:number) => {
+      if(key == (version-1)) {
+        item.responseData = updatedModels;
+      }
+      return item;
+    })
+    setContextData(updateContextData);
   };
 
   return (
@@ -98,8 +99,8 @@ export const ModelSettingsDrawer = () => {
             className={`flex flex-col justify-between items-between text-black p-4 overflow-y-auto`}
           >
             <div className="w-full h-full flex flex-col items-center px-1 overflow-y-auto">
-              <Button className="text-[12px]">Test All</Button>
-              {models.map((model: any, key: number) => (
+              <Button className="text-[12px] w-[150px] h-[30px]">{contextData[version-1].responseData.length > 1 ? "Test All" : "Run Test"}</Button>
+              {contextData[version - 1].responseData.map((model: any, key: number) => (
                 <Model
                   model={model}
                   key={key}
@@ -110,7 +111,7 @@ export const ModelSettingsDrawer = () => {
                   setIsOpenAdvanced={handleAdvancedOpen}
                 />
               ))}
-              <Button className="text-[12px] mt-[30px]" onClick={addModel}>
+              <Button className="text-[12px] mt-[20px] w-[150px] h-[30px]" onClick={addModel}>
                 ADD MODEL
               </Button>
             </div>

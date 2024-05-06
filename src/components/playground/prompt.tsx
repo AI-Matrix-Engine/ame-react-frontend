@@ -27,6 +27,8 @@ interface iPrompt {
   index: number;
   setPData: Function;
   pData?: any;
+  handleFocus: Function;
+  setSelectedStr: Function;
 }
 const Prompt = ({
   isExpand,
@@ -36,26 +38,49 @@ const Prompt = ({
   index,
   setPData,
   pData,
+  handleFocus,
+  setSelectedStr
 }: iPrompt) => {
   const contentEditableRef = useRef<HTMLDivElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const [isUpload, setIsUpload] = useState(false);
-  const [componentMounted, setComponentMounted] = useState<boolean>(false);
-  const { flag1, flag2, variableData, setVariableData } = useAuth();
+  const {
+    flag1,
+    flag2,
+    variableData,
+    setVariableData,
+    contextData,
+    setContextData,
+    version,
+  } = useAuth();
 
   const handleMouseUp = () => {
-    if (window) selectedStr = window?.getSelection()?.toString();
+    if (window) setSelectedStr(window?.getSelection()?.toString().trim());
   };
 
   const removePrompt = (index: number) => {
-    const updateData = pData.filter((_: any, i: number) => i !== index);
-    setPData(updateData);
+    // remove all variables that related removed prompt
+    const currentVariableData = contextData[version - 1].variablesData;
+    const updatedVariableData = currentVariableData.filter(
+      (e: any, i: number) => e.messageIndex !== index
+    );
+
+    // remove prompt
+    const currentPromptData = contextData[version - 1].promptData;
+    const updatePromptData = currentPromptData.filter(
+      (_: any, i: number) => i !== index
+    );
+
+    const updateContextData = contextData.map((item: any, key: number) => {
+      if (key == version - 1) {
+        item.promptData = updatePromptData;
+        item.variablesData = updatedVariableData;
+      }
+      return item;
+    });
+    setContextData(updateContextData);
     setIsUpload(false);
   };
-
-  useEffect(() => {
-    setComponentMounted(true);
-  }, []);
 
   useEffect(() => {
     if (isExpand) {
@@ -91,45 +116,54 @@ const Prompt = ({
     }
   }, [isExpand]);
 
-  useEffect(() => {
-    if (componentMounted) handleHighlight();
-  }, [flag1]);
-
-  useEffect(() => {
-    if (componentMounted) handleHighlightoOpt();
-  }, [flag2]);
-
   const handleChange = (e: any) => {
-    const utext = e.target.value;
-    const updateData = pData.map((data: any, i: number) => {
-      if (i === index) data.text = utext;
+    const newText = e.target.value;
+    const currentPromptData = contextData[version - 1].promptData;
+    const updatePromptData = currentPromptData.map((data: any, i: number) => {
+      if (i === index) data.text = newText;
       return data;
     });
-    setPData(updateData);
-    // setIsUpload(false);
+
+    const updateContextData = contextData.map((item: any, key: number) => {
+      if (key == version - 1) {
+        item.promptData = updatePromptData;
+      }
+      return item;
+    });
+    setContextData(updateContextData);
   };
 
   const handleHighlightoOpt = () => {
+    const currentVariableData = [...variableData];
+    console.log(currentVariableData.length);
+    let variableName: string = "VARIABLE_";
+    if (currentVariableData.length < 10)
+      variableName += `00${currentVariableData.length + 1}`;
+    else if (currentVariableData.length < 100)
+      variableName += `0${currentVariableData.length + 1}`;
+    else variableName += `${currentVariableData.length + 1}`;
+
     const expandIndex = pData
       .map((prop: any, index: number) => {
-        if (prop.isExpand) return index;
+        if (prop.isFocus) return index;
       })
       .filter((e: any) => e !== undefined)[0];
-    const tempText = document.getElementById("prompt-content");
-    let temp = tempText?.innerHTML.replace(
+    const tempText = pData[expandIndex].text;
+    let temp = tempText.replace(
       selectedStr,
-      `<span style="color: orange; font-style: italic; font-weight: bold;">${selectedStr}</span>`
+      `<span style="color: orange; font-style: italic; font-weight: bold;">{{${variableName}}}</span>`
     );
+
     const updateData = pData.map((data: any, i: number) => {
       if (i === expandIndex) data.text = temp;
       return data;
     });
 
-    const currentVariableData = [...variableData];
     const newVariableData = [
       ...currentVariableData,
       {
-        title: "",
+        messageIndex: expandIndex,
+        title: variableName,
         text: `<span style="color: orange; font-style: italic; font-weight: bold;">${selectedStr}</span>`,
         advanced: {
           tarea: "",
@@ -144,26 +178,36 @@ const Prompt = ({
   };
 
   const handleHighlight = () => {
+    const currentVariableData = contextData[version - 1].variablesData;
+    const pData = contextData[version - 1].promptData;
+    let variableName: string = "VARIABLE_";
+    if (currentVariableData.length < 10)
+      variableName += `${version}00${currentVariableData.length + 1}`;
+    else if (currentVariableData.length < 100)
+      variableName += `0${currentVariableData.length + 1}`;
+    else variableName += `${currentVariableData.length + 1}`;
+
     const expandIndex = pData
       .map((prop: any, index: number) => {
-        if (prop.isExpand) return index;
+        if (prop.isFocus) return index;
       })
       .filter((e: any) => e !== undefined)[0];
-    const tempText = document.getElementById("prompt-content");
-    let temp = tempText?.innerHTML.replace(
+    const tempText = pData[expandIndex].text;
+    let temp = tempText.replace(
       selectedStr,
-      `<span style="color: blue; font-style: italic; font-weight: bold;">${selectedStr}</span>`
+      `<span style="color: blue; font-style: italic; font-weight: bold;">{{${variableName}}}</span>`
     );
+
     const updateData = pData.map((data: any, i: number) => {
       if (i === expandIndex) data.text = temp;
       return data;
     });
 
-    const currentVariableData = [...variableData];
     const newVariableData = [
       ...currentVariableData,
       {
-        title: "",
+        messageIndex: expandIndex,
+        title: variableName,
         text: `<span style="color: blue; font-style: italic; font-weight: bold;">${selectedStr}</span>`,
         advanced: {
           tarea: "",
@@ -172,24 +216,38 @@ const Prompt = ({
         },
       },
     ];
-    setPData(updateData);
-    if (selectedStr !== "") setVariableData(newVariableData);
+    console.log(newVariableData);
+    const updateContextData = contextData.map((item: any, key: number) => {
+      if (key == version - 1) {
+        item.promptData = updateData;
+        if (selectedStr !== "") {
+          item.variablesData = newVariableData;
+        }
+      }
+      return item;
+    });
+
+    setContextData(updateContextData);
+    // console.log(contextData);
+
+    // if (selectedStr !== "") setVariableData(newVariableData);
     // selectedStr = "";
   };
 
   const handleTextChange = (newText: string) => {
-    const updateData = pData.map((data: any, i: number) => {
+    const currentPromptData = contextData[version - 1].promptData;
+    const updatePromptData = currentPromptData.map((data: any, i: number) => {
       if (i === index) data.text = newText;
       return data;
     });
 
-    setPData(updateData);
-  };
-
-  const handleKeyDown = (e: any) => {
-    const textarea: any = e.currentTarget;
-    textarea.style.height = "auto";
-    textarea.style.height = textarea.scrollHeight + "px";
+    const updateContextData = contextData.map((item: any, key: number) => {
+      if (key == version - 1) {
+        item.promptData = updatePromptData;
+      }
+      return item;
+    });
+    setContextData(updateContextData);
   };
 
   return (
@@ -204,9 +262,7 @@ const Prompt = ({
             setIsExpand(index);
           }
         }}
-        className={`rounded-lg flex-col relative border ${
-          isExpand && ""
-        } border-[#6b6b6b80] mb-2 hover:border-[#0e8157] hover:bg-[#dcdce0] dark:hover:bg-[#ffffff0d] flex justify-between p-2`}
+        className={`rounded-lg flex-col relative border border-[#6b6b6b80] mb-2 hover:border-[#0e8157] hover:bg-[#dcdce0] dark:hover:bg-[#ffffff0d] flex justify-between p-2`}
       >
         <div className="flex items-center justify-between">
           <Label className="mb-[5px] text-[12px]">{role?.toUpperCase()}</Label>
@@ -252,16 +308,6 @@ const Prompt = ({
           </div>
         </div>
         {role?.toLowerCase() === "system" ? (
-          // <TextareaAutosize
-          //   rows={4}
-          //   value={text}
-          //   autoFocus={true}
-          //   onChange={handleChange}
-          //   spellCheck={false}
-          //   className={`${
-          //     role?.toLocaleLowerCase() !== "system" && "mt-[23px]"
-          //   } w-full resize-none overflow-y-hidden p-1 outline-none bg-transparent h-fit min-h-fit rounded-md group-hover:bg-danger-200 relative focus:border-[#0e8157]text-[#353740] dark:text-[#d9d9e3]`}
-          // />
           <div>
             {isExpand ? (
               <div className="w-full">
@@ -313,16 +359,6 @@ const Prompt = ({
                     </div>
                   </div>
                 ) : (
-                  // <TextareaAutosize
-                  //   rows={4}
-                  //   value={text}
-                  //   onChange={handleChange}
-                  //   spellCheck={false}
-                  //   className={`${
-                  //     role?.toLocaleLowerCase() !== "system" && "mt-[0px]"
-                  //   } w-full resize-none overflow-y-hidden p-1 outline-none bg-transparent h-fit min-h-fit rounded-md group-hover:bg-danger-200 relative focus:border-[#0e8157] text-[#353740]  dark:text-[#d9d9e3]`}
-                  // />
-                  // <div>1232131232</div>
                   <div>
                     <div
                       contentEditable="true"
@@ -336,6 +372,7 @@ const Prompt = ({
                       onBlur={(evt) =>
                         handleTextChange(evt.currentTarget.innerHTML)
                       }
+                      onFocus={() => handleFocus(index)}
                       onMouseUp={() => handleMouseUp()}
                     />
                   </div>
