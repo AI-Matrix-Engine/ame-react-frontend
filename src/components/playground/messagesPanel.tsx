@@ -25,13 +25,15 @@ const MessagePanel = ({ width, index, isResizable, onMouseDown }: any) => {
 
   useEffect(() => {
     if (componentMounted) {
-      handleHighlight();
+      if(selectedStr != '')
+        handleHighlight();
     }
   }, [flag1]);
 
   useEffect(() => {
     if (componentMounted) {
-      handleHighlightOpt();
+      if(selectedStr != '')
+        handleHighlightOpt();
     }
   }, [flag2]);
 
