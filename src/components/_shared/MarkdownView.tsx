@@ -104,6 +104,8 @@ const MarkdownView: React.FC<MarkdownViewProps> = ({
 
   const numberedContent = addNumbersToMarkdownList(content);
 
+  console.log('numberedContent', numberedContent);
+
   return (
     <div className={`dark:bg-gray-900 dark:text-white m-auto relative rounded-md`} style={{ width: width, height: height, fontSize: fontSize }}>
       <button onClick={handleCopyText} className="absolute top-0 right-0 p-2">
