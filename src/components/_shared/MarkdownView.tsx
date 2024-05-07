@@ -41,7 +41,6 @@ const MarkdownView: React.FC<MarkdownViewProps> = ({
   } = {
     code: ({ node, inline, className, children, language, ...props }) => {
       const match = /language-(\w+)/.exec(className || '');
-      console.log(match, "-----");
       return (
         <SyntaxHighlighter style={vscDarkPlus} language={match ? match[1] : language} PreTag={match ? "div" : empty}>
           {String(children).replace(/\n$/, '')}
