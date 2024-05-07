@@ -18,7 +18,15 @@ interface iPData {
 }
 
 const RightSection = ({ width, index, isResizable, onMouseDown }: any) => {
-  const { models, setModels, promptData, setPromptData, contextData, setContextData, version } = useAuth();
+  const {
+    models,
+    setModels,
+    promptData,
+    setPromptData,
+    contextData,
+    setContextData,
+    version,
+  } = useAuth();
   const [moveFlag, setMoveFlag] = useState<boolean>(false);
 
   useEffect(() => {
@@ -40,12 +48,12 @@ const RightSection = ({ width, index, isResizable, onMouseDown }: any) => {
       return model;
     });
 
-    const updateContextData = contextData.map((item:any, key:number) => {
-      if(key == (version-1)) {
+    const updateContextData = contextData.map((item: any, key: number) => {
+      if (key == version - 1) {
         item.responseData = updateModels;
       }
       return item;
-    })
+    });
     setContextData(updateContextData);
   };
 
@@ -55,12 +63,12 @@ const RightSection = ({ width, index, isResizable, onMouseDown }: any) => {
       (_: any, i: number) => i !== index
     );
 
-    const updateContextData = contextData.map((item:any, key:number) => {
-      if(key == (version-1)) {
+    const updateContextData = contextData.map((item: any, key: number) => {
+      if (key == version - 1) {
         item.responseData = updateModels;
       }
       return item;
-    })
+    });
     setContextData(updateContextData);
   };
 
@@ -70,35 +78,38 @@ const RightSection = ({ width, index, isResizable, onMouseDown }: any) => {
       if (i === index) item.text = "";
       return item;
     });
-    
-    const updateContextData = contextData.map((item:any, key:number) => {
-      if(key == (version-1)) {
+
+    const updateContextData = contextData.map((item: any, key: number) => {
+      if (key == version - 1) {
         item.responseData = updateModels;
       }
       return item;
-    })
+    });
     setContextData(updateContextData);
   };
 
   const moveToMessage = () => {
     const currentModelsData = contextData[version - 1].responseData;
     const currentPromptData = contextData[version - 1].promptData;
-    
+
     if (currentModelsData.filter((item: any) => item.isOpen).length == 0)
       return;
     else if (currentModelsData.filter((model: any) => model.isOpen)[0].isMoved)
       return;
-    else if (currentModelsData.filter((model: any) => model.isOpen)[0].text == '') 
+    else if (
+      currentModelsData.filter((model: any) => model.isOpen)[0].text == ""
+    )
       return;
 
-    const openedText = currentModelsData.filter(
-      (model: any) => model.isOpen
-    )[0].text;
-    const plainText = openedText.replace(/\*\*(.*?)\*\*/g, "$1").replace(/\*(.*?)\*/g, "$1");
-    
+    const openedText = currentModelsData.filter((model: any) => model.isOpen)[0]
+      .text;
+    const plainText = openedText
+      .replace(/\*\*(.*?)\*\*/g, "$1")
+      .replace(/\*(.*?)\*/g, "$1");
+
     const lastPrompt = currentPromptData[currentPromptData.length - 1];
-    
-    if(lastPrompt.role == 'user') {
+
+    if (lastPrompt.role == "user") {
       currentPromptData.push({
         isFocus: true,
         isExpand: true,
@@ -106,37 +117,39 @@ const RightSection = ({ width, index, isResizable, onMouseDown }: any) => {
         text: plainText,
       });
 
-      const updateContextData = contextData.map((item:any, key:number) => {
-        if(key == (version-1)) {
+      const updateContextData = contextData.map((item: any, key: number) => {
+        if (key == version - 1) {
           item.promptData = currentPromptData;
         }
         return item;
-      })
+      });
       setContextData(updateContextData);
     } else {
-      if(lastPrompt.text == '') {
-        const updatedPromptData = currentPromptData.map((prompt:any, key:number) => {
-          if(key == (currentPromptData.length - 1)) {
-            prompt.text = plainText;
-            prompt.isFocus = true;
-            prompt.isExpand = true;
+      if (lastPrompt.text == "") {
+        const updatedPromptData = currentPromptData.map(
+          (prompt: any, key: number) => {
+            if (key == currentPromptData.length - 1) {
+              prompt.text = plainText;
+              prompt.isFocus = true;
+              prompt.isExpand = true;
+            }
+            return prompt;
           }
-          return prompt;
-        })
-        
-        const updateContextData = contextData.map((item:any, key:number) => {
-          if(key == (version-1)) {
+        );
+
+        const updateContextData = contextData.map((item: any, key: number) => {
+          if (key == version - 1) {
             item.promptData = updatedPromptData;
           }
           return item;
-        })
+        });
         setContextData(updateContextData);
       } else {
         currentPromptData.push({
           isFocus: false,
           isExpand: false,
           role: "user",
-          text: '',
+          text: "",
         });
         currentPromptData.push({
           isFocus: true,
@@ -144,27 +157,48 @@ const RightSection = ({ width, index, isResizable, onMouseDown }: any) => {
           role: "assistant",
           text: plainText,
         });
-        
-        const updateContextData = contextData.map((item:any, key:number) => {
-          if(key == (version-1)) {
+
+        const updateContextData = contextData.map((item: any, key: number) => {
+          if (key == version - 1) {
             item.promptData = currentPromptData;
           }
           return item;
-        })
+        });
         setContextData(updateContextData);
       }
     }
-    const updatedModelsData = currentModelsData.map((item:any) => {
-      if(item.isOpen) {
-        item.text = '';
+    const updatedModelsData = currentModelsData.map((item: any) => {
+      if (item.isOpen) {
+        item.text = "";
         item.isMoved = true;
         item.isOpen = true;
       }
       return item;
-    })
+    });
+    const updateContextData = contextData.map((item: any, key: number) => {
+      if (key == version - 1) {
+        item.responseData = updatedModelsData;
+      }
+      return item;
+    });
+    setContextData(updateContextData);
+  };
+
+  const handleFormat = (formatId: number, index: number) => {
+    console.log(formatId, index);
+    const currentResponseData = contextData[version - 1].responseData;
+    console.log(currentResponseData);
+
+    const updatedResponseData = currentResponseData.map(
+      (res: any, key: number) => {
+        if (key === index) res.isFormat = formatId;
+        return res;
+      }
+    );
+
     const updateContextData = contextData.map((item:any, key:number) => {
       if(key == (version-1)) {
-        item.responseData = updatedModelsData;
+        item.responseData = updatedResponseData;
       }
       return item;
     })
@@ -180,25 +214,37 @@ const RightSection = ({ width, index, isResizable, onMouseDown }: any) => {
       }}
     >
       {contextData[version - 1].responseData.length > 0 &&
-        contextData[version - 1].responseData.map((prompt: any, index: number) => (
-          <ResponsePrompt
-            isExpand={prompt.isOpen}
-            role={prompt.role}
-            index={index}
-            key={index}
-            setIsExpand={handleExpand}
-            removePrompt={removePrompt}
-            pData={contextData[version - 1].promptData}
-            clearTextByID={clearTextById}
-            text={prompt.text}
-          />
-        ))}
-        <Button onClick={moveToMessage} disabled={moveFlag} className="flex items-center h-[30px]">
-          <FaRegArrowAltCircleLeft className={`text-white text-[14px] mr-[5px] dark:text-[#d9d9e3]`} />
-          <span className={`text-[14px] font-semibold text-white dark:text-[#d9d9e3]`}>
-            {moveFlag ? "Moved" : "Move"}
-          </span>
-        </Button>
+        contextData[version - 1].responseData.map(
+          (prompt: any, index: number) => (
+            <ResponsePrompt
+              isExpand={prompt.isOpen}
+              role={prompt.role}
+              index={index}
+              isFormat={prompt.isFormat}
+              key={index}
+              setIsExpand={handleExpand}
+              removePrompt={removePrompt}
+              pData={contextData[version - 1].promptData}
+              clearTextByID={clearTextById}
+              text={prompt.text}
+              handleFormat={handleFormat}
+            />
+          )
+        )}
+      <Button
+        onClick={moveToMessage}
+        disabled={moveFlag}
+        className="flex items-center h-[30px]"
+      >
+        <FaRegArrowAltCircleLeft
+          className={`text-white text-[14px] mr-[5px] dark:text-[#d9d9e3]`}
+        />
+        <span
+          className={`text-[14px] font-semibold text-white dark:text-[#d9d9e3]`}
+        >
+          {moveFlag ? "Moved" : "Move"}
+        </span>
+      </Button>
       {isResizable && (
         <div
           style={{

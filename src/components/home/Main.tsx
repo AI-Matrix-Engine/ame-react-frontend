@@ -16,12 +16,6 @@ import { usePathname } from "next/navigation";
 import { menuItems } from "./Data";
 import { FirstNavBar } from "../layout/FirstNavBar";
 
-const recipies = [
-  { value: "0", label: "danielove323@g" },
-  { value: "3", label: "Content Writing" },
-  { value: "1", label: "SEO" },
-];
-
 export const Main = ({ navItems, children }: childrenProp) => {
   const [darkMode, setDarkMode] = useState<boolean>(false);
   useEffect(() => {

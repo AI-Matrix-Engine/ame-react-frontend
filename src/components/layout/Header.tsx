@@ -26,12 +26,12 @@ export const Header = () => {
               <NavigationMenuTrigger className="gap-2 justify-center items-center text-white">
                 <Avatar>
                   <AvatarImage
-                    src="https://github.com/shadcn.png"
+                    src="/avatar.png"
                     alt="@shadcn"
                   />
                   <AvatarFallback>CN</AvatarFallback>
                 </Avatar>
-                <p>Armani Sadeghi</p>
+                <p>Arman Sadeghi</p>
               </NavigationMenuTrigger>
               <NavigationMenuContent>
                 <ul className="flex flex-col gap-3 p-2 w-[200px]  ">

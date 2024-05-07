@@ -37,12 +37,12 @@ export const Header = ({ darkMode, setMode }: iHeader) => {
               <Menu.Button className="inline-flex justify-center items-center w-full rounded-md shadow-sm px-4 py-2 bg-transparent text-sm font-medium text-white hover:bg-gray-700">
                 <Avatar>
                   <AvatarImage
-                    src="https://github.com/shadcn.png"
+                    src="/avatar.png"
                     alt="@shadcn"
                   />
                   <AvatarFallback>CN</AvatarFallback>
                 </Avatar>
-                <p className="ml-[10px]">{'Tom Cook'}</p>
+                <p className="ml-[10px]">{'Arman Sadeghi'}</p>
                 <ChevronDownIcon
                   className="-mr-1 ml-2 h-5 w-5"
                   aria-hidden="true"

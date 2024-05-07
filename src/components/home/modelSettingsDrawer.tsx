@@ -52,6 +52,7 @@ export const ModelSettingsDrawer = () => {
 
   const addModel = () => {
     const newModel = {
+      isFormat: 0,
       isOpen: true,
       isMoved: false,
       _id: "",

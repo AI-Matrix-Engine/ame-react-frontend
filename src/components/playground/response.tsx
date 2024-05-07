@@ -19,6 +19,8 @@ interface iPrompt {
   removePrompt: Function;
   pData?: any;
   clearTextByID: Function;
+  isFormat: number;
+  handleFormat: Function;
 }
 const ResponsePrompt = ({
   isExpand,
@@ -29,8 +31,10 @@ const ResponsePrompt = ({
   index,
   removePrompt,
   pData,
+  isFormat,
+  handleFormat
 }: iPrompt) => {
-  const { promptData, setPromptData, contextData, version, setContextData } = useAuth();
+  const { contextData, version, setContextData } = useAuth();
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const [isButtonFlag, setButtonFlag] = useState<number>(0);
 
@@ -46,12 +50,12 @@ const ResponsePrompt = ({
       return data;
     });
 
-    const updateContextData = contextData.map((item:any, key:number) => {
-      if(key == (version-1)) {
+    const updateContextData = contextData.map((item: any, key: number) => {
+      if (key == version - 1) {
         item.responseData = updateData;
       }
       return item;
-    })
+    });
     setContextData(updateContextData);
   };
 
@@ -69,7 +73,7 @@ const ResponsePrompt = ({
   // };
 
   useEffect(() => {
-    if (isButtonFlag !== 1) {
+    if (isFormat !== 1) {
       if (textareaRef.current && textareaRef.current.innerText === "") {
         textareaRef.current.focus();
       } else if (textareaRef.current && textareaRef.current.innerText !== "") {
@@ -94,7 +98,7 @@ const ResponsePrompt = ({
         textareaRef.current.value.length
       );
     }
-  }, [isButtonFlag, isExpand]);
+  }, [isFormat, isExpand]);
 
   const clearText = () => {
     if (clearTextByID) clearTextByID(index);
@@ -150,7 +154,7 @@ const ResponsePrompt = ({
 
           {isExpand ? (
             <div className="w-full">
-              {isButtonFlag === 0 && (
+              {isFormat === 0 && (
                 <TextareaAutosize
                   ref={textareaRef}
                   rows={4}
@@ -160,14 +164,23 @@ const ResponsePrompt = ({
                   className={`w-full resize-none overflow-y-hidden p-1 outline-none bg-transparent h-fit min-h-fit rounded-md group-hover:bg-danger-200 relative focus:border-[#0e8157] text-[#353740] dark:text-[#d9d9e3]`}
                 />
               )}
-              {isButtonFlag === 1 && <MarkdownView content={text} />}
+              {isFormat === 1 && <MarkdownView content={text} />}
             </div>
           ) : (
-            <p className="text-[#71717A] text-[14px] whitespace-nowrap">
-              {(text && text.length === 0) || text == undefined
-                ? "Some Response..."
-                : text.replace(/\*/g, "").substring(0, 15) + "..."}
-            </p>
+            // <p className="text-[#71717A] text-[14px] whitespace-nowrap">
+            //   {(text && text.length === 0) || text == undefined
+            //     ? "Some Response..."
+            //     : text.replace(/\*/g, "").substring(0, 15) + "..."}
+            // </p>
+            <TextareaAutosize
+              ref={textareaRef}
+              rows={4}
+              autoFocus={true}
+              value={text.replace(/\*/g, "").substring(0, 70) + "..."}
+              disabled
+              onChange={handleChange}
+              className={`w-full resize-none text-[14px] overflow-y-hidden outline-none bg-transparent h-fit min-h-fit rounded-md relative text-[#71717A]`}
+            />
           )}
         </div>
         {isExpand && (
@@ -175,46 +188,46 @@ const ResponsePrompt = ({
             <div>
               <Button
                 className={`text-[12px] rounded-lg h-[24px] bg-[#2B2B2B] ${
-                  isButtonFlag === 0 && "bg-[#acacac]"
+                  isFormat === 0 && "bg-[#acacac]"
                 }`}
                 size="sm"
-                onClick={() => setButtonFlag(0)}
+                onClick={() => handleFormat(0, index)}
               >
                 Text
               </Button>
               <Button
                 className={`text-[12px] rounded-lg h-[24px] bg-[#2B2B2B] ml-2 ${
-                  isButtonFlag === 1 && "bg-[#acacac]"
+                  isFormat === 1 && "bg-[#acacac]"
                 }`}
                 size="sm"
-                onClick={() => setButtonFlag(1)}
+                onClick={() => handleFormat(1, index)}
               >
                 Markdown
               </Button>
               <Button
                 className={`text-[12px] rounded-lg h-[24px] bg-[#2B2B2B] ml-2 ${
-                  isButtonFlag === 2 && "bg-[#acacac]"
+                  isFormat === 2 && "bg-[#acacac]"
                 }`}
                 size="sm"
-                onClick={() => setButtonFlag(2)}
+                onClick={() => handleFormat(2, index)}
               >
                 Form
               </Button>
               <Button
                 className={`text-[12px] rounded-lg h-[24px] bg-[#2B2B2B] ml-2 ${
-                  isButtonFlag === 3 && "bg-[#acacac]"
+                  isFormat === 3 && "bg-[#acacac]"
                 }`}
                 size="sm"
-                onClick={() => setButtonFlag(3)}
+                onClick={() => handleFormat(3, index)}
               >
                 Table
               </Button>
               <Button
                 className={`text-[12px] rounded-lg h-[24px] bg-[#2B2B2B] ml-2 ${
-                  isButtonFlag === 4 && "bg-[#acacac]"
+                  isFormat === 4 && "bg-[#acacac]"
                 }`}
                 size="sm"
-                onClick={() => setButtonFlag(4)}
+                onClick={() => handleFormat(4, index)}
               >
                 JSON
               </Button>

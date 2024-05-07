@@ -31,12 +31,7 @@ export const menuItems: MenuCategory[] = [
         itemCategory: "Chatbot",
         icon: <TbMessageChatbot className="h-4 w-4" />,
         route: "/chatbot"
-      },
-      {
-        itemCategory: "Play Ground",
-        icon: <TfiHeadphone className="h-4 w-4" />,
-        route: "/playground"
-      },
+      }
     ],
   },
   {
