@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useRef, useState } from 'react';
+import React, { Children, useRef, useState } from 'react';
 import ReactMarkdown, { Components } from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
@@ -13,6 +13,13 @@ interface MarkdownViewProps {
   width?: string;
   height?: string;
 }
+const empty = ({ children }: any) => {
+  return (
+    <em className="empty__tag">
+      {children}
+    </em>
+  )
+};
 
 const MarkdownView: React.FC<MarkdownViewProps> = ({
   content,
@@ -27,6 +34,7 @@ const MarkdownView: React.FC<MarkdownViewProps> = ({
     inlineCode: ({ children }: { children: React.ReactNode }) => React.JSX.Element;
     h1: ({ children }: any) => React.JSX.Element;
     th: ({ children }: any) => React.JSX.Element;
+    
     code: ({ node, inline, className, children, language, ...props }: any,
     ) => React.ReactNode; // Adjust the type here
     list: ({ children }: any) => React.JSX.Element;
@@ -34,7 +42,7 @@ const MarkdownView: React.FC<MarkdownViewProps> = ({
     code: ({ node, inline, className, children, language, ...props }) => {
       const match = /language-(\w+)/.exec(className || '');
       return (
-        <SyntaxHighlighter style={vscDarkPlus} language={match ? match[1] : language} PreTag="div">
+        <SyntaxHighlighter style={vscDarkPlus} language={match ? match[1] : language} PreTag={match ? "div" : empty}>
           {String(children).replace(/\n$/, '')}
         </SyntaxHighlighter>
       )
@@ -103,8 +111,6 @@ const MarkdownView: React.FC<MarkdownViewProps> = ({
   };
 
   const numberedContent = addNumbersToMarkdownList(content);
-
-  console.log('numberedContent', numberedContent);
 
   return (
     <div className={`dark:bg-gray-900 dark:text-white m-auto relative rounded-md`} style={{ width: width, height: height, fontSize: fontSize }}>
