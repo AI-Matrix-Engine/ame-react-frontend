@@ -106,11 +106,11 @@ export const NavigationBar = ({
         >
           <img
             className="h-8 w-8 rounded-full bg-gray-800"
-            src="https://github.com/shadcn.png"
+            src="/avatar.png"
             alt=""
           />
           <span className="sr-only">Your profile</span>
-          <span aria-hidden="true">Tom Cook</span>
+          <span aria-hidden="true">Arman Sadeghi</span>
         </Link>
       </div>
     </div>

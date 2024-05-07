@@ -101,6 +101,7 @@ export const LeftModel = ({
           value={modelName}
           autoFocus={true}
           onChange={handleChangeTitle}
+          onFocus={() => setIsOpenModel(modelId)}
         />
         {isOpen ? (
           <MdOutlineKeyboardArrowDown

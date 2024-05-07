@@ -39,7 +39,7 @@ const Prompt = ({
   setPData,
   pData,
   handleFocus,
-  setSelectedStr
+  setSelectedStr,
 }: iPrompt) => {
   const contentEditableRef = useRef<HTMLDivElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -133,107 +133,6 @@ const Prompt = ({
     setContextData(updateContextData);
   };
 
-  const handleHighlightoOpt = () => {
-    const currentVariableData = [...variableData];
-    console.log(currentVariableData.length);
-    let variableName: string = "VARIABLE_";
-    if (currentVariableData.length < 10)
-      variableName += `00${currentVariableData.length + 1}`;
-    else if (currentVariableData.length < 100)
-      variableName += `0${currentVariableData.length + 1}`;
-    else variableName += `${currentVariableData.length + 1}`;
-
-    const expandIndex = pData
-      .map((prop: any, index: number) => {
-        if (prop.isFocus) return index;
-      })
-      .filter((e: any) => e !== undefined)[0];
-    const tempText = pData[expandIndex].text;
-    let temp = tempText.replace(
-      selectedStr,
-      `<span style="color: orange; font-style: italic; font-weight: bold;">{{${variableName}}}</span>`
-    );
-
-    const updateData = pData.map((data: any, i: number) => {
-      if (i === expandIndex) data.text = temp;
-      return data;
-    });
-
-    const newVariableData = [
-      ...currentVariableData,
-      {
-        messageIndex: expandIndex,
-        title: variableName,
-        text: `<span style="color: orange; font-style: italic; font-weight: bold;">${selectedStr}</span>`,
-        advanced: {
-          tarea: "",
-          dValue: "",
-          databaseField: "",
-        },
-      },
-    ];
-    setPData(updateData);
-    if (selectedStr !== "") setVariableData(newVariableData);
-    // selectedStr = "";
-  };
-
-  const handleHighlight = () => {
-    const currentVariableData = contextData[version - 1].variablesData;
-    const pData = contextData[version - 1].promptData;
-    let variableName: string = "VARIABLE_";
-    if (currentVariableData.length < 10)
-      variableName += `${version}00${currentVariableData.length + 1}`;
-    else if (currentVariableData.length < 100)
-      variableName += `0${currentVariableData.length + 1}`;
-    else variableName += `${currentVariableData.length + 1}`;
-
-    const expandIndex = pData
-      .map((prop: any, index: number) => {
-        if (prop.isFocus) return index;
-      })
-      .filter((e: any) => e !== undefined)[0];
-    const tempText = pData[expandIndex].text;
-    let temp = tempText.replace(
-      selectedStr,
-      `<span style="color: blue; font-style: italic; font-weight: bold;">{{${variableName}}}</span>`
-    );
-
-    const updateData = pData.map((data: any, i: number) => {
-      if (i === expandIndex) data.text = temp;
-      return data;
-    });
-
-    const newVariableData = [
-      ...currentVariableData,
-      {
-        messageIndex: expandIndex,
-        title: variableName,
-        text: `<span style="color: blue; font-style: italic; font-weight: bold;">${selectedStr}</span>`,
-        advanced: {
-          tarea: "",
-          dValue: "",
-          databaseField: "",
-        },
-      },
-    ];
-    console.log(newVariableData);
-    const updateContextData = contextData.map((item: any, key: number) => {
-      if (key == version - 1) {
-        item.promptData = updateData;
-        if (selectedStr !== "") {
-          item.variablesData = newVariableData;
-        }
-      }
-      return item;
-    });
-
-    setContextData(updateContextData);
-    // console.log(contextData);
-
-    // if (selectedStr !== "") setVariableData(newVariableData);
-    // selectedStr = "";
-  };
-
   const handleTextChange = (newText: string) => {
     const currentPromptData = contextData[version - 1].promptData;
     const updatePromptData = currentPromptData.map((data: any, i: number) => {
@@ -252,17 +151,17 @@ const Prompt = ({
 
   return (
     <div
-      className={`h-fit flex flex-col group [transition:all_.3s_ease-in-out] ${
+      className={`h-fit flex flex-col group [transition:all_.3s_ease-in-out] relative overflow-hidden ${
         role?.toLocaleLowerCase() !== "system" && "mt-[10px]"
       }`}
+      onClick={() => {
+        if (!isExpand) {
+          setIsExpand(index);
+        }
+      }}
     >
       <div
-        onClick={() => {
-          if (!isExpand) {
-            setIsExpand(index);
-          }
-        }}
-        className={`rounded-lg flex-col relative border border-[#6b6b6b80] mb-2 hover:border-[#0e8157] hover:bg-[#dcdce0] dark:hover:bg-[#ffffff0d] flex justify-between p-2`}
+        className={`rounded-lg flex-col relative border border-[#6b6b6b80] hover:border-[#0e8157] hover:bg-[#dcdce0] dark:hover:bg-[#ffffff0d] flex justify-between p-2`}
       >
         <div className="flex items-center justify-between">
           <Label className="mb-[5px] text-[12px]">{role?.toUpperCase()}</Label>
@@ -323,11 +222,17 @@ const Prompt = ({
                 />
               </div>
             ) : (
-              <p className="text-[#71717A] text-[14px] whitespace-nowrap">
-                {text.length === 0
-                  ? "enter system prompt..."
-                  : text.substring(0, 15) + "..."}
-              </p>
+              // <p className="text-[#71717A] text-[14px] whitespace-nowrap">
+              //   {text.length === 0
+              //     ? "enter system prompt..."
+              //     : text.substring(0, 15) + "..."}
+              // </p>
+              <TextareaAutosize
+                value={text.substring(0, 15) + "..."}
+                disabled
+                spellCheck={false}
+                className="w-full resize-none overflow-y-hidden outline-none bg-transparent h-fit min-h-fit rounded-md relative text-[#71717A] text-[14px]"
+              />
             )}
           </div>
         ) : (
@@ -383,11 +288,21 @@ const Prompt = ({
         )}
 
         {!isExpand && role?.toLocaleLowerCase() !== "system" && (
-          <p className="text-[#71717A] text-[14px] whitespace-nowrap">
-            {text.length === 0
-              ? "empty prompt..."
-              : text.substring(0, 15) + "..."}
-          </p>
+          // <p className="text-[#71717A] text-[14px] whitespace-nowrap">
+          //   {text.length === 0
+          //     ? "empty prompt..."
+          //     : text.substring(0, 15) + "..."}
+          // </p>
+          <TextareaAutosize
+            value={
+              text.length === 0
+                ? "empty prompt..."
+                : text.substring(0, 15) + "..."
+            }
+            disabled
+            spellCheck={false}
+            className="w-full resize-none overflow-y-hidden outline-none bg-transparent h-fit min-h-fit rounded-md relative text-[#71717A] text-[14px]"
+          />
         )}
       </div>
     </div>

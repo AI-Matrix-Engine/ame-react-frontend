@@ -148,18 +148,21 @@ export const Model = ({
   };
 
   return (
-    <div className="w-full pb-1 pt-4">
-      <p
-        className="flex items-center text-[#000] text-[14px] font-medium mb-1 cursor-pointer [transition:all_.3s_ease-in-out] dark:text-white"
+    <div className="w-full pt-3">
+      <div
+        className="text-[#000] text-[14px] font-medium mb-1 cursor-pointer [transition:all_.3s_ease-in-out] dark:text-white"
         onClick={() => setIsOpenModel(modelId)}
       >
-        {model.name == "" ? `MODEL ${modelId + 1}` : model.name}
-        {isOpen ? (
-          <MdOutlineKeyboardArrowDown className="ml-1" />
-        ) : (
-          <MdOutlineKeyboardArrowRight className="ml-1" />
-        )}
-      </p>
+        <p className="flex items-center">
+          MODEL {modelId + 1}
+          {isOpen ? (
+            <MdOutlineKeyboardArrowDown className="ml-1" />
+          ) : (
+            <MdOutlineKeyboardArrowRight className="ml-1" />
+          )}
+        </p>
+        <span className="text-[11px]">{model.name}</span>
+      </div>
       {isOpen && (
         <>
           <div className="w-full">
@@ -248,7 +251,10 @@ export const Model = ({
                           </Label>
                           <div className="">
                             {opt.choices.map((item: any, index: number) => (
-                              <div className="flex flex-col mb-[5px]" key={`${index}switcGP`}>
+                              <div
+                                className="flex flex-col mb-[5px]"
+                                key={`${index}switcGP`}
+                              >
                                 <Label
                                   className="text-[12px] font-normal mr-2"
                                   key={`${index}label2index`}
