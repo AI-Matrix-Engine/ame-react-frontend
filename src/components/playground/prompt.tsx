@@ -151,7 +151,7 @@ const Prompt = ({
 
   return (
     <div
-      className={`h-fit flex flex-col group [transition:all_.3s_ease-in-out] relative overflow-hidden ${
+      className={`h-fit flex flex-col group [transition:all_.3s_ease-in-out] mb-2 relative overflow-hidden ${
         role?.toLocaleLowerCase() !== "system" && "mt-[10px]"
       }`}
       onClick={() => {
