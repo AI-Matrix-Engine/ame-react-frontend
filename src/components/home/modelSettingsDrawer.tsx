@@ -98,29 +98,35 @@ export const ModelSettingsDrawer = () => {
     const socket = socketService.getSocket();
 
     if (socket) {
-
       const currentContext = contextData[version - 1];
       const promptData = currentContext.promptData;
       const modelData = currentContext.responseData;
-
-      const messages = promptData.map((prompt: any) => {
-        return {
-          role: prompt.role,
-          content: prompt.text
-        }
-      })
+      const variableData = currentContext.variablesData;
+      const responseData = currentContext.responseData;
 
       modelData.forEach((model: any, index: number) => {
         const frontCallPackage = {
-          messages,
-          user_id: user?.uid,
-          task: 'playground_stream',
-          unique_id: index.toString()
+          task: 'stream_response',
+          index: index.toString(),
+          uid: user?.uid,
+          variablesData: variableData,
+          responseData: responseData,
+          promptData,
+          recipeID: currentContext.recipeID,
+          version: currentContext.version,
         };
 
-        console.log('frontCallPackage', frontCallPackage);
+        console.log('data', frontCallPackage)
+        socketService.getSocket()?.emit('playground_request', { sid: index, data: frontCallPackage });
 
-        socketService.getSocket()?.emit('playground_request', frontCallPackage);
+        socketService.getSocket()?.on('task_received', (data) => {
+          console.log('============ data ===========', data);
+        })
+
+        const eventName = `${user?.uid}_stream_response_${index}`;
+        socketService.getSocket()?.on(eventName, (data) => {
+          console.log(`Data received for ${eventName}:`, data);
+        });
       });
     }
 

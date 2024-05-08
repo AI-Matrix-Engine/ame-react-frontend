@@ -33,12 +33,16 @@ export const ChatProvider = ({ children }: { children: ReactNode }) => {
     const [chatHistory, setChatHistory] = useState<iChat[]>([]);
     const [index, setIndex] = useState<string>('');
     const { user } = useAuth();
-
     useEffect(() => {    
         const handledata = async () => {
-          const result = await axios.get('https://aimatrix-api.vercel.app/api/aichat')
+          const result = await axios.get('https://aimatrix-api.vercel.app/api/aichat', {
+            params: {
+                user_id: user?.uid
+            }
+          })
     
           const chatData = result.data;
+          console.log('chatData', chatData)
     
           if (chatData) {
             setIndex(chatData._id)
