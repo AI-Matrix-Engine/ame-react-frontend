@@ -14,6 +14,7 @@ import { HiDotsVertical } from "react-icons/hi";
 import VariablesPanel from "@/components/playground/variablesPanel";
 import ResponsePanel from "@/components/playground/responsePanel";
 import MessagesPanel from "@/components/playground/messagesPanel";
+import { socketService } from "@/lib/socket";
 import { useAuth } from "@/context/AuthContext";
 
 const initialData: any = {
@@ -38,6 +39,7 @@ const initialData: any = {
 
 const HorizontalAdjustableSections: React.FC = () => {
   const { version, setVersion, contextData, setContextData } = useAuth();
+  const { user } = useAuth();
 
   const handleSaveNew = () => {
     const newVersionNumber = contextData.length + 1;
@@ -46,6 +48,49 @@ const HorizontalAdjustableSections: React.FC = () => {
     setContextData(contextData);
     setVersion(newVersionNumber);
   };
+
+  useEffect(() => {
+    if (!socketService.getSocket()) {
+      socketService.init(user?.token ? user.token : "", user?.uid ? user.uid : "");
+    }
+
+    const socket = socketService.getSocket();
+
+    if (socket) {
+      contextData.forEach((item: any, index: number) => {
+        const frontCallPackage = {
+          ...item,
+          userId: user?.uid,
+          streamType: 'playgroundStream',
+          uniqueId: index
+        };
+
+        socketService.requestDataStream('playgroundStream', index.toString());
+        socketService.getSocket()?.emit('playground_request', frontCallPackage);
+      });
+    }
+
+    return () => {
+      socket?.off('ai_response');
+    };
+  }, [])
+
+  useEffect(() => {
+    const streamType = "playgroundStream";
+    socketService.init(user?.token ? user.token : "", user?.uid ? user.uid : "");
+    contextData[version - 1].responseData.forEach((modelItem: any, index: number) => {
+      const eventName = `${streamType}_${modelItem.model}`;
+      socketService.requestDataStream(streamType, modelItem.model);
+      socketService.getSocket()?.on(eventName, (data) => {
+        console.log(`Data received for ${eventName}:`, data);
+      });
+
+      return () => {
+        socketService.getSocket()?.off(eventName);
+        socketService.disconnect();
+      };
+    });
+  }, [user, contextData]);
 
   return (
     <div className="h-full container-height pb-1 dark:bg-[#18181b]">

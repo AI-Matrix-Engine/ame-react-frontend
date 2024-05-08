@@ -5,7 +5,7 @@ import { socketService } from "@/lib/socket";
 
 const Realtime = ({ Component, pageProps }: AppProps) => {
   React.useEffect(() => {
-    socketService.init();
+    // socketService.init();
 
     return () => {
       socketService.disconnect();
