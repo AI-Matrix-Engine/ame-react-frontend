@@ -133,7 +133,7 @@ export const Model = ({
       .filter((ee: any) => ee != undefined);
     setOptData(tempOptList[0]);
 
-    console.log(tempOptList[0]);
+    // console.log(tempOptList[0]);
 
     // tempModelList.unshift({ value: null, label: "Select" });
     // console.log(tempModelList);

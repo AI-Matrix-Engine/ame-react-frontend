@@ -1,11 +1,12 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { EnvelopeIcon } from "@heroicons/react/24/outline";
 import { ChatBubbleIcon, PersonIcon } from "@radix-ui/react-icons";
 import { BsChevronCompactLeft } from "react-icons/bs";
 import { TbMinusVertical } from "react-icons/tb";
 import { responseData } from "../Data";
 import { useAuth } from "@/context/AuthContext";
+import { socketService } from "@/lib/socket";
 
 import { Button } from "../_shared";
 import { Model } from "../_shared/model";
@@ -16,9 +17,10 @@ interface iModelOpenFlag {
 }
 
 export const ModelSettingsDrawer = () => {
-  const { models, setModels, contextData, setContextData, version} = useAuth();
+  const { user, models, setModels, contextData, setContextData, version } = useAuth();
 
   const [sidebar, setSidebar] = useState<boolean>(true);
+  const [testModelClicked, setTestModelClicked] = useState<boolean>(true);
   const handleSidebar = () => {
     setSidebar(!sidebar);
   };
@@ -37,8 +39,8 @@ export const ModelSettingsDrawer = () => {
       } else model.isOpen = false;
       return model;
     });
-    const updateContextData = contextData.map((item:any, key:number) => {
-      if(key == (version-1)) {
+    const updateContextData = contextData.map((item: any, key: number) => {
+      if (key == (version - 1)) {
         item.responseData = updateModels;
       }
       return item;
@@ -72,15 +74,15 @@ export const ModelSettingsDrawer = () => {
     };
     const currentModels = contextData[version - 1].responseData;
 
-    const updatedModels = [...currentModels, newModel].map((e:any, index:number) => {
-      if(index !== currentModels.length) {
+    const updatedModels = [...currentModels, newModel].map((e: any, index: number) => {
+      if (index !== currentModels.length) {
         e.isOpen = false;
       }
       return e;
     });
-    
-    const updateContextData = contextData.map((item:any, key:number) => {
-      if(key == (version-1)) {
+
+    const updateContextData = contextData.map((item: any, key: number) => {
+      if (key == (version - 1)) {
         item.responseData = updatedModels;
       }
       return item;
@@ -88,11 +90,72 @@ export const ModelSettingsDrawer = () => {
     setContextData(updateContextData);
   };
 
+  const handleTestModel = () => {
+    if (!socketService.getSocket()) {
+      socketService.init(user?.token ? user.token : "", user?.uid ? user.uid : "");
+    }
+
+    const socket = socketService.getSocket();
+
+    if (socket) {
+
+      const currentContext = contextData[version - 1];
+      const promptData = currentContext.promptData;
+      const modelData = currentContext.responseData;
+
+      const messages = promptData.map((prompt: any) => {
+        return {
+          role: prompt.role,
+          content: prompt.text
+        }
+      })
+
+      modelData.forEach((model: any, index: number) => {
+        const frontCallPackage = {
+          messages,
+          user_id: user?.uid,
+          task: 'playground_stream',
+          unique_id: index.toString()
+        };
+
+        console.log('frontCallPackage', frontCallPackage);
+
+        socketService.getSocket()?.emit('playground_request', frontCallPackage);
+      });
+    }
+
+    setTestModelClicked(!testModelClicked)
+
+    return () => {
+      socket?.off('playground_request');
+    };
+  }
+
+  useEffect(() => {
+    if (!socketService.getSocket()) {
+      socketService.init(user?.token ? user.token : "", user?.uid ? user.uid : "");
+    }
+
+    const streamType = "playground_stream";
+    const currentContext = contextData[version - 1];
+    const modelData = currentContext.responseData;
+    modelData.forEach((modelItem: any, index: number) => {
+      const eventName = `${user?.uid}_${streamType}_${index}`;
+      socketService.getSocket()?.on(eventName, (data) => {
+        console.log(`Data received for ${eventName}:`, data);
+      });
+
+      return () => {
+        socketService.getSocket()?.off(eventName);
+        socketService.disconnect();
+      };
+    });
+  });
+
   return (
     <div
-      className={`bg-[#F8F9FB] dark:bg-[#18181b] dark:border-l dark:border-l-[#ffffff1a] text-white ${
-        sidebar ? "w-[300px] pl-2" : "w-6"
-      } relative`}
+      className={`bg-[#F8F9FB] dark:bg-[#18181b] dark:border-l dark:border-l-[#ffffff1a] text-white ${sidebar ? "w-[300px] pl-2" : "w-6"
+        } relative`}
     >
       {sidebar ? (
         <div className="overflow-y-auto h-full">
@@ -100,7 +163,7 @@ export const ModelSettingsDrawer = () => {
             className={`flex flex-col justify-between items-between text-black p-4 overflow-y-auto`}
           >
             <div className="w-full h-full flex flex-col items-center px-1 overflow-y-auto">
-              <Button className="text-[12px] w-[150px] h-[30px]">{contextData[version-1].responseData.length > 1 ? "Test All" : "Run Test"}</Button>
+              <Button onClick={() => handleTestModel()} className="text-[12px] w-[150px] h-[30px]">{contextData[version - 1].responseData.length > 1 ? "Test All" : "Run Test"}</Button>
               {contextData[version - 1].responseData.map((model: any, key: number) => (
                 <Model
                   model={model}

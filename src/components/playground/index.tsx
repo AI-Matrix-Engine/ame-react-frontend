@@ -49,49 +49,6 @@ const HorizontalAdjustableSections: React.FC = () => {
     setVersion(newVersionNumber);
   };
 
-  useEffect(() => {
-    if (!socketService.getSocket()) {
-      socketService.init(user?.token ? user.token : "", user?.uid ? user.uid : "");
-    }
-
-    const socket = socketService.getSocket();
-
-    if (socket) {
-      contextData.forEach((item: any, index: number) => {
-        const frontCallPackage = {
-          ...item,
-          userId: user?.uid,
-          streamType: 'playgroundStream',
-          uniqueId: index
-        };
-
-        socketService.requestDataStream('playgroundStream', index.toString());
-        socketService.getSocket()?.emit('playground_request', frontCallPackage);
-      });
-    }
-
-    return () => {
-      socket?.off('ai_response');
-    };
-  }, [])
-
-  useEffect(() => {
-    const streamType = "playgroundStream";
-    socketService.init(user?.token ? user.token : "", user?.uid ? user.uid : "");
-    contextData[version - 1].responseData.forEach((modelItem: any, index: number) => {
-      const eventName = `${streamType}_${modelItem.model}`;
-      socketService.requestDataStream(streamType, modelItem.model);
-      socketService.getSocket()?.on(eventName, (data) => {
-        console.log(`Data received for ${eventName}:`, data);
-      });
-
-      return () => {
-        socketService.getSocket()?.off(eventName);
-        socketService.disconnect();
-      };
-    });
-  }, [user, contextData]);
-
   return (
     <div className="h-full container-height pb-1 dark:bg-[#18181b]">
       <div className="flex items-center px-[30px] justify-between h-[60px]">

@@ -6,12 +6,11 @@ class SocketIOService {
 
     public init(authToken: string, userId: string): void {
         if (!this.socket) {
-            console.log('authtoken, userId', authToken, userId)
             this.socket = io("https://dev-back.aimatrixengine.com/", {
-                auth: {
-                    token: authToken,
-                    userId: userId
-                }
+                // auth: {
+                //     token: authToken,
+                //     userId: userId
+                // }
                 // Do we need anything else here? Such as configurations here, e.g., auth tokens
 
             });
