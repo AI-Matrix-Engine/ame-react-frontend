@@ -126,7 +126,7 @@ function ChatFrom() {
 
   const typeMessageCharacterByCharacter = (message: string) => {
     return new Promise<void>((resolve) => {
-      var i = -1;
+      var i = 0;
       var typingInterval = setInterval(() => {
         if (i < message.length - 1) {
           setStreamText((prev) => prev + message[i]);
@@ -141,6 +141,7 @@ function ChatFrom() {
 
   const processIncomingMessages = (data: string): void => {
     const dataArr: string[] = data.split("\n\n");
+
 
     dataArr
       .reduce((promise: Promise<void>, msg: string): Promise<void> => {
