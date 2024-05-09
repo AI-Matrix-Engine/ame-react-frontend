@@ -22,7 +22,8 @@ export const ModelSettingsDrawer = () => {
   const { user, models, setModels, contextData, setContextData, version } = useAuth();
 
   const [sidebar, setSidebar] = useState<boolean>(true);
-  const [testModelClicked, setTestModelClicked] = useState<boolean>(true);
+  const [testModelClicked, setTestModelClicked] = useState<boolean | null>(null);
+  const [eventCount, setEventCount] = useState<number>(-1);
   const handleSidebar = () => {
     setSidebar(!sidebar);
   };
@@ -33,7 +34,7 @@ export const ModelSettingsDrawer = () => {
   });
 
   useEffect(() => {
-    if(!user?.uid || !user.token) {
+    if (!user?.uid || !user.token) {
       redirect('/login');
     }
   }, [user])
@@ -150,6 +151,8 @@ export const ModelSettingsDrawer = () => {
       const variableData = currentContext.variablesData;
       const responseData = currentContext.responseData;
 
+      console.log('currentContext', currentContext)
+
       modelData.forEach((model: any, index: number) => {
         const frontCallPackage = {
           task: 'stream_response',
@@ -165,20 +168,6 @@ export const ModelSettingsDrawer = () => {
         clearResponseData(index)
 
         socketService.getSocket()?.emit('playground_request', { sid: index, data: frontCallPackage });
-        console.log('====Start====')
-        const eventName = `${user?.uid}_stream_response_${index}`;
-
-        socketService.getSocket()?.on(eventName, (data) => {
-          console.log(`Data from ${eventName}`, data.data)
-          const splitedValues = eventName.split('_');
-          const itemIndex = parseInt(splitedValues[splitedValues.length - 1]);
-          for (let i = 0; i < data.data.length; i++) {
-            const character = data.data[i];
-            setTimeout(() => {
-              updateContextData(itemIndex, character);
-            }, 150)
-          }
-        });
       });
     }
 
@@ -188,6 +177,31 @@ export const ModelSettingsDrawer = () => {
       socket?.off('playground_request');
     };
   }
+
+  useEffect(() => {
+    if(testModelClicked === null) return;
+
+    const currentContext = contextData[version - 1];
+    const modelData = currentContext.responseData;
+
+    modelData.forEach((model: any, index: number) => {
+      if (index > eventCount) {
+        const eventName = `${user?.uid}_stream_response_${index}`;
+        setEventCount(index);
+
+        socketService.getSocket()?.on(eventName, (data) => {
+          const splitedValues = eventName.split('_');
+          const itemIndex = parseInt(splitedValues[splitedValues.length - 1]);
+          for (let i = 0; i < data.data.length; i++) {
+            const character = data.data[i];
+            setTimeout(() => {
+              updateContextData(itemIndex, character);
+            }, 150)
+          }
+        });
+      }
+    });
+  }, [testModelClicked])
 
   return (
     <div
