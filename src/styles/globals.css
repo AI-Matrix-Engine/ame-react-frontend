@@ -123,3 +123,7 @@ html {
     transform: rotate(360deg);
   }
 }
+
+.empty__tag span{
+  font-size: 1rem;
+}

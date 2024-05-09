@@ -24,6 +24,7 @@ function ChatForm() {
   const [isResponseLoading, setIsResponseLoading] = useState<boolean>(false);
   const [errorText, setErrorText] = useState<string>("");
   const [isShowSidebar, setIsShowSidebar] = useState<boolean>(false);
+  const [aiResponse, setAiResponst] = useState<string>("");
 
   const {
     currentChat,
@@ -218,9 +219,10 @@ function ChatForm() {
 
     if (socket) {
       socket.on('ai_response', (receivedData: any) => {
-        // setStreamText("");
+        setStreamText("");
+        setIsResponseLoading(false);
+        setAiResponst(receivedData);
         // processIncomingMessages(receivedData);
-        setStreamText(receivedData)
         displayUserMessage(receivedData, eRoleType.ASSISTANT);
       });
     }
@@ -229,6 +231,18 @@ function ChatForm() {
       socket?.off('ai_response');
     };
   }, [])
+
+  useEffect(() => {
+    if(aiResponse.length === 0) return;
+
+    setTimeout(() => {
+      setStreamText(prev => prev + aiResponse.substring(prev.length, prev.length + 5))
+      if (streamText.length >= aiResponse.length) {
+        setAiResponst('');
+        setStreamText('');
+      }
+    }, 10)
+  }, [streamText, aiResponse])
 
   useEffect(() => {
     if (chatHistory.length > currentChat) {
@@ -319,11 +333,7 @@ function ChatForm() {
                     {chatMsg.role === eRoleType.USER ? "You" : "ChatGPT"}
                   </p>
                   <p className="text-white">
-                    <MarkdownView
-                      content={chatMsg.content}
-                      width="800px"
-                    />
-                    {/* {idx === msgHistory.length - 1 && chatMsg.role === eRoleType.ASSISTANT && streamText.length > 0 ?
+                    {idx === msgHistory.length - 1 && chatMsg.role === eRoleType.ASSISTANT && streamText.length > 0 ?
                       <MarkdownView
                         content={streamText}
                         width="800px"
@@ -333,7 +343,7 @@ function ChatForm() {
                         content={chatMsg.content}
                         width="800px"
                       />
-                    } */}
+                    }
                   </p>
                 </div>
               </li>
