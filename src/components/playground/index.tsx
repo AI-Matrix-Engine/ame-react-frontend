@@ -14,6 +14,7 @@ import { HiDotsVertical } from "react-icons/hi";
 import VariablesPanel from "@/components/playground/variablesPanel";
 import ResponsePanel from "@/components/playground/responsePanel";
 import MessagesPanel from "@/components/playground/messagesPanel";
+import { socketService } from "@/lib/socket";
 import { useAuth } from "@/context/AuthContext";
 
 const initialData: any = {
@@ -38,6 +39,7 @@ const initialData: any = {
 
 const HorizontalAdjustableSections: React.FC = () => {
   const { version, setVersion, contextData, setContextData } = useAuth();
+  const { user } = useAuth();
 
   const handleSaveNew = () => {
     const newVersionNumber = contextData.length + 1;

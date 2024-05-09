@@ -22,6 +22,7 @@ const AuthContext = createContext<{
     uid: string;
     email: string | null;
     displayName: string | null;
+    token: string;
   } | null;
   loading: boolean;
   login: (email: string, password: string) => Promise<UserCredential>;
@@ -133,11 +134,11 @@ const AuthContext = createContext<{
       ],
     },
   ],
-  setModels: () => {},
+  setModels: () => { },
   flag1: false,
   flag2: false,
-  setFlag1: () => {},
-  setFlag2: () => {},
+  setFlag1: () => { },
+  setFlag2: () => { },
   variableData: [
     {
       title: "",
@@ -149,7 +150,7 @@ const AuthContext = createContext<{
       },
     },
   ],
-  setVariableData: () => {},
+  setVariableData: () => { },
   promptData: [
     {
       isFocus: false,
@@ -158,11 +159,11 @@ const AuthContext = createContext<{
       text: ``,
     },
   ],
-  setPromptData: () => {},
+  setPromptData: () => { },
   contextData: [],
-  setContextData: () => {},
+  setContextData: () => { },
   version: 0,
-  setVersion: () => {},
+  setVersion: () => { },
 });
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
@@ -277,6 +278,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     uid: string;
     email: string | null;
     displayName: string | null;
+    token: string
   } | null>(null);
 
   const [flag1, setFlag1] = useState<boolean>(false);
@@ -295,21 +297,41 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   >([]);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
+    const handleAuthStateChange = async (user: any) => {
       if (user) {
-        setUser({
-          uid: user.uid,
-          email: user.email,
-          displayName: user.displayName,
-        });
+        try {
+          // Get the user's ID token asynchronously
+          const token: string = await user.getIdToken();
+
+          // Set the user state with the user's information and token
+          setUser({
+            uid: user.uid,
+            email: user.email,
+            displayName: user.displayName,
+            token: token,
+          });
+        } catch (error) {
+          console.error('Error getting user token:', error);
+          setUser({
+            uid: user.uid,
+            email: user.email,
+            displayName: user.displayName,
+            token: "",
+          });
+        }
       } else {
         setUser(null);
       }
-
       setLoading(false);
-    });
+    };
 
-    return () => unsubscribe();
+     // Subscribe to authentication state changes
+     const unsubscribe = onAuthStateChanged(auth, handleAuthStateChange);
+
+     // Cleanup the subscription when the component unmounts
+     return () => {
+         unsubscribe();
+     };
   }, []);
 
   const login = (email: string, password: string) => {
