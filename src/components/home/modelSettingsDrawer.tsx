@@ -69,6 +69,7 @@ export const ModelSettingsDrawer = () => {
         provider: "",
         endpoint: "",
       },
+      controls: []
     };
     const currentModels = contextData[version - 1].responseData;
 

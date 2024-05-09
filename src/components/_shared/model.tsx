@@ -8,6 +8,7 @@ import {
 } from "react-icons/md";
 import RangeSlider from "@/components/_shared/rangeSlider";
 import axios from "axios";
+import { useAuth } from "@/context/AuthContext";
 
 interface iModel {
   model: any;
@@ -26,6 +27,7 @@ export const Model = ({
   setIsOpenAdvanced,
   setIsOpenModel,
 }: iModel) => {
+  const { contextData, setContextData, version } = useAuth();
   const [responseData, setResponseData] = React.useState<any>();
   const [providerValue, setProviderValue] = React.useState<string | null>();
   const [modelValue, setModelValue] = React.useState<string | null>();
@@ -100,6 +102,21 @@ export const Model = ({
 
   const handleProvider = (e: any) => {
     setProviderValue(e);
+    const currentResponseData = contextData[version-1].responseData;
+    const updateResponseData = currentResponseData.map((item:any, index:number) => {
+      if(modelId == index) {
+        item.api.provider = e;
+      }
+      return item;
+    })
+
+    const updateContextData = contextData.map((item: any, key: number) => {
+      if (key == version - 1) {
+        item.responseData = updateResponseData;
+      }
+      return item;
+    });
+    setContextData(updateContextData);
 
     if (e != null) {
       setModelFlag(false);
@@ -129,13 +146,32 @@ export const Model = ({
     else setOptFlag(false);
 
     let tempOptList = responseData
-      .map((emp: any, index: number) => {
+      .map((emp: any) => {
         if (emp.api.provider == providerValue) return emp.controls;
       })
       .filter((ee: any) => ee != undefined);
     setOptData(tempOptList[0]);
 
-    console.log(tempOptList[0]);
+
+    const currentResponseData = contextData[version-1].responseData;
+    const updateResponseData = currentResponseData.map((item:any, index:number) => {
+      if(modelId == index) {
+        item.model = e;
+        item.controls = tempOptList[0];
+      }
+      return item;
+    })
+
+    const updateContextData = contextData.map((item: any, key: number) => {
+      if (key == version - 1) {
+        item.responseData = updateResponseData;
+      }
+      return item;
+    });
+    setContextData(updateContextData);
+
+    console.log(currentResponseData);
+
 
     // tempModelList.unshift({ value: null, label: "Select" });
     // console.log(tempModelList);
