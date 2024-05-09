@@ -191,38 +191,27 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       ],
       variablesData: [],
       responseData: [
-        // {
-        //   isOpen: false,
-        //   isMoved: false,
-        //   _id: "6616e8d7c4dd135b3e82fddb",
-        //   model: "gpt-3.5-turbo",
-        //   name: "GPT-4 Turbo Latest 2024-04-09",
-        //   class: "gpt-4",
-        //   text: '**This is bold text.** *This is italic text.*',
-        //   limitations: {
-        //     context_window: 16000,
-        //     max_tokens: 4096,
-        //     capabilities: ["text", "image", "video", "audio", "search", "tools"],
-        //   },
-        //   api: {
-        //     provider: "OpenAI",
-        //     endpoint: "chat_completions",
-        //   },
-        //   controls: [
-        //     {
-        //       id: "temperature",
-        //       componentType: "slider",
-        //       label: "Temperature",
-        //       helpText:
-        //         "The higher the temperature, the more random the text. 0.0 is deterministic.",
-        //       type: "float",
-        //       value: 0.7,
-        //       min: 0.0,
-        //       max: 1.0,
-        //       step: 0.01,
-        //     },
-        //   ],
-        // },
+        {
+          isFormat: 0,
+          isOpen: true,
+          isMoved: false,
+          _id: "",
+          model: "",
+          name: "",
+          class: "",
+          text: '',
+          limitations: {
+            context_window: 16000,
+            max_tokens: 4096,
+            capabilities: ["text", "image", "video", "audio", "search", "tools"],
+          },
+          api: {
+            provider: "",
+            endpoint: "",
+          },
+          controls: [
+          ],
+        },
       ]
     },
   ]);

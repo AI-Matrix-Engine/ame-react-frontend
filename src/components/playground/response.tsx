@@ -157,11 +157,10 @@ const ResponsePrompt = ({
               {isFormat === 0 && (
                 <TextareaAutosize
                   ref={textareaRef}
-                  rows={4}
                   autoFocus={true}
                   value={text}
                   onChange={handleChange}
-                  className={`w-full resize-none overflow-y-hidden p-1 outline-none bg-transparent h-fit min-h-fit rounded-md group-hover:bg-danger-200 relative focus:border-[#0e8157] text-[#353740] dark:text-[#d9d9e3]`}
+                  className={`w-full resize-none overflow-y-hidden p-1 outline-none bg-transparent rounded-md group-hover:bg-danger-200 relative focus:border-[#0e8157] text-[#353740] dark:text-[#d9d9e3] h-35`}
                 />
               )}
               {isFormat === 1 && <MarkdownView content={text} />}
