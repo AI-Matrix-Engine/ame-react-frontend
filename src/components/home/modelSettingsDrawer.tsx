@@ -116,14 +116,11 @@ export const ModelSettingsDrawer = () => {
           version: currentContext.version,
         };
 
-        console.log('data', frontCallPackage)
         socketService.getSocket()?.emit('playground_request', { sid: index, data: frontCallPackage });
-
-        socketService.getSocket()?.on('task_received', (data) => {
-          console.log('============ data ===========', data);
-        })
-
+        
         const eventName = `${user?.uid}_stream_response_${index}`;
+
+        console.log('eventName', eventName)
         socketService.getSocket()?.on(eventName, (data) => {
           console.log(`Data received for ${eventName}:`, data);
         });
