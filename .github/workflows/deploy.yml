@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  web-deploy:
+  frontend-deploy:
     name: Deploy
     runs-on: ubuntu-latest
 
@@ -14,10 +14,12 @@ jobs:
       - name: Get Lastest Code
         uses: actions/checkout@v2
       - name: Sync Files
-        uses: easingthemes/ssh-deploy@v2.1.5
-        env:
-          REMOTE_HOST: ${{ secrets.SERVER_IP }}
-          REMOTE_USER: ${{ secrets.SERVER_USERNAME }}
-          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-      - name: Git Pull
-        run: 'cd /home/ubuntu/ame-react-frontend && git pull && npm install && npm run build && pm2 restart 0'
+        uses: appleboy/ssh-action@0.1.10
+        with:
+          host: ${{ secrets.SERVER_IP }}
+          uesrname: ${{ secrets.SERVER_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: 22
+          script: |
+            echo "start command"
+            cd /home/ubuntu/ame-react-frontend && git pull && npm install && npm run build && pm2 restart 0
