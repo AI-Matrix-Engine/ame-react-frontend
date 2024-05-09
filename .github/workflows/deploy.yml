@@ -6,14 +6,18 @@ on:
       - main
 
 jobs:
-  deploy:
+  web-deploy:
+    name: Deploy
     runs-on: ubuntu-latest
 
     steps:
-      - name: Deploy to server
-        uses: easingthemes/ssh-deploy@v2
-        with:
+      - name: Get Lastest Code
+        uses: actions/checkout@v2
+      - name: Sync Files
+        uses: easingthemes/ssh-deploy@v2.1.5
+        env:
           REMOTE_HOST: ${{ secrets.SERVER_IP }}
           REMOTE_USER: ${{ secrets.SERVER_USERNAME }}
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-          script: 'cd /home/ubuntu/ame-react-frontend && git pull && npm install && npm run build && pm2 restart 0'
+      - name: Git Pull
+        run: 'cd /home/ubuntu/ame-react-frontend && git pull && npm install && npm run build && pm2 restart 0'
