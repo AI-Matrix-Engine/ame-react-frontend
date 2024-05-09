@@ -15,6 +15,7 @@ export const Dropdown = ({
     options = [],
     placeHolder,
     value,
+    disabled,
     className,
     ...rest
 }: iDropDownProps) => {
@@ -30,6 +31,7 @@ export const Dropdown = ({
                     handleChange(value);
                 }}
                 value={value}
+                disabled={disabled}
             >
                 <SelectTrigger className={className}>
                     <SelectValue placeholder={placeHolder} />

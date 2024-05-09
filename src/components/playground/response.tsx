@@ -124,7 +124,7 @@ const ResponsePrompt = ({
         >
           <div className="flex items-center justify-between mb-[5px]">
             <div className="flex items-center justify-between">
-              <Label className="text-[12px]">{`RESPONSE ${index + 1}`}</Label>
+              <Label className="text-[12px] dark:text-white">{`RESPONSE ${index + 1}`}</Label>
             </div>
             <div
               className={`flex items-center ${
