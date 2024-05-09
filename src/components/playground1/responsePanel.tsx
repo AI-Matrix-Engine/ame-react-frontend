@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import ResponsePrompt from "@/components/playground/response";
+import ResponsePrompt from "@/components/playground1/response";
 import { useAuth } from "@/context/AuthContext"; // Assuming AuthContext is the file where AuthProvider is defined
 import { FaRegArrowAltCircleLeft } from "react-icons/fa";
 import { Button } from "../_shared";

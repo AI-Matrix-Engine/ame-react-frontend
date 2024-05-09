@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import Prompt from "@/components/playground/prompt";
+import Prompt from "@/components/playground1/prompt";
 import { LuPlusCircle } from "react-icons/lu";
 import { useAuth } from "@/context/AuthContext";
 
