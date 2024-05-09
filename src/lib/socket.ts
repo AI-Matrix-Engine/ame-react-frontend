@@ -6,7 +6,7 @@ class SocketIOService {
 
     public init(authToken: string, userId: string): void {
         if (!this.socket) {
-            this.socket = io("https://dev-back.aimatrixengine.com/", {
+            this.socket = io(process.env.NEXT_PUBLIC_AIMATRIX_URL || 'https://dev-back.aimatrixengine.com/', {
                 // auth: {
                 //     token: authToken,
                 //     userId: userId
