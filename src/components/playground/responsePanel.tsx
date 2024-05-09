@@ -196,12 +196,12 @@ const RightSection = ({ width, index, isResizable, onMouseDown }: any) => {
       }
     );
 
-    const updateContextData = contextData.map((item:any, key:number) => {
-      if(key == (version-1)) {
+    const updateContextData = contextData.map((item: any, key: number) => {
+      if (key == version - 1) {
         item.responseData = updatedResponseData;
       }
       return item;
-    })
+    });
     setContextData(updateContextData);
   };
 
@@ -231,20 +231,22 @@ const RightSection = ({ width, index, isResizable, onMouseDown }: any) => {
             />
           )
         )}
-      <Button
-        onClick={moveToMessage}
-        disabled={moveFlag}
-        className="flex items-center h-[30px]"
-      >
-        <FaRegArrowAltCircleLeft
-          className={`text-white text-[14px] mr-[5px] dark:text-[#d9d9e3]`}
-        />
-        <span
-          className={`text-[14px] font-semibold text-white dark:text-[#d9d9e3]`}
+      {contextData[version - 1].responseData.length > 0 && (
+        <Button
+          onClick={moveToMessage}
+          disabled={moveFlag}
+          className="flex items-center h-[30px]"
         >
-          {moveFlag ? "Moved" : "Move"}
-        </span>
-      </Button>
+          <FaRegArrowAltCircleLeft
+            className={`text-white text-[14px] mr-[5px] dark:text-[#000]`}
+          />
+          <span
+            className={`text-[14px] font-semibold text-white dark:text-[#000]`}
+          >
+            {moveFlag ? "Moved" : "Move"}
+          </span>
+        </Button>
+      )}
       {isResizable && (
         <div
           style={{

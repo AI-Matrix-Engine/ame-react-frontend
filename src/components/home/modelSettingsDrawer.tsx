@@ -71,6 +71,7 @@ export const ModelSettingsDrawer = () => {
         provider: "",
         endpoint: "",
       },
+      controls: []
     };
     const currentModels = contextData[version - 1].responseData;
 
@@ -81,14 +82,50 @@ export const ModelSettingsDrawer = () => {
       return e;
     });
 
-    const updateContextData = contextData.map((item: any, key: number) => {
+    const newContextData = contextData.map((item: any, key: number) => {
       if (key == (version - 1)) {
         item.responseData = updatedModels;
       }
       return item;
     })
-    setContextData(updateContextData);
+    setContextData(newContextData);
   };
+
+  const updateContextData = (itemIndex: number, character: string) => {
+    const currentResponseData = contextData[version - 1].responseData;
+    const updateData = currentResponseData.map((item: any, i: number) => {
+      if (i === itemIndex) {
+        item.text = item.text + character;
+      }
+      return item;
+    });
+
+    const updateContextData = contextData.map((item: any, key: number) => {
+      if (key == version - 1) {
+        item.responseData = updateData;
+      }
+      return item;
+    });
+    setContextData(updateContextData);
+  }
+
+  const clearResponseData = (itemIndex: number) => {
+    const currentResponseData = contextData[version - 1].responseData;
+    const updateData = currentResponseData.map((item: any, i: number) => {
+      if (i === itemIndex) {
+        item.text = "";
+      }
+      return item;
+    });
+
+    const updateContextData = contextData.map((item: any, key: number) => {
+      if (key == version - 1) {
+        item.responseData = updateData;
+      }
+      return item;
+    });
+    setContextData(updateContextData);
+  }
 
   const handleTestModel = () => {
     if (!socketService.getSocket()) {
@@ -96,6 +133,7 @@ export const ModelSettingsDrawer = () => {
     }
 
     const socket = socketService.getSocket();
+
 
     if (socket) {
       const currentContext = contextData[version - 1];
@@ -116,13 +154,23 @@ export const ModelSettingsDrawer = () => {
           version: currentContext.version,
         };
 
+        clearResponseData(index)
+
         socketService.getSocket()?.emit('playground_request', { sid: index, data: frontCallPackage });
-        
+        console.log('===Start===')
         const eventName = `${user?.uid}_stream_response_${index}`;
 
-        console.log('eventName', eventName)
         socketService.getSocket()?.on(eventName, (data) => {
-          console.log(`Data received for ${eventName}:`, data);
+          console.log(`Data from ${eventName}`, data.data)
+          for (let i = 0; i < data.data.length; i++) {
+            const character = data.data[i];
+            setTimeout(() => {
+              const splitedValues = eventName.split('_');
+              const itemIndex = parseInt(splitedValues[splitedValues.length - 1]);
+
+              updateContextData(itemIndex, character);
+            }, 150)
+          }
         });
       });
     }
@@ -133,27 +181,6 @@ export const ModelSettingsDrawer = () => {
       socket?.off('playground_request');
     };
   }
-
-  useEffect(() => {
-    if (!socketService.getSocket()) {
-      socketService.init(user?.token ? user.token : "", user?.uid ? user.uid : "");
-    }
-
-    const streamType = "playground_stream";
-    const currentContext = contextData[version - 1];
-    const modelData = currentContext.responseData;
-    modelData.forEach((modelItem: any, index: number) => {
-      const eventName = `${user?.uid}_${streamType}_${index}`;
-      socketService.getSocket()?.on(eventName, (data) => {
-        console.log(`Data received for ${eventName}:`, data);
-      });
-
-      return () => {
-        socketService.getSocket()?.off(eventName);
-        socketService.disconnect();
-      };
-    });
-  });
 
   return (
     <div
@@ -166,7 +193,9 @@ export const ModelSettingsDrawer = () => {
             className={`flex flex-col justify-between items-between text-black p-4 overflow-y-auto`}
           >
             <div className="w-full h-full flex flex-col items-center px-1 overflow-y-auto">
-              <Button onClick={() => handleTestModel()} className="text-[12px] w-[150px] h-[30px]">{contextData[version - 1].responseData.length > 1 ? "Test All" : "Run Test"}</Button>
+              {
+                contextData[version - 1].responseData.length > 0 && <Button onClick={() => handleTestModel()} className="text-[12px] w-[150px] h-[30px]">{contextData[version - 1].responseData.length > 1 ? "Test All" : "Run Test"}</Button>
+              }
               {contextData[version - 1].responseData.map((model: any, key: number) => (
                 <Model
                   model={model}

@@ -39,13 +39,13 @@ export const Main = ({ navItems, children }: childrenProp) => {
           <Header darkMode={darkMode} setMode={setDarkMode} />
           <div className="flex relative h-full  overflow-x-hidden overflow-y-hidden">
             {/* -----------Left side bar begin----------- */}
-            <FirstNavBar navItems={navItems} />
+             <FirstNavBar navItems={navItems} />
             {/* -----------Left side bar end----------- */}
 
             <div className={`flex-1 overflow-y-auto `}>{children}</div>
 
             {/* -----------Right side bar begin----------- */}
-            <RightNavbar />
+             <RightNavbar />
             {/* -----------Right side bar end----------- */}
           </div>
         </div>

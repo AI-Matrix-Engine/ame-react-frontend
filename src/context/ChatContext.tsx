@@ -42,7 +42,6 @@ export const ChatProvider = ({ children }: { children: ReactNode }) => {
           })
     
           const chatData = result.data;
-          console.log('chatData', chatData)
     
           if (chatData) {
             setIndex(chatData._id)
