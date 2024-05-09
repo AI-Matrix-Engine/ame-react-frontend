@@ -11,6 +11,8 @@ import { socketService } from "@/lib/socket";
 import { Button } from "../_shared";
 import { Model } from "../_shared/model";
 
+import { redirect } from "next/navigation";
+
 interface iModelOpenFlag {
   model: number;
   advanced: boolean;
@@ -29,6 +31,12 @@ export const ModelSettingsDrawer = () => {
     model: -1,
     advanced: true,
   });
+
+  useEffect(() => {
+    if(!user?.uid || !user.token) {
+      redirect('/login');
+    }
+  }, [user])
 
   const handleModelOpen = (modelID: number) => {
     const currentModels = contextData[version - 1].responseData;
@@ -157,17 +165,16 @@ export const ModelSettingsDrawer = () => {
         clearResponseData(index)
 
         socketService.getSocket()?.emit('playground_request', { sid: index, data: frontCallPackage });
-        console.log('===Start===')
+        console.log('====Start====')
         const eventName = `${user?.uid}_stream_response_${index}`;
 
         socketService.getSocket()?.on(eventName, (data) => {
           console.log(`Data from ${eventName}`, data.data)
+          const splitedValues = eventName.split('_');
+          const itemIndex = parseInt(splitedValues[splitedValues.length - 1]);
           for (let i = 0; i < data.data.length; i++) {
             const character = data.data[i];
             setTimeout(() => {
-              const splitedValues = eventName.split('_');
-              const itemIndex = parseInt(splitedValues[splitedValues.length - 1]);
-
               updateContextData(itemIndex, character);
             }, 150)
           }
