@@ -164,7 +164,7 @@ const Prompt = ({
         className={`rounded-lg flex-col relative border border-[#6b6b6b80] hover:border-[#0e8157] hover:bg-[#dcdce0] dark:hover:bg-[#ffffff0d] flex justify-between p-2`}
       >
         <div className="flex items-center justify-between">
-          <Label className="mb-[5px] text-[12px]">{role?.toUpperCase()}</Label>
+          <Label className="mb-[5px] text-[12px] dark:text-white">{role?.toUpperCase()}</Label>
           <div
             className={`flex items-center ${
               isExpand && "absolute right-2 top-2"

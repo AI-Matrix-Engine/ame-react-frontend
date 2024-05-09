@@ -100,7 +100,9 @@ export const ModelSettingsDrawer = () => {
             className={`flex flex-col justify-between items-between text-black p-4 overflow-y-auto`}
           >
             <div className="w-full h-full flex flex-col items-center px-1 overflow-y-auto">
-              <Button className="text-[12px] w-[150px] h-[30px]">{contextData[version-1].responseData.length > 1 ? "Test All" : "Run Test"}</Button>
+              {
+               contextData[version - 1].responseData.length > 0 && <Button className="text-[12px] w-[150px] h-[30px]">{contextData[version-1].responseData.length > 1 ? "Test All" : "Run Test"}</Button>
+              }
               {contextData[version - 1].responseData.map((model: any, key: number) => (
                 <Model
                   model={model}

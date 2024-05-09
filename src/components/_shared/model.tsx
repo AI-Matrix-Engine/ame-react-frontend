@@ -48,6 +48,7 @@ export const Model = ({
         uniqueLabels[item.label] = true;
       }
     });
+    result.unshift({ value: null, label: "Select Provider" });
 
     return result;
   };
@@ -117,6 +118,7 @@ export const Model = ({
       })
       .filter((ev: any) => ev != undefined);
 
+    tempModelList.unshift({ value: null, label: "Select Model" })
     setModelData(tempModelList);
   };
 
@@ -218,7 +220,7 @@ export const Model = ({
                       return (
                         <div className="mb-[15px]">
                           <Label
-                            className="text-[12px] font-normal"
+                            className="text-[12px] font-normal dark:text-white"
                             key={`${index}labelindex`}
                           >
                             {opt.label}
@@ -231,7 +233,7 @@ export const Model = ({
                       return (
                         <div className="flex flex-col mb-[15px]">
                           <Label
-                            className="text-[12px] font-normal"
+                            className="text-[12px] font-normal dark:text-white"
                             key={`${index}label1index`}
                           >
                             {opt.label}

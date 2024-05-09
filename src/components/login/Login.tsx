@@ -84,7 +84,8 @@ export const Login: NextPage = () => {
   const handleGoogleSignIn = async () => {
     const provider = new GoogleAuthProvider();
     try {
-      await signInWithPopup(auth, provider);
+      const result = await signInWithPopup(auth, provider);
+      console.log(123, result);
       await router.push("/");
     } catch (error) {
       console.error("Google sign-in error:", error);

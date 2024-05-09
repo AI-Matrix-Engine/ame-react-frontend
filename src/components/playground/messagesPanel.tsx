@@ -81,7 +81,7 @@ const MessagePanel = ({ width, index, isResizable, onMouseDown }: any) => {
           dValue: "",
           helpText: '',
           databaseField: {
-            fieldID: '928dt1f04b8b9c73488be089',
+            fieldID: '',
             displayName: ''
           },
         },
@@ -143,7 +143,7 @@ const MessagePanel = ({ width, index, isResizable, onMouseDown }: any) => {
           dValue: "",
           helpText: '',
           databaseField: {
-            fieldID: '928dt1f04b8b9c73488be089',
+            fieldID: '',
             displayName: ''
           },
         },
