@@ -51,7 +51,7 @@ const ResponsePrompt = ({
     });
 
     const updateContextData = contextData.map((item: any, key: number) => {
-      if (key == version - 1) {
+      if (key === version - 1) {
         item.responseData = updateData;
       }
       return item;
@@ -167,7 +167,7 @@ const ResponsePrompt = ({
             </div>
           ) : (
             // <p className="text-[#71717A] text-[14px] whitespace-nowrap">
-            //   {(text && text.length === 0) || text == undefined
+            //   {(text && text.length === 0) || text === undefined
             //     ? "Some Response..."
             //     : text.replace(/\*/g, "").substring(0, 15) + "..."}
             // </p>

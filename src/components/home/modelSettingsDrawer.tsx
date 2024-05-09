@@ -49,7 +49,7 @@ export const ModelSettingsDrawer = () => {
       return model;
     });
     const updateContextData = contextData.map((item: any, key: number) => {
-      if (key == (version - 1)) {
+      if (key === (version - 1)) {
         item.responseData = updateModels;
       }
       return item;
@@ -92,7 +92,7 @@ export const ModelSettingsDrawer = () => {
     });
 
     const newContextData = contextData.map((item: any, key: number) => {
-      if (key == (version - 1)) {
+      if (key === (version - 1)) {
         item.responseData = updatedModels;
       }
       return item;
@@ -110,7 +110,7 @@ export const ModelSettingsDrawer = () => {
     });
 
     const updateContextData = contextData.map((item: any, key: number) => {
-      if (key == version - 1) {
+      if (key === version - 1) {
         item.responseData = updateData;
       }
       return item;
@@ -128,7 +128,7 @@ export const ModelSettingsDrawer = () => {
     });
 
     const updateContextData = contextData.map((item: any, key: number) => {
-      if (key == version - 1) {
+      if (key === version - 1) {
         item.responseData = updateData;
       }
       return item;
@@ -150,8 +150,6 @@ export const ModelSettingsDrawer = () => {
       const modelData = currentContext.responseData;
       const variableData = currentContext.variablesData;
       const responseData = currentContext.responseData;
-
-      console.log('currentContext', currentContext)
 
       modelData.forEach((model: any, index: number) => {
         const frontCallPackage = {

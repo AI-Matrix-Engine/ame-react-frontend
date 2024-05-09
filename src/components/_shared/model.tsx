@@ -65,23 +65,23 @@ export const Model = ({
       if (responseData) {
         let providerList = responseData.map((e: any, index: number) => {
           let pair: any = { value: "", label: "" };
-          if (e.api.provider == undefined) {
+          if (e.api.provider === undefined) {
             pair = { value: e.provider, label: e.provider };
           } else pair = { value: e.api.provider, label: e.api.provider };
 
           return pair;
         });
         setProviderData(removeDuplicates(providerList));
-        if (model.api.provider == "") {
+        if (model.api.provider === "") {
           setProviderValue(null);
         } else {
           setProviderValue(model.api.provider);
           let tempModelList = responseData
             .map((emp: any, index: number) => {
-              if (emp.api.provider == model.api.provider)
+              if (emp.api.provider === model.api.provider)
                 return { value: emp.model, label: emp.model };
             })
-            .filter((ev: any) => ev != undefined);
+            .filter((ev: any) => ev !== undefined);
           setModelData(tempModelList);
           setModelFlag(false);
           setOptFlag(true);
@@ -89,9 +89,9 @@ export const Model = ({
 
           let tempOptList = responseData
             .map((emp: any, index: number) => {
-              if (emp.api.provider == model.api.provider) return emp.controls;
+              if (emp.api.provider === model.api.provider) return emp.controls;
             })
-            .filter((ee: any) => ee != undefined);
+            .filter((ee: any) => ee !== undefined);
           setOptData(tempOptList[0]);
         }
       }
@@ -104,21 +104,21 @@ export const Model = ({
     setProviderValue(e);
     const currentResponseData = contextData[version-1].responseData;
     const updateResponseData = currentResponseData.map((item:any, index:number) => {
-      if(modelId == index) {
+      if(modelId === index) {
         item.api.provider = e;
       }
       return item;
     })
 
     const updateContextData = contextData.map((item: any, key: number) => {
-      if (key == version - 1) {
+      if (key === version - 1) {
         item.responseData = updateResponseData;
       }
       return item;
     });
     setContextData(updateContextData);
 
-    if (e != null) {
+    if (e !== null) {
       setModelFlag(false);
       setModelValue(null);
       setOptFlag(false);
@@ -130,10 +130,10 @@ export const Model = ({
 
     let tempModelList = responseData
       .map((emp: any, index: number) => {
-        if (emp.api.provider == e)
+        if (emp.api.provider === e)
           return { value: emp.model, label: emp.model };
       })
-      .filter((ev: any) => ev != undefined);
+      .filter((ev: any) => ev !== undefined);
 
     tempModelList.unshift({ value: null, label: "Select Model" })
     setModelData(tempModelList);
@@ -142,20 +142,20 @@ export const Model = ({
   const handleModel = (e: any) => {
     setModelValue(e);
 
-    if (e != null) setOptFlag(true);
+    if (e !== null) setOptFlag(true);
     else setOptFlag(false);
 
     let tempOptList = responseData
       .map((emp: any) => {
-        if (emp.api.provider == providerValue) return emp.controls;
+        if (emp.api.provider === providerValue) return emp.controls;
       })
-      .filter((ee: any) => ee != undefined);
+      .filter((ee: any) => ee !== undefined);
     setOptData(tempOptList[0]);
 
 
     const currentResponseData = contextData[version-1].responseData;
     const updateResponseData = currentResponseData.map((item:any, index:number) => {
-      if(modelId == index) {
+      if(modelId === index) {
         item.model = e;
         item.controls = tempOptList[0];
       }
@@ -163,7 +163,7 @@ export const Model = ({
     })
 
     const updateContextData = contextData.map((item: any, key: number) => {
-      if (key == version - 1) {
+      if (key === version - 1) {
         item.responseData = updateResponseData;
       }
       return item;
@@ -179,10 +179,10 @@ export const Model = ({
 
     // let tempOptList = responseData
     //   .map((emp: any, index: number) => {
-    //     if (emp.api.provider == e)
+    //     if (emp.api.provider === e)
     //       return { value: emp.model, label: emp.model };
     //   })
-    //   .filter((ev) => ev != undefined);
+    //   .filter((ev) => ev !== undefined);
   };
 
   return (
@@ -239,7 +239,7 @@ export const Model = ({
               <div className="mt-[15px]">
                 {optData &&
                   optData.map((opt: any, index: number) => {
-                    if (opt.componentType == "slider") {
+                    if (opt.componentType === "slider") {
                       return (
                         <RangeSlider
                           key={`${index}sliderindex`}
@@ -252,7 +252,7 @@ export const Model = ({
                         />
                       );
                     }
-                    if (opt.componentType == "input") {
+                    if (opt.componentType === "input") {
                       return (
                         <div className="mb-[15px]">
                           <Label
@@ -265,7 +265,7 @@ export const Model = ({
                         </div>
                       );
                     }
-                    if (opt.componentType == "switch") {
+                    if (opt.componentType === "switch") {
                       return (
                         <div className="flex flex-col mb-[15px]">
                           <Label
@@ -278,7 +278,7 @@ export const Model = ({
                         </div>
                       );
                     }
-                    if (opt.componentType == "switchGroup") {
+                    if (opt.componentType === "switchGroup") {
                       return (
                         <div>
                           <Label

@@ -44,7 +44,7 @@ const LeftSection = () => {
       return item;
     })
     const updateContextData = contextData.map((item: any, key: number) => {
-      if (key == version - 1) {
+      if (key === version - 1) {
         item.variablesData = updateVariableData;
       }
       return item;

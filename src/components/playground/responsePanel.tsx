@@ -31,7 +31,7 @@ const RightSection = ({ width, index, isResizable, onMouseDown }: any) => {
 
   useEffect(() => {
     const currentModels = contextData[version - 1].responseData;
-    if (currentModels.filter((model: any) => model.isOpen).length == 0) {
+    if (currentModels.filter((model: any) => model.isOpen).length === 0) {
       setMoveFlag(false);
     } else if (currentModels.filter((model: any) => model.isOpen)[0].isMoved) {
       setMoveFlag(true);
@@ -49,7 +49,7 @@ const RightSection = ({ width, index, isResizable, onMouseDown }: any) => {
     });
 
     const updateContextData = contextData.map((item: any, key: number) => {
-      if (key == version - 1) {
+      if (key === version - 1) {
         item.responseData = updateModels;
       }
       return item;
@@ -64,7 +64,7 @@ const RightSection = ({ width, index, isResizable, onMouseDown }: any) => {
     );
 
     const updateContextData = contextData.map((item: any, key: number) => {
-      if (key == version - 1) {
+      if (key === version - 1) {
         item.responseData = updateModels;
       }
       return item;
@@ -80,7 +80,7 @@ const RightSection = ({ width, index, isResizable, onMouseDown }: any) => {
     });
 
     const updateContextData = contextData.map((item: any, key: number) => {
-      if (key == version - 1) {
+      if (key === version - 1) {
         item.responseData = updateModels;
       }
       return item;
@@ -92,12 +92,12 @@ const RightSection = ({ width, index, isResizable, onMouseDown }: any) => {
     const currentModelsData = contextData[version - 1].responseData;
     const currentPromptData = contextData[version - 1].promptData;
 
-    if (currentModelsData.filter((item: any) => item.isOpen).length == 0)
+    if (currentModelsData.filter((item: any) => item.isOpen).length === 0)
       return;
     else if (currentModelsData.filter((model: any) => model.isOpen)[0].isMoved)
       return;
     else if (
-      currentModelsData.filter((model: any) => model.isOpen)[0].text == ""
+      currentModelsData.filter((model: any) => model.isOpen)[0].text === ""
     )
       return;
 
@@ -109,7 +109,7 @@ const RightSection = ({ width, index, isResizable, onMouseDown }: any) => {
 
     const lastPrompt = currentPromptData[currentPromptData.length - 1];
 
-    if (lastPrompt.role == "user") {
+    if (lastPrompt.role === "user") {
       currentPromptData.push({
         isFocus: true,
         isExpand: true,
@@ -118,17 +118,17 @@ const RightSection = ({ width, index, isResizable, onMouseDown }: any) => {
       });
 
       const updateContextData = contextData.map((item: any, key: number) => {
-        if (key == version - 1) {
+        if (key === version - 1) {
           item.promptData = currentPromptData;
         }
         return item;
       });
       setContextData(updateContextData);
     } else {
-      if (lastPrompt.text == "") {
+      if (lastPrompt.text === "") {
         const updatedPromptData = currentPromptData.map(
           (prompt: any, key: number) => {
-            if (key == currentPromptData.length - 1) {
+            if (key === currentPromptData.length - 1) {
               prompt.text = plainText;
               prompt.isFocus = true;
               prompt.isExpand = true;
@@ -138,7 +138,7 @@ const RightSection = ({ width, index, isResizable, onMouseDown }: any) => {
         );
 
         const updateContextData = contextData.map((item: any, key: number) => {
-          if (key == version - 1) {
+          if (key === version - 1) {
             item.promptData = updatedPromptData;
           }
           return item;
@@ -159,7 +159,7 @@ const RightSection = ({ width, index, isResizable, onMouseDown }: any) => {
         });
 
         const updateContextData = contextData.map((item: any, key: number) => {
-          if (key == version - 1) {
+          if (key === version - 1) {
             item.promptData = currentPromptData;
           }
           return item;
@@ -176,7 +176,7 @@ const RightSection = ({ width, index, isResizable, onMouseDown }: any) => {
       return item;
     });
     const updateContextData = contextData.map((item: any, key: number) => {
-      if (key == version - 1) {
+      if (key === version - 1) {
         item.responseData = updatedModelsData;
       }
       return item;
@@ -197,7 +197,7 @@ const RightSection = ({ width, index, isResizable, onMouseDown }: any) => {
     );
 
     const updateContextData = contextData.map((item: any, key: number) => {
-      if (key == version - 1) {
+      if (key === version - 1) {
         item.responseData = updatedResponseData;
       }
       return item;
