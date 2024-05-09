@@ -59,6 +59,10 @@ html {
   height: calc(100% - 60px) !important;
 }
 
+.h-35 {
+  min-height: 35vh !important;
+}
+
 /* input range slider */
 
 .slider {
