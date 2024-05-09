@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
-import SectionSplitter from "@/components/playground1/spliter";
+import SectionSplitter from "@/components/playground/spliter";
 import { GoPlusCircle } from "react-icons/go";
 import { FaBars } from "react-icons/fa6";
 
@@ -11,9 +11,9 @@ import { Button, Dropdown, Input } from "../_shared";
 import { MdOutlineLightMode, MdOutlineNightlight } from "react-icons/md";
 import { HiDotsVertical } from "react-icons/hi";
 
-import VariablesPanel from "@/components/playground1/variablesPanel";
-import ResponsePanel from "@/components/playground1/responsePanel";
-import MessagesPanel from "@/components/playground1/messagesPanel";
+import VariablesPanel from "@/components/playground/variablesPanel";
+import ResponsePanel from "@/components/playground/responsePanel";
+import MessagesPanel from "@/components/playground/messagesPanel";
 import { socketService } from "@/lib/socket";
 import { useAuth } from "@/context/AuthContext";
 

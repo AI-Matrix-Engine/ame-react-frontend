@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { Button } from "@/components/_shared/Button";
-import { LeftModel } from "@/components/playground1/model";
+import { LeftModel } from "@/components/playground/model";
 import { useAuth } from "@/context/AuthContext";
 
 interface iModelOpenFlag {
