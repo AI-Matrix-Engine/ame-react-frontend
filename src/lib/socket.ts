@@ -29,19 +29,6 @@ class SocketIOService {
             this.socket = null;
         }
     }
-
-    public requestDataStream(streamType: string, uniqueId: string): void {
-        if (!this.socket) {
-            console.error("Socket not initialized");
-            return;
-        }
-
-        const eventName = `${streamType}_${uniqueId}`;
-        this.socket.emit('request_stream', { streamType, uniqueId });
-        this.socket.on(eventName, (data: any) => {
-            console.log(`Data for ${eventName}:`, data);
-        });
-    }
 }
 
 export const socketService = new SocketIOService();

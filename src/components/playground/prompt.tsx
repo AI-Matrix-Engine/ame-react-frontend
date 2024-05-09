@@ -72,7 +72,7 @@ const Prompt = ({
     );
 
     const updateContextData = contextData.map((item: any, key: number) => {
-      if (key == version - 1) {
+      if (key === version - 1) {
         item.promptData = updatePromptData;
         item.variablesData = updatedVariableData;
       }
@@ -125,7 +125,7 @@ const Prompt = ({
     });
 
     const updateContextData = contextData.map((item: any, key: number) => {
-      if (key == version - 1) {
+      if (key === version - 1) {
         item.promptData = updatePromptData;
       }
       return item;
@@ -141,7 +141,7 @@ const Prompt = ({
     });
 
     const updateContextData = contextData.map((item: any, key: number) => {
-      if (key == version - 1) {
+      if (key === version - 1) {
         item.promptData = updatePromptData;
       }
       return item;

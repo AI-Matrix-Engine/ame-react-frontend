@@ -233,7 +233,7 @@ function ChatForm() {
   }, [chatHistory])
 
   useEffect(() => {
-    if (streamText == '' || !isResponseLoading)
+    if (streamText === '' || !isResponseLoading)
       return;
 
     setIsResponseLoading(false);
@@ -296,12 +296,12 @@ function ChatForm() {
           />
         )}
 
-        <div ref={scrollToLastItem} className="flex flex-col h-full overflow-y-auto">
+        <div ref={scrollToLastItem} className="w-full sm:w-3/4 md:2/3 mx-auto flex flex-col h-full overflow-y-auto">
           <ul className="space-y-2 p-4">
             {msgHistory.map((chatMsg, idx) => (
               <li
                 key={idx}
-                className={`flex items-start gap-4 p-4 rounded-lg`}
+                className={`relative flex items-start gap-4 p-4 rounded-lg`}
               >
                 <div className="text-white w-8 h-8">
                   {chatMsg.role === eRoleType.USER ? (
@@ -318,12 +318,10 @@ function ChatForm() {
                     {idx === msgHistory.length - 1 && chatMsg.role === eRoleType.ASSISTANT && streamText.length > 0 ?
                       <MarkdownView
                         content={streamText}
-                        width="800px"
                       />
                       :
                       <MarkdownView
                         content={chatMsg.content}
-                        width="800px"
                       />
                     }
                   </p>

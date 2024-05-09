@@ -48,7 +48,7 @@ const MarkdownView: React.FC<MarkdownViewProps> = ({
       )
     },
     h1: ({ children }) => (
-      <h1 className='text-bg'>
+      <h1 className='mb-1 text-bg'>
         {children}
       </h1>
     ),
@@ -58,7 +58,7 @@ const MarkdownView: React.FC<MarkdownViewProps> = ({
       </th>
     ),
     table: ({ children }) => (
-      <table style={{ borderCollapse: 'collapse', width: '100%' }}>
+      <table style={{ marginBottom: '8px', borderCollapse: 'collapse', width: '100%' }}>
         {children}
       </table>
     ),
@@ -73,13 +73,13 @@ const MarkdownView: React.FC<MarkdownViewProps> = ({
       </td>
     ),
     inlineCode: ({ children }) => (
-      <code className={`bg-gray-100 px-2 py-1 rounded-md`}>
+      <code className={`mb-1 bg-gray-100 px-2 py-1 rounded-md`}>
         {children}
       </code>
     ),
     list: ({ children }) => (
       <li>
-        <IoIosCheckmarkCircleOutline className="inline-block mr-2" />
+        <IoIosCheckmarkCircleOutline className="inline-block mr-2 mb-1" />
         {children}
       </li>
     )
@@ -113,7 +113,7 @@ const MarkdownView: React.FC<MarkdownViewProps> = ({
   const numberedContent = addNumbersToMarkdownList(content);
 
   return (
-    <div className={`dark:bg-gray-900 dark:text-white m-auto relative rounded-md`} style={{ width: width, height: height, fontSize: fontSize }}>
+    <div className={`dark:bg-gray-900 dark:text-white m-auto rounded-md`} style={{ width: width, height: height, fontSize: fontSize }}>
       <button onClick={handleCopyText} className="absolute top-0 right-0 p-2">
         <IoIosCopy size={20} />
       </button>
