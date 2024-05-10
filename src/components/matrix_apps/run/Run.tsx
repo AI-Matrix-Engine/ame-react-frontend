@@ -30,11 +30,11 @@ export const FormData = ({ additionalClasses = "" }: any) => {
   }
 
   return (
-      <>
-      <FilterForm/>
-      <CustomValueForm/>
-      <RunRecipe/>
-      <MatrixResults/>
-      </>
+      <div>
+        <FilterForm/>
+        <CustomValueForm/>
+        <RunRecipe/>
+        <MatrixResults/>
+      </div>
   );
 };
