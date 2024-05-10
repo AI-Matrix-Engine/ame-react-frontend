@@ -45,7 +45,28 @@ const initialData: any = {
   ],
   variablesData: [],
   OptionalText: [],
-  responseData: [],
+  responseData: [
+    {
+      isFormat: 0,
+      isOpen: true,
+      isMoved: false,
+      _id: "",
+      model: "",
+      name: "",
+      class: "",
+      text: "",
+      limitations: {
+        context_window: 16000,
+        max_tokens: 4096,
+        capabilities: ["text", "image", "video", "audio", "search", "tools"],
+      },
+      api: {
+        provider: "",
+        endpoint: "",
+      },
+      controls: [],
+    },
+  ],
 };
 
 const HorizontalAdjustableSections: React.FC = () => {
@@ -53,22 +74,25 @@ const HorizontalAdjustableSections: React.FC = () => {
 
   const [open, setOpen] = useState<boolean>(false);
 
-  const handleSaveUpdate = async(data: any) => {
+  const handleSaveUpdate = async (data: any) => {
     try {
       // Call API for saving current chat data
-      const response = await axios.put('https://aimatrix-api.vercel.app/api/playground', {
-        user_id: user?.uid,
-        data: data
-      });
+      const response = await axios.put(
+        "https://aimatrix-api.vercel.app/api/playground",
+        {
+          user_id: user?.uid,
+          data: data,
+        }
+      );
 
       if (response.status !== 200) {
-        console.error('Unexpected response status:', response.status);
+        console.error("Unexpected response status:", response.status);
       }
     } catch (error) {
       // Handle any errors during the API call
-      console.error('Error saving chat data:', error);
+      console.error("Error saving chat data:", error);
     }
-  }
+  };
 
   const handleSaveNew = () => {
     const newVersionNumber = contextData.length + 1;
@@ -109,7 +133,10 @@ const HorizontalAdjustableSections: React.FC = () => {
                 onClick={(e: any) => setVersion(e)}
               />
             </div>
-            <Button onClick={() => setOpen(true)} className="cursor-pointer bg-[#202020] border border-[#3F3F46] text-[12px]">
+            <Button
+              onClick={() => setOpen(true)}
+              className="cursor-pointer bg-[#202020] border border-[#3F3F46] text-[12px]"
+            >
               Save Update
             </Button>
             <Button
@@ -146,11 +173,18 @@ const HorizontalAdjustableSections: React.FC = () => {
       </div>
       <Dialog open={open} onOpenChange={openDialog}>
         <DialogContent className="sm:max-w-lg">
-          <DialogTitle className="text-center text-black dark:text-white">Confirm</DialogTitle>
-          <DialogDescription className="text-center">Are you writing over the previous version?</DialogDescription>
+          <DialogTitle className="text-center text-black dark:text-white">
+            Confirm
+          </DialogTitle>
+          <DialogDescription className="text-center">
+            Are you writing over the previous version?
+          </DialogDescription>
           <DialogFooter className="sm:justify-center">
             <DialogClose asChild>
-              <Button onClick={() => handleSaveUpdate(contextData)} className="cursor-pointer bg-[#202020] border border-[#3F3F46] text-[12px]">
+              <Button
+                onClick={() => handleSaveUpdate(contextData)}
+                className="cursor-pointer bg-[#202020] border border-[#3F3F46] text-[12px]"
+              >
                 Yes
               </Button>
             </DialogClose>
