@@ -304,7 +304,7 @@ function ChatForm() {
             {msgHistory.map((chatMsg, idx) => (
               <li
                 key={idx}
-                className={`relative flex gap-8 p-4 rounded-lg}`}
+                className={`relative flex gap-8 p-4 rounded group`}
               >
                 <div className="h-8 flex">
                   {chatMsg.role === eRoleType.USER ? (
