@@ -56,7 +56,7 @@ export const MatrixResults = () => {
 
         </Tabs>
         <div className="w-full mt-8">
-          <Textarea />
+          <Textarea autoFocus={false} />
         </div>
 
       </div>
