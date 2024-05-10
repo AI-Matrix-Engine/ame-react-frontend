@@ -106,6 +106,7 @@ export const Model = ({
     const updateResponseData = currentResponseData.map((item:any, index:number) => {
       if(modelId === index) {
         item.api.provider = e;
+        item.name = "";
       }
       return item;
     })
@@ -141,8 +142,11 @@ export const Model = ({
 
   const handleModel = (e: any) => {
     setModelValue(e);
-
-    if (e !== null) setOptFlag(true);
+    var modelName = "";
+    if (e !== null) {
+      setOptFlag(true);
+      modelName = responseData.filter((item: any) => item?.model == e)[0].name;
+    }
     else setOptFlag(false);
 
     let tempOptList = responseData
@@ -158,6 +162,8 @@ export const Model = ({
       if(modelId === index) {
         item.model = e;
         item.controls = tempOptList[0];
+        if(e !== null) item.name = modelName;
+        else item.name = "";
       }
       return item;
     })
@@ -169,9 +175,6 @@ export const Model = ({
       return item;
     });
     setContextData(updateContextData);
-
-    console.log(currentResponseData);
-
 
     // tempModelList.unshift({ value: null, label: "Select" });
     // console.log(tempModelList);
