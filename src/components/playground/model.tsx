@@ -77,7 +77,7 @@ export const LeftModel = ({
       );
 
       const updateContextData = contextData.map((item: any, key: number) => {
-        if (key == version - 1) {
+        if (key === version - 1) {
           item.promptData = updatedPromptData;
         }
         return item;

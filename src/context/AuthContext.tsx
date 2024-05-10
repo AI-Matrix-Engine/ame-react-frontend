@@ -16,6 +16,7 @@ import {
   UserCredential,
 } from "firebase/auth";
 import { auth } from "@/utils/firebase";
+import axios from "axios";
 
 const AuthContext = createContext<{
   user: {
@@ -23,6 +24,8 @@ const AuthContext = createContext<{
     uid: string;
     email: string | null;
     displayName: string | null;
+    accessToken: string | null;
+    token: string | null;
   } | null;
   loading: boolean;
   login: (email: string, password: string) => Promise<UserCredential>;
@@ -69,9 +72,9 @@ const AuthContext = createContext<{
   setFlag1: () => {},
   setFlag2: () => {},
   contextData: [],
-  setContextData: () => {},
+  setContextData: () => { },
   version: 0,
-  setVersion: () => {},
+  setVersion: () => { },
 });
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
@@ -129,30 +132,75 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     displayName: string | null;
     accessToken: string | null;
     photoURL: string | null;
+    token: string | null;
   } | null>(null);
 
   const [flag1, setFlag1] = useState<boolean>(false);
   const [flag2, setFlag2] = useState<boolean>(false);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user:any) => {
+    const handleAuthStateChange = async (user: any) => {
       if (user) {
-        setUser({
-          uid: user.uid,
-          accessToken: user.accessToken,
-          photoURL: user.photoURL,
-          email: user.email,
-          displayName: user.displayName,
-        });
+        try {
+          // Get the user's ID token asynchronously
+          const token: string = await user.getIdToken();
+
+          // Set the user state with the user's information and token
+          setUser({
+            uid: user.uid,
+            accessToken: user.accessToken,
+            photoURL: user.photoURL,
+            email: user.email,
+            displayName: user.displayName,
+            token: token,
+          });
+        } catch (error) {
+          console.error('Error getting user token:', error);
+          setUser({
+            uid: user.uid,
+            email: user.email,
+            accessToken: user.accessToken,
+            photoURL: user.photoURL,
+            displayName: user.displayName,
+            token: "",
+          });
+        }
       } else {
         setUser(null);
       }
-
       setLoading(false);
-    });
+    };
 
-    return () => unsubscribe();
+    // Subscribe to authentication state changes
+    const unsubscribe = onAuthStateChanged(auth, handleAuthStateChange);
+
+    // Cleanup the subscription when the component unmounts
+    return () => {
+      unsubscribe();
+    };
   }, []);
+
+  useEffect(() => {
+    if (!user) return;
+    const handleData = async () => {
+      const result = await axios.get('https://aimatrix-api.vercel.app/api/playground', {
+        params: {
+            user_id: user?.uid
+        }
+      })
+
+      let playgroundData = null;
+      if(result.data) {
+        playgroundData = result.data.data;
+      }
+
+      if (playgroundData) {
+        setContextData(playgroundData);
+      }
+    }
+
+    handleData();
+  }, [user])
 
   const login = (email: string, password: string) => {
     return signInWithEmailAndPassword(auth, email, password);

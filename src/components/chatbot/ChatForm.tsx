@@ -12,8 +12,10 @@ import { MdOutlineArrowLeft, MdOutlineArrowRight } from "react-icons/md";
 import { socketService } from "@/lib/socket";
 import { iMessage, eRoleType, iChat } from "@/utils/types";
 import { useChat } from "@/context/ChatContext";
+import { useAuth } from "@/context/AuthContext";
 import axios from "axios";
 import MarkdownView from "../_shared/MarkdownView";
+import { redirect } from "next/navigation";
 
 function ChatForm() {
   const [message, setMessage] = useState<string>("");
@@ -35,6 +37,8 @@ function ChatForm() {
     setCurrentChat
   } = useChat();
 
+  const { user } = useAuth();
+
   const getChatHistory = () => {
     let data = '';
     msgHistory.map((chat: iMessage) => {
@@ -55,10 +59,8 @@ function ChatForm() {
           history: chatHistory
         });
 
-        if (response.status === 200) {
-          console.log('Chat data saved successfully:', response.data);
-        } else {
-          console.log('Unexpected response status:', response.status);
+        if (response.status !== 200) {
+          console.error('Unexpected response status:', response.status);
         }
       } catch (error) {
         // Handle any errors during the API call
@@ -110,31 +112,6 @@ function ChatForm() {
         console.error('An error occurred while processing messages:', error);
       });
   }
-  const test = [{
-    title: "test", role: "user", content: `
-  # Example Markdown Content
-  
-  ## This is a subheading
-  
-  - List item 1
-  - List item 2
-  - List item 3
-  
-  \`\`\`javascript
-  console.log("Hello, world!");
-  \`\`\`
-  
-  This is an inline code: \`const message = "Hello, world!";\`
-  
-  **Bold text**
-  
-  *Italic text*
-  
-  | Header 1 | Header 2 | Header 3 |
-  |----------|----------|----------|
-  | Cell 1   | Cell 2   | Cell 3   |
-  | Cell 4   | Cell 5   | Cell 6   |
-  `}]
 
   const sendMessage = () => {
     const messageData = {
@@ -207,12 +184,18 @@ function ChatForm() {
   }, []);
 
   useEffect(() => {
+    if(!user?.uid || !user.token) {
+      redirect('/login');
+    }
+  }, [user])
+
+  useEffect(() => {
     if (chatHistory.length > currentChat) {
       setMsgHistory(chatHistory[currentChat].msgArr)
     }
 
     if (!socketService.getSocket()) {
-      socketService.init();
+      socketService.init(user?.token ? user.token : "", user?.uid ? user.uid : "");
     }
 
     const socket = socketService.getSocket();
@@ -222,7 +205,6 @@ function ChatForm() {
         setStreamText("");
         setIsResponseLoading(false);
         setAiResponst(receivedData);
-        // processIncomingMessages(receivedData);
         displayUserMessage(receivedData, eRoleType.ASSISTANT);
       });
     }
@@ -251,7 +233,7 @@ function ChatForm() {
   }, [chatHistory])
 
   useEffect(() => {
-    if (streamText == '' || !isResponseLoading)
+    if (streamText === '' || !isResponseLoading)
       return;
 
     setIsResponseLoading(false);
@@ -314,12 +296,12 @@ function ChatForm() {
           />
         )}
 
-        <div ref={scrollToLastItem} className="flex flex-col h-full overflow-y-auto">
+        <div ref={scrollToLastItem} className="w-full sm:w-3/4 md:2/3 mx-auto flex flex-col h-full overflow-y-auto">
           <ul className="space-y-2 p-4">
             {msgHistory.map((chatMsg, idx) => (
               <li
                 key={idx}
-                className={`flex items-start gap-4 p-4 rounded-lg`}
+                className={`relative flex items-start gap-4 p-4 rounded-lg`}
               >
                 <div className="text-white w-8 h-8">
                   {chatMsg.role === eRoleType.USER ? (
@@ -336,12 +318,10 @@ function ChatForm() {
                     {idx === msgHistory.length - 1 && chatMsg.role === eRoleType.ASSISTANT && streamText.length > 0 ?
                       <MarkdownView
                         content={streamText}
-                        width="800px"
                       />
                       :
                       <MarkdownView
                         content={chatMsg.content}
-                        width="800px"
                       />
                     }
                   </p>

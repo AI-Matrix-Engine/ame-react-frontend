@@ -7,6 +7,7 @@ import { socketService } from "@/lib/socket";
 import { iMessage, eRoleType } from "@/utils/types";
 import { PersonIcon, ChatBubbleIcon } from "@radix-ui/react-icons";
 import { Input } from "../_shared";
+import { useAuth } from "@/context/AuthContext";
 
 export const Form = () => {
   const validationSchema = Yup.object().shape({
@@ -27,10 +28,11 @@ export const Form = () => {
   const [chatHistory, setChatHistory] = useState<iMessage[]>([]);
   const [streamText, setStreamText] = useState<string>('');
   const chatBoxRef = useRef<HTMLDivElement>(null);
+  const { user } = useAuth();
 
   useEffect(() => {
     if (!socketService.getSocket()) {
-      socketService.init();
+      socketService.init(user?.token ? user.token : "", user?.uid ? user.uid : "");
     }
 
     const socket = socketService.getSocket();
@@ -46,7 +48,7 @@ export const Form = () => {
     return () => {
       socket?.off('ai_response');
     };
-  }, [])
+  }, [user?.token, user?.uid])
 
   const sendMessage = () => {
     const messageData = {
@@ -57,7 +59,7 @@ export const Form = () => {
     };
 
     if (!socketService.getSocket()) {
-      socketService.init();
+      socketService.init(user?.token ? user.token : "", user?.uid ? user.uid : "");
     }
 
     const socket = socketService.getSocket();

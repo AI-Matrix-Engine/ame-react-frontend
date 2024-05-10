@@ -25,14 +25,14 @@ const MessagePanel = ({ width, index, isResizable, onMouseDown }: any) => {
 
   useEffect(() => {
     if (componentMounted) {
-      if(selectedStr != '')
+      if(selectedStr !== '')
         handleHighlight();
     }
   }, [flag1]);
 
   useEffect(() => {
     if (componentMounted) {
-      if(selectedStr != '')
+      if(selectedStr !== '')
         handleHighlightOpt();
     }
   }, [flag2]);
@@ -89,7 +89,7 @@ const MessagePanel = ({ width, index, isResizable, onMouseDown }: any) => {
     ];
 
     const updateContextData = contextData.map((item: any, key: number) => {
-      if (key == version - 1) {
+      if (key === version - 1) {
         item.promptData = updateData;
         if (selectedStr !== "") {
           item.variablesData = newVariableData;
@@ -151,7 +151,7 @@ const MessagePanel = ({ width, index, isResizable, onMouseDown }: any) => {
     ];
 
     const updateContextData = contextData.map((item: any, key: number) => {
-      if (key == version - 1) {
+      if (key === version - 1) {
         item.promptData = updateData;
         if (selectedStr !== "") {
           item.variablesData = newVariableData;
@@ -176,7 +176,7 @@ const MessagePanel = ({ width, index, isResizable, onMouseDown }: any) => {
     );
 
     const updateContextData = contextData.map((item:any, key:number) => {
-      if(key == (version-1)) {
+      if(key === (version-1)) {
         item.promptData = updatePromptData;
       }
       return item;
@@ -207,7 +207,7 @@ const MessagePanel = ({ width, index, isResizable, onMouseDown }: any) => {
     }
 
     const updateContextData = contextData.map((item:any, key:number) => {
-      if(key == (version-1)) {
+      if(key === (version-1)) {
         item.promptData = updatedPromptData;
       }
       return item;
@@ -227,7 +227,7 @@ const MessagePanel = ({ width, index, isResizable, onMouseDown }: any) => {
     );
 
     const updateContextData = contextData.map((item:any, key:number) => {
-      if(key == (version-1)) {
+      if(key === (version-1)) {
         item.promptData = updatePromptData;
       }
       return item;

@@ -4,10 +4,13 @@ import { io, Socket } from "socket.io-client";
 class SocketIOService {
     private socket: Socket | null = null;
 
-    public init(): void {
+    public init(authToken: string, userId: string): void {
         if (!this.socket) {
-            this.socket = io("https://dev-back.aimatrixengine.com/", {
-
+            this.socket = io(process.env.NEXT_PUBLIC_AIMATRIX_URL || 'https://dev-back.aimatrixengine.com/', {
+                // auth: {
+                //     token: authToken,
+                //     userId: userId
+                // }
                 // Do we need anything else here? Such as configurations here, e.g., auth tokens
 
             });
