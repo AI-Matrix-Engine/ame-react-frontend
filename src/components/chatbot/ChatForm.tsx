@@ -8,7 +8,7 @@ import {
   useLayoutEffect,
 } from "react";
 import { BiPlus, BiUser, BiChat, BiSend, BiSolidUserCircle } from "react-icons/bi";
-import { MdOutlineArrowLeft, MdOutlineArrowRight } from "react-icons/md";
+import { MdOutlineArrowLeft, MdOutlineArrowRight, MdSend, MdPerson, MdChat } from "react-icons/md";
 import { socketService } from "@/lib/socket";
 import { iMessage, eRoleType, iChat } from "@/utils/types";
 import { useChat } from "@/context/ChatContext";
@@ -16,6 +16,8 @@ import { useAuth } from "@/context/AuthContext";
 import axios from "axios";
 import MarkdownView from "../_shared/MarkdownView";
 import { redirect } from "next/navigation";
+import { FiUpload } from "react-icons/fi";
+import { ArrowUpIcon } from "@radix-ui/react-icons";
 
 function ChatForm() {
   const [message, setMessage] = useState<string>("");
@@ -184,7 +186,7 @@ function ChatForm() {
   }, []);
 
   useEffect(() => {
-    if(!user?.uid || !user.token) {
+    if (!user?.uid || !user.token) {
       redirect('/login');
     }
   }, [user])
@@ -215,7 +217,7 @@ function ChatForm() {
   }, [])
 
   useEffect(() => {
-    if(aiResponse.length === 0) return;
+    if (aiResponse.length === 0) return;
 
     setTimeout(() => {
       setStreamText(prev => prev + aiResponse.substring(prev.length, prev.length + 5))
@@ -273,18 +275,18 @@ function ChatForm() {
   }, []);
 
   return (
-    <div className="flex h-[90vh] bg-gray-900 w-full">
+    <div className="flex h-[90vh] w-full text-sm">
       <main className="flex-1 flex flex-col">
         {!currentTitle && (
-          <div className="flex flex-col items-center justify-center text-white p-4">
-            <h1>Chat GPT Clone</h1>
+          <div className="flex flex-col items-center justify-center p-4">
+            <h1>AI Matrix</h1>
             <h3>How can I help you today?</h3>
           </div>
         )}
 
         {isShowSidebar ? (
           <MdOutlineArrowRight
-            className="absolute top-1/2 left-0 transform -translate-x-full text-white cursor-pointer"
+            className="absolute top-1/2 left-0 transform-translate-x-full cursor-pointer"
             size={36}
             onClick={toggleSidebar}
           />
@@ -297,24 +299,24 @@ function ChatForm() {
         )}
 
         <div ref={scrollToLastItem} className="w-full sm:w-3/4 md:2/3 mx-auto flex flex-col h-full overflow-y-auto">
-          <ul className="space-y-2 p-4">
+          <ul className="space-y-4 p-4">
             {msgHistory.map((chatMsg, idx) => (
               <li
                 key={idx}
-                className={`relative flex items-start gap-4 p-4 rounded-lg`}
+                className={`relative flex gap-4 p-4 rounded-lg}`}
               >
-                <div className="text-white w-8 h-8">
+                <div className=" h-8 flex">
                   {chatMsg.role === eRoleType.USER ? (
-                    <BiSolidUserCircle size={36} />
+                    <MdPerson size={24} />
                   ) : (
-                    <BiChat size={36} />
+                    <MdChat size={24} />
                   )}
                 </div>
                 <div>
-                  <p className="text-white text-sm font-semibold">
-                    {chatMsg.role === eRoleType.USER ? "You" : "ChatGPT"}
+                  <p>
+                    {chatMsg.role === eRoleType.USER ? "You" : "AI Matrix"}
                   </p>
-                  <p className="text-white">
+                  <p>
                     {idx === msgHistory.length - 1 && chatMsg.role === eRoleType.ASSISTANT && streamText.length > 0 ?
                       <MarkdownView
                         content={streamText}
@@ -330,29 +332,33 @@ function ChatForm() {
             ))}
           </ul>
         </div>
-        <div className="mt-auto p-4">
+        <div className="mt-auto p-8 w-full sm:w-3/4 md:2/3 mx-auto">
           {errorText && <p className="text-red-500">{errorText}</p>}
-          <form className="flex items-center gap-2" onSubmit={submitHandler}>
+          <form className="flex items-center relative" onSubmit={submitHandler}>
             <input
               type="text"
-              placeholder="Send a message."
-              className="flex-1 p-2 bg-gray-700 text-white rounded-lg outline-none"
+              placeholder="Send a message"
+              className="flex-1 px-4 py-3 rounded-lg outline-none dark:bg-[#252b36] dark:text-[#c3c3c3]"
               spellCheck="false"
               value={isResponseLoading ? "Processing..." : message}
               onChange={(e) => setMessage(e.target.value)}
               readOnly={isResponseLoading}
             />
             {!isResponseLoading && (
-              <button
-                type="submit"
-                className="p-2 bg-blue-600 text-white rounded-lg"
-              >
-                <BiSend size={24} />
-              </button>
+              <div className="flex items-center absolute right-2 p-2 space-x-3">
+                <FiUpload size={16} color="#888" className="cursor-pointer" />
+                <button
+                  type="submit"
+
+                >
+                  <ArrowUpIcon width={22} height={22} className="flex-1 flex items-center justify-center p-1 rounded bg-[#888888]" color="#ffffff" />
+                </button>
+
+              </div>
             )}
           </form>
-          <p className="text-center text-gray-400 text-sm mt-2">
-            ChatGPT can make mistakes. Consider checking important information.
+          <p className="text-center mt-3 text-sm">
+            AI Matrix can make mistakes. Consider checking important information.
           </p>
         </div>
       </main>
