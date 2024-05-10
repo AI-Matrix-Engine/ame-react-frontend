@@ -16,6 +16,7 @@ import {
   UserCredential,
 } from "firebase/auth";
 import { auth } from "@/utils/firebase";
+import axios from "axios";
 
 const AuthContext = createContext<{
   user: {
@@ -314,14 +315,36 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       setLoading(false);
     };
 
-     // Subscribe to authentication state changes
-     const unsubscribe = onAuthStateChanged(auth, handleAuthStateChange);
+    // Subscribe to authentication state changes
+    const unsubscribe = onAuthStateChanged(auth, handleAuthStateChange);
 
-     // Cleanup the subscription when the component unmounts
-     return () => {
-         unsubscribe();
-     };
+    // Cleanup the subscription when the component unmounts
+    return () => {
+      unsubscribe();
+    };
   }, []);
+
+  useEffect(() => {
+    if (!user) return;
+    const handleData = async () => {
+      const result = await axios.get('https://aimatrix-api.vercel.app/api/playground', {
+        params: {
+            user_id: user?.uid
+        }
+      })
+
+      let playgroundData = null;
+      if(result.data) {
+        playgroundData = result.data.data;
+      }
+
+      if (playgroundData) {
+        setContextData(playgroundData);
+      }
+    }
+
+    handleData();
+  }, [user])
 
   const login = (email: string, password: string) => {
     return signInWithEmailAndPassword(auth, email, password);

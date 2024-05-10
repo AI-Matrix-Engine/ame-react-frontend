@@ -143,7 +143,6 @@ export const ModelSettingsDrawer = () => {
 
     const socket = socketService.getSocket();
 
-
     if (socket) {
       const currentContext = contextData[version - 1];
       const promptData = currentContext.promptData;
