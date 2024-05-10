@@ -31,7 +31,7 @@ export const Header = ({ darkMode, setMode }: iHeader) => {
             <MdOutlineLightMode className="text-white text-2xl mr-5 cursor-pointer" />
           )}
         </div>
-        {true ? (
+        {user ? (
           <Menu as="div" className="relative inline-block text-left">
             <div>
               <Menu.Button className="inline-flex justify-center items-center w-full rounded-md shadow-sm px-4 py-2 bg-transparent text-sm font-medium text-white hover:bg-gray-700">
