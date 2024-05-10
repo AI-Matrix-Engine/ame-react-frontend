@@ -104,6 +104,59 @@ const HorizontalAdjustableSections: React.FC = () => {
     handleSaveUpdate(contextData);
   };
 
+  function deepCompare(obj1: any, obj2: any): boolean {
+    if (typeof obj1 === 'object' && obj1 !== null && typeof obj2 === 'object' && obj2 !== null) {
+        const keys1 = Object.keys(obj1);
+        const keys2 = Object.keys(obj2);
+
+        if (keys1.length !== keys2.length) {
+            return false;
+        }
+
+        for (let key of keys1) {
+            if (!deepCompare(obj1[key], obj2[key])) {
+                return false;
+            }
+        }
+        return true;
+    } else {
+        return obj1 === obj2;
+    }
+}
+
+  const handleClear = async() => {
+    const result = await axios.get('https://aimatrix-api.vercel.app/api/playground', {
+      params: {
+        user_id: user?.uid
+      }
+    })
+
+    console.log('result', result)
+
+    if(result.status === 200 && result.data) {
+      const savedData = result.data.data;
+
+      console.log('saved data', savedData)
+      console.log('contextdata', contextData)
+      if(deepCompare(savedData, contextData)) {
+        
+        console.log('deepcompare', deepCompare(savedData, contextData))
+        return;
+      } else {
+        const newContextData = contextData.map((data: any, index: number) => {
+          if(index === version - 1) {
+            return { version: version, ...initialData }
+          } else {
+            return data;
+          }
+        })
+
+
+        console.log('newContextData', newContextData)
+      }
+    }
+  }
+
   const openDialog = () => {
     setOpen(!open);
   };
@@ -144,6 +197,12 @@ const HorizontalAdjustableSections: React.FC = () => {
               onClick={handleSaveNew}
             >
               Save New
+            </Button>
+            <Button
+              className="cursor-pointer ml-[20px] bg-[#202020] border border-[#3F3F46] text-[12px]"
+              onClick={handleClear}
+            >
+              Clear
             </Button>
           </div>
           <div className="flex items-center">
