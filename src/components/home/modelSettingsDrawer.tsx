@@ -185,7 +185,6 @@ export const ModelSettingsDrawer = () => {
       if (index > eventCount) {
         const eventName = `${user?.uid}_stream_response_${index}`;
         setEventCount(index);
-
         socketService.getSocket()?.on(eventName, (data) => {
           const splitedValues = eventName.split('_');
           const itemIndex = parseInt(splitedValues[splitedValues.length - 1]);
@@ -215,6 +214,7 @@ export const ModelSettingsDrawer = () => {
                contextData[version - 1].responseData.length > 0 && 
                 <Button 
                   className="text-[12px] w-[150px] h-[30px]" 
+                  onClick={() => handleTestModel()}
                   disabled={contextData[version-1].responseData[contextData[version-1].responseData.length-1].model ? false : true}
                 >
                   {contextData[version-1].responseData.length > 1 ? "Test All" : "Run Test"}
