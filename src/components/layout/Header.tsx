@@ -26,7 +26,7 @@ export const Header = () => {
               <NavigationMenuTrigger className="gap-2 justify-center items-center text-white">
                 <Avatar>
                   <AvatarImage
-                    src="/avatar.png"
+                    src="/123.jpg"
                     alt="@shadcn"
                   />
                   <AvatarFallback>CN</AvatarFallback>

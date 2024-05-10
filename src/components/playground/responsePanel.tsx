@@ -19,10 +19,6 @@ interface iPData {
 
 const RightSection = ({ width, index, isResizable, onMouseDown }: any) => {
   const {
-    models,
-    setModels,
-    promptData,
-    setPromptData,
     contextData,
     setContextData,
     version,

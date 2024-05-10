@@ -106,7 +106,7 @@ export const NavigationBar = ({
         >
           <img
             className="h-8 w-8 rounded-full bg-gray-800"
-            src="/avatar.png"
+            src="/123.jpg"
             alt=""
           />
           <span className="sr-only">Your profile</span>

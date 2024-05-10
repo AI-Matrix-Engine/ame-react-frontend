@@ -14,7 +14,7 @@ interface iPData {
 let selectedStr: string = '';
 
 const MessagePanel = ({ width, index, isResizable, onMouseDown }: any) => {
-  const { promptData, setPromptData, version, contextData, setContextData, flag1, flag2 } =
+  const { version, contextData, setContextData, flag1, flag2 } =
     useAuth();
   const [isExpand, setIsExpand] = React.useState(-1);
   const [componentMounted, setComponentMounted] = useState<boolean>(false);
@@ -255,9 +255,7 @@ const MessagePanel = ({ width, index, isResizable, onMouseDown }: any) => {
           key={index}
           handleFocus={handleFocus}
           setIsExpand={handleExpand}
-          setPData={setPromptData}
           setSelectedStr={handleSelectedStr}
-          pData={promptData}
           text={prompt.text}
         />
       ))}

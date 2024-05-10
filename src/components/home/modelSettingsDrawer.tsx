@@ -16,7 +16,7 @@ interface iModelOpenFlag {
 }
 
 export const ModelSettingsDrawer = () => {
-  const { models, setModels, contextData, setContextData, version} = useAuth();
+  const { contextData, setContextData, version} = useAuth();
 
   const [sidebar, setSidebar] = useState<boolean>(true);
   const handleSidebar = () => {
@@ -102,7 +102,13 @@ export const ModelSettingsDrawer = () => {
           >
             <div className="w-full h-full flex flex-col items-center px-1 overflow-y-auto">
               {
-               contextData[version - 1].responseData.length > 0 && <Button className="text-[12px] w-[150px] h-[30px]">{contextData[version-1].responseData.length > 1 ? "Test All" : "Run Test"}</Button>
+               contextData[version - 1].responseData.length > 0 && 
+                <Button 
+                  className="text-[12px] w-[150px] h-[30px]" 
+                  disabled={contextData[version-1].responseData[contextData[version-1].responseData.length-1].model ? false : true}
+                >
+                  {contextData[version-1].responseData.length > 1 ? "Test All" : "Run Test"}
+                </Button>
               }
               {contextData[version - 1].responseData.map((model: any, key: number) => (
                 <Model
@@ -115,7 +121,11 @@ export const ModelSettingsDrawer = () => {
                   setIsOpenAdvanced={handleAdvancedOpen}
                 />
               ))}
-              <Button className="text-[12px] mt-[20px] w-[150px] h-[30px]" onClick={addModel}>
+              <Button 
+                className="text-[12px] mt-[20px] w-[150px] h-[30px]" 
+                onClick={addModel} 
+                disabled={contextData[version-1].responseData[contextData[version-1].responseData.length-1].model ? false : true}
+              >
                 ADD MODEL
               </Button>
             </div>

@@ -172,13 +172,10 @@ const ResponsePrompt = ({
             //     : text.replace(/\*/g, "").substring(0, 15) + "..."}
             // </p>
             <TextareaAutosize
-              ref={textareaRef}
               rows={4}
-              autoFocus={true}
               value={text.replace(/\*/g, "").substring(0, 70) + "..."}
-              disabled
               onChange={handleChange}
-              className={`w-full resize-none text-[14px] overflow-y-hidden outline-none bg-transparent h-fit min-h-fit rounded-md relative text-[#71717A]`}
+              className={`w-full resize-none text-[14px] overflow-y-hidden outline-none bg-transparent h-fit min-h-fit rounded-md relative text-[#71717A] cursor-pointer`}
             />
           )}
         </div>
