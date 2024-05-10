@@ -101,7 +101,11 @@ export const LeftModel = ({
           value={modelName}
           autoFocus={true}
           onChange={handleChangeTitle}
-          onFocus={() => setIsOpenModel(modelId)}
+          onFocus={() => {
+            if(!isOpen) {
+              setIsOpenModel(modelId)
+            }
+          }}
         />
         {isOpen ? (
           <MdOutlineKeyboardArrowDown
@@ -158,13 +162,13 @@ export const LeftModel = ({
           </div>
           {isAdvancedOpen && (
             <div className="mt-[15px]">
-              <Dropdown options={textAreaField} />
+              <Dropdown options={textAreaField} placeHolder="Select Option" isLabel={true} />
               <Input
                 name="full_name"
                 className="my-[15px]"
                 placeholder="Default Value"
               />
-              <Dropdown options={recipies} />
+              <Dropdown options={recipies} placeHolder="Select Field" isLabel={true}/>
             </div>
           )}
         </div>

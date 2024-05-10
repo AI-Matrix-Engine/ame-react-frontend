@@ -244,6 +244,7 @@ export type iDropDownProps = {
   className?: string;
   disabled?: boolean;
   label?: string;
+  isLabel?: boolean;
 };
 
 // src/components/_shared/input.tsx

@@ -1,6 +1,6 @@
 "use client";
 
-import { Suspense } from "react";
+// import { Suspense } from "react";
 import Head from "next/head";
 import { Inter } from "next/font/google";
 import "../styles/globals.css";
@@ -8,6 +8,7 @@ import { NavigationEvents } from "@/components/navigation-events";
 import Spinner from "@/components/Spinner";
 import { Main } from "@/components/home/Main";
 import { menuItems } from "@/components/home/Data";
+import PrivateRoute from "@/components/privateRoute";
 const inter = Inter({ subsets: ["latin"] });
 
 export default function RootLayout({
@@ -21,11 +22,9 @@ export default function RootLayout({
         <title>AI Matrix Engine</title>
       </Head>
       <body className={`${inter.className} bg-[#f0f2f5]`}>
-        <Suspense fallback={<Spinner />}>
-          <NavigationEvents />
-          {/* <Main>{children}</Main> */}
-        </Suspense>
-        <Main navItems={menuItems}>{children}</Main>
+        <Main navItems={menuItems}>
+          <PrivateRoute>{children}</PrivateRoute>
+        </Main>
       </body>
     </html>
   );

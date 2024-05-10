@@ -107,6 +107,7 @@ export const Model = ({
       if(modelId === index) {
         item.api.provider = e;
         item.name = "";
+        if(e == null) item.model = '';
       }
       return item;
     })
@@ -175,6 +176,8 @@ export const Model = ({
       return item;
     });
     setContextData(updateContextData);
+
+    console.log(currentResponseData);
 
     // tempModelList.unshift({ value: null, label: "Select" });
     // console.log(tempModelList);

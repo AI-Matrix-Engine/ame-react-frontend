@@ -25,8 +25,6 @@ interface iPrompt {
   role?: string;
   setIsExpand: Function;
   index: number;
-  setPData: Function;
-  pData?: any;
   handleFocus: Function;
   setSelectedStr: Function;
 }
@@ -36,8 +34,6 @@ const Prompt = ({
   role,
   setIsExpand,
   index,
-  setPData,
-  pData,
   handleFocus,
   setSelectedStr,
 }: iPrompt) => {
@@ -45,10 +41,6 @@ const Prompt = ({
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const [isUpload, setIsUpload] = useState(false);
   const {
-    flag1,
-    flag2,
-    variableData,
-    setVariableData,
     contextData,
     setContextData,
     version,
@@ -229,9 +221,8 @@ const Prompt = ({
               // </p>
               <TextareaAutosize
                 value={text.substring(0, 15) + "..."}
-                disabled
                 spellCheck={false}
-                className="w-full resize-none overflow-y-hidden outline-none bg-transparent h-fit min-h-fit rounded-md relative text-[#71717A] text-[14px]"
+                className="w-full resize-none overflow-y-hidden outline-none bg-transparent h-fit min-h-fit rounded-md relative text-[#71717A] text-[14px] cursor-pointer"
               />
             )}
           </div>
@@ -299,9 +290,8 @@ const Prompt = ({
                 ? "empty prompt..."
                 : text.substring(0, 15) + "..."
             }
-            disabled
             spellCheck={false}
-            className="w-full resize-none overflow-y-hidden outline-none bg-transparent h-fit min-h-fit rounded-md relative text-[#71717A] text-[14px]"
+            className="w-full resize-none overflow-y-hidden outline-none bg-transparent h-fit min-h-fit rounded-md relative text-[#71717A] text-[14px] cursor-pointer"
           />
         )}
       </div>

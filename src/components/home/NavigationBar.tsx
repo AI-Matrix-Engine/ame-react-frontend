@@ -7,6 +7,13 @@ import {
 } from "@/components/_shared/Accordion";
 import Link from "next/link";
 import { iNavigationBar } from "@/utils/types";
+import { useAuth } from "@/context/AuthContext";
+
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from "@/components/_shared/Avatar";
 
 export const NavigationBar = ({
   navItems,
@@ -15,7 +22,8 @@ export const NavigationBar = ({
   text = null,
   opacity,
 }: iNavigationBar) => {
-  const [active, setActive] = useState('')
+  const [active, setActive] = useState("");
+  const { user } = useAuth();
   return (
     <div className="far-sidebar-height flex flex-col justify-between">
       <div>
@@ -36,10 +44,11 @@ export const NavigationBar = ({
                   {menuItem.itemSubMenu ? (
                     <>
                       <AccordionTrigger
-                        className={`${active === '/matrix-apps'
-                          ? `bg-gray-800 text-white`
-                          : `text-gray-400 hover:bg-gray-800 hover:text-white`
-                          } rounded-lg my-2`}
+                        className={`${
+                          active === "/matrix-apps"
+                            ? `bg-gray-800 text-white`
+                            : `text-gray-400 hover:bg-gray-800 hover:text-white`
+                        } rounded-lg my-2`}
                         iconStyle={!text && textColor}
                       >
                         <div className="flex gap-8 ">
@@ -47,7 +56,9 @@ export const NavigationBar = ({
                           <Link
                             key={subIndex}
                             href="/matrix-apps"
-                            onClick={() => { setActive('/matrix-apps') }}
+                            onClick={() => {
+                              setActive("/matrix-apps");
+                            }}
                             className={`flex-1 text-left`}
                           >
                             {!text && menuItem.itemCategory}
@@ -57,13 +68,20 @@ export const NavigationBar = ({
                       <AccordionContent className={`${textColor}`}>
                         {menuItem.itemSubMenu.map(
                           ({ name, route, icon }, subMenuIndex) => (
-                            <div className={`flex m-2 ${active === route
-                              ? `bg-gray-800 text-white rounded-lg`
-                              : `text-gray-400 hover:bg-gray-800 hover:text-white`} rounded-lg hover:rounded-lg`}>
-                              <div className="ml-4 py-4">{icon}</div><Link
+                            <div
+                              className={`flex m-2 ${
+                                active === route
+                                  ? `bg-gray-800 text-white rounded-lg`
+                                  : `text-gray-400 hover:bg-gray-800 hover:text-white`
+                              } rounded-lg hover:rounded-lg`}
+                            >
+                              <div className="ml-4 py-4">{icon}</div>
+                              <Link
                                 key={subMenuIndex}
                                 href={route}
-                                onClick={() => { setActive(route); }}
+                                onClick={() => {
+                                  setActive(route);
+                                }}
                                 className={`flex p-4`}
                               >
                                 {name}
@@ -74,15 +92,20 @@ export const NavigationBar = ({
                       </AccordionContent>{" "}
                     </>
                   ) : (
-                    <AccordionTrigger className={`flex gap-8 my-1 ${active === menuItem.route
-                      ? `bg-gray-800 text-white`
-                      : `text-gray-400 hover:bg-gray-800 hover:text-white`
-                      }  rounded-lg`}>
+                    <AccordionTrigger
+                      className={`flex gap-8 my-1 ${
+                        active === menuItem.route
+                          ? `bg-gray-800 text-white`
+                          : `text-gray-400 hover:bg-gray-800 hover:text-white`
+                      }  rounded-lg`}
+                    >
                       <div className="pl-2">{menuItem.icon}</div>
                       <Link
                         key={subIndex}
-                        href={menuItem.route || '#'}
-                        onClick={() => { setActive(menuItem.route || '#') }}
+                        href={menuItem.route || "#"}
+                        onClick={() => {
+                          setActive(menuItem.route || "#");
+                        }}
                         className={`flex-1 text-left`}
                       >
                         {!text && menuItem.itemCategory}
@@ -95,24 +118,28 @@ export const NavigationBar = ({
           </div>
         ))}
       </div>
-      <div className="mt-4">
-        <Link
-          href="/profile"
-          onClick={() => { setActive('/profile') }}
-          className={`flex items-center gap-x-4 pl-2 py-3 text-sm font-semibold leading-6 ${active === '/pr0file'
-            ? `bg-gray-800 text-white`
-            : `text-gray-400 hover:bg-gray-800 hover:text-white`
+      {user && (
+        <div className="mt-4">
+          <Link
+            href="/profile"
+            onClick={() => {
+              setActive("/profile");
+            }}
+            className={`flex items-center gap-x-4 pl-2 py-3 text-sm font-semibold leading-6 ${
+              active === "/pr0file"
+                ? `bg-gray-800 text-white`
+                : `text-gray-400 hover:bg-gray-800 hover:text-white`
             } rounded-lg`}
-        >
-          <img
-            className="h-8 w-8 rounded-full bg-gray-800"
-            src="/avatar.png"
-            alt=""
-          />
-          <span className="sr-only">Your profile</span>
-          <span aria-hidden="true">Arman Sadeghi</span>
-        </Link>
-      </div>
+          >
+            <Avatar>
+              <AvatarImage src={(user && user?.photoURL) || ""} alt="@shadcn" />
+              <AvatarFallback>CN</AvatarFallback>
+            </Avatar>
+            <span className="sr-only">Your profile</span>
+            <span aria-hidden="true">{user && user.displayName}</span>
+          </Link>
+        </div>
+      )}
     </div>
   );
 };

@@ -20,10 +20,12 @@ import axios from "axios";
 
 const AuthContext = createContext<{
   user: {
+    photoURL: string | null;
     uid: string;
     email: string | null;
     displayName: string | null;
-    token: string;
+    accessToken: string | null;
+    token: string | null;
   } | null;
   loading: boolean;
   login: (email: string, password: string) => Promise<UserCredential>;
@@ -34,49 +36,10 @@ const AuthContext = createContext<{
     email: string,
     password: string
   ) => Promise<void>;
-  models: any;
-  setModels: React.Dispatch<React.SetStateAction<any>>;
   flag1: boolean;
   flag2: boolean;
   setFlag1: (value: boolean) => void;
   setFlag2: (value: boolean) => void;
-  variableData: {
-    title: string;
-    text: string;
-    advanced: {
-      tarea: string;
-      dValue: string;
-      databaseField: string;
-    };
-  }[];
-  setVariableData: React.Dispatch<
-    React.SetStateAction<
-      {
-        title: string;
-        text: string;
-        advanced: {
-          tarea: string;
-          dValue: string;
-          databaseField: string;
-        };
-      }[]
-    >
-  >;
-  promptData: {
-    isFocus: boolean;
-    isExpand: boolean;
-    role: string;
-    text: string | any;
-  }[];
-  setPromptData: React.Dispatch<
-    React.SetStateAction<
-      {
-        isExpand: boolean;
-        role: string;
-        text: "";
-      }[]
-    >
-  >;
   contextData: any;
   setContextData: React.Dispatch<
     React.SetStateAction<any>
@@ -104,63 +67,10 @@ const AuthContext = createContext<{
       });
     }
   },
-  models: [
-    {
-      _id: "6616e8d7c4dd135b3e82fddb",
-      model: "gpt-4-turbo-2024-04-09",
-      name: "GPT-4 Turbo Latest 2024-04-09",
-      class: "gpt-4",
-      limitations: {
-        context_window: 16000,
-        max_tokens: 4096,
-        capabilities: ["text", "image", "video", "audio", "search", "tools"],
-      },
-      api: {
-        provider: "OpenAI",
-        endpoint: "chat_completions",
-      },
-      controls: [
-        {
-          id: "temperature",
-          componentType: "slider",
-          label: "Temperature",
-          helpText:
-            "The higher the temperature, the more random the text. 0.0 is deterministic.",
-          type: "float",
-          value: 0.7,
-          min: 0.0,
-          max: 1.0,
-          step: 0.01,
-        },
-      ],
-    },
-  ],
-  setModels: () => { },
   flag1: false,
   flag2: false,
-  setFlag1: () => { },
-  setFlag2: () => { },
-  variableData: [
-    {
-      title: "",
-      text: "",
-      advanced: {
-        tarea: "",
-        dValue: "",
-        databaseField: "",
-      },
-    },
-  ],
-  setVariableData: () => { },
-  promptData: [
-    {
-      isFocus: false,
-      isExpand: false,
-      role: "system",
-      text: ``,
-    },
-  ],
-  setPromptData: () => { },
+  setFlag1: () => {},
+  setFlag2: () => {},
   contextData: [],
   setContextData: () => { },
   version: 0,
@@ -216,75 +126,17 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       ]
     },
   ]);
-  const [models, setModels] = useState<any>([
-    {
-      isOpen: false,
-      isMoved: false,
-      _id: "6616e8d7c4dd135b3e82fddb",
-      model: "gpt-4-turbo",
-      name: "GPT-4 Turbo Latest 2024-04-09",
-      class: "gpt-4",
-      text: '**This is bold text.** *This is italic text.*',
-      limitations: {
-        context_window: 16000,
-        max_tokens: 4096,
-        capabilities: ["text", "image", "video", "audio", "search", "tools"],
-      },
-      api: {
-        provider: "OpenAI",
-        endpoint: "chat_completions",
-      },
-      controls: [
-        {
-          id: "temperature",
-          componentType: "slider",
-          label: "Temperature",
-          helpText:
-            "The higher the temperature, the more random the text. 0.0 is deterministic.",
-          type: "float",
-          value: 0.7,
-          min: 0.0,
-          max: 1.0,
-          step: 0.01,
-        },
-      ],
-    },
-  ]);
-  const [promptData, setPromptData] = useState<any>([
-    {
-      isFocus: false,
-      isExpand: false,
-      role: "system",
-      text: ``,
-    },
-    {
-      isFocus: false,
-      isExpand: false,
-      role: `user`,
-      text: ``,
-    },
-  ]);
   const [user, setUser] = useState<{
     uid: string;
     email: string | null;
     displayName: string | null;
-    token: string
+    accessToken: string | null;
+    photoURL: string | null;
+    token: string | null;
   } | null>(null);
 
   const [flag1, setFlag1] = useState<boolean>(false);
   const [flag2, setFlag2] = useState<boolean>(false);
-
-  const [variableData, setVariableData] = useState<
-    {
-      title: string;
-      text: string;
-      advanced: {
-        tarea: string;
-        dValue: string;
-        databaseField: string;
-      };
-    }[]
-  >([]);
 
   useEffect(() => {
     const handleAuthStateChange = async (user: any) => {
@@ -296,6 +148,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
           // Set the user state with the user's information and token
           setUser({
             uid: user.uid,
+            accessToken: user.accessToken,
+            photoURL: user.photoURL,
             email: user.email,
             displayName: user.displayName,
             token: token,
@@ -305,6 +159,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
           setUser({
             uid: user.uid,
             email: user.email,
+            accessToken: user.accessToken,
+            photoURL: user.photoURL,
             displayName: user.displayName,
             token: "",
           });
@@ -379,16 +235,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         login,
         logout,
         register,
-        models,
-        setModels,
         flag1,
         flag2,
         setFlag1,
         setFlag2,
-        variableData,
-        setVariableData,
-        promptData,
-        setPromptData,
         contextData,
         setContextData,
         version,
