@@ -18,6 +18,7 @@ import MarkdownView from "../_shared/MarkdownView";
 import { redirect } from "next/navigation";
 import { FiUpload } from "react-icons/fi";
 import { ArrowUpIcon } from "@radix-ui/react-icons";
+import { HiDotsVertical } from "react-icons/hi";
 
 function ChatForm() {
   const [message, setMessage] = useState<string>("");
@@ -278,7 +279,7 @@ function ChatForm() {
     <div className="flex h-[90vh] w-full text-sm">
       <main className="flex-1 flex flex-col">
         {!currentTitle && (
-          <div className="flex flex-col items-center justify-center p-4">
+          <div className="flex flex-col items-center justify-center p-4 text-md">
             <h1>AI Matrix</h1>
             <h3>How can I help you today?</h3>
           </div>
@@ -286,13 +287,13 @@ function ChatForm() {
 
         {isShowSidebar ? (
           <MdOutlineArrowRight
-            className="absolute top-1/2 left-0 transform-translate-x-full cursor-pointer"
+            className="absolute top-1/2 left-0 transform -translate-x-full cursor-pointer"
             size={36}
             onClick={toggleSidebar}
           />
         ) : (
           <MdOutlineArrowLeft
-            className="absolute top-1/2 left-0 transform -translate-x-full text-white cursor-pointer"
+            className="absolute top-1/2 left-0 transform -translate-x-full cursor-pointer"
             size={36}
             onClick={toggleSidebar}
           />
@@ -303,17 +304,17 @@ function ChatForm() {
             {msgHistory.map((chatMsg, idx) => (
               <li
                 key={idx}
-                className={`relative flex gap-4 p-4 rounded-lg}`}
+                className={`relative flex gap-8 p-4 rounded-lg}`}
               >
-                <div className=" h-8 flex">
+                <div className="h-8 flex">
                   {chatMsg.role === eRoleType.USER ? (
                     <MdPerson size={24} />
                   ) : (
-                    <MdChat size={24} />
+                    <MdChat size={22} />
                   )}
                 </div>
                 <div>
-                  <p>
+                  <p className="mb-2">
                     {chatMsg.role === eRoleType.USER ? "You" : "AI Matrix"}
                   </p>
                   <p>
@@ -356,9 +357,10 @@ function ChatForm() {
 
               </div>
             )}
+            <HiDotsVertical className="font-semibold text-xl cursor-pointer dark:text-[#9b9a9a] absolute right-[-2rem]" />
           </form>
           <p className="text-center mt-3 text-sm">
-            AI Matrix can make mistakes. Consider checking important information.
+            AI Matrix can make mistakes. Consider checking important information
           </p>
         </div>
       </main>
