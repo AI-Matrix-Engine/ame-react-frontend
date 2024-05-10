@@ -28,6 +28,8 @@ import {
   DialogTrigger,
 } from "@/components/_shared/Dialog";
 
+import { iModalType } from "@/utils/types";
+
 const initialData: any = {
   promptData: [
     {
@@ -73,6 +75,7 @@ const HorizontalAdjustableSections: React.FC = () => {
   const { user, version, setVersion, contextData, setContextData } = useAuth();
 
   const [open, setOpen] = useState<boolean>(false);
+  const [modalType, setModalType] = useState<iModalType>(iModalType.SAVE);
 
   const handleSaveUpdate = async (data: any) => {
     try {
@@ -94,6 +97,11 @@ const HorizontalAdjustableSections: React.FC = () => {
     }
   };
 
+  const handleSave = () => {
+    setModalType(iModalType.SAVE);
+    setOpen(true);
+  }
+
   const handleSaveNew = () => {
     const newVersionNumber = contextData.length + 1;
     const newAddContextData = { version: newVersionNumber, ...initialData };
@@ -104,56 +112,61 @@ const HorizontalAdjustableSections: React.FC = () => {
     handleSaveUpdate(contextData);
   };
 
+  const handleConfirm = () => {
+    if (modalType === iModalType.SAVE) {
+      handleSaveUpdate(contextData)
+    } else {
+      const newContextData = contextData.map((data: any, index: number) => {
+        if (index === version - 1) {
+          return { version: version, ...initialData }
+        } else {
+          return data;
+        }
+      })
+
+      setContextData(newContextData);
+    }
+  }
+
   function deepCompare(obj1: any, obj2: any): boolean {
     if (typeof obj1 === 'object' && obj1 !== null && typeof obj2 === 'object' && obj2 !== null) {
-        const keys1 = Object.keys(obj1);
-        const keys2 = Object.keys(obj2);
+      const keys1 = Object.keys(obj1);
+      const keys2 = Object.keys(obj2);
 
-        if (keys1.length !== keys2.length) {
-            return false;
-        }
+      if (keys1.length !== keys2.length) {
+        return false;
+      }
 
-        for (let key of keys1) {
-            if (!deepCompare(obj1[key], obj2[key])) {
-                return false;
-            }
+      for (let key of keys1) {
+        if (!deepCompare(obj1[key], obj2[key])) {
+          return false;
         }
-        return true;
+      }
+      return true;
     } else {
-        return obj1 === obj2;
+      return obj1 === obj2;
     }
-}
+  }
 
-  const handleClear = async() => {
-    const result = await axios.get('https://aimatrix-api.vercel.app/api/playground', {
-      params: {
-        user_id: user?.uid
-      }
-    })
+  const handleClear = async () => {
+    // const result = await axios.get('https://aimatrix-api.vercel.app/api/playground', {
+    //   params: {
+    //     user_id: user?.uid
+    //   }
+    // })
 
-    console.log('result', result)
+    // if (result.status === 200 && result.data) {
 
-    if(result.status === 200 && result.data) {
-      const savedData = result.data.data;
+    // }
 
-      console.log('saved data', savedData)
-      console.log('contextdata', contextData)
-      if(deepCompare(savedData, contextData)) {
-        
-        console.log('deepcompare', deepCompare(savedData, contextData))
-        return;
-      } else {
-        const newContextData = contextData.map((data: any, index: number) => {
-          if(index === version - 1) {
-            return { version: version, ...initialData }
-          } else {
-            return data;
-          }
-        })
+    const prevData = contextData[version - 1];
+    const initData = { version: version, ...initialData };
 
-
-        console.log('newContextData', newContextData)
-      }
+    if (deepCompare(prevData, initData)) {
+      return;
+    } else {
+      setModalType(iModalType.CLEAR);
+      setOpen(true);
     }
   }
 
@@ -187,7 +200,7 @@ const HorizontalAdjustableSections: React.FC = () => {
               />
             </div>
             <Button
-              onClick={() => setOpen(true)}
+              onClick={() => handleSave()}
               className="cursor-pointer bg-[#202020] border border-[#3F3F46] text-[12px]"
             >
               Save Update
@@ -236,12 +249,12 @@ const HorizontalAdjustableSections: React.FC = () => {
             Confirm
           </DialogTitle>
           <DialogDescription className="text-center">
-            Are you writing over the previous version?
+            {modalType}
           </DialogDescription>
           <DialogFooter className="sm:justify-center">
             <DialogClose asChild>
               <Button
-                onClick={() => handleSaveUpdate(contextData)}
+                onClick={() => handleConfirm()}
                 className="cursor-pointer bg-[#202020] border border-[#3F3F46] text-[12px]"
               >
                 Yes
