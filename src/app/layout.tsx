@@ -11,7 +11,7 @@ import { Main } from "@/components/home/Main";
 import { menuItems } from "@/components/home/Data";
 import PrivateRoute from "@/components/privateRoute";
 import { useEffect, useState } from "react";
-const inter = Inter({ subsets: ["latin"] });
+// const inter = Inter({ subsets: ["latin"] });
 
 export default function RootLayout({
   children,
@@ -32,7 +32,7 @@ export default function RootLayout({
       <Head>
         <title>AI Matrix Engine</title>
       </Head>
-      <body className={`${inter.className} bg-[#f0f2f5]`}>
+      <body className={`bg-[#f0f2f5]`}>
         {loading ? (
           <Spinner />
         ) : (

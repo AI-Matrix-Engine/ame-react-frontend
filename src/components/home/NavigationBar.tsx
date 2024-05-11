@@ -118,7 +118,7 @@ export const NavigationBar = ({
           </div>
         ))}
       </div>
-      {user && (
+      {/* {user && (
         <div className="mt-4">
           <Link
             href="/profile"
@@ -139,7 +139,7 @@ export const NavigationBar = ({
             <span aria-hidden="true">{user && user.displayName}</span>
           </Link>
         </div>
-      )}
+      )} */}
     </div>
   );
 };

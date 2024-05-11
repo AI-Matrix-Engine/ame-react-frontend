@@ -34,15 +34,15 @@ const ChatItem: React.FC<ChatItemProps> = ({ chatIndex, chatTitle }) => {
                     <form onSubmit={submitHandler}>
                         <input
                             type="text"
-                            placeholder="Enter Title"
-                            className="w-full flex p-1 mr-2 rounded outline-none"
+                            placeholder="Send a message."
+                            className="w-full flex p-1 mr-2 bg-gray-700 text-white rounded-lg outline-none"
                             spellCheck="false"
                             value={title}
                             onChange={(e) => setTitle(e.target.value)}
                         />
                     </form>
                 ) : (
-                    <div className="truncate">{title}</div>
+                    <div>{title}</div>
                 )
             }
             <AiFillEdit className="ml-2" onClick={() => setIsChangeTitle(!isChangeTitle)} />

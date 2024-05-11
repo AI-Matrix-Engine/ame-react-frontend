@@ -10,15 +10,15 @@ const PrivateRoute = ({ children }: any) => {
   const pathname = usePathname();
   const { user } = useAuth();
 
-  useEffect(() => {
-    console.log(pathname);
-    if (pathname == "/login" || pathname == "/signup" || pathname == "/") {
-    } else {
-      if (!user) {
-        router.push("/login"); // Redirect to login page if not logged in
-      }
-    }
-  }, [pathname]);
+  // useEffect(() => {
+  //   console.log(pathname);
+  //   if (pathname == "/login" || pathname == "/signup" || pathname == "/") {
+  //   } else {
+  //     if (!user) {
+  //       router.push("/login"); // Redirect to login page if not logged in
+  //     }
+  //   }
+  // }, [pathname]);
 
   return <>{children}</>;
 };

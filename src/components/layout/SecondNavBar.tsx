@@ -1,6 +1,6 @@
 "use client";
 import { iSecondNavbarProps, iLeftSidebarExpand } from "@/utils/types";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { NavigationBar } from "@/components/home/NavigationBar";
 import { usePathname } from "next/navigation";
 import { TbMinusVertical } from "react-icons/tb";
@@ -15,10 +15,10 @@ export const SecondNavbar = ({ navItems }: iSecondNavbarProps) => {
 
     return (
         <>
-            <div className={`bg-[#F8F9FB] flex`}>
+            <div className={`bg-[#F8F9FB] flex dark:bg-[#18181b] dark:border-r dark:border-r-[#ffffff1a]`}>
                 {isExpand.app && (
                     <div className="flex-1 py-[16px] pl-[16px]">
-                        <h1 className="text-black font-semibold text-lg mb-[20px]">
+                        <h1 className="text-black font-semibold text-lg mb-[20px] dark:text-white">
                             {(navItems[0].items.find((item) => item.route === currentUrl)?.itemCategory || "Matrix Apps") + ' Controls'}
                         </h1>
                         <NavigationBar textColor="text-gray-400" hoverColor="text-gray-500" navItems={navItems} />
