@@ -113,7 +113,7 @@ const ResponsePrompt = ({
       <div
         className={`flex-col rounded-lg relative border ${
           isExpand && ""
-        } border-[#6b6b6b80] mb-2 hover:border-[#0e8157] hover:bg-[#dcdce0] dark:hover:bg-[#ffffff0d] flex justify-between p-2`}
+        } border-[#6b6b6b80] mb-2 hover:bg-[#dcdce0] dark:hover:bg-[#ffffff0d] flex justify-between p-2`}
       >
         <div
           onClick={() => {
@@ -173,7 +173,7 @@ const ResponsePrompt = ({
             // </p>
             <TextareaAutosize
               rows={4}
-              value={text.replace(/\*/g, "").substring(0, 70) + "..."}
+              value={text.length === 0 ? "" : text.replace(/\*/g, "").substring(0, 70) + "..."}
               onChange={handleChange}
               className={`w-full resize-none text-[14px] overflow-y-hidden outline-none bg-transparent h-fit min-h-fit rounded-md relative text-[#71717A] cursor-pointer`}
             />
