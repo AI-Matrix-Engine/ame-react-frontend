@@ -119,7 +119,7 @@ const MarkdownView: React.FC<MarkdownViewProps> = ({
   const numberedContent = addNumbersToMarkdownList(content);
 
   return (
-    <div key={index} className={`chatbot-messages-area text-opacity-50 dark:text-white text-md font-semibold m-auto relative rounded-md overflow-auto group`} style={{ width: width, fontSize: fontSize }}>
+    <div key={index} className={`chatbot-messages-area text-opacity-50 dark:text-white text-md m-auto relative rounded-md overflow-auto group`} style={{ width: width, fontSize: fontSize }}>
       <div ref={contentRef} className='pl-10'><ReactMarkdown remarkPlugins={[remarkGfm]} components={components}>
         {numberedContent}
       </ReactMarkdown>

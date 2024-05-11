@@ -335,7 +335,7 @@ function ChatFrom() {
                 key={idx}
                 className={`flex items-center mx-auto lg:pl-32 rounded-lg`}
               >
-                <div>
+                <div className="w-full">
                   <div className="flex">
                     <div className="pr-2">
                       {chatMsg.role === eRoleType.USER ? (
@@ -407,7 +407,7 @@ function ChatFrom() {
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
                 onKeyDown={handleKeyPress}
-                placeholder="Message AIDRM …"
+                placeholder="Message AIDRM…"
                 className="m-0 w-full text-md resize-none bg-transparent dark:bg-transparent py-[10px] pr-10 md:p-3.5 md:pr-12 max-h-[200px] placeholder-black/50 dark:placeholder-white/50 pl-4 md:pl-6 textarea-field outline-none"
                 rows={1}
               ></textarea>
