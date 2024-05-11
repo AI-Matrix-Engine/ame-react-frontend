@@ -153,7 +153,7 @@ const Prompt = ({
       }}
     >
       <div
-        className={`rounded-lg flex-col relative border border-[#6b6b6b80] hover:border-[#0e8157] hover:bg-[#dcdce0] dark:hover:bg-[#ffffff0d] flex justify-between p-2`}
+        className={`rounded-lg flex-col relative border border-[#6b6b6b80] hover:bg-[#dcdce0] dark:hover:bg-[#ffffff0d] flex justify-between p-2`}
       >
         <div className="flex items-center justify-between">
           <Label className="mb-[5px] text-[12px] dark:text-white">{role?.toUpperCase()}</Label>
@@ -220,7 +220,7 @@ const Prompt = ({
               //     : text.substring(0, 15) + "..."}
               // </p>
               <TextareaAutosize
-                value={text.substring(0, 15) + "..."}
+                value={text.length === 0 ? "" : text.substring(0, 15) + "..."}
                 spellCheck={false}
                 className="w-full resize-none overflow-y-hidden outline-none bg-transparent h-fit min-h-fit rounded-md relative text-[#71717A] text-[14px] cursor-pointer"
               />
@@ -287,7 +287,7 @@ const Prompt = ({
           <TextareaAutosize
             value={
               text.length === 0
-                ? "empty prompt..."
+                ? ""
                 : text.substring(0, 15) + "..."
             }
             spellCheck={false}

@@ -362,8 +362,3 @@ export interface iChat {
   title: string,
   msgArr: iMessage[]
 }
-
-export enum iModalType {
-  CLEAR = "Are you sure you want to delete content of this version?",
-  SAVE = "Are you overwriting the previous version?"
-}

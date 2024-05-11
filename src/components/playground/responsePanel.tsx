@@ -38,9 +38,15 @@ const RightSection = ({ width, index, isResizable, onMouseDown }: any) => {
     const currentModels = contextData[version - 1].responseData;
     const updateModels = currentModels.map((model: any, key: number) => {
       if (key === index) {
-        if (model.isOpen) model.isOpen = false;
-        else model.isOpen = true;
-      } else model.isOpen = false;
+        if (model.isOpen) {
+          model.isOpen = false;
+          model.isModelSettingOpen = false;
+        }
+        else {
+          model.isOpen = true;
+          model.isModelSettingOpen = true;
+        };
+      }
       return model;
     });
 
@@ -52,7 +58,7 @@ const RightSection = ({ width, index, isResizable, onMouseDown }: any) => {
     });
     setContextData(updateContextData);
   };
-
+  
   const removePrompt = (index: number) => {
     const currentModels = contextData[version - 1].responseData;
     const updateModels = currentModels.filter(

@@ -28,8 +28,6 @@ import {
   DialogTrigger,
 } from "@/components/_shared/Dialog";
 
-import { iModalType } from "@/utils/types";
-
 const initialData: any = {
   promptData: [
     {
@@ -75,7 +73,6 @@ const HorizontalAdjustableSections: React.FC = () => {
   const { user, version, setVersion, contextData, setContextData } = useAuth();
 
   const [open, setOpen] = useState<boolean>(false);
-  const [modalType, setModalType] = useState<iModalType>(iModalType.SAVE);
 
   const handleSaveUpdate = async (data: any) => {
     try {
@@ -97,11 +94,6 @@ const HorizontalAdjustableSections: React.FC = () => {
     }
   };
 
-  const handleSave = () => {
-    setModalType(iModalType.SAVE);
-    setOpen(true);
-  }
-
   const handleSaveNew = () => {
     const newVersionNumber = contextData.length + 1;
     const newAddContextData = { version: newVersionNumber, ...initialData };
@@ -112,64 +104,6 @@ const HorizontalAdjustableSections: React.FC = () => {
     handleSaveUpdate(contextData);
   };
 
-  const handleConfirm = () => {
-    if (modalType === iModalType.SAVE) {
-      handleSaveUpdate(contextData)
-    } else {
-      const newContextData = contextData.map((data: any, index: number) => {
-        if (index === version - 1) {
-          return { version: version, ...initialData }
-        } else {
-          return data;
-        }
-      })
-
-      setContextData(newContextData);
-    }
-  }
-
-  function deepCompare(obj1: any, obj2: any): boolean {
-    if (typeof obj1 === 'object' && obj1 !== null && typeof obj2 === 'object' && obj2 !== null) {
-      const keys1 = Object.keys(obj1);
-      const keys2 = Object.keys(obj2);
-
-      if (keys1.length !== keys2.length) {
-        return false;
-      }
-
-      for (let key of keys1) {
-        if (!deepCompare(obj1[key], obj2[key])) {
-          return false;
-        }
-      }
-      return true;
-    } else {
-      return obj1 === obj2;
-    }
-  }
-
-  const handleClear = async () => {
-    // const result = await axios.get('https://aimatrix-api.vercel.app/api/playground', {
-    //   params: {
-    //     user_id: user?.uid
-    //   }
-    // })
-
-    // if (result.status === 200 && result.data) {
-
-    // }
-
-    const prevData = contextData[version - 1];
-    const initData = { version: version, ...initialData };
-
-    if (deepCompare(prevData, initData)) {
-      return;
-    } else {
-      setModalType(iModalType.CLEAR);
-      setOpen(true);
-    }
-  }
-
   const openDialog = () => {
     setOpen(!open);
   };
@@ -177,16 +111,15 @@ const HorizontalAdjustableSections: React.FC = () => {
   return (
     <>
       <div className="h-full container-height pb-1 dark:bg-[#18181b]">
-        <div className="flex items-center px-[30px] justify-between h-[60px]">
+        <div className="flex items-center pl-[9.92px] justify-between h-[60px]">
           <div className="flex items-center">
-            <div className="p-2 rounded-full  [box-shadow:#0d704c80_0px_0px_20px_0px,_#0d704c80_0px_0px_20px_0px] cursor-pointer">
+            {/* <div className="p-2 rounded-full  [box-shadow:#0d704c80_0px_0px_20px_0px,_#0d704c80_0px_0px_20px_0px] cursor-pointer">
               <GoPlusCircle size={20} className="dark:text-white" />
-            </div>
-            <FaBars className="ml-[31px] text-[25px] mr-[25px] cursor-pointer dark:text-white" />
+            </div> */}
+            {/* <FaBars className="ml-[31px] text-[25px] mr-[25px] cursor-pointer dark:text-white" /> */}
             <Input
               className="min-w-[300px] w-[300px]"
               aria-label="Full name"
-              defaultValue="Start Generic Job Posting from Job Title"
             />
             <div className="ml-[20px] mr-[20px]">
               <Dropdown
@@ -200,7 +133,7 @@ const HorizontalAdjustableSections: React.FC = () => {
               />
             </div>
             <Button
-              onClick={() => handleSave()}
+              onClick={() => setOpen(true)}
               className="cursor-pointer bg-[#202020] border border-[#3F3F46] text-[12px]"
             >
               Save Update
@@ -211,16 +144,10 @@ const HorizontalAdjustableSections: React.FC = () => {
             >
               Save New
             </Button>
-            <Button
-              className="cursor-pointer ml-[20px] bg-[#202020] border border-[#3F3F46] text-[12px]"
-              onClick={handleClear}
-            >
-              Clear
-            </Button>
           </div>
-          <div className="flex items-center">
+          {/* <div className="flex items-center">
             <HiDotsVertical className="font-semibold text-xl cursor-pointer dark:text-white" />
-          </div>
+          </div> */}
         </div>
         <div className="flex for-playground-height">
           <PanelGroup direction="horizontal">
@@ -249,12 +176,12 @@ const HorizontalAdjustableSections: React.FC = () => {
             Confirm
           </DialogTitle>
           <DialogDescription className="text-center">
-            {modalType}
+            Are you writing over the previous version?
           </DialogDescription>
           <DialogFooter className="sm:justify-center">
             <DialogClose asChild>
               <Button
-                onClick={() => handleConfirm()}
+                onClick={() => handleSaveUpdate(contextData)}
                 className="cursor-pointer bg-[#202020] border border-[#3F3F46] text-[12px]"
               >
                 Yes
