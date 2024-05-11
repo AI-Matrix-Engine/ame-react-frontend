@@ -125,6 +125,7 @@ const HorizontalAdjustableSections: React.FC = () => {
       })
 
       setContextData(newContextData);
+      handleSaveUpdate(newContextData);
     }
   }
 
