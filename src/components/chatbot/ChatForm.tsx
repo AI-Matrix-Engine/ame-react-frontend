@@ -187,12 +187,6 @@ function ChatForm() {
   }, []);
 
   useEffect(() => {
-    if (!user?.uid || !user.token) {
-      redirect('/login');
-    }
-  }, [user])
-
-  useEffect(() => {
     if (chatHistory.length > currentChat) {
       setMsgHistory(chatHistory[currentChat].msgArr)
     }

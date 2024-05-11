@@ -177,16 +177,15 @@ const HorizontalAdjustableSections: React.FC = () => {
   return (
     <>
       <div className="h-full container-height pb-1 dark:bg-[#18181b]">
-        <div className="flex items-center px-[30px] justify-between h-[60px]">
+        <div className="flex items-center pl-[9.92px] justify-between h-[60px]">
           <div className="flex items-center">
-            <div className="p-2 rounded-full  [box-shadow:#0d704c80_0px_0px_20px_0px,_#0d704c80_0px_0px_20px_0px] cursor-pointer">
+            {/* <div className="p-2 rounded-full  [box-shadow:#0d704c80_0px_0px_20px_0px,_#0d704c80_0px_0px_20px_0px] cursor-pointer">
               <GoPlusCircle size={20} className="dark:text-white" />
             </div>
-            <FaBars className="ml-[31px] text-[25px] mr-[25px] cursor-pointer dark:text-white" />
+            <FaBars className="ml-[31px] text-[25px] mr-[25px] cursor-pointer dark:text-white" /> */}
             <Input
               className="min-w-[300px] w-[300px]"
               aria-label="Full name"
-              defaultValue="Start Generic Job Posting from Job Title"
             />
             <div className="ml-[20px] mr-[20px]">
               <Dropdown
@@ -218,9 +217,9 @@ const HorizontalAdjustableSections: React.FC = () => {
               Clear
             </Button>
           </div>
-          <div className="flex items-center">
+          {/* <div className="flex items-center">
             <HiDotsVertical className="font-semibold text-xl cursor-pointer dark:text-white" />
-          </div>
+          </div> */}
         </div>
         <div className="flex for-playground-height">
           <PanelGroup direction="horizontal">
