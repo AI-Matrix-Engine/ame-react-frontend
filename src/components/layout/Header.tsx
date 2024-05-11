@@ -11,12 +11,14 @@ import {
 } from "@/components/_shared/NavigationMenu";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/_shared/Avatar";
+import { useAuth } from "@/context/AuthContext";
 
 export const Header = () => {
+  const {user} = useAuth();
   return (
     <div className="flex py-1 px-4 bg-[#252b36] items-center justify-center ">
       <h2 className="flex-1 text-2xl text-white font-arimo font-semibold">
-        AIDRM
+        AI Matrix Engine
       </h2>
 
       <div className="flex items-center">
@@ -26,12 +28,12 @@ export const Header = () => {
               <NavigationMenuTrigger className="gap-2 justify-center items-center text-white">
                 <Avatar>
                   <AvatarImage
-                    src="https://github.com/shadcn.png"
+                    src={user && user.photoURL || ""}
                     alt="@shadcn"
                   />
                   <AvatarFallback>CN</AvatarFallback>
                 </Avatar>
-                <p>Armani Sadeghi</p>
+                <p>{user && user.displayName}</p>
               </NavigationMenuTrigger>
               <NavigationMenuContent>
                 <ul className="flex flex-col gap-3 p-2 w-[200px]  ">

@@ -1,6 +1,7 @@
 "use client";
 import React, { useEffect, useState, useMemo } from "react";
 import axios from 'axios';
+import { useApis } from "@/hooks/useApis";
 import { Input, Button, Dropdown, Label } from "../../_shared";
 import { AddCategory, AppOverview, AIConversationSettings } from ".";
 import { AIModelSpecifications } from "./AIModelSpecifications";
@@ -49,6 +50,8 @@ export const Create = () => {
         setSubCategorySelectedValue,
         handleCategoryChange
     } = useCategories();
+
+    const {apis, setApis} = useApis();
 
     const [toggleAddCategory, setToggleAddCategory] = React.useState<string>("");
     const [appOverview, setAppOverview] = React.useState({

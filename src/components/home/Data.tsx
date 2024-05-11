@@ -10,7 +10,7 @@ import { TbMessageChatbot } from "react-icons/tb";
 
 export const menuItems: MenuCategory[] = [
   {
-    category: "App Name Here",
+    category: "AI Matrix Engine",
     items: [
       {
         itemCategory: "Matrix Workbench",
@@ -31,12 +31,7 @@ export const menuItems: MenuCategory[] = [
         itemCategory: "Chatbot",
         icon: <TbMessageChatbot className="h-4 w-4" />,
         route: "/chatbot"
-      },
-      {
-        itemCategory: "Play Ground",
-        icon: <TfiHeadphone className="h-4 w-4" />,
-        route: "/playground"
-      },
+      }
     ],
   },
   {

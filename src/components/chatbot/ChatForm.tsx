@@ -7,30 +7,37 @@ import {
   useCallback,
   useLayoutEffect,
 } from "react";
-import { BiPlus, BiUser, BiSend, BiSolidUserCircle } from "react-icons/bi";
-import { SiChatwoot } from "react-icons/si";
-import { BsChatQuote } from "react-icons/bs";
-import { MdOutlineArrowLeft, MdOutlineArrowRight } from "react-icons/md";
-import MarkdownView from "../_shared/MarkdownView";
-import MyMessageView from "../_shared/MyMessageView";
-import { socketService } from "@/lib/socket";
-import { iMessage, eRoleType, iChat } from "@/utils/types";
-import Icon from "../icons";
-import { ChatBubbleIcon } from "@radix-ui/react-icons";
-import { useChat } from "@/context/ChatContext";
 import axios from "axios";
+import Icon from "../icons";
+import { FiUpload } from "react-icons/fi";
+import { redirect } from "next/navigation";
+import { SiChatwoot } from "react-icons/si";
+import { socketService } from "@/lib/socket";
+import { BsChatQuote } from "react-icons/bs";
+import { useAuth } from "@/context/AuthContext";
+import { useChat } from "@/context/ChatContext";
+import { HiDotsVertical } from "react-icons/hi";
+import MarkdownView from "../_shared/MarkdownView";
+import { ArrowUpIcon } from "@radix-ui/react-icons";
+import MyMessageView from "../_shared/MyMessageView";
+import { ChatBubbleIcon } from "@radix-ui/react-icons";
+import { iMessage, eRoleType, iChat } from "@/utils/types";
+import {  MdSend, MdPerson, MdChat } from "react-icons/md";
+import { MdOutlineArrowLeft, MdOutlineArrowRight } from "react-icons/md";
+import { BiPlus, BiUser, BiSend, BiSolidUserCircle } from "react-icons/bi";
 
-function ChatFrom() {
+function ChatForm() {
   const messageTextareaRef = useRef<HTMLTextAreaElement | null>(null);
   const [message, setMessage] = useState<string>("");
-  const [currentTitle, setCurrentTitle] = useState<string | null>("");
+  const [currentTitle, setCurrentTitle] = useState<string | null>("")
   const [msgHistory, setMsgHistory] = useState<iMessage[]>([]);
-  const [streamText, setStreamText] = useState<string>("");
+  const [streamText, setStreamText] = useState<string>('');
   const scrollToLastItem = useRef<HTMLDivElement | null>(null);
   const [isResponseLoading, setIsResponseLoading] = useState<boolean>(false);
   const [errorText, setErrorText] = useState<string>("");
   const [isShowSidebar, setIsShowSidebar] = useState<boolean>(false);
   const [textareaHeight, setTextareaHeight] = useState(22);
+  const [aiResponse, setAiResponst] = useState<string>("");
 
   const {
     currentChat,
@@ -82,6 +89,10 @@ function ChatFrom() {
     }
   }, [message]);
 
+
+  const { user } = useAuth();
+
+
   useEffect(() => {
     const intervalFunction = async () => {
       if (index.length === 0) return;
@@ -89,22 +100,17 @@ function ChatFrom() {
       try {
         // Call API for saving current chat data
 
-        const response = await axios.put(
-          "https://aimatrix-api.vercel.app/api/aichat",
-          {
-            id: index,
-            history: chatHistory,
-          }
-        );
+        const response = await axios.put('https://aimatrix-api.vercel.app/api/aichat', {
+          id: index,
+          history: chatHistory
+        });
 
-        if (response.status === 200) {
-          console.log("Chat data saved successfully:", response.data);
-        } else {
-          console.log("Unexpected response status:", response.status);
+        if (response.status !== 200) {
+          console.error('Unexpected response status:', response.status);
         }
       } catch (error) {
         // Handle any errors during the API call
-        console.error("Error saving chat data:", error);
+        console.error('Error saving chat data:', error);
       }
     };
 
@@ -118,18 +124,21 @@ function ChatFrom() {
   const displayUserMessage = (msg: string, type: eRoleType) => {
     const newMessage: iMessage = {
       role: type,
-      content: msg,
+      content: msg
     };
 
-    setMsgHistory((prev) => [...prev, newMessage]);
-  };
+    setMsgHistory(prev => [
+      ...prev,
+      newMessage
+    ]);
+  }
 
   const typeMessageCharacterByCharacter = (message: string) => {
     return new Promise<void>((resolve) => {
-      var i = 0;
+      var i = -1;
       var typingInterval = setInterval(() => {
         if (i < message.length - 1) {
-          setStreamText((prev) => prev + message[i]);
+          setStreamText(prev => prev + message[i]);
           i++;
         } else {
           clearInterval(typingInterval);
@@ -154,7 +163,7 @@ function ChatFrom() {
 
   const sendMessage = (msg: string) => {
     const messageData = {
-      message: msg,
+      message: msg ?? message,
       history: getChatHistory(),
       settings: {
         customOptions: false,
@@ -163,9 +172,9 @@ function ChatFrom() {
         quickAnswer: true,
         improveQuestions: false,
         makeSmallTalk: true,
-        submitOnEnter: true,
+        submitOnEnter: true
       },
-      page: "chatbot.backend_functions.openai_chatbot",
+      page: "chatbot.backend_functions.openai_chatbot"
     };
 
     const socket = socketService.getSocket();
@@ -230,41 +239,54 @@ function ChatFrom() {
 
   useEffect(() => {
     if (chatHistory.length > currentChat) {
-      setMsgHistory(chatHistory[currentChat].msgArr);
+      setMsgHistory(chatHistory[currentChat].msgArr)
     }
 
     if (!socketService.getSocket()) {
-      socketService.init();
+      socketService.init(user?.token ? user.token : "", user?.uid ? user.uid : "");
     }
 
     const socket = socketService.getSocket();
 
     if (socket) {
-      socket.on("ai_response", (receivedData: any) => {
-        console.log("ai_response", receivedData);
+      socket.on('ai_response', (receivedData: any) => {
         setStreamText("");
-        processIncomingMessages(receivedData);
+        setIsResponseLoading(false);
+        setAiResponst(receivedData);
         displayUserMessage(receivedData, eRoleType.ASSISTANT);
       });
     }
 
     return () => {
-      socket?.off("ai_response");
+      socket?.off('ai_response');
     };
-  }, []);
+  }, [])
+
+  useEffect(() => {
+    if (aiResponse.length === 0) return;
+
+    setTimeout(() => {
+      setStreamText(prev => prev + aiResponse.substring(prev.length, prev.length + 5))
+      if (streamText.length >= aiResponse.length) {
+        setAiResponst('');
+        setStreamText('');
+      }
+    }, 10)
+  }, [streamText, aiResponse])
 
   useEffect(() => {
     if (chatHistory.length > currentChat) {
-      setMsgHistory(chatHistory[currentChat].msgArr);
+      setMsgHistory(chatHistory[currentChat].msgArr)
     }
-  }, [chatHistory]);
+  }, [chatHistory])
 
   useEffect(() => {
-    if (streamText == "" || !isResponseLoading) return;
+    if (streamText === '' || !isResponseLoading)
+      return;
 
     setIsResponseLoading(false);
     scrollToBottom();
-  }, [streamText]);
+  }, [streamText])
 
   useEffect(() => {
     scrollToBottom();
@@ -272,42 +294,39 @@ function ChatFrom() {
     if (msgHistory.length === 0) return;
 
     if (chatHistory.length === 0) {
-      setChatHistory((prev: any) => [
-        {
-          title: "New Chat",
-          msgArr: msgHistory,
-        },
-      ]);
+      setChatHistory(prev => [...prev, {
+        title: 'New Chat',
+        msgArr: msgHistory
+      }])
     } else {
       let data: iChat[] = chatHistory;
 
       data[currentChat] = {
         title: chatHistory[currentChat].title,
-        msgArr: msgHistory,
+        msgArr: msgHistory
       };
 
       setChatHistory(data);
     }
-  }, [msgHistory]);
+  }, [msgHistory])
 
   useEffect(() => {
     if (chatHistory.length > currentChat) {
       setMsgHistory(chatHistory[currentChat].msgArr);
     }
-    messageTextareaRef.current?.focus();
-  }, [currentChat]);
+  }, [currentChat])
 
   const toggleSidebar = useCallback((): void => {
     setIsShowSidebar((prev) => !prev);
   }, []);
 
   return (
-    <div className={`flex h-full chatbot-messages-area w-full`}>
+    <div className="flex h-[90vh] w-full text-sm">
       <main className="flex-1 flex flex-col">
         {!currentTitle && (
-          <div className="flex flex-col items-center justify-center p-4 ">
-            <h1 className="text-lg font-bold">AIDRM</h1>
-            <h3 className="text-md">How can I help you today?</h3>
+          <div className="flex flex-col items-center justify-center p-4 text-md">
+            <h1>AI Matrix</h1>
+            <h3>How can I help you today?</h3>
           </div>
         )}
 
@@ -325,10 +344,7 @@ function ChatFrom() {
           />
         )}
 
-        <div
-          ref={scrollToLastItem}
-          className="flex flex-col h-full overflow-y-auto ml-4"
-        >
+        <div ref={scrollToLastItem} className="w-full sm:w-3/4 md:2/3 mx-auto flex flex-col h-full overflow-y-auto">
           <ul className="space-y-4 p-4">
             {msgHistory.map((chatMsg, idx) => (
               <li
@@ -432,4 +448,4 @@ function ChatFrom() {
   );
 }
 
-export default ChatFrom;
+export default ChatForm;

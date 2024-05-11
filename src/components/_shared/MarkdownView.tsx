@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useRef, useState } from 'react';
+import React, { Children, useRef, useState } from 'react';
 import ReactMarkdown, { Components } from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
@@ -10,6 +10,7 @@ import { BiSolidDislike } from "react-icons/bi";
 import { FiClipboard } from "react-icons/fi";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from './Tooltip';
 import { SlReload } from "react-icons/sl";
+import { AiOutlineCopy } from 'react-icons/ai';
 
 interface MarkdownViewProps {
   content: string;
@@ -20,6 +21,13 @@ interface MarkdownViewProps {
   reloadHandler: () => void;
   index: number;
 }
+const empty = ({ children }: any) => {
+  return (
+    <em className="empty__tag">
+      {children}
+    </em>
+  )
+};
 
 const MarkdownView: React.FC<MarkdownViewProps> = ({
   content,
@@ -37,6 +45,7 @@ const MarkdownView: React.FC<MarkdownViewProps> = ({
     inlineCode: ({ children }: { children: React.ReactNode }) => React.JSX.Element;
     h1: ({ children }: any) => React.JSX.Element;
     th: ({ children }: any) => React.JSX.Element;
+
     code: ({ node, inline, className, children, language, ...props }: any,
     ) => React.ReactNode; // Adjust the type here
     list: ({ children }: any) => React.JSX.Element;
@@ -44,13 +53,13 @@ const MarkdownView: React.FC<MarkdownViewProps> = ({
     code: ({ node, inline, className, children, language, ...props }) => {
       const match = /language-(\w+)/.exec(className || '');
       return (
-        <SyntaxHighlighter style={vscDarkPlus} language={match ? match[1] : language} PreTag="div">
+        <SyntaxHighlighter style={vscDarkPlus} language={match ? match[1] : language} PreTag={match ? "div" : empty}>
           {String(children).replace(/\n$/, '')}
         </SyntaxHighlighter>
       )
     },
     h1: ({ children }) => (
-      <h1 className='text-bg'>
+      <h1 className='mb-1 text-bg'>
         {children}
       </h1>
     ),
@@ -60,7 +69,7 @@ const MarkdownView: React.FC<MarkdownViewProps> = ({
       </th>
     ),
     table: ({ children }) => (
-      <table style={{ borderCollapse: 'collapse', width: '100%' }}>
+      <table style={{ marginBottom: '8px', borderCollapse: 'collapse', width: '100%' }}>
         {children}
       </table>
     ),
@@ -75,13 +84,13 @@ const MarkdownView: React.FC<MarkdownViewProps> = ({
       </td>
     ),
     inlineCode: ({ children }) => (
-      <code className={`px-2 py-1 rounded-md`}>
+      <code className={`mb-1 bg-gray-100 px-2 py-1 rounded-md`}>
         {children}
       </code>
     ),
     list: ({ children }) => (
       <li>
-        <IoIosCheckmarkCircleOutline className="inline-block mr-2" />
+        <IoIosCheckmarkCircleOutline className="inline-block mr-2 mb-1" />
         {children}
       </li>
     )
@@ -119,10 +128,14 @@ const MarkdownView: React.FC<MarkdownViewProps> = ({
   const numberedContent = addNumbersToMarkdownList(content);
 
   return (
-    <div key={index} className={`chatbot-messages-area text-opacity-50 dark:text-white text-md m-auto relative rounded-md overflow-auto group`} style={{ width: width, fontSize: fontSize }}>
-      <div ref={contentRef} className='pl-10'><ReactMarkdown remarkPlugins={[remarkGfm]} components={components}>
-        {numberedContent}
-      </ReactMarkdown>
+    <div className={`text-[#3f3f3f] dark:text-[#d9d9e3] m-auto rounded-md`} style={{ width: width, height: height, fontSize: fontSize }}>
+      <button onClick={handleCopyText} className="absolute top-0 right-0 p-2 text-[#ccccccb9] dark:text-[#878787a8] invisible group-hover:visible">
+        <AiOutlineCopy size={20} />
+      </button>
+      <div ref={contentRef}>
+        <ReactMarkdown remarkPlugins={[remarkGfm]} components={components}>
+          {numberedContent}
+        </ReactMarkdown>
       </div>
       {showCopyText && (
         <div className="absolute left-1/2 -translate-x-1/2 bottom-0 dark:text-black my-4 text-center">

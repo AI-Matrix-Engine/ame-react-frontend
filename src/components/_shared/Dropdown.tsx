@@ -15,7 +15,9 @@ export const Dropdown = ({
     options = [],
     placeHolder,
     value,
+    disabled,
     className,
+    isLabel,
     ...rest
 }: iDropDownProps) => {
     const handleChange = (value: string) => {
@@ -23,13 +25,14 @@ export const Dropdown = ({
     };
 
     return (
-        <div className="w-full dark:text-[#fafafa] dark:bg-[#ffffff0d] dark:border-[#ffffff1a] dark:border outline-none rounded-md">
-            <Label className="mb-2">{placeHolder}</Label>
+        <div className="w-full dark:text-[#fafafa] outline-none rounded-md">
+            {!isLabel && <Label className="mb-2">{placeHolder}</Label>}
             <Select
                 onValueChange={(value: string) => {
                     handleChange(value);
                 }}
-                defaultValue={options[0]?.value}
+                value={value}
+                disabled={disabled}
             >
                 <SelectTrigger className={className}>
                     <SelectValue placeholder={placeHolder} />

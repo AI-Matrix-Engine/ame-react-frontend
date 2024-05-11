@@ -96,17 +96,11 @@ export const updateCategoryById = async (
   }
 };
 
-export const patchCategoryById = async (
-  id: number,
-  category: { name: string; parent_category: number | null }
-): Promise<void> => {
-  try {
-    const response = await axios.patch(
-      `${aiMatrixAPI.defaults.baseURL}oai/allcategory/${id}/`,
-      category
-    );
-    console.log("Category patched successfully.", response.data);
-  } catch (err) {
-    console.error(`Failed to patch category by id`, err);
-  }
-};
+export const patchCategoryById = async (id: number, category: { name: string, parent_category: number | null }): Promise<void> => {
+    try {
+        const response = await axios.patch(`${aiMatrixAPI.defaults.baseURL}oai/allcategory/${id}/`, category);
+        console.log('Category patched successfully.', response.data)
+    } catch (err) {
+        console.error(`Failed to patch category by id`, err);
+    }
+}

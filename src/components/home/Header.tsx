@@ -16,11 +16,10 @@ import { iHeader } from "@/utils/types";
 export const Header = ({ darkMode, setMode }: iHeader) => {
   const { user, logout } = useAuth();
   const router = useRouter();
-
   return (
     <div className="flex py-1 px-4 bg-[#252b36] dark:bg-[#18181b] dark:border-b dark:border-b-[#ffffff1a] items-center justify-center h-[64px] z-[1]">
       <h2 className="flex-1 text-2xl text-white font-arimo font-semibold">
-        AIDRM
+        AI Matrix Engine
       </h2>
 
       <div className="flex items-center">
@@ -31,18 +30,19 @@ export const Header = ({ darkMode, setMode }: iHeader) => {
             <MdOutlineLightMode className="text-white text-2xl mr-5 cursor-pointer" />
           )}
         </div>
-        {true ? (
+        {user ? (
           <Menu as="div" className="relative inline-block text-left">
             <div>
               <Menu.Button className="inline-flex justify-center items-center w-full rounded-md shadow-sm px-4 py-2 bg-transparent text-sm font-medium text-white hover:bg-gray-700">
                 <Avatar>
                   <AvatarImage
-                    src="https://github.com/shadcn.png"
+                  // @ts-ignore
+                    src={user && user?.photoURL}
                     alt="@shadcn"
                   />
                   <AvatarFallback>CN</AvatarFallback>
                 </Avatar>
-                <p className="ml-[10px]">{'Tom Cook'}</p>
+                <p className="ml-[10px]">{user && user.displayName}</p>
                 <ChevronDownIcon
                   className="-mr-1 ml-2 h-5 w-5"
                   aria-hidden="true"

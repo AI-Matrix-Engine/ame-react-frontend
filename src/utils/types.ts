@@ -239,11 +239,12 @@ export type iDropDownProps = {
   onClick?: (value: string) => void;
   options: iSelectType[];
   placeHolder?: string;
-  value?: string | null | undefined;
-  defaultValue?: string | null | undefined;
+  value?: any | null;
+  defaultValue?: any;
   className?: string;
   disabled?: boolean;
   label?: string;
+  isLabel?: boolean;
 };
 
 // src/components/_shared/input.tsx
@@ -297,67 +298,72 @@ export enum eApiProvider {
 }
 
 export interface iApiType {
-  value: string;
-  name: string;
-  provider: eApiProvider;
-  purpose: eApiPurpose;
-  version: string;
-  is_active: boolean;
-  link_to_documentation: string;
-  chat_completion_requests: number[];
-  image_task_Requests: number[];
-  audio_speech_requests: number[];
-  audio_transcription_requests: number[];
-  audio_translation_requests: number[];
-  endpoints: number[];
-  response: number[];
-  api_costs: number[];
-  errors: number[];
+  value: string,
+  name: string,
+  provider: eApiProvider,
+  purpose: eApiPurpose,
+  version: string,
+  is_active: boolean,
+  link_to_documentation: string,
+  chat_completion_requests: number[],
+  image_task_Requests: number[],
+  audio_speech_requests: number[],
+  audio_transcription_requests: number[],
+  audio_translation_requests: number[],
+  endpoints: number[],
+  response: number[],
+  api_costs: number[],
+  errors: number[]
 }
 
 // apiCallHistory Service Type
 
 export interface iApiCallHistoryType {
-  id: number;
-  full_request: object;
-  full_response: object;
-  additional_details: object;
-  created_at: string;
-  response_quality: number;
-  response_quality_feedback: string;
-  use_for_training: boolean;
-  api: number | null;
-  ai_model: number | null;
-  recipe_category: number | null;
-  prompt_recipe: number | null;
+  id: number,
+  full_request: object,
+  full_response: object,
+  additional_details: object,
+  created_at: string,
+  response_quality: number,
+  response_quality_feedback: string,
+  use_for_training: boolean,
+  api: number | null,
+  ai_model: number | null,
+  recipe_category: number | null,
+  prompt_recipe: number | null
 }
 
 export interface iApiCallHistoryInputType {
-  full_request: object;
-  full_response: object;
-  additional_details: object;
-  response_quality: number;
-  response_quality_feedback: string;
-  use_for_training: boolean;
-  api: number | null;
-  ai_model: number | null;
-  recipe_category: number | null;
-  prompt_recipe: number | null;
+  full_request: object,
+  full_response: object,
+  additional_details: object,
+  response_quality: number,
+  response_quality_feedback: string,
+  use_for_training: boolean,
+  api: number | null,
+  ai_model: number | null,
+  recipe_category: number | null,
+  prompt_recipe: number | null
 }
 
 //chatbot interfaces
 
 export enum eRoleType {
-  USER = "user",
-  ASSISTANT = "assistant",
+  USER = 'user',
+  ASSISTANT = 'assistant'
 }
 
 export interface iMessage {
-  role: eRoleType;
-  content: string;
+  role: eRoleType,
+  content: string
 }
 
 export interface iChat {
-  title: string;
-  msgArr: iMessage[];
+  title: string,
+  msgArr: iMessage[]
+}
+
+export enum iModalType {
+  CLEAR = "Are you sure you want to delete content of this version?",
+  SAVE = "Are you overwriting the previous version?"
 }
