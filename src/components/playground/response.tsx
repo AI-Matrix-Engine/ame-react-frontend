@@ -106,14 +106,14 @@ const ResponsePrompt = ({
 
   return (
     <div
-      className={`h-fit flex flex-col group [transition:all_.3s_ease-in-out] ${
+      className={`h-fit flex flex-col group [transition:all_.3s_ease-in-out] overflow-hidden ${
         index > 0 && "mt-[10px]"
       }`}
     >
       <div
         className={`flex-col rounded-lg relative border ${
           isExpand && ""
-        } border-[#6b6b6b80] mb-2 hover:border-[#0e8157] hover:bg-[#dcdce0] dark:hover:bg-[#ffffff0d] flex justify-between p-2`}
+        } border-[#6b6b6b80] mb-2 hover:bg-[#dcdce0] dark:hover:bg-[#ffffff0d] flex justify-between p-2`}
       >
         <div
           onClick={() => {
@@ -173,7 +173,7 @@ const ResponsePrompt = ({
             // </p>
             <TextareaAutosize
               rows={4}
-              value={text.replace(/\*/g, "").substring(0, 70) + "..."}
+              value={text.length > 0 ? text.replace(/\*/g, "").substring(0, 70) + "..." : ""}
               onChange={handleChange}
               className={`w-full resize-none text-[14px] overflow-y-hidden outline-none bg-transparent h-fit min-h-fit rounded-md relative text-[#71717A] cursor-pointer`}
             />
@@ -181,7 +181,7 @@ const ResponsePrompt = ({
         </div>
         {isExpand && (
           <div className="flex items-center justify-between mt-1">
-            <div>
+            <div className="mr-2">
               <Button
                 className={`text-[12px] rounded-lg h-[24px] bg-[#2B2B2B] ${
                   isFormat === 0 && "bg-[#acacac]"

@@ -17,6 +17,7 @@ interface iModel {
   modelId: number;
   setIsOpenModel: Function;
   setIsOpenAdvanced: Function;
+  isModelSetting: boolean;
 }
 
 export const Model = ({
@@ -26,6 +27,7 @@ export const Model = ({
   isAdvancedOpen,
   setIsOpenAdvanced,
   setIsOpenModel,
+  isModelSetting
 }: iModel) => {
   const { contextData, setContextData, version } = useAuth();
   const [responseData, setResponseData] = React.useState<any>();
@@ -199,7 +201,7 @@ export const Model = ({
       >
         <p className="flex items-center">
           MODEL {modelId + 1}
-          {isOpen ? (
+          {isModelSetting ? (
             <MdOutlineKeyboardArrowDown className="ml-1" />
           ) : (
             <MdOutlineKeyboardArrowRight className="ml-1" />
@@ -207,7 +209,7 @@ export const Model = ({
         </p>
         <span className="text-[11px]">{model.name}</span>
       </div>
-      {isOpen && (
+      {isModelSetting && (
         <>
           <div className="w-full">
             <div>

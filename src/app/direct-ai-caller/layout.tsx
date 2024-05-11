@@ -8,7 +8,7 @@ import { TfiHeadphone, TfiHeadphoneAlt } from "react-icons/tfi";
 const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const menuItems: MenuCategory[] = [
     {
-      category: "App Name Here",
+      category: "Direct AI Caller",
       items: [
         {
           itemCategory: "Matrix Workbench",

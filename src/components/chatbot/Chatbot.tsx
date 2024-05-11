@@ -4,7 +4,7 @@ import ChatFrom from "./ChatForm";
 
 export const Chatbot = () => {
   return (
-    <div className="flex-1">
+    <div>
       <ChatFrom />
     </div>
   );

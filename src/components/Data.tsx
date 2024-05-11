@@ -1,7 +1,7 @@
 import { PersonIcon, ChatBubbleIcon } from "@radix-ui/react-icons";
 export const menuItems = [
   {
-    category: "App Name Here",
+    category: "AI Matrix Engine",
     items: [
       {
         itemCategory: "AI Prolog",
