@@ -16,7 +16,6 @@ import { iHeader } from "@/utils/types";
 export const Header = ({ darkMode, setMode }: iHeader) => {
   const { user, logout } = useAuth();
   const router = useRouter();
-  console.log(user);
   return (
     <div className="flex py-1 px-4 bg-[#252b36] dark:bg-[#18181b] dark:border-b dark:border-b-[#ffffff1a] items-center justify-center h-[64px] z-[1]">
       <h2 className="flex-1 text-2xl text-white font-arimo font-semibold">
