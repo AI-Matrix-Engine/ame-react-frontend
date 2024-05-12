@@ -33,21 +33,16 @@ export const ModelSettingsDrawer = () => {
     advanced: true,
   });
 
-  useEffect(() => {
-    if (!user?.uid || !user.token) {
-      redirect('/login');
-    }
-  }, [user])
-
   const handleModelOpen = (modelID: number) => {
     const currentModels = contextData[version - 1].responseData;
     const updateModels = currentModels.map((model: any, key: number) => {
       if (key === modelID) {
-        if (model.isOpen) model.isOpen = false;
-        else model.isOpen = true;
-      } else model.isOpen = false;
+        if (model.isModelSettingOpen) model.isModelSettingOpen = false;
+        else model.isModelSettingOpen = true;
+      };
       return model;
     });
+
     const updateContextData = contextData.map((item: any, key: number) => {
       if (key === (version - 1)) {
         item.responseData = updateModels;
@@ -65,6 +60,7 @@ export const ModelSettingsDrawer = () => {
     const newModel = {
       isFormat: 0,
       isOpen: true,
+      isModelSettingOpen: true,
       isMoved: false,
       _id: "",
       model: "",
@@ -84,12 +80,7 @@ export const ModelSettingsDrawer = () => {
     };
     const currentModels = contextData[version - 1].responseData;
 
-    const updatedModels = [...currentModels, newModel].map((e: any, index: number) => {
-      if (index !== currentModels.length) {
-        e.isOpen = false;
-      }
-      return e;
-    });
+    const updatedModels = [...currentModels, newModel].map((e: any) => e);
 
     const newContextData = contextData.map((item: any, key: number) => {
       if (key === (version - 1)) {
@@ -227,6 +218,7 @@ export const ModelSettingsDrawer = () => {
                   modelId={key}
                   isAdvancedOpen={isOpenModel.advanced}
                   isOpen={model.isOpen}
+                  isModelSetting={model.isModelSettingOpen}
                   setIsOpenModel={handleModelOpen}
                   setIsOpenAdvanced={handleAdvancedOpen}
                 />
@@ -234,7 +226,7 @@ export const ModelSettingsDrawer = () => {
               <Button 
                 className="text-[12px] mt-[20px] w-[150px] h-[30px]" 
                 onClick={addModel} 
-                disabled={contextData[version-1].responseData[contextData[version-1].responseData.length-1].model ? false : true}
+                disabled={contextData[version-1].responseData.length !== 0 ? (contextData[version-1].responseData[contextData[version-1].responseData.length-1].model ? false : true) : false}
               >
                 ADD MODEL
               </Button>

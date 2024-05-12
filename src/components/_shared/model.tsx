@@ -17,6 +17,7 @@ interface iModel {
   modelId: number;
   setIsOpenModel: Function;
   setIsOpenAdvanced: Function;
+  isModelSetting: boolean;
 }
 
 export const Model = ({
@@ -26,6 +27,7 @@ export const Model = ({
   isAdvancedOpen,
   setIsOpenAdvanced,
   setIsOpenModel,
+  isModelSetting
 }: iModel) => {
   const { contextData, setContextData, version } = useAuth();
   const [responseData, setResponseData] = React.useState<any>();
@@ -197,17 +199,16 @@ export const Model = ({
         className="text-[#000] text-[14px] font-medium mb-1 cursor-pointer [transition:all_.3s_ease-in-out] dark:text-white"
         onClick={() => setIsOpenModel(modelId)}
       >
-        <p className="flex items-center">
-          MODEL {modelId + 1}
-          {isOpen ? (
+        <p className="flex items-center" title={model.name !== "" && model.name}>
+          {model.name !== "" ? (model.name.length > 20 ? model.name.substr(0, 20)+"..." : model.name) : `MODEL ${modelId + 1}`}
+          {isModelSetting ? (
             <MdOutlineKeyboardArrowDown className="ml-1" />
           ) : (
             <MdOutlineKeyboardArrowRight className="ml-1" />
           )}
         </p>
-        <span className="text-[11px]">{model.name}</span>
       </div>
-      {isOpen && (
+      {isModelSetting && (
         <>
           <div className="w-full">
             <div>
@@ -288,7 +289,7 @@ export const Model = ({
                       return (
                         <div>
                           <Label
-                            className="text-[14px]"
+                            className="text-[14px] dark:text-white"
                             key={`${index}label1index`}
                           >
                             {opt.label}
@@ -300,7 +301,7 @@ export const Model = ({
                                 key={`${index}switcGP`}
                               >
                                 <Label
-                                  className="text-[12px] font-normal mr-2"
+                                  className="text-[12px] font-normal mr-2 dark:text-white"
                                   key={`${index}label2index`}
                                 >
                                   {item.label}

@@ -105,6 +105,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         {
           isFormat: 0,
           isOpen: true,
+          isModelSettingOpen: true,
           isMoved: false,
           _id: "",
           model: "",

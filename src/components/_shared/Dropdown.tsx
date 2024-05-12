@@ -25,7 +25,7 @@ export const Dropdown = ({
     };
 
     return (
-        <div className="w-full dark:text-[#fafafa] dark:bg-[#ffffff0d] dark:border dark:border-[#fafafa0d] dark:focus:outline-none rounded-md">
+        <div className="w-full dark:text-[#fafafa] outline-none rounded-md">
             {!isLabel && <Label className="mb-2">{placeHolder}</Label>}
             <Select
                 onValueChange={(value: string) => {
