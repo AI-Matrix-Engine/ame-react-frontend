@@ -21,6 +21,16 @@ import { ArrowUpIcon } from "@radix-ui/react-icons";
 import { HiDotsVertical } from "react-icons/hi";
 import ChatBotSettings from "./ChatBotSettings";
 
+interface Settings {
+  customOptions: boolean;
+  aiPreferencesMain: string;
+  aiPreferencesSecond: string;
+  quickAnswer: boolean;
+  improveQuestions: boolean;
+  makeSmallTalk: boolean;
+  submitOnEnter: boolean;
+}
+
 function ChatForm() {
   const [message, setMessage] = useState<string>("");
   const [currentTitle, setCurrentTitle] = useState<string | null>("")
@@ -117,19 +127,21 @@ function ChatForm() {
       });
   }
 
-  const sendMessage = () => {
+  const settings = {
+    customOptions: false,
+    aiPreferencesMain: "Direct AI chat",
+    aiPreferencesSecond: "Chat With One AI",
+    quickAnswer: true,
+    improveQuestions: false,
+    makeSmallTalk: true,
+    submitOnEnter: true
+  }
+
+  const sendMessage = (settings: Settings) => {
     const messageData = {
       message,
       history: getChatHistory(),
-      settings: {
-        customOptions: false,
-        aiPreferencesMain: "Direct AI chat",
-        aiPreferencesSecond: "Chat With One AI",
-        quickAnswer: true,
-        improveQuestions: false,
-        makeSmallTalk: true,
-        submitOnEnter: true
-      },
+      settings,
       page: "chatbot.backend_functions.openai_chatbot"
     };
 
@@ -165,7 +177,7 @@ function ChatForm() {
 
     try {
       // Simulate API call
-      sendMessage();
+      sendMessage(settings);
       displayUserMessage(message, eRoleType.USER);
       clearMessageInput();
     } catch (e: any) {
@@ -354,7 +366,7 @@ function ChatForm() {
             )}
             <HiDotsVertical className="font-semibold text-xl cursor-pointer dark:text-[#9b9a9a] absolute right-[-2rem]" />
           </form>
-          <ChatBotSettings />
+          <ChatBotSettings settings={settings} />
         </div>
       </main>
     </div>
