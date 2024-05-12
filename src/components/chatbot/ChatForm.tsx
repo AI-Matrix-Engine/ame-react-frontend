@@ -19,6 +19,7 @@ import { redirect } from "next/navigation";
 import { FiUpload } from "react-icons/fi";
 import { ArrowUpIcon } from "@radix-ui/react-icons";
 import { HiDotsVertical } from "react-icons/hi";
+import ChatBotSettings from "./ChatBotSettings";
 
 function ChatForm() {
   const [message, setMessage] = useState<string>("");
@@ -317,7 +318,7 @@ function ChatForm() {
                   <p className="mb-2">
                     {chatMsg.role === eRoleType.USER ? "You" : "AI Matrix"}
                   </p>
-                  <p>
+                  <div>
                     {idx === msgHistory.length - 1 && chatMsg.role === eRoleType.ASSISTANT && streamText.length > 0 ?
                       <MarkdownView
                         content={streamText}
@@ -327,7 +328,7 @@ function ChatForm() {
                         content={chatMsg.content}
                       />
                     }
-                  </p>
+                  </div>
                 </div>
               </li>
             ))}
@@ -339,7 +340,7 @@ function ChatForm() {
             <input
               type="text"
               placeholder="Send a message"
-              className="flex-1 px-4 py-3 rounded-lg outline-none dark:bg-[#252b36] dark:text-[#c3c3c3]"
+              className="flex-1 px-4 py-3 rounded-lg outline-none dark:text-[#fafafa] dark:bg-[#ffffff0d]"
               spellCheck="false"
               value={isResponseLoading ? "Processing..." : message}
               onChange={(e) => setMessage(e.target.value)}
@@ -359,9 +360,7 @@ function ChatForm() {
             )}
             <HiDotsVertical className="font-semibold text-xl cursor-pointer dark:text-[#9b9a9a] absolute right-[-2rem]" />
           </form>
-          <p className="text-center mt-3 text-sm">
-            AI Matrix can make mistakes. Consider checking important information
-          </p>
+          <ChatBotSettings />
         </div>
       </main>
     </div>
