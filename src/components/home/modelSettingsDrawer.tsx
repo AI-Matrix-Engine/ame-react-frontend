@@ -155,6 +155,8 @@ export const ModelSettingsDrawer = () => {
 
         clearResponseData(index)
 
+        console.log('package', frontCallPackage);
+
         socketService.getSocket()?.emit('playground_request', { sid: index, data: frontCallPackage });
       });
     }
