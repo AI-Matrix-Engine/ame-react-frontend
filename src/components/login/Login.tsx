@@ -162,9 +162,9 @@ export const Login: NextPage = () => {
 
   return (
     <main className="p-4 font-poppins">
-      <div className="mx-auto mt-10 w-[384px] bg-[#fff] rounded-lg overflow-hidden">
-        <h1 className="text-[18px] text-center py-[16px] bg-[#252b36] text-white">
-          AI Matrix Engine
+      <div className="mx-auto mt-10 w-[384px] bg-[#fff] rounded-lg overflow-hidden shadow-xl">
+        <h1 className="text-[18px] text-center py-[16px] bg-[#252b36] text-white font-medium">
+          AI Matrix
         </h1>
         <form
           className="w-[384px] max-w-md mx-auto p-[20px]"

@@ -1,6 +1,7 @@
 "use client";
 import Sidebar from "@/components/chatbot/Sidebar";
 import { RightNavbar } from "@/components/home/RightNavbar";
+import withAuth from "@/components/withAuth";
 import React from "react";
 
 const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -17,4 +18,4 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   );
 };
 
-export default Layout;
+export default withAuth(Layout);

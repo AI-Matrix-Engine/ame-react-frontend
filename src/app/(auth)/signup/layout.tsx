@@ -31,7 +31,7 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   ];
 
   return (
-    <div className="flex h-full grow relative">
+    <div className="flex h-full justify-center items-center">
       <SecondNavbar navItems={menuItems} />
       <main className={`flex-1 flex flex-col transition-margin duration-300`}>
         {children}
