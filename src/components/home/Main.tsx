@@ -34,7 +34,7 @@ export const Main = ({ navItems, children }: childrenProp) => {
             <FirstNavBar navItems={navItems} />
             {/* -----------Left side bar end----------- */}
 
-            <div className={`flex-1 overflow-y-auto `}>{children}</div>
+            <div className={`flex-1 overflow-y-auto dark:bg-[#18181b]`}>{children}</div>
 
             {/* -----------Right side bar begin----------- */}
             <RightNavbar />

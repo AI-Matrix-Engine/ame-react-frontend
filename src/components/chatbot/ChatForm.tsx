@@ -8,6 +8,7 @@ import {
   useLayoutEffect,
 } from "react";
 import { BiPlus, BiUser, BiChat, BiSend, BiSolidUserCircle } from "react-icons/bi";
+import { UserCircleIcon } from '@heroicons/react/24/solid'
 import { MdOutlineArrowLeft, MdOutlineArrowRight, MdSend, MdPerson, MdChat } from "react-icons/md";
 import { socketService } from "@/lib/socket";
 import { iMessage, eRoleType, iChat } from "@/utils/types";
@@ -316,7 +317,7 @@ function ChatForm() {
               >
                 <div className="h-8 flex">
                   {chatMsg.role === eRoleType.USER ? (
-                    <MdPerson size={24} />
+                    <UserCircleIcon />
                   ) : (
                     <MdChat size={22} />
                   )}
@@ -341,8 +342,8 @@ function ChatForm() {
             ))}
           </ul>
         </div>
-        <ChatbotForm />
-        <div className="mt-auto p-8 w-full sm:w-3/4 md:2/3 mx-auto">
+
+        <div className="mt-auto p-8 w-full sm:w-3/4 md:2/3 mx-auto max-w-[730px]">
           {errorText && <p className="text-red-500">{errorText}</p>}
           <form className="flex items-center relative" onSubmit={submitHandler}>
             <input

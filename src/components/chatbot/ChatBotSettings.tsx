@@ -31,7 +31,6 @@ const ChatBotSettings = ({ settings }: { settings: SettingsProps }) => {
     const [isSubmitOnEnter, setSubmitOnEnter] = useState<boolean>(submitOnEnter);
 
     useEffect(() => {
-        // Update state variables if settings prop changes
         setAIPreferencesMainOption(aiPreferencesMain);
         setAIPreferencesSecondOption(aiPreferencesSecond);
         setMakeSmallTalk(makeSmallTalk);
