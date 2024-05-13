@@ -110,8 +110,6 @@ export const AIConversationSettings = () => {
 
   }
 
-  console.log(userAssistantFields);
-
   const formCustomFields = customFields.filter(
     (item) =>
       item.source_params.type !== "table" &&

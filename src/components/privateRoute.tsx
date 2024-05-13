@@ -12,7 +12,6 @@ const PrivateRoute = ({ children }: any) => {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    console.log(pathname);
     if (pathname == "/login" || pathname == "/signup" || pathname == "/") {
       setLoading(false)
     } else {
