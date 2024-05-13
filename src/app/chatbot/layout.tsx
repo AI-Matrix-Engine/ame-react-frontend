@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { MdOutlineArrowLeft, MdOutlineArrowRight } from "react-icons/md";
 
 const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);

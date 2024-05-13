@@ -20,6 +20,7 @@ import { FiUpload } from "react-icons/fi";
 import { ArrowUpIcon } from "@radix-ui/react-icons";
 import { HiDotsVertical } from "react-icons/hi";
 import ChatBotSettings from "./ChatBotSettings";
+import ChatbotForm from "./ChatbotForm";
 
 interface Settings {
   customOptions: boolean;
@@ -340,6 +341,7 @@ function ChatForm() {
             ))}
           </ul>
         </div>
+        <ChatbotForm />
         <div className="mt-auto p-8 w-full sm:w-3/4 md:2/3 mx-auto">
           {errorText && <p className="text-red-500">{errorText}</p>}
           <form className="flex items-center relative" onSubmit={submitHandler}>
