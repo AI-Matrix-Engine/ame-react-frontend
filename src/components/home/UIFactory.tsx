@@ -78,8 +78,9 @@ export const UIFactory: any = () => {
   );
 
   if (!user) {
-    router.replace("/login");
-    return null;
+    // router.replace("/login");
+    window.location.href = "/login";
+    // return null;
   }
 
   return (

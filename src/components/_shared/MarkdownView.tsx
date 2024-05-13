@@ -18,7 +18,7 @@ interface MarkdownViewProps {
   width?: string;
   height?: string;
   reloadIcon?: boolean;
-  reloadHandler: () => void;
+  reloadHandler?: () => void;
   index: number;
 }
 const empty = ({ children }: any) => {

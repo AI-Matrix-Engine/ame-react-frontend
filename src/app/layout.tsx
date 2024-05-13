@@ -35,7 +35,7 @@ export default function RootLayout({
       <Head>
         <title>AI Matrix Engine</title>
       </Head>
-      <body className={`${inter.className} bg-[#f0f2f5]`}>
+      <body className={`${inter.className} bg-[#f0f2f5] dark:bg-[#18181b]`}>
         {/* {loading ? (
           <Spinner />
         ) : ( */}
