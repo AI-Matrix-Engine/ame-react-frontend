@@ -174,9 +174,7 @@ const RightSection = ({ width, index, isResizable, onMouseDown }: any) => {
   };
 
   const handleFormat = (formatId: number, index: number) => {
-    console.log(formatId, index);
     const currentResponseData = contextData[version - 1].responseData;
-    console.log(currentResponseData);
 
     const updatedResponseData = currentResponseData.map(
       (res: any, key: number) => {

@@ -90,24 +90,6 @@ export const ModelSettingsDrawer = () => {
     setContextData(newContextData);
   };
 
-  const updateContextData = (itemIndex: number, character: string) => {
-    const currentResponseData = contextData[version - 1].responseData;
-    const updateData = currentResponseData.map((item: any, i: number) => {
-      if (i === itemIndex) {
-        item.text = item.text + character;
-      }
-      return item;
-    });
-
-    const updateContextData = contextData.map((item: any, key: number) => {
-      if (key === version - 1) {
-        item.responseData = updateData;
-      }
-      return item;
-    });
-    setContextData(updateContextData);
-  }
-
   const clearResponseData = (itemIndex: number) => {
     const currentResponseData = contextData[version - 1].responseData;
     const updateData = currentResponseData.map((item: any, i: number) => {
@@ -145,36 +127,13 @@ export const ModelSettingsDrawer = () => {
         version: currentContext.version,
       };
 
+      console.log('frontCallPackage', frontCallPackage)
+
       getResponseData(index, frontCallPackage);
     });
 
     setTestModelClicked(!testModelClicked)
   }
-
-  useEffect(() => {
-    if (testModelClicked === null) return;
-
-    const currentContext = contextData[version - 1];
-    const modelData = currentContext.responseData;
-
-    modelData.forEach((model: any, index: number) => {
-      if (!eventHistory.includes(index)) {
-        setEventHistory([
-          ...eventHistory,
-          index
-        ])
-        const eventName = `${user?.uid}_stream_response_${index}`;
-        socketService.getSocket()?.on(eventName, (data) => {
-          for (let i = 0; i < data.data.length; i++) {
-            const character = data.data[i];
-            setTimeout(() => {
-              updateContextData(index, character);
-            }, 150)
-          }
-        });
-      }
-    });
-  }, [testModelClicked])
 
   return (
     <div

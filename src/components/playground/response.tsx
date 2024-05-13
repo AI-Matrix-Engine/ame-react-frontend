@@ -49,7 +49,6 @@ const ResponsePrompt = ({
   } = useAuth();
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const [isButtonFlag, setButtonFlag] = useState<number>(0);
-  const [testClicked, setTestClicked] = useState<boolean>(false);
 
   const erasePromptByID = (index: number) => {
     removePrompt(index);
@@ -110,50 +109,7 @@ const ResponsePrompt = ({
     };
 
     getResponseData(index, frontCallPackage);
-
-    setTestClicked(true);
   }
-
-  const updateContextData = (itemIndex: number, character: string) => {
-    const currentResponseData = contextData[version - 1].responseData;
-    const updateData = currentResponseData.map((item: any, i: number) => {
-      if (i === itemIndex) {
-        item.text = item.text + character;
-      }
-      return item;
-    });
-
-    const updateContextData = contextData.map((item: any, key: number) => {
-      if (key === version - 1) {
-        item.responseData = updateData;
-      }
-      return item;
-    });
-    setContextData(updateContextData);
-  }
-
-  useEffect(() => {
-    if (!testClicked) return;
-    if(eventHistory.includes(index)) return;
-
-    setEventHistory([
-      ...eventHistory,
-      index
-    ])
-
-    const eventName = `${user?.uid}_stream_response_${index}`;
-
-    socketService.getSocket()?.on(eventName, (data) => {
-      for (let i = 0; i < data.data.length; i++) {
-        const character = data.data[i];
-        setTimeout(() => {
-          updateContextData(index, character);
-        }, 150)
-      }
-    });
-
-    setTestClicked(false);
-  }, [testClicked])
 
   // const handleAddMessage = () => {
   //   const plainText = text.replace(/\*\*(.*?)\*\*/g, "$1").replace(/\*(.*?)\*/g, "$1");
