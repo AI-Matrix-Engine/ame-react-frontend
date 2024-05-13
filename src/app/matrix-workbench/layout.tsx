@@ -1,10 +1,9 @@
 "use client";
+
 import React from "react";
 import { SecondNavbar } from "@/components/layout/SecondNavBar";
 import { MenuCategory } from "@/utils/types";
-import { GridIcon } from "lucide-react";
 import { TfiHeadphone, TfiHeadphoneAlt } from "react-icons/tfi";
-import { RightNavbar } from "@/components/home/RightNavbar";
 import withAuth from "@/components/withAuth";
 
 const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {

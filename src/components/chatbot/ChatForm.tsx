@@ -99,7 +99,6 @@ function ChatForm() {
 
       try {
         // Call API for saving current chat data
-
         const response = await axios.put('https://aimatrix-api.vercel.app/api/aichat', {
           id: index,
           history: chatHistory
