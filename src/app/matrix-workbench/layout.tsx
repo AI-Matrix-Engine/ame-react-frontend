@@ -15,17 +15,17 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
         {
           itemCategory: "Playground",
           icon: <TfiHeadphone className="h-4 w-4" />,
-          route: "/playground",
+          route: "/matrix-workbench/playground",
         },
         {
           itemCategory: "Direct AI Caller",
           icon: <TfiHeadphoneAlt className="h-4 w-4" />,
-          route: "/direct-ai-caller",
+          route: "/matrix-workbench/direct-ai-caller",
         },
         {
           itemCategory: "AI Recipe Caller",
           icon: <TfiHeadphone className="h-4 w-4" />,
-          route: "/ai-recipe-caller",
+          route: "/matrix-workbench/ai-recipe-caller",
         },
       ],
     },
