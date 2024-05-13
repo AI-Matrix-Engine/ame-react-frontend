@@ -125,6 +125,7 @@ const HorizontalAdjustableSections: React.FC = () => {
       })
 
       setContextData(newContextData);
+      handleSaveUpdate(newContextData);
     }
   }
 
@@ -149,16 +150,6 @@ const HorizontalAdjustableSections: React.FC = () => {
   }
 
   const handleClear = async () => {
-    // const result = await axios.get('https://aimatrix-api.vercel.app/api/playground', {
-    //   params: {
-    //     user_id: user?.uid
-    //   }
-    // })
-
-    // if (result.status === 200 && result.data) {
-
-    // }
-
     const prevData = contextData[version - 1];
     const initData = { version: version, ...initialData };
 

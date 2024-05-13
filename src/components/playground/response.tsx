@@ -9,6 +9,7 @@ import { BsArrowsAngleContract, BsArrowsAngleExpand } from "react-icons/bs";
 import ReactMarkdown from "react-markdown";
 import { useAuth } from "@/context/AuthContext";
 import MarkdownView from "@/components/_shared/MarkdownView";
+import { socketService } from "@/lib/socket";
 
 interface iPrompt {
   isExpand?: boolean;
@@ -32,11 +33,20 @@ const ResponsePrompt = ({
   removePrompt,
   pData,
   isFormat,
-  handleFormat
+  handleFormat,
 }: iPrompt) => {
-  const { contextData, version, setContextData } = useAuth();
+  const { 
+    contextData, 
+    version, 
+    setContextData, 
+    user, 
+    getResponseData, 
+    eventHistory, 
+    setEventHistory 
+  } = useAuth();
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const [isButtonFlag, setButtonFlag] = useState<number>(0);
+  const [testClicked, setTestClicked] = useState<boolean>(false);
 
   const erasePromptByID = (index: number) => {
     removePrompt(index);
@@ -58,6 +68,89 @@ const ResponsePrompt = ({
     });
     setContextData(updateContextData);
   };
+
+  const clearResponseData = (itemIndex: number) => {
+    const currentResponseData = contextData[version - 1].responseData;
+    const updateData = currentResponseData.map((item: any, i: number) => {
+      if (i === itemIndex) {
+        item.text = "";
+      }
+      return item;
+    });
+
+    const updateContextData = contextData.map((item: any, key: number) => {
+      if (key === version - 1) {
+        item.responseData = updateData;
+      }
+      return item;
+    });
+    setContextData(updateContextData);
+  }
+
+  const handleTestClick = () => {
+    const currentContext = contextData[version - 1];
+    const modelData = currentContext.responseData[index];
+    const promptData = currentContext.promptData;
+    const variableData = currentContext.variablesData;
+
+    clearResponseData(index)
+
+    const frontCallPackage = {
+      task: 'stream_response',
+      index: index.toString(),
+      uid: user?.uid,
+      variablesData: variableData,
+      responseData: [modelData],
+      promptData,
+      recipeID: currentContext.recipeID,
+      version: currentContext.version,
+    };
+
+    getResponseData(index, frontCallPackage);
+
+    setTestClicked(true);
+  }
+
+  const updateContextData = (itemIndex: number, character: string) => {
+    const currentResponseData = contextData[version - 1].responseData;
+    const updateData = currentResponseData.map((item: any, i: number) => {
+      if (i === itemIndex) {
+        item.text = item.text + character;
+      }
+      return item;
+    });
+
+    const updateContextData = contextData.map((item: any, key: number) => {
+      if (key === version - 1) {
+        item.responseData = updateData;
+      }
+      return item;
+    });
+    setContextData(updateContextData);
+  }
+
+  useEffect(() => {
+    if (!testClicked) return;
+    if(eventHistory.includes(index)) return;
+
+    setEventHistory([
+      ...eventHistory,
+      index
+    ])
+
+    const eventName = `${user?.uid}_stream_response_${index}`;
+
+    socketService.getSocket()?.on(eventName, (data) => {
+      for (let i = 0; i < data.data.length; i++) {
+        const character = data.data[i];
+        setTimeout(() => {
+          updateContextData(index, character);
+        }, 150)
+      }
+    });
+
+    setTestClicked(false);
+  }, [testClicked])
 
   // const handleAddMessage = () => {
   //   const plainText = text.replace(/\*\*(.*?)\*\*/g, "$1").replace(/\*(.*?)\*/g, "$1");
@@ -106,14 +199,12 @@ const ResponsePrompt = ({
 
   return (
     <div
-      className={`h-fit flex flex-col group [transition:all_.3s_ease-in-out] ${
-        index > 0 && "mt-[10px]"
-      }`}
+      className={`h-fit flex flex-col group [transition:all_.3s_ease-in-out] ${index > 0 && "mt-[10px]"
+        }`}
     >
       <div
-        className={`flex-col rounded-lg relative border ${
-          isExpand && ""
-        } border-[#6b6b6b80] mb-2 hover:bg-[#dcdce0] dark:hover:bg-[#ffffff0d] flex justify-between p-2`}
+        className={`flex-col rounded-lg relative border ${isExpand && ""
+          } border-[#6b6b6b80] mb-2 hover:bg-[#dcdce0] dark:hover:bg-[#ffffff0d] flex justify-between p-2`}
       >
         <div
           onClick={() => {
@@ -127,9 +218,8 @@ const ResponsePrompt = ({
               <Label className="text-[12px] dark:text-white">{`RESPONSE ${index + 1}`}</Label>
             </div>
             <div
-              className={`flex items-center ${
-                isExpand && "absolute right-2 top-2"
-              } cursor-pointer ml-2 dark:text-[#d9d9e3]`}
+              className={`flex items-center ${isExpand && "absolute right-2 top-2"
+                } cursor-pointer ml-2 dark:text-[#d9d9e3]`}
             >
               <AiOutlineDelete
                 className="text-[#37383a] dark:text-[#d9d9e3] mr-2"
@@ -183,45 +273,40 @@ const ResponsePrompt = ({
           <div className="flex items-center justify-between mt-1">
             <div>
               <Button
-                className={`text-[12px] rounded-lg h-[24px] bg-[#2B2B2B] ${
-                  isFormat === 0 && "bg-[#acacac]"
-                }`}
+                className={`text-[12px] rounded-lg h-[24px] bg-[#2B2B2B] ${isFormat === 0 && "bg-[#acacac]"
+                  }`}
                 size="sm"
                 onClick={() => handleFormat(0, index)}
               >
                 Text
               </Button>
               <Button
-                className={`text-[12px] rounded-lg h-[24px] bg-[#2B2B2B] ml-2 ${
-                  isFormat === 1 && "bg-[#acacac]"
-                }`}
+                className={`text-[12px] rounded-lg h-[24px] bg-[#2B2B2B] ml-2 ${isFormat === 1 && "bg-[#acacac]"
+                  }`}
                 size="sm"
                 onClick={() => handleFormat(1, index)}
               >
                 Markdown
               </Button>
               <Button
-                className={`text-[12px] rounded-lg h-[24px] bg-[#2B2B2B] ml-2 ${
-                  isFormat === 2 && "bg-[#acacac]"
-                }`}
+                className={`text-[12px] rounded-lg h-[24px] bg-[#2B2B2B] ml-2 ${isFormat === 2 && "bg-[#acacac]"
+                  }`}
                 size="sm"
                 onClick={() => handleFormat(2, index)}
               >
                 Form
               </Button>
               <Button
-                className={`text-[12px] rounded-lg h-[24px] bg-[#2B2B2B] ml-2 ${
-                  isFormat === 3 && "bg-[#acacac]"
-                }`}
+                className={`text-[12px] rounded-lg h-[24px] bg-[#2B2B2B] ml-2 ${isFormat === 3 && "bg-[#acacac]"
+                  }`}
                 size="sm"
                 onClick={() => handleFormat(3, index)}
               >
                 Table
               </Button>
               <Button
-                className={`text-[12px] rounded-lg h-[24px] bg-[#2B2B2B] ml-2 ${
-                  isFormat === 4 && "bg-[#acacac]"
-                }`}
+                className={`text-[12px] rounded-lg h-[24px] bg-[#2B2B2B] ml-2 ${isFormat === 4 && "bg-[#acacac]"
+                  }`}
                 size="sm"
                 onClick={() => handleFormat(4, index)}
               >
@@ -247,6 +332,7 @@ const ResponsePrompt = ({
               <Button
                 className="text-[12px] rounded-lg h-[24px] ml-2"
                 size="sm"
+                onClick={handleTestClick}
               >
                 Test
               </Button>
