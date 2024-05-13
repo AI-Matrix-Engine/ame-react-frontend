@@ -11,7 +11,6 @@ const PrivateRoute = ({ children }: any) => {
   const { user } = useAuth();
 
   useEffect(() => {
-    console.log(pathname);
     if (pathname == "/login" || pathname == "/signup" || pathname == "/") {
     } else {
       if (!user) {

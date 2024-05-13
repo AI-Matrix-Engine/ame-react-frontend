@@ -76,12 +76,12 @@ const AuthContext = createContext<{
   setFlag1: () => { },
   setFlag2: () => { },
   eventHistory: [],
-  setEventHistory: () => {},
+  setEventHistory: () => { },
   contextData: [],
   setContextData: () => { },
   version: 0,
   setVersion: () => { },
-  getResponseData: (index: number, data: any) => {},
+  getResponseData: (index: number, data: any) => { },
 });
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
@@ -236,6 +236,24 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
+  const updateContextData = (itemIndex: number, character: string) => {
+    const currentResponseData = contextData[version - 1].responseData;
+    const updateData = currentResponseData.map((item: any, i: number) => {
+      if (i === itemIndex) {
+        item.text = item.text + character;
+      }
+      return item;
+    });
+
+    const updateContextData = contextData.map((item: any, key: number) => {
+      if (key === version - 1) {
+        item.responseData = updateData;
+      }
+      return item;
+    });
+    setContextData(updateContextData);
+  }
+
   const getResponseData = (index: number, data: any) => {
     if (!socketService.getSocket()) {
       socketService.init(user?.token ? user.token : "", user?.uid ? user.uid : "");
@@ -244,7 +262,20 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const socket = socketService.getSocket();
 
     if (socket) {
-        socketService.getSocket()?.emit('playground_request', { sid: index, data: data });
+      socketService.getSocket()?.emit('playground_request', { sid: index, data: data });
+      if (!eventHistory.includes(index) || eventHistory.length === 0) {
+        eventHistory.push(index);
+        setEventHistory(eventHistory);
+        const eventName = `${user?.uid}_stream_response_${index}`;
+        socketService.getSocket()?.on(eventName, (data) => {
+          for (let i = 0; i < data.data.length; i++) {
+            const character = data.data[i];
+            setTimeout(() => {
+              updateContextData(index, character);
+            }, 150)
+          }
+        });
+      }
     }
 
     return () => {

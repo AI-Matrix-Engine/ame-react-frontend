@@ -9,6 +9,7 @@ import { BsArrowsAngleContract, BsArrowsAngleExpand } from "react-icons/bs";
 import ReactMarkdown from "react-markdown";
 import { useAuth } from "@/context/AuthContext";
 import MarkdownView from "@/components/_shared/MarkdownView";
+import { FaRegArrowAltCircleLeft } from "react-icons/fa";
 import { socketService } from "@/lib/socket";
 
 interface iPrompt {
@@ -22,6 +23,7 @@ interface iPrompt {
   clearTextByID: Function;
   isFormat: number;
   handleFormat: Function;
+  moveToMessage: Function;
 }
 const ResponsePrompt = ({
   isExpand,
@@ -34,6 +36,7 @@ const ResponsePrompt = ({
   pData,
   isFormat,
   handleFormat,
+  moveToMessage
 }: iPrompt) => {
   const { 
     contextData, 
@@ -46,7 +49,6 @@ const ResponsePrompt = ({
   } = useAuth();
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const [isButtonFlag, setButtonFlag] = useState<number>(0);
-  const [testClicked, setTestClicked] = useState<boolean>(false);
 
   const erasePromptByID = (index: number) => {
     removePrompt(index);
@@ -107,50 +109,7 @@ const ResponsePrompt = ({
     };
 
     getResponseData(index, frontCallPackage);
-
-    setTestClicked(true);
   }
-
-  const updateContextData = (itemIndex: number, character: string) => {
-    const currentResponseData = contextData[version - 1].responseData;
-    const updateData = currentResponseData.map((item: any, i: number) => {
-      if (i === itemIndex) {
-        item.text = item.text + character;
-      }
-      return item;
-    });
-
-    const updateContextData = contextData.map((item: any, key: number) => {
-      if (key === version - 1) {
-        item.responseData = updateData;
-      }
-      return item;
-    });
-    setContextData(updateContextData);
-  }
-
-  useEffect(() => {
-    if (!testClicked) return;
-    if(eventHistory.includes(index)) return;
-
-    setEventHistory([
-      ...eventHistory,
-      index
-    ])
-
-    const eventName = `${user?.uid}_stream_response_${index}`;
-
-    socketService.getSocket()?.on(eventName, (data) => {
-      for (let i = 0; i < data.data.length; i++) {
-        const character = data.data[i];
-        setTimeout(() => {
-          updateContextData(index, character);
-        }, 150)
-      }
-    });
-
-    setTestClicked(false);
-  }, [testClicked])
 
   // const handleAddMessage = () => {
   //   const plainText = text.replace(/\*\*(.*?)\*\*/g, "$1").replace(/\*(.*?)\*/g, "$1");
@@ -314,13 +273,28 @@ const ResponsePrompt = ({
               </Button>
             </div>
             <div className="flex items-center">
-              {/* <Button
+              <Button
                 className="text-[12px] rounded-lg h-[24px] ml-2"
                 size="sm"
-                onClick={handleAddMessage}
+                onClick={() => moveToMessage(index, text)}
+                disabled={text != "" ? false : true}
               >
-                <FaPlus className="mr-1" />
-                Add Messages
+                <FaRegArrowAltCircleLeft className="mr-1" />
+                Move
+              </Button>
+              {/* <Button
+                onClick={moveToMessage}
+                disabled={moveFlag}
+                className="flex items-center h-[30px]"
+              >
+                <FaRegArrowAltCircleLeft
+                  className={`text-white text-[14px] mr-[5px] dark:text-[#000]`}
+                />
+                <span
+                  className={`text-[14px] font-semibold text-white dark:text-[#000]`}
+                >
+                  {moveFlag ? "Moved" : "Move"}
+                </span>
               </Button> */}
               <Button
                 className="text-[12px] rounded-lg h-[24px] ml-2"

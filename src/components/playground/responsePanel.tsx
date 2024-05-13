@@ -90,22 +90,11 @@ const RightSection = ({ width, index, isResizable, onMouseDown }: any) => {
     setContextData(updateContextData);
   };
 
-  const moveToMessage = () => {
+  const moveToMessage = (index: number, text: string) => {
     const currentModelsData = contextData[version - 1].responseData;
     const currentPromptData = contextData[version - 1].promptData;
 
-    if (currentModelsData.filter((item: any) => item.isOpen).length === 0)
-      return;
-    else if (currentModelsData.filter((model: any) => model.isOpen)[0].isMoved)
-      return;
-    else if (
-      currentModelsData.filter((model: any) => model.isOpen)[0].text === ""
-    )
-      return;
-
-    const openedText = currentModelsData.filter((model: any) => model.isOpen)[0]
-      .text;
-    const plainText = openedText
+    const plainText = text
       .replace(/\*\*(.*?)\*\*/g, "$1")
       .replace(/\*(.*?)\*/g, "$1");
 
@@ -169,11 +158,9 @@ const RightSection = ({ width, index, isResizable, onMouseDown }: any) => {
         setContextData(updateContextData);
       }
     }
-    const updatedModelsData = currentModelsData.map((item: any) => {
-      if (item.isOpen) {
+    const updatedModelsData = currentModelsData.map((item: any, key: number) => {
+      if (key == index) {
         item.text = "";
-        item.isMoved = true;
-        item.isOpen = true;
       }
       return item;
     });
@@ -187,9 +174,7 @@ const RightSection = ({ width, index, isResizable, onMouseDown }: any) => {
   };
 
   const handleFormat = (formatId: number, index: number) => {
-    console.log(formatId, index);
     const currentResponseData = contextData[version - 1].responseData;
-    console.log(currentResponseData);
 
     const updatedResponseData = currentResponseData.map(
       (res: any, key: number) => {
@@ -229,26 +214,11 @@ const RightSection = ({ width, index, isResizable, onMouseDown }: any) => {
               pData={contextData[version - 1].promptData}
               clearTextByID={clearTextById}
               text={prompt.text}
+              moveToMessage={moveToMessage}
               handleFormat={handleFormat}
             />
           )
         )}
-      {contextData[version - 1].responseData.length > 0 && (
-        <Button
-          onClick={moveToMessage}
-          disabled={moveFlag}
-          className="flex items-center h-[30px]"
-        >
-          <FaRegArrowAltCircleLeft
-            className={`text-white text-[14px] mr-[5px] dark:text-[#000]`}
-          />
-          <span
-            className={`text-[14px] font-semibold text-white dark:text-[#000]`}
-          >
-            {moveFlag ? "Moved" : "Move"}
-          </span>
-        </Button>
-      )}
       {isResizable && (
         <div
           style={{
