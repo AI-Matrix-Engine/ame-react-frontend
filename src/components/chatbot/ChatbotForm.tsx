@@ -32,9 +32,7 @@ interface UpdatedRespondForm extends respondForm {
     questions: UpdatedRespondQuestion[];
 }
 
-interface UpdatedRespondQuestion {
-    type: "multiple_choice" | "checkboxes" | "yes_no" | "text_area" | "range_selector" | string;
-    question: string;
+interface UpdatedRespondQuestion extends respondQuestions {
     answer: string | boolean | number;
 }
 
@@ -43,17 +41,18 @@ const initialState: UpdatedRespondForm = {
     questions: [],
 }
 
-const respondData = sample
+// const respondData = sample
 
-const ChatbotForm = () => {
+const ChatbotForm = ({ respondData }: { respondData: string }) => {
     const [formValues, setFormValues] = useState<UpdatedRespondForm>(initialState);
     const [otherOptionValue, setOtherOptionValue] = useState("");
 
     useEffect(() => {
         if (respondData) {
+            const content = JSON.parse(respondData);
             setFormValues({
-                ...respondData,
-                questions: respondData.questions.map((question) => ({
+                ...content,
+                questions: content.questions.map((question: any) => ({
                     type: question.type,
                     question: question.question,
                     answer: '',
@@ -115,7 +114,7 @@ const ChatbotForm = () => {
 
     return (
         <form onSubmit={submitForm} className="my-4 w-full rounded-lg p-6 text-xs">
-            {respondData.questions.map((question) => {
+            {formValues.questions.map((question) => {
                 if (question.type === 'multiple_choice') {
                     return (
                         <div key={question.question} className="mb-4">

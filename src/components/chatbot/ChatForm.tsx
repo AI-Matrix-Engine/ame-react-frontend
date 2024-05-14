@@ -98,7 +98,7 @@ function ChatForm() {
       role: type,
       content: msg,
     };
-
+    console.log(newMessage)
     setMsgHistory((prev) => [...prev, newMessage]);
   };
 
@@ -226,6 +226,7 @@ function ChatForm() {
         setIsResponseLoading(false);
         setAiResponst(receivedData);
         displayUserMessage(receivedData, eRoleType.ASSISTANT);
+        console.log(receivedData);
       });
     }
 
@@ -236,7 +237,6 @@ function ChatForm() {
 
   useEffect(() => {
     if (aiResponse.length === 0) return;
-
     setTimeout(() => {
       setStreamText(
         (prev) => prev + aiResponse.substring(prev.length, prev.length + 5)
@@ -331,7 +331,7 @@ function ChatForm() {
               <li key={idx} className={`relative flex gap-8 p-4 rounded group`}>
                 <div className="h-8 flex">
                   {chatMsg.role === eRoleType.USER ? (
-                    <UserCircleIcon />
+                    <MdPerson size={22} />
                   ) : (
                     <MdChat size={22} />
                   )}
@@ -340,15 +340,19 @@ function ChatForm() {
                   <p className="mb-2">
                     {chatMsg.role === eRoleType.USER ? "You" : "AI Matrix"}
                   </p>
-                  <p>
+                  <div>
                     {idx === msgHistory.length - 1 &&
                       chatMsg.role === eRoleType.ASSISTANT &&
                       streamText.length > 0 ? (
-                      <MarkdownView index={idx} content={streamText} />
+                      chatMsg.content.includes('input') ? (
+                        <ChatbotForm respondData={chatMsg.content} />
+                      ) : (
+                        <MarkdownView index={idx} content={streamText} />
+                      )
                     ) : (
                       <MarkdownView index={idx} content={chatMsg.content} />
                     )}
-                  </p>
+                  </div>
                 </div>
               </li>
             ))}
