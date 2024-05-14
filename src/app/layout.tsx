@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { usePathname, useSearchParams } from "next/navigation";
 import { Inter } from "next/font/google";
 import { NavigationEvents } from "@/components/navigation-events";
+import "../styles/globals.css";
 import { Main } from "@/components/home/Main";
 import { menuItems } from "@/components/home/Data";
 import { AuthProvider } from "@/context/AuthContext";

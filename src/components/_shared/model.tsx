@@ -179,8 +179,6 @@ export const Model = ({
     });
     setContextData(updateContextData);
 
-    console.log(currentResponseData);
-
     // tempModelList.unshift({ value: null, label: "Select" });
     // console.log(tempModelList);
     // setModelData(tempModelList);
@@ -251,7 +249,7 @@ export const Model = ({
                         <RangeSlider
                           key={`${index}sliderindex`}
                           helpText={opt.helpText}
-                          min={opt.min}
+                          min={opt.min}                                                                                                                                                                                                                                    
                           max={opt.max}
                           step={opt.step}
                           label={opt.label}

@@ -19,11 +19,10 @@ interface iModelOpenFlag {
 }
 
 export const ModelSettingsDrawer = () => {
-  const { user, contextData, setContextData, version } = useAuth();
+  const { user, contextData, setContextData, version, getResponseData, eventHistory, setEventHistory } = useAuth();
 
   const [sidebar, setSidebar] = useState<boolean>(true);
   const [testModelClicked, setTestModelClicked] = useState<boolean | null>(null);
-  const [eventCount, setEventCount] = useState<number>(-1);
   const handleSidebar = () => {
     setSidebar(!sidebar);
   };
@@ -91,24 +90,6 @@ export const ModelSettingsDrawer = () => {
     setContextData(newContextData);
   };
 
-  const updateContextData = (itemIndex: number, character: string) => {
-    const currentResponseData = contextData[version - 1].responseData;
-    const updateData = currentResponseData.map((item: any, i: number) => {
-      if (i === itemIndex) {
-        item.text = item.text + character;
-      }
-      return item;
-    });
-
-    const updateContextData = contextData.map((item: any, key: number) => {
-      if (key === version - 1) {
-        item.responseData = updateData;
-      }
-      return item;
-    });
-    setContextData(updateContextData);
-  }
-
   const clearResponseData = (itemIndex: number) => {
     const currentResponseData = contextData[version - 1].responseData;
     const updateData = currentResponseData.map((item: any, i: number) => {
@@ -128,67 +109,31 @@ export const ModelSettingsDrawer = () => {
   }
 
   const handleTestModel = () => {
-    if (!socketService.getSocket()) {
-      socketService.init(user?.token ? user.token : "", user?.uid ? user.uid : "");
-    }
-
-    const socket = socketService.getSocket();
-
-    if (socket) {
-      const currentContext = contextData[version - 1];
-      const promptData = currentContext.promptData;
-      const modelData = currentContext.responseData;
-      const variableData = currentContext.variablesData;
-      const responseData = currentContext.responseData;
-
-      modelData.forEach((model: any, index: number) => {
-        const frontCallPackage = {
-          task: 'stream_response',
-          index: index.toString(),
-          uid: user?.uid,
-          variablesData: variableData,
-          responseData: responseData,
-          promptData,
-          recipeID: currentContext.recipeID,
-          version: currentContext.version,
-        };
-
-        clearResponseData(index)
-
-        socketService.getSocket()?.emit('playground_request', { sid: index, data: frontCallPackage });
-      });
-    }
-
-    setTestModelClicked(!testModelClicked)
-
-    return () => {
-      socket?.off('playground_request');
-    };
-  }
-
-  useEffect(() => {
-    if(testModelClicked === null) return;
-
     const currentContext = contextData[version - 1];
     const modelData = currentContext.responseData;
+    const promptData = currentContext.promptData;
+    const variableData = currentContext.variablesData;
 
     modelData.forEach((model: any, index: number) => {
-      if (index > eventCount) {
-        const eventName = `${user?.uid}_stream_response_${index}`;
-        setEventCount(index);
-        socketService.getSocket()?.on(eventName, (data) => {
-          const splitedValues = eventName.split('_');
-          const itemIndex = parseInt(splitedValues[splitedValues.length - 1]);
-          for (let i = 0; i < data.data.length; i++) {
-            const character = data.data[i];
-            setTimeout(() => {
-              updateContextData(itemIndex, character);
-            }, 150)
-          }
-        });
-      }
+      clearResponseData(index)
+      const frontCallPackage = {
+        task: 'stream_response',
+        index: index.toString(),
+        uid: user?.uid,
+        variablesData: variableData,
+        responseData: [model],
+        promptData,
+        recipeID: currentContext.recipeID,
+        version: currentContext.version,
+      };
+
+      console.log('frontCallPackage', frontCallPackage)
+
+      getResponseData(index, frontCallPackage);
     });
-  }, [testModelClicked])
+
+    setTestModelClicked(!testModelClicked)
+  }
 
   return (
     <div
@@ -202,13 +147,13 @@ export const ModelSettingsDrawer = () => {
           >
             <div className="w-full h-full flex flex-col items-center px-1 overflow-y-auto">
               {
-               contextData[version - 1].responseData.length > 0 && 
-                <Button 
-                  className="text-[12px] w-[150px] h-[30px]" 
+                contextData[version - 1].responseData.length > 0 &&
+                <Button
+                  className="text-[12px] w-[150px] h-[30px]"
                   onClick={() => handleTestModel()}
-                  disabled={contextData[version-1].responseData[contextData[version-1].responseData.length-1].model ? false : true}
+                  disabled={contextData[version - 1].responseData[contextData[version - 1].responseData.length - 1].model ? false : true}
                 >
-                  {contextData[version-1].responseData.length > 1 ? "Test All" : "Run Test"}
+                  {contextData[version - 1].responseData.length > 1 ? "Test All" : "Run Test"}
                 </Button>
               }
               {contextData[version - 1].responseData.map((model: any, key: number) => (
@@ -223,10 +168,10 @@ export const ModelSettingsDrawer = () => {
                   setIsOpenAdvanced={handleAdvancedOpen}
                 />
               ))}
-              <Button 
-                className="text-[12px] mt-[20px] w-[150px] h-[30px]" 
-                onClick={addModel} 
-                disabled={contextData[version-1].responseData.length !== 0 ? (contextData[version-1].responseData[contextData[version-1].responseData.length-1].model ? false : true) : false}
+              <Button
+                className="text-[12px] mt-[20px] w-[150px] h-[30px]"
+                onClick={addModel}
+                disabled={contextData[version - 1].responseData.length !== 0 ? (contextData[version - 1].responseData[contextData[version - 1].responseData.length - 1].model ? false : true) : false}
               >
                 ADD MODEL
               </Button>
