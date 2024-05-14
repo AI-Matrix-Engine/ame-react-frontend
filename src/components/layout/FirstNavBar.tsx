@@ -20,7 +20,7 @@ export const FirstNavBar = ({ navItems }: iSecondNavbarProps) => {
                 >
                     {isExpand.command && (
                         <div className="flex-1 py-[16px] pl-[16px] [transition:all_.3s_ease-in-out]">
-                            <h1 className="text-white font-semibold text-xl mb-[10px]">
+                            <h1 className="text-white font-semibold text-base mb-[10px]">
                                 Command Center
                             </h1>
                             <div className="overflow-y-auto pr-[.35rem]">

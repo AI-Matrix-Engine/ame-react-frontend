@@ -44,9 +44,7 @@ const AuthContext = createContext<{
   eventHistory: number[];
   setEventHistory: (history: number[]) => void;
   contextData: any;
-  setContextData: React.Dispatch<
-    React.SetStateAction<any>
-  >;
+  setContextData: React.Dispatch<React.SetStateAction<any>>;
   version: number;
   setVersion: React.Dispatch<
     React.SetStateAction<number>
@@ -78,7 +76,7 @@ const AuthContext = createContext<{
   eventHistory: [],
   setEventHistory: () => { },
   contextData: [],
-  setContextData: () => { },
+  setContextData: () => {},
   version: 0,
   setVersion: () => { },
   getResponseData: (index: number, data: any) => { },
@@ -90,7 +88,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [eventHistory, setEventHistory] = useState<number[]>([]);
   const [contextData, setContextData] = useState<any>([
     {
-      recipeID: '662db1f04b8b9c73488be089',
+      recipeID: "662db1f04b8b9c73488be089",
       autoSave: false,
       version: 1,
       userID: {},
@@ -119,20 +117,26 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
           model: "",
           name: "",
           class: "",
-          text: '',
+          text: "",
           limitations: {
             context_window: 16000,
             max_tokens: 4096,
-            capabilities: ["text", "image", "video", "audio", "search", "tools"],
+            capabilities: [
+              "text",
+              "image",
+              "video",
+              "audio",
+              "search",
+              "tools",
+            ],
           },
           api: {
             provider: "",
             endpoint: "",
           },
-          controls: [
-          ],
+          controls: [],
         },
-      ]
+      ],
     },
   ]);
   const [user, setUser] = useState<{
@@ -164,7 +168,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
             token: token,
           });
         } catch (error) {
-          console.error('Error getting user token:', error);
+          console.error("Error getting user token:", error);
           setUser({
             uid: user.uid,
             email: user.email,
@@ -196,7 +200,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         params: {
           user_id: user?.uid
         }
-      })
+      });
 
       let playgroundData = null;
       if (result.data) {
@@ -206,10 +210,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       if (playgroundData) {
         setContextData(playgroundData);
       }
-    }
+    };
 
     handleData();
-  }, [user])
+  }, [user]);
 
   const login = (email: string, password: string) => {
     return signInWithEmailAndPassword(auth, email, password);
