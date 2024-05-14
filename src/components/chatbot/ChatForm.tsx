@@ -344,6 +344,7 @@ function ChatForm() {
         </div>
 
         <div className="mt-auto p-8 w-full sm:w-3/4 md:2/3 mx-auto max-w-[730px]">
+          <ChatbotForm />
           {errorText && <p className="text-red-500">{errorText}</p>}
           <form className="flex items-center relative" onSubmit={submitHandler}>
             <input

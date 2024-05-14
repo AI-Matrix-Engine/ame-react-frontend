@@ -1,8 +1,14 @@
 "use client"
 
 import { useEffect, useState } from "react";
-import { Checkbox, Dropdown, RadioGroup, RadioGroupItem, Slider, Textarea } from "../_shared";
+import { Dropdown, Textarea, Input } from "../_shared";
 import sample from "./sample.json"
+import { Button } from "../_shared/catalyst/button";
+import { RadioGroup, Radio, RadioField } from "../_shared/catalyst/radio";
+import { CheckboxField, Checkbox, CheckboxGroup } from "../_shared/catalyst/checkbox";
+import { Dropdown as DropDown, DropdownButton, DropdownItem, DropdownMenu } from "../_shared/catalyst/dropdown";
+import { ChevronDownIcon } from "lucide-react";
+import RangeSlider from "../_shared/rangeSlider";
 
 interface respondQuestions {
     type: "multiple_choice" | "checkboxes" | "yes_no" | "text_area" | "range_selector" | string;
@@ -61,11 +67,10 @@ const ChatbotForm = () => {
         if (questionIndex !== -1) {
             const updatedQuestions = [...formValues.questions];
             if (updatedQuestions[questionIndex].type === 'yes_no') {
-                const selectedValue = value.nativeEvent.target.value;
                 updatedQuestions[questionIndex] = {
                     type: updatedQuestions[questionIndex].type,
                     question,
-                    answer: selectedValue === 'Yes' ? 'Yes' : 'No',
+                    answer: value,
                 };
             } else if (updatedQuestions[questionIndex].type === 'checkboxes') {
                 let answer: string[] = (updatedQuestions[questionIndex].answer as string).split(', ');
@@ -117,49 +122,59 @@ const ChatbotForm = () => {
                             <label className="mb-4">{question.question}</label>
                             <Dropdown
                                 isLabel={true}
-                                placeHolder='Select an option'
+                                placeHolder="Select an option"
                                 onClick={(value) => handleInputChange(value, question.question)}
                                 options={question.options ? question?.options?.map((option) => (
                                     { value: option, label: option }
                                 )) : []}
                                 className="my-2 text-xs font-normal text-[#898989] w-full"
                             />
-                            {otherOptionValue === "user" && (
-                                <input
-                                    type="text"
-                                    value={otherOptionValue}
-                                    onChange={(e) => setOtherOptionValue(e.target.value)}
-                                />
-                            )}
+                            {/* <DropDown>
+                                <DropdownButton outline className="my-2 text-xs font-normal text-[#898989] w-full">
+                                    Select an option
+                                    <ChevronDownIcon />
+                                </DropdownButton>
+                                <DropdownMenu className="my-2 text-xs font-normal text-[#898989] w-full">
+                                    {question?.options?.map((option) => (
+                                        <DropdownItem className="my-2 text-xs font-normal text-[#898989] w-full" onClick={() => handleInputChange(option, question.question)}>{option}</DropdownItem>
+                                    ))}
+                                </DropdownMenu>
+                            </DropDown> */}
+                            <Input
+                                type="text"
+                                onChange={(e: any) => setOtherOptionValue(e.target.value)}
+                            />
                         </div>
                     );
                 } else if (question.type === 'checkboxes') {
                     return (
                         <div key={question.question} className="my-4">
                             <label className="mb-3">{question.question}</label>
-                            {question?.options?.map((option) => (
-                                <div key={option} className="my-2 flex items-center justify-start">
-                                    <Checkbox
-                                        name={question.question}
-                                        value={option}
-                                        onChange={(value) => handleInputChange(option, question.question)}
-                                    />
-                                    <label className="ml-3 text-xs font-normal">{option}</label>
-                                </div>
-                            ))}
+                            <CheckboxGroup className="max-w-[500px]">
+                                {question?.options?.map((option) => (
+                                    <div key={option} className="my-2 flex items-center justify-start">
+                                        <Checkbox
+                                            name={question.question}
+                                            value={option}
+                                            onChange={(value) => handleInputChange(option, question.question)}
+                                        />
+                                        <label className="ml-3 text-xs font-normal">{option}</label>
+                                    </div>
+                                ))}</CheckboxGroup>
                         </div>
                     );
                 } else if (question.type === 'yes_no') {
                     return (
                         <div key={question.question} className="my-4">
                             <label className="mb-3">{question.question}</label>
-                            <RadioGroup className="my-3 flex items-center" onChange={(value) => handleInputChange(value, question.question)}>
+                            <RadioGroup className="my-3 flex flex-row items-center space-y-0" onChange={(value) => {
+                                return handleInputChange(value, question.question);
+                            }}>
                                 {question?.options?.map((option) => (
-                                    <div key={option} className="flex items-center justify-start mr-3">
-                                        <RadioGroupItem
-                                            value={option}
-                                        />
-                                        <label className="ml-3">{option}</label>
+                                    <div key={option} className="flex items-center mr-3">
+                                        <Radio className={"mr-3"}
+                                            value={option} />
+                                        <RadioField >{option}</RadioField>
                                     </div>
                                 ))}
                             </RadioGroup>
@@ -180,14 +195,11 @@ const ChatbotForm = () => {
                     return (
                         <div key={question.question} className="my-4">
                             <label className="mb-3">{question.question}</label>
-                            <Slider
+                            <RangeSlider
                                 min={question?.range?.min ? question?.range?.min : 0}
                                 max={question?.range?.max ? question?.range?.max : 10}
-                                step={question?.range?.step ? question?.range?.step : 1}
-                                className="my-3 text-xs font-normal text-[#898989] w-full cursor-grab"
-                                onChange={(value) => handleInputChange(value, question.question)}
-                            />
-                            <span>{ }</span>
+                                step={question?.range?.step ? question?.range?.step : 1} label={`${question?.range?.value ? question?.range?.value : '0'}`} defaultValue={question?.range?.value ? question?.range?.value : 0} helpText={""}
+                                onChange={(value) => handleInputChange(value, question.question)} />
                         </div>
                     );
                 } else {
@@ -195,7 +207,7 @@ const ChatbotForm = () => {
                 }
             })}
             <div className="w-full flex justify-end">
-                <button className="py-2 px-4 rounded-lg bg-[#dededea1]" type="submit">Answer Without Questions</button>
+                <Button className="cursor-pointer" type="submit">Answer Without Questions</Button>
             </div>
         </form>
     )

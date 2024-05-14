@@ -128,3 +128,4 @@ dist
 
 # webstorm
 .idea/
+src/components/_shared/.DS_Store
