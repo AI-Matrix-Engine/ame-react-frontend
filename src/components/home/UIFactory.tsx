@@ -87,15 +87,15 @@ export const UIFactory: any = () => {
     <div className="flex">
       <div className="flex flex-col flex-1 p-4">
         <div>
-          <h4 className=" text-2xl text-[#212B36] font-arimo font-semibold text-center mb-4">
+          {/* <h4 className=" text-2xl text-[#212B36] font-arimo font-semibold text-center mb-4">
             Dynamic Page
-          </h4>
-          <Link
+          </h4> */}
+          {/* <Link
             href="/sandbox"
             className=" text-2xl text-[#212B36] font-arimo font-semibold text-center mb-4"
           >
             Sandbox
-          </Link>
+          </Link> */}
         </div>
         {/* <div className=" grid grid-cols-3 grid-rows-2 gap-8 p-4 justify-center content-center">
         {UIData?.map((element, index) => {

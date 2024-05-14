@@ -56,7 +56,7 @@ export const Header = ({ darkMode, setMode }: iHeader) => {
                   />
                   <AvatarFallback>CN</AvatarFallback>
                 </Avatar>
-                <p className="ml-[10px]">{user && user.displayName}</p>
+                {/* <p className="ml-[10px]">{user && user.displayName}</p> */}
                 <ChevronDownIcon
                   className="-mr-1 ml-2 h-5 w-5"
                   aria-hidden="true"

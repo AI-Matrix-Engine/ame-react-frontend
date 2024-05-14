@@ -6,6 +6,7 @@ import { childrenProp } from "@/utils/types";
 import { FirstNavBar } from "../layout/FirstNavBar";
 import { ChatProvider } from "@/context/ChatContext";
 import { useAuth } from "@/context/AuthContext";
+import Sidebar from "./Sidebar";
 
 export const Main = ({ navItems, children }: childrenProp) => {
   const { user } = useAuth();
@@ -37,6 +38,7 @@ export const Main = ({ navItems, children }: childrenProp) => {
         <div className="flex relative h-full  overflow-x-hidden overflow-y-hidden">
           {/* -----------Left side bar begin----------- */}
           <FirstNavBar navItems={navItems} />
+          {/* <Sidebar /> */}
           {/* -----------Left side bar end----------- */}
 
           <div className={`flex-1 overflow-y-auto `}>

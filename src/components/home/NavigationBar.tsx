@@ -59,7 +59,7 @@ export const NavigationBar = ({
                             onClick={() => {
                               setActive("/matrix-apps");
                             }}
-                            className={`flex-1 text-left`}
+                            className={`flex-1 text-left text-xs`}
                           >
                             {!text && menuItem.itemCategory}
                           </Link>
@@ -82,7 +82,7 @@ export const NavigationBar = ({
                                 onClick={() => {
                                   setActive(route);
                                 }}
-                                className={`flex p-4`}
+                                className={`flex p-4 text-xs`}
                               >
                                 {name}
                               </Link>
