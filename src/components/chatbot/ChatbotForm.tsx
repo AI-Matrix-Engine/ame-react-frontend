@@ -139,7 +139,7 @@ const ChatbotForm = () => {
                                         <DropdownItem className="my-2 text-xs font-normal text-[#898989] w-full" onClick={() => handleInputChange(option, question.question)}>{option}</DropdownItem>
                                     ))}
                                 </DropdownMenu>
-                            </DropDown> */}
+                                </DropDown> */}
                             <Input
                                 type="text"
                                 onChange={(e: any) => setOtherOptionValue(e.target.value)}
@@ -150,7 +150,7 @@ const ChatbotForm = () => {
                     return (
                         <div key={question.question} className="my-4">
                             <label className="mb-3">{question.question}</label>
-                            <CheckboxGroup className="max-w-[500px]">
+                            <CheckboxGroup>
                                 {question?.options?.map((option) => (
                                     <div key={option} className="my-2 flex items-center justify-start">
                                         <Checkbox

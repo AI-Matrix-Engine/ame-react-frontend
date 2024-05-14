@@ -301,8 +301,8 @@ function ChatForm() {
       <main className="flex-1 flex flex-col">
         {!currentTitle && (
           <div className="flex flex-col items-center justify-center p-4 text-md">
-            <h1 className="text-black dark:text-white">AI Matrix</h1>
-            <h3 className="text-black dark:text-white">
+            <h1>AI Matrix</h1>
+            <h3>
               How can I help you today?
             </h3>
           </div>
@@ -324,7 +324,7 @@ function ChatForm() {
 
         <div
           ref={scrollToLastItem}
-          className="w-full sm:w-3/4 md:2/3 mx-auto flex flex-col h-full overflow-y-auto"
+          className="w-full sm:w-3/4 md:2/3 mx-auto flex flex-col h-full overflow-y-auto max-w-[730px]"
         >
           <ul className="space-y-4 p-4">
             {msgHistory.map((chatMsg, idx) => (
@@ -333,11 +333,11 @@ function ChatForm() {
                   {chatMsg.role === eRoleType.USER ? (
                     <UserCircleIcon />
                   ) : (
-                    <MdChat size={22} className="text-black dark:text-white" />
+                    <MdChat size={22} />
                   )}
                 </div>
                 <div>
-                  <p className="mb-2 text-black dark:text-white">
+                  <p className="mb-2">
                     {chatMsg.role === eRoleType.USER ? "You" : "AI Matrix"}
                   </p>
                   <p>
@@ -356,7 +356,6 @@ function ChatForm() {
         </div>
 
         <div className="mt-auto p-8 w-full sm:w-3/4 md:2/3 mx-auto max-w-[730px]">
-          <ChatbotForm />
           {errorText && <p className="text-red-500">{errorText}</p>}
           <form className="flex items-center relative" onSubmit={submitHandler}>
             <input
