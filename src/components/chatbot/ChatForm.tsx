@@ -295,7 +295,7 @@ function ChatForm() {
   }, []);
 
   return (
-    <div className="flex h-[90vh] w-full text-sm">
+    <div className="flex h-screen w-full text-sm bg-[#f0f2f5] dark:bg-[#18181b]">
       <main className="flex-1 flex flex-col">
         {!currentTitle && (
           <div className="flex flex-col items-center justify-center p-4 text-md">
@@ -306,7 +306,7 @@ function ChatForm() {
           </div>
         )}
 
-        {isShowSidebar ? (
+        {/* {isShowSidebar ? (
           <MdOutlineArrowRight
             className="absolute top-1/2 left-0 transform -translate-x-full cursor-pointer"
             size={36}
@@ -318,7 +318,7 @@ function ChatForm() {
             size={36}
             onClick={toggleSidebar}
           />
-        )}
+        )} */}
 
         <div
           ref={scrollToLastItem}
@@ -352,7 +352,8 @@ function ChatForm() {
             ))}
           </ul>
         </div>
-        <div className="mt-auto p-8 w-full sm:w-3/4 md:2/3 mx-auto">
+        
+        <div className="mt-auto mb-16 p-8 w-full sm:w-3/4 md:2/3 mx-auto">
           {errorText && <p className="text-red-500">{errorText}</p>}
           <form className="flex items-center relative" onSubmit={submitHandler}>
             <input
