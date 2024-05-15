@@ -1,109 +1,8 @@
+import "simplebar-react/dist/simplebar.min.css";
 import { FC, useRef, useState } from "react";
 import SimpleBar from "simplebar-react";
-import "simplebar-react/dist/simplebar.min.css";
-import { GridIcon } from "@radix-ui/react-icons";
-import { TfiHeadphoneAlt, TfiHeadphone } from "react-icons/tfi";
-import { BiGrid } from "react-icons/bi";
-import { VscVmRunning } from "react-icons/vsc";
-import { TbMessageChatbot } from "react-icons/tb";
-import { LuCodesandbox } from "react-icons/lu";
-import {
-  MdCreateNewFolder,
-  MdManageAccounts,
-  MdAdminPanelSettings,
-} from "react-icons/md";
+import { sidebarStructure } from "./Data";
 import Link from "next/link";
-
-const sidebarStructure = [
-  {
-    category: "AI Matrix Engine",
-    items: [
-      {
-        id: "matrix-workbench",
-        title: "Matrix Workbench",
-        name: "matrix-workbench",
-        parent: true,
-        icon: <GridIcon className="h-4 w-4" />,
-        link: "/matrix-workbench",
-      },
-      {
-        id: "direct-ai-caller",
-        title: "Direct AI Caller",
-        name: "direct-ai-caller",
-        parent: true,
-        icon: <TfiHeadphoneAlt className="h-4 w-4" />,
-        link: "/direct-ai-caller",
-      },
-      {
-        id: "ai-recipe-caller",
-        title: "AI Recipe Caller",
-        name: "ai-recipe-caller",
-        parent: true,
-        icon: <TfiHeadphone className="h-4 w-4" />,
-        link: "/ai-recipe-caller",
-      },
-      {
-        id: "chatbot",
-        title: "Chatbot",
-        name: "chatbot",
-        parent: true,
-        icon: <TbMessageChatbot className="h-4 w-4" />,
-        link: "/chatbot",
-      },
-      {
-        id: "sandbox",
-        title: "Sandbox",
-        name: "sandbox",
-        parent: true,
-        icon: <LuCodesandbox className="h-4 w-4" />,
-        link: "/sandbox",
-      },
-    ],
-  },
-  {
-    category: "Intelligence Engine",
-    items: [
-      {
-        id: "Matrix Apps",
-        title: "Matrix Apps",
-        name: "Matrix Apps",
-        parent: true,
-        icon: <BiGrid className="h-4 w-4" />,
-        link: "/matrix-apps/create",
-        child: [
-          {
-            id: "create",
-            title: "Create",
-            name: "create",
-            link: "/matrix-apps/create",
-            icon: <MdCreateNewFolder className="h-4 w-4" />,
-          },
-          {
-            id: "run",
-            title: "Run",
-            name: "run",
-            link: "/matrix-apps/run",
-            icon: <VscVmRunning className="h-4 w-4" />,
-          },
-          {
-            id: "manage",
-            title: "Manage",
-            name: "manage",
-            link: "/matrix-apps/manage",
-            icon: <MdManageAccounts className="h-4 w-4" />,
-          },
-          {
-            id: "admin",
-            title: "Admin",
-            name: "admin",
-            link: "/matrix-apps/admin",
-            icon: <MdAdminPanelSettings className="h-4 w-4" />,
-          },
-        ],
-      },
-    ],
-  },
-];
 
 interface SidebarProps {
   setExpand: (value: boolean) => void;
@@ -292,7 +191,7 @@ const Sidebar: FC<SidebarProps> = ({ setExpand }) => {
     >
       {/* Collapse Button */}
       <button
-        className="absolute z-50 top-16 -right-3 bg-white hover:bg-slate-100 text-slate-500 p-0.5 rounded-full border border-slate-200"
+        className="absolute z-50 top-12 -right-3 bg-white hover:bg-slate-100 text-slate-500 p-0.5 rounded-full border border-slate-200"
         onClick={() => {
           setIsExpand(!isExpand);
           setExpand(!isExpand);
