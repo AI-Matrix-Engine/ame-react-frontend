@@ -5,8 +5,6 @@ import { Dropdown, Textarea, Input } from "../_shared";
 import { Button } from "../_shared/catalyst/button";
 import { RadioGroup, Radio, RadioField } from "../_shared/catalyst/radio";
 import { CheckboxField, Checkbox, CheckboxGroup } from "../_shared/catalyst/checkbox";
-import { Dropdown as DropDown, DropdownButton, DropdownItem, DropdownMenu } from "../_shared/catalyst/dropdown";
-import { ChevronDownIcon } from "lucide-react";
 import RangeSlider from "../_shared/rangeSlider";
 import MarkdownView from "../_shared/MarkdownView";
 import sample from "./sample.json"
@@ -44,6 +42,7 @@ const initialState: UpdatedRespondForm = {
 
 const ChatbotForm = ({ index, respondData }: { index: number, respondData: string }) => {
     const [formValues, setFormValues] = useState<UpdatedRespondForm>(initialState);
+    const [content, setContent] = useState<respondForm>(sample);
     const [otherOptionValue, setOtherOptionValue] = useState("");
     const [error, setError] = useState<string | null>(null);
 
@@ -63,6 +62,7 @@ const ChatbotForm = ({ index, respondData }: { index: number, respondData: strin
                 if (respondData) {
                     const content = JSON.parse(respondData);
                     if (isValidContent(content)) {
+                        setContent(content);
                         setFormValues({
                             ...content,
                             questions: content.questions.map((question: any) => ({
@@ -152,7 +152,7 @@ const ChatbotForm = ({ index, respondData }: { index: number, respondData: strin
 
     return (
         <form onSubmit={submitForm} className="my-4 w-full rounded-lg p-6 text-xs">
-            {formValues.questions.map((question) => {
+            {content.questions.map((question) => {
                 if (question.type === 'multiple_choice') {
                     return (
                         <div key={question.question} className="mb-4">
@@ -166,21 +166,10 @@ const ChatbotForm = ({ index, respondData }: { index: number, respondData: strin
                                 )) : []}
                                 className="my-2 text-xs font-normal text-[#898989] w-full"
                             />
-                            {/* <DropDown>
-                                <DropdownButton outline className="my-2 text-xs font-normal text-[#898989] w-full">
-                                    Select an option
-                                    <ChevronDownIcon />
-                                </DropdownButton>
-                                <DropdownMenu className="my-2 text-xs font-normal text-[#898989] w-full">
-                                    {question?.options?.map((option) => (
-                                        <DropdownItem className="my-2 text-xs font-normal text-[#898989] w-full" onClick={() => handleInputChange(option, question.question)}>{option}</DropdownItem>
-                                    ))}
-                                </DropdownMenu>
-                                </DropDown> */}
-                            <Input
+                            {question.question === "Other" && <Input
                                 type="text"
                                 onChange={(e: any) => setOtherOptionValue(e.target.value)}
-                            />
+                            />}
                         </div>
                     );
                 } else if (question.type === 'checkboxes') {
@@ -198,13 +187,17 @@ const ChatbotForm = ({ index, respondData }: { index: number, respondData: strin
                                         <label className="ml-3 text-xs font-normal">{option}</label>
                                     </div>
                                 ))}</CheckboxGroup>
+                            {question.question === "Other" && <Input
+                                type="text"
+                                onChange={(e: any) => setOtherOptionValue(e.target.value)}
+                            />}
                         </div>
                     );
                 } else if (question.type === 'yes_no') {
                     return (
                         <div key={question.question} className="my-4">
                             <label className="mb-3">{question.question}</label>
-                            <RadioGroup className="my-3 flex flex-row items-center space-y-0" onChange={(value) => {
+                            <RadioGroup className="my-3 flex flex-row items-end mt-0" onChange={(value) => {
                                 return handleInputChange(value, question.question);
                             }}>
                                 {question?.options?.map((option) => (
@@ -235,8 +228,9 @@ const ChatbotForm = ({ index, respondData }: { index: number, respondData: strin
                             <RangeSlider
                                 min={question?.range?.min ? question?.range?.min : 0}
                                 max={question?.range?.max ? question?.range?.max : 10}
-                                step={question?.range?.step ? question?.range?.step : 1} label={`${question?.range?.value ? question?.range?.value : '0'}`} defaultValue={question?.range?.value ? question?.range?.value : 0} helpText={""}
-                                onChange={(value) => handleInputChange(value, question.question)} />
+                                step={question?.range?.step ? question?.range?.step : 1} label={``} defaultValue={question?.range?.value ? question?.range?.value : 0} helpText={""}
+                                onChange={(value) => handleInputChange(value, question.question)}
+                            />
                         </div>
                     );
                 } else {

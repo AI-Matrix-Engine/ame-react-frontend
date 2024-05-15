@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Slider } from "../_shared";
+import Slider from "react-slider";
 import { Input } from "./Input";
 
 interface iRandSlider {
@@ -9,33 +9,12 @@ interface iRandSlider {
   label: string;
   defaultValue: string | number;
   helpText: string;
-  onChange: (value: any[]) => void;
+  onChange?: (e: any) => void;
 }
 
-const RangeSlider = ({ min, max, step, label, defaultValue, onChange, helpText }: iRandSlider) => {
-  const [inputValue, setInputValue] = React.useState<number | string>(defaultValue);
-  const [sliderValue, setSliderValue] = React.useState<number>(typeof defaultValue === "number" ? defaultValue : parseInt(defaultValue));
+const RangeSlider = ({ min, max, step, label, defaultValue, helpText, onChange }: iRandSlider) => {
+  const [value, setValue] = useState<any>(defaultValue);
   const [isHelpText, setShowHelp] = useState(false);
-
-  const handleInputChange = (e: any) => {
-    const value = e.target.value;
-    if (value > max) {
-      setInputValue(max);
-      setSliderValue(max);
-    } else if (value < min) {
-      setInputValue(min);
-      setSliderValue(min);
-    } else {
-      setInputValue(value);
-      setSliderValue(value);
-    }
-    onChange(value);
-  }
-
-  const handleSliderChange = (value: number) => {
-    setSliderValue(typeof value === "number" ? value : parseInt(value));
-    setInputValue(value);
-  }
   return (
     <div className="leading-[10px] mb-[15px]">
       <div className="flex text-[12px] text-[#000] dark:text-[#fff] w-full justify-between items-center">
@@ -51,8 +30,12 @@ const RangeSlider = ({ min, max, step, label, defaultValue, onChange, helpText }
         </div>
         <div className="w-fit relative">
           <Input
-            value={inputValue}
-            onChange={handleInputChange}
+            value={value}
+            onChange={(e: any) => {
+              if (e.target.value > max) setValue(max);
+              else if (e.target.value < min) setValue(min);
+              else setValue(e.target.value);
+            }}
             className="w-[30px] p-0 h-[20px] rounded-sm text-[8px] text-center"
           />
         </div>
@@ -61,9 +44,11 @@ const RangeSlider = ({ min, max, step, label, defaultValue, onChange, helpText }
         min={min}
         max={max}
         step={step}
-        value={[sliderValue]}
-        className="slider"
-        onChange={(e) => handleSliderChange}
+        value={[value]}
+        className="relative h-1.5 w-full grow overflow-hidden rounded-full bg-zinc-900/20 dark:bg-zinc-50/20 flex items-center"
+        trackClassName="absolute h-full bg-zinc-900 dark:bg-zinc-50"
+        thumbClassName="block h-4 w-4 rounded-full border border-zinc-900 bg-white   disabled:pointer-events-none disabled:opacity-50 dark:border-zinc-800 dark:bg-zinc-950 dark:focus-visible:ring-zinc-300"
+        onChange={(e: any) => { onChange ? onChange(e) : null; setValue(e); }}
       />
     </div>
   );
