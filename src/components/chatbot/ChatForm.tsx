@@ -7,8 +7,7 @@ import {
   useCallback,
   useLayoutEffect,
 } from "react";
-import { UserCircleIcon } from '@heroicons/react/24/solid'
-import { MdOutlineArrowLeft, MdOutlineArrowRight, MdSend, MdPerson, MdChat } from "react-icons/md";
+import { MdOutlineArrowLeft, MdOutlineArrowRight, MdSend, MdPerson, MdChat, MdUpload } from "react-icons/md";
 import { socketService } from "@/lib/socket";
 import { iMessage, eRoleType, iChat } from "@/utils/types";
 import { useChat } from "@/context/ChatContext";
@@ -16,11 +15,11 @@ import { useAuth } from "@/context/AuthContext";
 import axios from "axios";
 import MarkdownView from "../_shared/MarkdownView";
 import { redirect } from "next/navigation";
-import { FiUpload } from "react-icons/fi";
 import { ArrowUpIcon } from "@radix-ui/react-icons";
 import { HiDotsVertical } from "react-icons/hi";
 import ChatBotSettings from "./ChatBotSettings";
 import ChatbotForm from "./ChatbotForm";
+import { BsPaperclip } from "react-icons/bs";
 
 interface Settings {
   customOptions: boolean;
@@ -38,10 +37,13 @@ function ChatForm() {
   const [msgHistory, setMsgHistory] = useState<iMessage[]>([]);
   const [streamText, setStreamText] = useState<string>("");
   const scrollToLastItem = useRef<HTMLDivElement | null>(null);
+  const lastMessageRef = useRef<HTMLLIElement>(null);
   const [isResponseLoading, setIsResponseLoading] = useState<boolean>(false);
   const [errorText, setErrorText] = useState<string>("");
   const [isShowSidebar, setIsShowSidebar] = useState<boolean>(false);
   const [aiResponse, setAiResponst] = useState<string>("");
+  const [showFormSample, setShowFormSample] = useState<boolean>(false);
+
 
   const {
     currentChat,
@@ -61,6 +63,12 @@ function ChatForm() {
     });
     return data;
   };
+
+  useEffect(() => {
+    if (lastMessageRef.current) {
+      lastMessageRef.current.scrollIntoView({ block: 'end' });
+    }
+  }, [msgHistory])
 
   useEffect(() => {
     const intervalFunction = async () => {
@@ -226,7 +234,6 @@ function ChatForm() {
         setIsResponseLoading(false);
         setAiResponst(receivedData);
         displayUserMessage(receivedData, eRoleType.ASSISTANT);
-        console.log(receivedData);
       });
     }
 
@@ -237,6 +244,7 @@ function ChatForm() {
 
   useEffect(() => {
     if (aiResponse.length === 0) return;
+
     setTimeout(() => {
       setStreamText(
         (prev) => prev + aiResponse.substring(prev.length, prev.length + 5)
@@ -258,11 +266,11 @@ function ChatForm() {
     if (streamText === "" || !isResponseLoading) return;
 
     setIsResponseLoading(false);
-    scrollToBottom();
+    // scrollToBottom();
   }, [streamText]);
 
   useEffect(() => {
-    scrollToBottom();
+    // scrollToBottom();
 
     if (msgHistory.length === 0) return;
 
@@ -328,7 +336,7 @@ function ChatForm() {
         >
           <ul className="space-y-4 p-4">
             {msgHistory.map((chatMsg, idx) => (
-              <li key={idx} className={`relative flex gap-8 p-4 rounded group`}>
+              <li key={idx} className={`relative flex gap-8 p-4 rounded group`} ref={idx === msgHistory.length - 1 ? lastMessageRef : null}>
                 <div className="h-8 flex">
                   {chatMsg.role === eRoleType.USER ? (
                     <MdPerson size={22} />
@@ -344,11 +352,7 @@ function ChatForm() {
                     {idx === msgHistory.length - 1 &&
                       chatMsg.role === eRoleType.ASSISTANT &&
                       streamText.length > 0 ? (
-                      chatMsg.content.includes('input') ? (
-                        <ChatbotForm respondData={chatMsg.content} />
-                      ) : (
-                        <MarkdownView index={idx} content={streamText} />
-                      )
+                      <ChatbotForm index={idx} respondData={streamText} /> || <MarkdownView index={idx} content={streamText} />
                     ) : (
                       <MarkdownView index={idx} content={chatMsg.content} />
                     )}
@@ -357,15 +361,23 @@ function ChatForm() {
               </li>
             ))}
           </ul>
+          {showFormSample && (
+            <ChatbotForm index={10000} respondData={'sample'} />
+          )}
         </div>
 
         <div className="mt-auto p-8 w-full sm:w-3/4 md:2/3 mx-auto max-w-[730px]">
           {errorText && <p className="text-red-500">{errorText}</p>}
           <form className="flex items-center relative" onSubmit={submitHandler}>
+            {!isResponseLoading && (
+              <button className="flex items-center absolute left-2 p-2 space-x-3">
+                <BsPaperclip size={16} color="#888" className="cursor-pointer" />
+              </button>
+            )}
             <input
               type="text"
               placeholder="Send a message"
-              className="flex-1 px-4 py-3 rounded-lg outline-none dark:text-[#fafafa] dark:bg-[#ffffff0d]"
+              className={`flex-1 ${!isResponseLoading ? "pl-10" : ""} px-4 py-3 rounded-lg outline-none dark:text-[#fafafa] dark:bg-[#ffffff0d]`}
               spellCheck="false"
               value={isResponseLoading ? "Processing..." : message}
               onChange={(e) => setMessage(e.target.value)}
@@ -373,7 +385,6 @@ function ChatForm() {
             />
             {!isResponseLoading && (
               <div className="flex items-center absolute right-2 p-2 space-x-3">
-                <FiUpload size={16} color="#888" className="cursor-pointer" />
                 <button type="submit">
                   <ArrowUpIcon
                     width={22}
@@ -386,7 +397,7 @@ function ChatForm() {
             )}
             <HiDotsVertical className="font-semibold text-xl cursor-pointer dark:text-[#9b9a9a] absolute right-[-2rem]" />
           </form>
-          <ChatBotSettings settings={settings} />
+          <ChatBotSettings settings={settings} setShowFormSample={setShowFormSample} showFormSample={showFormSample} />
         </div>
       </main>
     </div>

@@ -2,13 +2,14 @@
 
 import { useEffect, useState } from "react";
 import { Dropdown, Textarea, Input } from "../_shared";
-import sample from "./sample.json"
 import { Button } from "../_shared/catalyst/button";
 import { RadioGroup, Radio, RadioField } from "../_shared/catalyst/radio";
 import { CheckboxField, Checkbox, CheckboxGroup } from "../_shared/catalyst/checkbox";
 import { Dropdown as DropDown, DropdownButton, DropdownItem, DropdownMenu } from "../_shared/catalyst/dropdown";
 import { ChevronDownIcon } from "lucide-react";
 import RangeSlider from "../_shared/rangeSlider";
+import MarkdownView from "../_shared/MarkdownView";
+import sample from "./sample.json"
 
 interface respondQuestions {
     type: "multiple_choice" | "checkboxes" | "yes_no" | "text_area" | "range_selector" | string;
@@ -41,25 +42,56 @@ const initialState: UpdatedRespondForm = {
     questions: [],
 }
 
-// const respondData = sample
-
-const ChatbotForm = ({ respondData }: { respondData: string }) => {
+const ChatbotForm = ({ index, respondData }: { index: number, respondData: string }) => {
     const [formValues, setFormValues] = useState<UpdatedRespondForm>(initialState);
     const [otherOptionValue, setOtherOptionValue] = useState("");
+    const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
-        if (respondData) {
-            const content = JSON.parse(respondData);
+        if (index === 10000) {
+            console.log(sample);
             setFormValues({
-                ...content,
-                questions: content.questions.map((question: any) => ({
+                ...sample,
+                questions: sample.questions.map((question: any) => ({
                     type: question.type,
                     question: question.question,
                     answer: '',
                 })),
-            });
+            })
+        } else {
+            try {
+                if (respondData) {
+                    const content = JSON.parse(respondData);
+                    if (isValidContent(content)) {
+                        setFormValues({
+                            ...content,
+                            questions: content.questions.map((question: any) => ({
+                                type: question.type,
+                                question: question.question,
+                                answer: '',
+                            })),
+                        });
+                    } else {
+                        setError("Invalid form data. Please check the content.");
+                        console.error("Error parsing form data. Please check the content format.");
+                    }
+                }
+            } catch (error) {
+                setError("Error parsing form data. Please check the content format.");
+                console.error(error);
+            }
         }
+
     }, []);
+
+    const isValidContent = (content: string): boolean => {
+        try {
+            JSON.parse(content);
+            return true;
+        } catch (error) {
+            return false;
+        }
+    };
 
     const handleInputChange = (value: any, question: string) => {
         const questionIndex = formValues.questions.findIndex(q => q.question === question);
@@ -110,6 +142,12 @@ const ChatbotForm = ({ respondData }: { respondData: string }) => {
     const submitForm = (e: any) => {
         e.preventDefault()
         console.log(formValues)
+    }
+
+    if (error) {
+        return (
+            <MarkdownView index={index} content={respondData} />
+        )
     }
 
     return (
@@ -202,7 +240,7 @@ const ChatbotForm = ({ respondData }: { respondData: string }) => {
                         </div>
                     );
                 } else {
-                    return null;
+                    return <MarkdownView index={index} content={respondData} />
                 }
             })}
             <div className="w-full flex justify-end">

@@ -13,7 +13,7 @@ interface SettingsProps {
     submitOnEnter: boolean;
 }
 
-const ChatBotSettings = ({ settings }: { settings: SettingsProps }) => {
+const ChatBotSettings = ({ settings, setShowFormSample, showFormSample }: { settings: SettingsProps, setShowFormSample: Function, showFormSample: boolean }) => {
     const {
         aiPreferencesMain,
         aiPreferencesSecond,
@@ -79,6 +79,10 @@ const ChatBotSettings = ({ settings }: { settings: SettingsProps }) => {
                         <div className='flex items-center mr-5 mb-2'>
                             <Checkbox checked={isSubmitOnEnter} onChange={() => setSubmitOnEnter(!isSubmitOnEnter)} />
                             <Label className='ml-3 text-xs font-normal'>Submit on Enter</Label>
+                        </div>
+                        <div className='flex items-center mr-5 mb-2'>
+                            <Checkbox onChange={() => setShowFormSample(!showFormSample)} />
+                            <Label className='ml-3 text-xs font-normal'>Show Form Sample</Label>
                         </div>
                     </div>
                     <div className="flex flex-wrap justify-between items-start mt-2">
