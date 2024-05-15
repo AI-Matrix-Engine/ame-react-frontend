@@ -155,7 +155,7 @@ const ChatbotForm = ({ index, respondData }: { index: number, respondData: strin
             {content.questions.map((question) => {
                 if (question.type === 'multiple_choice') {
                     return (
-                        <div key={question.question} className="mb-4">
+                        <div key={question.question} className="mb-8">
                             <label className="mb-4">{question.question}</label>
                             <Dropdown
                                 isLabel={true}
@@ -168,13 +168,13 @@ const ChatbotForm = ({ index, respondData }: { index: number, respondData: strin
                             />
                             {question.question === "Other" && <Input
                                 type="text"
-                                onChange={(e: any) => setOtherOptionValue(e.target.value)}
+                                onChange={(value: any) => handleInputChange(value, question.question)}
                             />}
                         </div>
                     );
                 } else if (question.type === 'checkboxes') {
                     return (
-                        <div key={question.question} className="my-4">
+                        <div key={question.question} className="my-8">
                             <label className="mb-3">{question.question}</label>
                             <CheckboxGroup>
                                 {question?.options?.map((option) => (
@@ -189,13 +189,13 @@ const ChatbotForm = ({ index, respondData }: { index: number, respondData: strin
                                 ))}</CheckboxGroup>
                             {question.question === "Other" && <Input
                                 type="text"
-                                onChange={(e: any) => setOtherOptionValue(e.target.value)}
+                                onChange={(value: any) => handleInputChange(value, question.question)}
                             />}
                         </div>
                     );
                 } else if (question.type === 'yes_no') {
                     return (
-                        <div key={question.question} className="my-4">
+                        <div key={question.question} className="my-8">
                             <label className="mb-3">{question.question}</label>
                             <RadioGroup className="my-3 flex flex-row items-end mt-0" onChange={(value) => {
                                 return handleInputChange(value, question.question);
@@ -212,7 +212,7 @@ const ChatbotForm = ({ index, respondData }: { index: number, respondData: strin
                     );
                 } else if (question.type === 'text_area') {
                     return (
-                        <div key={question.question} className="my-4">
+                        <div key={question.question} className="my-8">
                             <label className="mb-3">{question.question}</label>
                             <Textarea
                                 name={question.question}
@@ -223,7 +223,7 @@ const ChatbotForm = ({ index, respondData }: { index: number, respondData: strin
                     );
                 } else if (question.type === 'range_selector') {
                     return (
-                        <div key={question.question} className="my-4">
+                        <div key={question.question} className="my-8">
                             <label className="mb-3">{question.question}</label>
                             <RangeSlider
                                 min={question?.range?.min ? question?.range?.min : 0}
@@ -232,6 +232,17 @@ const ChatbotForm = ({ index, respondData }: { index: number, respondData: strin
                                 onChange={(value) => handleInputChange(value, question.question)}
                             />
                         </div>
+                    );
+                } else if (question.type === 'input') {
+                    return (
+                        <div key={question.question} className="my-8">
+                            <label className="mb-3">{question.question}</label>
+                            <Input
+                                placeholder="Enter your answer"
+                                onChange={(value: any) => handleInputChange(value, question.question)}
+                            />
+                        </div>
+
                     );
                 } else {
                     return <MarkdownView index={index} content={respondData} />

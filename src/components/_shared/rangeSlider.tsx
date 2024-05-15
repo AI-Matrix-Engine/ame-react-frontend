@@ -36,7 +36,8 @@ const RangeSlider = ({ min, max, step, label, defaultValue, helpText, onChange }
               else if (e.target.value < min) setValue(min);
               else setValue(e.target.value);
             }}
-            className="w-[30px] p-0 h-[20px] rounded-sm text-[8px] text-center"
+            onFocus={(e: any) => e.target.select()}
+            className="w-[30px] p-0 h-[20px] rounded-sm text-[10px] text-center mb-2"
           />
         </div>
       </div>
@@ -45,9 +46,9 @@ const RangeSlider = ({ min, max, step, label, defaultValue, helpText, onChange }
         max={max}
         step={step}
         value={[value]}
-        className="relative h-1.5 w-full grow overflow-hidden rounded-full bg-zinc-900/20 dark:bg-zinc-50/20 flex items-center"
-        trackClassName="absolute h-full bg-zinc-900 dark:bg-zinc-50"
-        thumbClassName="block h-4 w-4 rounded-full border border-zinc-900 bg-white   disabled:pointer-events-none disabled:opacity-50 dark:border-zinc-800 dark:bg-zinc-950 dark:focus-visible:ring-zinc-300"
+        className="relative w-full grow rounded-full flex items-center"
+        trackClassName="absolute h-1.5 bg-zinc-900 dark:bg-zinc-50 overflow-hidden rounded-full"
+        thumbClassName="block h-4 w-4 rounded-full border border-zinc-800 dark:border-zinc-50 bg-white disabled:pointer-events-none disabled:opacity-50 dark:bg-zinc-950 dark:focus-visible:ring-zinc-300 cursor-grab"
         onChange={(e: any) => { onChange ? onChange(e) : null; setValue(e); }}
       />
     </div>

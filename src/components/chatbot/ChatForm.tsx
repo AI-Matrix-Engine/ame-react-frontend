@@ -68,7 +68,7 @@ function ChatForm() {
     if (lastMessageRef.current) {
       lastMessageRef.current.scrollIntoView({ block: 'end' });
     }
-  }, [msgHistory])
+  }, [msgHistory.length, lastMessageRef])
 
   useEffect(() => {
     const intervalFunction = async () => {
@@ -106,7 +106,6 @@ function ChatForm() {
       role: type,
       content: msg,
     };
-    console.log(newMessage)
     setMsgHistory((prev) => [...prev, newMessage]);
   };
 
