@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { variables } from "./JsonData.";
 import { UIRenderer } from "./UIRenderer";
 import Link from "next/link";
@@ -9,8 +9,12 @@ import { IntakeForm } from "./IntakeForm";
 import { Button } from "../_shared";
 import { Minus } from "lucide-react";
 import { JsonDataType } from "@/utils/types";
+import { useAuth } from "@/context/AuthContext";
+import { useRouter } from "next/navigation";
 
-export const UIFactory = () => {
+export const UIFactory: any = () => {
+  const { user } = useAuth();
+  const router = useRouter();
   const [UIData, setUIData] = useState(
     variables.map((element) => ({ ...element, value: "" }))
   );
@@ -73,19 +77,25 @@ export const UIFactory = () => {
       item.source_params.type !== "tab"
   );
 
+  if (!user) {
+    // router.replace("/login");
+    window.location.href = "/login";
+    // return null;
+  }
+
   return (
     <div className="flex">
       <div className="flex flex-col flex-1 p-4">
         <div>
-          <h4 className=" text-2xl text-[#212B36] font-arimo font-semibold text-center mb-4">
+          {/* <h4 className=" text-2xl text-[#212B36] font-arimo font-semibold text-center mb-4">
             Dynamic Page
-          </h4>
-          <Link
+          </h4> */}
+          {/* <Link
             href="/sandbox"
             className=" text-2xl text-[#212B36] font-arimo font-semibold text-center mb-4"
           >
             Sandbox
-          </Link>
+          </Link> */}
         </div>
         {/* <div className=" grid grid-cols-3 grid-rows-2 gap-8 p-4 justify-center content-center">
         {UIData?.map((element, index) => {
@@ -110,9 +120,7 @@ export const UIFactory = () => {
           onDelete={handleDeleteCustomFields}
           handleChange={handleCustomFieldsValueChange}
         />
-        <div
-          className="mt-4"
-        >
+        <div className="mt-4">
           {customFields
             .filter(
               (item) =>

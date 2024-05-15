@@ -1,9 +1,10 @@
 "use client";
+
 import React from "react";
 import { SecondNavbar } from "@/components/layout/SecondNavBar";
 import { MenuCategory } from "@/utils/types";
-import { GridIcon } from "lucide-react";
 import { TfiHeadphone, TfiHeadphoneAlt } from "react-icons/tfi";
+import withAuth from "@/components/withAuth";
 
 const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const menuItems: MenuCategory[] = [
@@ -13,24 +14,24 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
         {
           itemCategory: "Playground",
           icon: <TfiHeadphone className="h-4 w-4" />,
-          route: "/playground",
+          route: "/matrix-workbench/playground",
         },
         {
           itemCategory: "Direct AI Caller",
           icon: <TfiHeadphoneAlt className="h-4 w-4" />,
-          route: "/direct-ai-caller",
+          route: "/matrix-workbench/direct-ai-caller",
         },
         {
           itemCategory: "AI Recipe Caller",
           icon: <TfiHeadphone className="h-4 w-4" />,
-          route: "/ai-recipe-caller",
+          route: "/matrix-workbench/ai-recipe-caller",
         },
       ],
     },
   ];
 
   return (
-    <div className="flex h-full grow relative">
+    <div className="flex h-full grow relative bg-[#f0f2f5] dark:bg-[#18181b]">
       <SecondNavbar navItems={menuItems} />
       <main className={`flex-1 flex flex-col transition-margin duration-300`}>
         {children}
@@ -39,4 +40,4 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   );
 };
 
-export default Layout;
+export default withAuth(Layout);

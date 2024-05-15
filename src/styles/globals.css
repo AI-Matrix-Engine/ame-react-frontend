@@ -3,6 +3,7 @@
 @tailwind utilities;
 
 @import url("./phone-number.style.css");
+@import url("./chatbot.style.css");
 /* width */
 ::-webkit-scrollbar {
   width: 0.5rem;
@@ -130,4 +131,10 @@ html {
 
 .empty__tag span{
   font-size: 1rem;
+}
+
+.simplebar-track.simplebar-vertical .simplebar-scrollbar:before {
+  /* @apply bg-slate-400/50 w-1.5; */
+  background-color: rgb(148 163 184 / 0.5);
+  width: 0.375rem /* 6px */;
 }

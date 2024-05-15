@@ -79,6 +79,5 @@ export const useChat = () => {
     if (context === undefined) {
         throw new Error("useChat must be used within a ChatProvider");
     }
-
     return context;
 };
