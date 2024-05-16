@@ -8,6 +8,8 @@ import { CheckboxField, Checkbox, CheckboxGroup } from "../_shared/catalyst/chec
 import RangeSlider from "../_shared/rangeSlider";
 import MarkdownView from "../_shared/MarkdownView";
 import sample from "./sample.json"
+import DropdownWithOtherOption, { Question } from "../_shared/DropdownWithOther";
+import CheckboxGroupWithOtherOption from "../_shared/CheckboxGroupWithOther";
 
 interface respondQuestions {
     type: "multiple_choice" | "checkboxes" | "yes_no" | "text_area" | "range_selector" | string;
@@ -43,7 +45,6 @@ const initialState: UpdatedRespondForm = {
 const ChatbotForm = ({ index, respondData }: { index: number, respondData: string }) => {
     const [formValues, setFormValues] = useState<UpdatedRespondForm>(initialState);
     const [content, setContent] = useState<respondForm>(sample);
-    const [otherOptionValue, setOtherOptionValue] = useState("");
     const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
@@ -104,34 +105,27 @@ const ChatbotForm = ({ index, respondData }: { index: number, respondData: strin
                     answer: value,
                 };
             } else if (updatedQuestions[questionIndex].type === 'checkboxes') {
-                let answer: string[] = (updatedQuestions[questionIndex].answer as string).split(', ');
+                let answer: string[] = [];
+                if (typeof updatedQuestions[questionIndex].answer === 'string') {
+                    answer = (updatedQuestions[questionIndex].answer as string).split(', ');
+                }
                 if (answer.includes(value)) {
                     answer = answer.filter((item) => item !== value)
                 } else {
-                    answer.push(value)
+                    answer.push(value);
                 }
                 updatedQuestions[questionIndex] = {
                     type: updatedQuestions[questionIndex].type,
                     question,
-                    answer: answer.join(', '),
+                    answer: answer.length > 1 ? answer.join(', ') : answer[0],
                 };
             } else {
-                if (value === "Other") {
-                    setOtherOptionValue("user");
-                    updatedQuestions[questionIndex] = {
-                        type: updatedQuestions[questionIndex].type,
-                        question,
-                        answer: otherOptionValue,
-                    }
-                } else {
-                    updatedQuestions[questionIndex] = {
-                        type: updatedQuestions[questionIndex].type,
-                        question,
-                        answer: value,
-                    }
+                updatedQuestions[questionIndex] = {
+                    type: updatedQuestions[questionIndex].type,
+                    question,
+                    answer: value,
                 }
             }
-
             setFormValues({
                 ...formValues,
                 questions: updatedQuestions,
@@ -156,41 +150,15 @@ const ChatbotForm = ({ index, respondData }: { index: number, respondData: strin
                 if (question.type === 'multiple_choice') {
                     return (
                         <div key={question.question} className="mb-8">
-                            <label className="mb-4">{question.question}</label>
-                            <Dropdown
-                                isLabel={true}
-                                placeHolder="Select an option"
-                                onClick={(value) => handleInputChange(value, question.question)}
-                                options={question.options ? question?.options?.map((option) => (
-                                    { value: option, label: option }
-                                )) : []}
-                                className="my-2 text-xs font-normal text-[#898989] w-full"
-                            />
-                            {question.question === "Other" && <Input
-                                type="text"
-                                onChange={(value: any) => handleInputChange(value, question.question)}
-                            />}
+                            <label className="mb-3">{question.question}</label>
+                            <DropdownWithOtherOption question={question as Question} handleInputChange={handleInputChange} />
                         </div>
                     );
                 } else if (question.type === 'checkboxes') {
                     return (
                         <div key={question.question} className="my-8">
                             <label className="mb-3">{question.question}</label>
-                            <CheckboxGroup>
-                                {question?.options?.map((option) => (
-                                    <div key={option} className="my-2 flex items-center justify-start">
-                                        <Checkbox
-                                            name={question.question}
-                                            value={option}
-                                            onChange={(value) => handleInputChange(option, question.question)}
-                                        />
-                                        <label className="ml-3 text-xs font-normal">{option}</label>
-                                    </div>
-                                ))}</CheckboxGroup>
-                            {question.question === "Other" && <Input
-                                type="text"
-                                onChange={(value: any) => handleInputChange(value, question.question)}
-                            />}
+                            <CheckboxGroupWithOtherOption question={question as Question} handleInputChange={handleInputChange} />
                         </div>
                     );
                 } else if (question.type === 'yes_no') {

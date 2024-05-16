@@ -23,7 +23,7 @@ const ChatContext = createContext<{
     currentChat: 0,
     setCurrentChat: () => { },
     index: '',
-    setIndex: () => {},
+    setIndex: () => { },
     chatHistory: [],
     setChatHistory: () => { }
 });
@@ -33,29 +33,29 @@ export const ChatProvider = ({ children }: { children: ReactNode }) => {
     const [chatHistory, setChatHistory] = useState<iChat[]>([]);
     const [index, setIndex] = useState<string>('');
     const { user } = useAuth();
-    useEffect(() => {    
+    useEffect(() => {
         const handledata = async () => {
-          const result = await axios.get('https://aimatrix-api.vercel.app/api/aichat', {
-            params: {
-                user_id: user?.uid
+            const result = await axios.get('https://aimatrix-api.vercel.app/api/aichat', {
+                params: {
+                    user_id: user?.uid
+                }
+            })
+
+            const chatData = result.data;
+
+            if (chatData) {
+                setIndex(chatData._id)
+                if (chatData?.history) {
+                    setChatHistory(chatData?.history);
+                    if (chatData?.history.length > 0) {
+                        setCurrentChat(0);
+                    }
+                }
             }
-          })
-    
-          const chatData = result.data;
-    
-          if (chatData) {
-            setIndex(chatData._id)
-            if (chatData?.history) {
-              setChatHistory(chatData?.history);
-              if(chatData?.history.length > 0) {
-                setCurrentChat(0);
-              }
-            }
-          }
         }
-    
+
         handledata();
-      }, [])
+    }, [])
 
     return (
         <ChatContext.Provider
