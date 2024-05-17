@@ -35,7 +35,7 @@ export function DropdownButton<T extends React.ElementType = typeof Button>(
   return <HeadlessMenuButton as={Button} {...props} />
 }
 
-export function DropdownMenu({ anchor = 'bottom', ...props }: HeadlessMenuItemsProps) {
+export function DropdownMenu({ anchor = 'bottom' as any, ...props }: HeadlessMenuItemsProps) {
   return (
     <HeadlessTransition leave="duration-100 ease-in" leaveTo="opacity-0">
       <HeadlessMenuItems
