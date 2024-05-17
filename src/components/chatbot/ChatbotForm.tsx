@@ -1,48 +1,22 @@
 "use client"
 
 import { useEffect, useState } from "react";
-import { Dropdown, Textarea, Input } from "../_shared";
+import { Textarea, Input } from "../_shared";
 import { Button } from "../_shared/catalyst/button";
 import { RadioGroup, Radio, RadioField } from "../_shared/catalyst/radio";
-import { CheckboxField, Checkbox, CheckboxGroup } from "../_shared/catalyst/checkbox";
 import RangeSlider from "../_shared/rangeSlider";
 import MarkdownView from "../_shared/MarkdownView";
 import sample from "./sample.json"
 import DropdownWithOtherOption, { Question } from "../_shared/DropdownWithOther";
 import CheckboxGroupWithOtherOption from "../_shared/CheckboxGroupWithOther";
-
-interface respondQuestions {
-    type: "multiple_choice" | "checkboxes" | "yes_no" | "text_area" | "range_selector" | string;
-    question: string;
-    options?: string[];
-    range?: {
-        min: number;
-        max: number;
-        value: number;
-        step?: number;
-    };
-    allow_custom_input?: boolean;
-}
-
-interface respondForm {
-    introduction: string;
-    questions: respondQuestions[];
-}
-
-interface UpdatedRespondForm extends respondForm {
-    questions: UpdatedRespondQuestion[];
-}
-
-interface UpdatedRespondQuestion extends respondQuestions {
-    answer: string | boolean | number;
-}
+import { UpdatedRespondForm, respondForm } from "@/utils/types";
 
 const initialState: UpdatedRespondForm = {
     introduction: '',
     questions: [],
 }
 
-const ChatbotForm = ({ index, respondData }: { index: number, respondData: string }) => {
+const ChatbotForm = ({ index, respondData, setFormAnswers }: { index: number, respondData: string, setFormAnswers: Function }) => {
     const [formValues, setFormValues] = useState<UpdatedRespondForm>(initialState);
     const [content, setContent] = useState<respondForm>(sample);
     const [error, setError] = useState<string | null>(null);
@@ -53,7 +27,6 @@ const ChatbotForm = ({ index, respondData }: { index: number, respondData: strin
             setFormValues({
                 ...sample,
                 questions: sample.questions.map((question: any) => ({
-                    type: question.type,
                     question: question.question,
                     answer: '',
                 })),
@@ -67,7 +40,6 @@ const ChatbotForm = ({ index, respondData }: { index: number, respondData: strin
                         setFormValues({
                             ...content,
                             questions: content.questions.map((question: any) => ({
-                                type: question.type,
                                 question: question.question,
                                 answer: '',
                             })),
@@ -100,7 +72,6 @@ const ChatbotForm = ({ index, respondData }: { index: number, respondData: strin
             const updatedQuestions = [...formValues.questions];
             if (updatedQuestions[questionIndex].type === 'yes_no') {
                 updatedQuestions[questionIndex] = {
-                    type: updatedQuestions[questionIndex].type,
                     question,
                     answer: value,
                 };
@@ -115,13 +86,11 @@ const ChatbotForm = ({ index, respondData }: { index: number, respondData: strin
                     answer.push(value);
                 }
                 updatedQuestions[questionIndex] = {
-                    type: updatedQuestions[questionIndex].type,
                     question,
                     answer: answer.length > 1 ? answer.join(', ') : answer[0],
                 };
             } else {
                 updatedQuestions[questionIndex] = {
-                    type: updatedQuestions[questionIndex].type,
                     question,
                     answer: value,
                 }
@@ -135,6 +104,7 @@ const ChatbotForm = ({ index, respondData }: { index: number, respondData: strin
 
     const submitForm = (e: any) => {
         e.preventDefault()
+        setFormAnswers(formValues)
         console.log(formValues)
     }
 

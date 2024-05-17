@@ -43,6 +43,7 @@ function ChatForm() {
   const [isShowSidebar, setIsShowSidebar] = useState<boolean>(false);
   const [aiResponse, setAiResponst] = useState<string>("");
   const [showFormSample, setShowFormSample] = useState<boolean>(false);
+  const [formAnswers, setFormAnswers] = useState<string[]>([]);
 
 
   const {
@@ -151,7 +152,8 @@ function ChatForm() {
       message,
       history: getChatHistory(),
       settings,
-      page: "chatbot.backend_functions.openai_chatbot"
+      page: "chatbot.backend_functions.openai_chatbot",
+      formAnswers
     };
 
     const socket = socketService.getSocket();
@@ -351,7 +353,7 @@ function ChatForm() {
                     {idx === msgHistory.length - 1 &&
                       chatMsg.role === eRoleType.ASSISTANT &&
                       streamText.length > 0 ? (
-                      <ChatbotForm index={idx} respondData={streamText} /> || <MarkdownView index={idx} content={streamText} />
+                      <ChatbotForm index={idx} respondData={streamText} setFormAnswers={setFormAnswers} /> || <MarkdownView index={idx} content={streamText} />
                     ) : (
                       <MarkdownView index={idx} content={chatMsg.content} />
                     )}
@@ -361,7 +363,7 @@ function ChatForm() {
             ))}
           </ul>
           {showFormSample && (
-            <ChatbotForm index={10000} respondData={'sample'} />
+            <ChatbotForm index={10000} respondData={'sample'} setFormAnswers={setFormAnswers} />
           )}
         </div>
 

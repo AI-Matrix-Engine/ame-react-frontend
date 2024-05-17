@@ -82,17 +82,17 @@ export type JsonDataType = {
       readOnly?: boolean;
     };
     type:
-      | "input"
-      | "dropdown"
-      | "dropdown_with_other_option"
-      | "textarea"
-      | "radio"
-      | "checkbox"
-      | "switch"
-      | "dialog"
-      | "table"
-      | "tab"
-      | "calendar";
+    | "input"
+    | "dropdown"
+    | "dropdown_with_other_option"
+    | "textarea"
+    | "radio"
+    | "checkbox"
+    | "switch"
+    | "dialog"
+    | "table"
+    | "tab"
+    | "calendar";
     validation: {
       maxLength: number;
       minLength: number;
@@ -361,6 +361,42 @@ export interface iMessage {
 export interface iChat {
   title: string,
   msgArr: iMessage[]
+}
+
+export interface respondQuestions {
+  type?: "multiple_choice" | "checkboxes" | "yes_no" | "text_area" | "range_selector" | "input" | string;
+  question: string;
+  options?: string[];
+  range?: {
+    min: number;
+    max: number;
+    value: number;
+    step?: number;
+  };
+  allow_custom_input?: boolean;
+}
+
+export interface respondForm {
+  introduction: string;
+  questions: respondQuestions[];
+}
+
+export interface UpdatedRespondForm extends respondForm {
+  questions: UpdatedRespondQuestion[];
+}
+
+export interface UpdatedRespondQuestion extends respondQuestions {
+  answer: string | boolean | number;
+}
+
+export interface ChatMessage {
+  role: "user" | "assistant";
+  message: {
+    question?: string;
+    UpdatedRespondQuestion?: UpdatedRespondQuestion;
+    respondForm?: respondForm;
+    updatedRespondForm?: UpdatedRespondForm;
+  };
 }
 
 export enum iModalType {
