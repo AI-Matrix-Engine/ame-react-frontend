@@ -389,16 +389,6 @@ export interface UpdatedRespondQuestion extends respondQuestions {
   answer: string | boolean | number;
 }
 
-export interface ChatMessage {
-  role: "user" | "assistant";
-  message: {
-    question?: string;
-    UpdatedRespondQuestion?: UpdatedRespondQuestion;
-    respondForm?: respondForm;
-    updatedRespondForm?: UpdatedRespondForm;
-  };
-}
-
 export enum iModalType {
   CLEAR = "Are you sure you want to delete content of this version?",
   SAVE = "Are you overwriting the previous version?"

@@ -150,10 +150,10 @@ function ChatForm() {
   const sendMessage = (settings: Settings) => {
     const messageData = {
       message,
+      answers: formAnswers ? formAnswers : [],
       history: getChatHistory(),
       settings,
-      page: "chatbot.backend_functions.openai_chatbot",
-      formAnswers
+      page: "react.chat.primary",
     };
 
     const socket = socketService.getSocket();

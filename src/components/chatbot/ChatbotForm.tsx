@@ -104,7 +104,7 @@ const ChatbotForm = ({ index, respondData, setFormAnswers }: { index: number, re
 
     const submitForm = (e: any) => {
         e.preventDefault()
-        setFormAnswers(formValues)
+        setFormAnswers(formValues.questions)
         console.log(formValues)
     }
 
