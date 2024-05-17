@@ -1,4 +1,4 @@
-import { useRouter } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 import React, { ReactNode, useEffect } from "react";
 import { useAuth } from "@/context/AuthContext";
 
@@ -11,7 +11,7 @@ const withAuth = (WrappedComponent: any) => {
       // Redirect to login page if user is not logged in
       if (!user) {
         // router.replace('/login');
-        router.push("/login");
+        redirect("/login");
       }
     }, [user, router]);
 
