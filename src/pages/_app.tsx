@@ -5,7 +5,7 @@ import { socketService } from '@/lib/socket';
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
     React.useEffect(() => {
-        socketService.init();
+        socketService.init(user?.token ? user.token : "", user?.uid ? user.uid : "");
 
         return () => {
             socketService.disconnect();
