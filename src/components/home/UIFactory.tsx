@@ -10,7 +10,7 @@ import { Button } from "../_shared";
 import { Minus } from "lucide-react";
 import { JsonDataType } from "@/utils/types";
 import { useAuth } from "@/context/AuthContext";
-import { useRouter } from "next/navigation";
+import { useRouter, redirect } from "next/navigation";
 
 export const UIFactory: any = () => {
   const { user } = useAuth();
@@ -78,8 +78,9 @@ export const UIFactory: any = () => {
   );
 
   if (!user) {
+    redirect("/login");
     // router.replace("/login");
-    window.location.href = "/login";
+    // window.location.href = "/login";
     // return null;
   }
 

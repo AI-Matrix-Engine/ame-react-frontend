@@ -12,6 +12,7 @@ const withAuth = (WrappedComponent: any) => {
       // Redirect to login page if user is not logged in
       if (!user) {
         // router.replace('/login');
+        // window.location.href = "/login";
         redirect("/login");
       }
     }, [user, router]);
