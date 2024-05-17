@@ -103,7 +103,6 @@ export function Listbox<T>({
         leaveTo="opacity-0"
       >
         <HeadlessListboxOptions
-          anchor="selection start"
           className={clsx(
             // Anchor positioning
             '[--anchor-offset:-1.625rem] [--anchor-padding:theme(spacing.4)] sm:[--anchor-offset:-1.375rem]',
