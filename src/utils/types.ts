@@ -377,7 +377,6 @@ export interface respondQuestions {
 }
 
 export interface respondForm {
-  introduction: string;
   questions: respondQuestions[];
 }
 
@@ -386,7 +385,7 @@ export interface UpdatedRespondForm extends respondForm {
 }
 
 export interface UpdatedRespondQuestion extends respondQuestions {
-  answer: string | boolean | number;
+  answer: string;
 }
 
 export enum iModalType {

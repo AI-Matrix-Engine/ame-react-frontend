@@ -17,7 +17,7 @@ import {
 } from "firebase/auth";
 import { auth } from "@/utils/firebase";
 import axios from "axios";
-import { socketService } from "@/lib/socket";
+import { useSocketManager } from '@/lib/socket';
 
 const AuthContext = createContext<{
   user: {
@@ -49,7 +49,7 @@ const AuthContext = createContext<{
   setVersion: React.Dispatch<
     React.SetStateAction<number>
   >;
-  getResponseData: (index: number, data: any) => void;
+  // getResponseData: (index: number, data: any) => void;
 }>({
   user: null,
   loading: true,
@@ -76,10 +76,10 @@ const AuthContext = createContext<{
   eventHistory: [],
   setEventHistory: () => { },
   contextData: [],
-  setContextData: () => {},
+  setContextData: () => { },
   version: 0,
   setVersion: () => { },
-  getResponseData: (index: number, data: any) => { },
+  // getResponseData: (index: number, data: any) => { },
 });
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
@@ -258,34 +258,34 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     setContextData(updateContextData);
   }
 
-  const getResponseData = (index: number, data: any) => {
-    if (!socketService.getSocket()) {
-      socketService.init(user?.token ? user.token : "", user?.uid ? user.uid : "");
-    }
+  // const getResponseData = (index: number, data: any) => {
+  //   if (!socketService.getSocket()) {
+  //     socketService.init(user?.token ? user.token : "", user?.uid ? user.uid : "");
+  //   }
 
-    const socket = socketService.getSocket();
+  //   const socket = socketService.getSocket();
 
-    if (socket) {
-      socketService.getSocket()?.emit('playground_request', { sid: index, data: data });
-      if (!eventHistory.includes(index) || eventHistory.length === 0) {
-        eventHistory.push(index);
-        setEventHistory(eventHistory);
-        const eventName = `${user?.uid}_stream_response_${index}`;
-        socketService.getSocket()?.on(eventName, (data) => {
-          for (let i = 0; i < data.data.length; i++) {
-            const character = data.data[i];
-            setTimeout(() => {
-              updateContextData(index, character);
-            }, 150)
-          }
-        });
-      }
-    }
+  //   if (socket) {
+  //     socketService.getSocket()?.emit('playground_request', { sid: index, data: data });
+  //     if (!eventHistory.includes(index) || eventHistory.length === 0) {
+  //       eventHistory.push(index);
+  //       setEventHistory(eventHistory);
+  //       const eventName = `${user?.uid}_stream_response_${index}`;
+  //       socketService.getSocket()?.on(eventName, (data) => {
+  //         for (let i = 0; i < data.data.length; i++) {
+  //           const character = data.data[i];
+  //           setTimeout(() => {
+  //             updateContextData(index, character);
+  //           }, 150)
+  //         }
+  //       });
+  //     }
+  //   }
 
-    return () => {
-      socket?.off('playground_request');
-    };
-  }
+  //   return () => {
+  //     socket?.off('playground_request');
+  //   };
+  // }
 
   return (
     <AuthContext.Provider
@@ -305,7 +305,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         setContextData,
         version,
         setVersion,
-        getResponseData
       }}
     >
       {loading ? null : children}

@@ -8,18 +8,18 @@ import {
   useLayoutEffect,
 } from "react";
 import { MdOutlineArrowLeft, MdOutlineArrowRight, MdSend, MdPerson, MdChat, MdUpload } from "react-icons/md";
-import { socketService } from "@/lib/socket";
-import { iMessage, eRoleType, iChat } from "@/utils/types";
+import { useSocketManager } from '@/lib/socket';
+import { iMessage, eRoleType, iChat, respondForm } from "@/utils/types";
 import { useChat } from "@/context/ChatContext";
 import { useAuth } from "@/context/AuthContext";
-import axios from "axios";
 import MarkdownView from "../_shared/MarkdownView";
 import { redirect } from "next/navigation";
 import { ArrowUpIcon } from "@radix-ui/react-icons";
 import { HiDotsVertical } from "react-icons/hi";
 import ChatBotSettings from "./ChatBotSettings";
-import ChatbotForm from "./ChatbotForm";
 import { BsPaperclip } from "react-icons/bs";
+import ChatbotForm from "./ChatbotForm";
+import { parseJson } from "./utils/parse-json";
 
 interface Settings {
   customOptions: boolean;
@@ -31,6 +31,38 @@ interface Settings {
   submitOnEnter: boolean;
 }
 
+export const sampleString = `This is a test message.
+{
+  "introduction": "Welcome to our form!",
+  "questions": [
+    {
+      "type": "multiple_choice",
+      "question": "What is your favorite color?",
+      "options": ["Red", "Green", "Blue"]
+    },
+    {
+      "type": "checkboxes",
+      "question": "Select all the programming languages you know:",
+      "options": ["Python", "JavaScript", "Java", "C++"]
+    },
+    {
+      "type": "range_selector",
+      "question": "Rate your experience with our service (1-5):",
+      "range": {
+        "min": 1,
+        "max": 5,
+        "value": 3
+      }
+    },
+    {
+      "type": "input",
+      "question": "Please enter your email address:"
+    }
+  ]
+}
+
+This is some additional text after the JSON object.`;
+
 function ChatForm() {
   const [message, setMessage] = useState<string>("");
   const [currentTitle, setCurrentTitle] = useState<string | null>("");
@@ -41,10 +73,8 @@ function ChatForm() {
   const [isResponseLoading, setIsResponseLoading] = useState<boolean>(false);
   const [errorText, setErrorText] = useState<string>("");
   const [isShowSidebar, setIsShowSidebar] = useState<boolean>(false);
-  const [aiResponse, setAiResponst] = useState<string>("");
   const [showFormSample, setShowFormSample] = useState<boolean>(false);
-  const [formAnswers, setFormAnswers] = useState<string[]>([]);
-
+  const [formAnswers, setFormAnswers] = useState([]);
 
   const {
     currentChat,
@@ -56,6 +86,8 @@ function ChatForm() {
   } = useChat();
 
   const { user } = useAuth();
+
+  const sendMessageHandler = useSocketManager(response => setStreamText((prev) => prev + " " + response));
 
   const getChatHistory = () => {
     let data = "";
@@ -71,37 +103,6 @@ function ChatForm() {
     }
   }, [msgHistory.length, lastMessageRef])
 
-  useEffect(() => {
-    const intervalFunction = async () => {
-      if (index.length === 0) return;
-
-      try {
-        // Call API for saving current chat data
-
-        const response = await axios.put(
-          "https://aimatrix-api.vercel.app/api/aichat",
-          {
-            id: index,
-            history: chatHistory,
-          }
-        );
-
-        if (response.status !== 200) {
-          console.error("Unexpected response status:", response.status);
-        }
-      } catch (error) {
-        // Handle any errors during the API call
-        console.error("Error saving chat data:", error);
-      }
-    };
-
-    const intervalId: NodeJS.Timeout = setInterval(intervalFunction, 5000);
-
-    return () => {
-      clearInterval(intervalId);
-    };
-  }, [index, chatHistory]);
-
   const displayUserMessage = (msg: string, type: eRoleType) => {
     const newMessage: iMessage = {
       role: type,
@@ -110,34 +111,7 @@ function ChatForm() {
     setMsgHistory((prev) => [...prev, newMessage]);
   };
 
-  const typeMessageCharacterByCharacter = (message: string) => {
-    return new Promise<void>((resolve) => {
-      var i = -1;
-      var typingInterval = setInterval(() => {
-        if (i < message.length - 1) {
-          setStreamText((prev) => prev + message[i]);
-          i++;
-        } else {
-          clearInterval(typingInterval);
-          resolve();
-        }
-      }, 25);
-    });
-  };
-
-  const processIncomingMessages = (data: string): void => {
-    const dataArr: string[] = data.split("\n\n");
-
-    dataArr
-      .reduce((promise: Promise<void>, msg: string): Promise<void> => {
-        return promise.then(() => typeMessageCharacterByCharacter(msg));
-      }, Promise.resolve())
-      .catch((error) => {
-        console.error("An error occurred while processing messages:", error);
-      });
-  };
-
-  const settings = {
+  const settings: Settings = {
     customOptions: false,
     aiPreferencesMain: "Direct AI chat",
     aiPreferencesSecond: "Chat With One AI",
@@ -155,46 +129,19 @@ function ChatForm() {
       settings,
       page: "react.chat.primary",
     };
-
-    const socket = socketService.getSocket();
-
-    if (socket) {
-      socket.emit("user_message", messageData, (response: any) => { });
-      console.log("Socket emit completed, awaiting callback...");
-    }
   };
 
-  const clearMessageInput = () => {
-    setMessage("");
-  };
-
-  const scrollToBottom = () => {
-    if (scrollToLastItem.current) {
-      scrollToLastItem.current.scrollTop =
-        scrollToLastItem.current.scrollHeight;
-    }
-  };
-
-  const submitHandler = async (
+  const submitHandler = (
     e: React.FormEvent<HTMLFormElement>
-  ): Promise<void> => {
+  ) => {
     e.preventDefault();
     if (!message) return;
-
-    setIsResponseLoading(true);
     setErrorText("");
-    // add the code for your socket or anything
-
-    try {
-      // Simulate API call
-      sendMessage(settings);
-      displayUserMessage(message, eRoleType.USER);
-      clearMessageInput();
-    } catch (e: any) {
-      setErrorText(e.message);
-      console.error(e);
-    } finally {
-    }
+    displayUserMessage(message, eRoleType.USER);
+    // sendMessage(settings);
+    setMessage("")
+    sendMessageHandler(streamText);
+    displayUserMessage(streamText, eRoleType.ASSISTANT);
   };
 
   useLayoutEffect(() => {
@@ -219,43 +166,8 @@ function ChatForm() {
     if (chatHistory.length > currentChat) {
       setMsgHistory(chatHistory[currentChat].msgArr);
     }
-
-    if (!socketService.getSocket()) {
-      socketService.init(
-        user?.token ? user.token : "",
-        user?.uid ? user.uid : ""
-      );
-    }
-
-    const socket = socketService.getSocket();
-
-    if (socket) {
-      socket.on("ai_response", (receivedData: any) => {
-        setStreamText("");
-        setIsResponseLoading(false);
-        setAiResponst(receivedData);
-        displayUserMessage(receivedData, eRoleType.ASSISTANT);
-      });
-    }
-
-    return () => {
-      socket?.off("ai_response");
-    };
+    setStreamText("");
   }, []);
-
-  useEffect(() => {
-    if (aiResponse.length === 0) return;
-
-    setTimeout(() => {
-      setStreamText(
-        (prev) => prev + aiResponse.substring(prev.length, prev.length + 5)
-      );
-      if (streamText.length >= aiResponse.length) {
-        setAiResponst("");
-        setStreamText("");
-      }
-    }, 10);
-  }, [streamText, aiResponse]);
 
   useEffect(() => {
     if (chatHistory.length > currentChat) {
@@ -353,7 +265,7 @@ function ChatForm() {
                     {idx === msgHistory.length - 1 &&
                       chatMsg.role === eRoleType.ASSISTANT &&
                       streamText.length > 0 ? (
-                      <ChatbotForm index={idx} respondData={streamText} setFormAnswers={setFormAnswers} /> || <MarkdownView index={idx} content={streamText} />
+                      <MarkdownView index={idx} content={streamText} />
                     ) : (
                       <MarkdownView index={idx} content={chatMsg.content} />
                     )}
@@ -362,9 +274,6 @@ function ChatForm() {
               </li>
             ))}
           </ul>
-          {showFormSample && (
-            <ChatbotForm index={10000} respondData={'sample'} setFormAnswers={setFormAnswers} />
-          )}
         </div>
 
         <div className="mt-auto p-8 w-full sm:w-3/4 md:2/3 mx-auto max-w-[730px]">

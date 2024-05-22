@@ -1,71 +1,16 @@
 "use client"
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Textarea, Input } from "../_shared";
 import { Button } from "../_shared/catalyst/button";
 import { RadioGroup, Radio, RadioField } from "../_shared/catalyst/radio";
 import RangeSlider from "../_shared/rangeSlider";
-import MarkdownView from "../_shared/MarkdownView";
-import sample from "./sample.json"
 import DropdownWithOtherOption, { Question } from "../_shared/DropdownWithOther";
 import CheckboxGroupWithOtherOption from "../_shared/CheckboxGroupWithOther";
 import { UpdatedRespondForm, respondForm } from "@/utils/types";
 
-const initialState: UpdatedRespondForm = {
-    introduction: '',
-    questions: [],
-}
-
-const ChatbotForm = ({ index, respondData, setFormAnswers }: { index: number, respondData: string, setFormAnswers: Function }) => {
-    const [formValues, setFormValues] = useState<UpdatedRespondForm>(initialState);
-    const [content, setContent] = useState<respondForm>(sample);
-    const [error, setError] = useState<string | null>(null);
-
-    useEffect(() => {
-        if (index === 10000) {
-            console.log(sample);
-            setFormValues({
-                ...sample,
-                questions: sample.questions.map((question: any) => ({
-                    question: question.question,
-                    answer: '',
-                })),
-            })
-        } else {
-            try {
-                if (respondData) {
-                    const content = JSON.parse(respondData);
-                    if (isValidContent(content)) {
-                        setContent(content);
-                        setFormValues({
-                            ...content,
-                            questions: content.questions.map((question: any) => ({
-                                question: question.question,
-                                answer: '',
-                            })),
-                        });
-                    } else {
-                        setError("Invalid form data. Please check the content.");
-                        console.error("Error parsing form data. Please check the content format.");
-                    }
-                }
-            } catch (error) {
-                setError("Error parsing form data. Please check the content format.");
-                console.error(error);
-            }
-        }
-
-    }, []);
-
-    const isValidContent = (content: string): boolean => {
-        try {
-            JSON.parse(content);
-            return true;
-        } catch (error) {
-            return false;
-        }
-    };
-
+const ChatbotForm = ({ index, respondData, setFormAnswers }: { index: number, respondData: respondForm, setFormAnswers: Function }) => {
+    const [formValues, setFormValues] = useState<UpdatedRespondForm>({ ...respondData, questions: respondData.questions.map((question: any) => ({ ...question, answer: '' })) });
     const handleInputChange = (value: any, question: string) => {
         const questionIndex = formValues.questions.findIndex(q => q.question === question);
         if (questionIndex !== -1) {
@@ -105,18 +50,12 @@ const ChatbotForm = ({ index, respondData, setFormAnswers }: { index: number, re
     const submitForm = (e: any) => {
         e.preventDefault()
         setFormAnswers(formValues.questions)
-        console.log(formValues)
-    }
-
-    if (error) {
-        return (
-            <MarkdownView index={index} content={respondData} />
-        )
+        console.log(formValues.questions)
     }
 
     return (
         <form onSubmit={submitForm} className="my-4 w-full rounded-lg p-6 text-xs">
-            {content.questions.map((question) => {
+            {formValues.questions.map((question) => {
                 if (question.type === 'multiple_choice') {
                     return (
                         <div key={question.question} className="mb-8">
@@ -183,11 +122,11 @@ const ChatbotForm = ({ index, respondData, setFormAnswers }: { index: number, re
 
                     );
                 } else {
-                    return <MarkdownView index={index} content={respondData} />
+                    return null
                 }
             })}
             <div className="w-full flex justify-end">
-                <Button className="cursor-pointer" type="submit">Answer Without Questions</Button>
+                {formValues.questions.length > 0 && <Button className="cursor-pointer" type="submit">Answer Without Questions</Button>}
             </div>
         </form>
     )
