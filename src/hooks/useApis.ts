@@ -4,8 +4,8 @@ import { fetchTotalData, createData, fetchOneDataById, updateDataById, deleteDat
 import { subAiAPI } from "@/services/api";
 
 export const useApis = () => {
-    const [apis, setApis] = useState<iApiType[]>([]);
-    const [api, setApi] = useState<iApiType | null>(null);
+  const [apis, setApis] = useState<iApiType[]>([]);
+  const [api, setApi] = useState<iApiType | null>(null);
 
     const getApis = async () => {
         const fetchedApis : iApiType[] = await fetchTotalData(subAiAPI.api);
@@ -29,16 +29,16 @@ export const useApis = () => {
         await updateDataById(subAiAPI.api, id, apiData)
     }
 
-    useEffect(() => {
-        getApis();
-    }, [])
+  useEffect(() => {
+    getApis();
+  }, []);
 
-    return {
-        apis,
-        setApis,
-        handleCreateAPI,
-        handleFetchApiById,
-        handleUpdateApiById,
-        handleDeleteApiById
-    };
+  return {
+    apis,
+    setApis,
+    handleCreateAPI,
+    handleFetchApiById,
+    handleUpdateApiById,
+    handleDeleteApiById,
+  };
 };

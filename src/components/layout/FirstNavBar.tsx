@@ -4,12 +4,23 @@ import { NavigationBar } from "../home/NavigationBar";
 import { iLeftSidebarExpand, childrenProp, iSecondNavbarProps } from "@/utils/types";
 import { TbMinusVertical } from "react-icons/tb";
 import { BsChevronCompactRight } from "react-icons/bs";
+import { usePathname } from 'next/navigation'
 
 export const FirstNavBar = ({ navItems }: iSecondNavbarProps) => {
+    const pathname = usePathname()
     const [isExpand, setIsExpand] = useState<iLeftSidebarExpand>({
         command: true,
         app: true,
     });
+
+    useEffect(() => {
+        if (pathname === '/chatbot') {
+            setIsExpand(prevState => ({
+                ...prevState,
+                command: false
+            }));
+        }
+    }, [pathname]);
 
     return (
         <>
@@ -20,7 +31,7 @@ export const FirstNavBar = ({ navItems }: iSecondNavbarProps) => {
                 >
                     {isExpand.command && (
                         <div className="flex-1 py-[16px] pl-[16px] [transition:all_.3s_ease-in-out]">
-                            <h1 className="text-white font-semibold text-xl mb-[10px]">
+                            <h1 className="text-white font-semibold text-base mb-[10px]">
                                 Command Center
                             </h1>
                             <div className="overflow-y-auto pr-[.35rem]">

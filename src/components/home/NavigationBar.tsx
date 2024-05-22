@@ -30,7 +30,7 @@ export const NavigationBar = ({
         {navItems.map((item, index) => (
           <div key={index}>
             <h4
-              className={`${opacity} text-[#92959b] pl-2  text-left text-xs font-bold mt-[15px]`}
+              className={`${opacity} text-[#92959b] pl-2 text-left text-xs font-bold mt-[15px]`}
             >
               {text ? text : item.category}
             </h4>
@@ -44,11 +44,10 @@ export const NavigationBar = ({
                   {menuItem.itemSubMenu ? (
                     <>
                       <AccordionTrigger
-                        className={`${
-                          active === "/matrix-apps"
+                        className={`${active === "/matrix-apps"
                             ? `bg-gray-800 text-white`
                             : `text-gray-400 hover:bg-gray-800 hover:text-white`
-                        } rounded-lg my-2`}
+                          } rounded-lg my-2`}
                         iconStyle={!text && textColor}
                       >
                         <div className="flex gap-8 ">
@@ -68,12 +67,11 @@ export const NavigationBar = ({
                       <AccordionContent className={`${textColor}`}>
                         {menuItem.itemSubMenu.map(
                           ({ name, route, icon }, subMenuIndex) => (
-                            <div
-                              className={`flex m-2 ${
-                                active === route
+                            <div key={subMenuIndex}
+                              className={`flex m-2 ${active === route
                                   ? `bg-gray-800 text-white rounded-lg`
                                   : `text-gray-400 hover:bg-gray-800 hover:text-white`
-                              } rounded-lg hover:rounded-lg`}
+                                } rounded-lg hover:rounded-lg`}
                             >
                               <div className="ml-4 py-4">{icon}</div>
                               <Link
@@ -92,25 +90,24 @@ export const NavigationBar = ({
                       </AccordionContent>{" "}
                     </>
                   ) : (
-                    <AccordionTrigger
-                      className={`flex gap-8 my-1 ${
-                        active === menuItem.route
-                          ? `bg-gray-800 text-white`
-                          : `text-gray-400 hover:bg-gray-800 hover:text-white`
-                      }  rounded-lg`}
+                    <Link
+                      key={subIndex}
+                      href={menuItem.route || "#"}
+                      onClick={() => {
+                        setActive(menuItem.route || "#");
+                      }}
+                      className={`flex-1`}
                     >
-                      <div className="pl-2">{menuItem.icon}</div>
-                      <Link
-                        key={subIndex}
-                        href={menuItem.route || "#"}
-                        onClick={() => {
-                          setActive(menuItem.route || "#");
-                        }}
-                        className={`flex-1 text-left`}
+                      <AccordionTrigger
+                        className={`flex gap-8 my-1 px-2 ${active === menuItem.route
+                            ? `bg-gray-700 text-white font-semibold`
+                            : `text-gray-400 hover:bg-gray-700 hover:text-white`
+                          }  rounded-lg`}
                       >
-                        {!text && menuItem.itemCategory}
-                      </Link>
-                    </AccordionTrigger>
+                        <div className="pl-2">{menuItem.icon}</div>
+                        <div className="flex-1 text-xs text-left">{!text && menuItem.itemCategory}</div>
+                      </AccordionTrigger>
+                    </Link>
                   )}
                 </AccordionItem>
               ))}

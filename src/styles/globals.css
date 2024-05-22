@@ -3,6 +3,7 @@
 @tailwind utilities;
 
 @import url("./phone-number.style.css");
+@import url("./chatbot.style.css");
 /* width */
 ::-webkit-scrollbar {
   width: 0.5rem;

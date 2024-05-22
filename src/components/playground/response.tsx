@@ -38,14 +38,14 @@ const ResponsePrompt = ({
   handleFormat,
   moveToMessage
 }: iPrompt) => {
-  const { 
-    contextData, 
-    version, 
-    setContextData, 
-    user, 
-    getResponseData, 
-    eventHistory, 
-    setEventHistory 
+  const {
+    contextData,
+    version,
+    setContextData,
+    user,
+    getResponseData,
+    eventHistory,
+    setEventHistory
   } = useAuth();
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const [isButtonFlag, setButtonFlag] = useState<number>(0);
@@ -212,7 +212,7 @@ const ResponsePrompt = ({
                   className={`w-full resize-none overflow-y-hidden p-1 outline-none bg-transparent rounded-md group-hover:bg-danger-200 relative focus:border-[#0e8157] text-[#353740] dark:text-[#d9d9e3] h-35`}
                 />
               )}
-              {isFormat === 1 && <MarkdownView content={text} />}
+              {isFormat === 1 && <MarkdownView index={index} content={text} />}
             </div>
           ) : (
             // <p className="text-[#71717A] text-[14px] whitespace-nowrap">

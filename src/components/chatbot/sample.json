@@ -1,0 +1,111 @@
+{
+  "introduction": "To provide you with the best recommendations for your trip to Russia, please answer the following questions:",
+  "questions": [
+    {
+      "type": "multiple_choice",
+      "question": "What are your main interests for this trip?",
+      "options": [
+        "History and culture",
+        "Nature and outdoor activities",
+        "City life and nightlife",
+        "Cuisine and culinary experiences",
+        "Arts and architecture",
+        "Other"
+      ],
+      "allow_custom_input": true
+    },
+    {
+      "type": "multiple_choice",
+      "question": "Which cities or regions are you planning to visit in Russia?",
+      "options": [
+        "Moscow",
+        "Saint Petersburg",
+        "Golden Ring (Sergiev Posad, Vladimir, Suzdal, etc.)",
+        "Siberia (Lake Baikal, Altai Mountains, etc.)",
+        "Sochi and the Black Sea coast",
+        "Other"
+      ],
+      "allow_custom_input": true
+    },
+    {
+      "type": "range_selector",
+      "question": "How many days are you planning to spend in Russia?",
+      "range": {
+        "min": 1,
+        "max": 30,
+        "step": 1,
+        "value": 7
+      }
+    },
+    {
+      "type": "multiple_choice",
+      "question": "What type of traveler are you?",
+      "options": [
+        "Solo traveler",
+        "Traveling with family",
+        "Traveling with friends",
+        "Traveling as a couple",
+        "Other"
+      ],
+      "allow_custom_input": true
+    },
+    {
+      "type": "multiple_choice",
+      "question": "What is your preferred mode of transportation within Russia?",
+      "options": [
+        "Public transportation",
+        "Rental car",
+        "Taxi/ride-hailing services",
+        "Guided tours",
+        "Walking/biking",
+        "Other"
+      ],
+      "allow_custom_input": true
+    },
+    {
+      "type": "multiple_choice",
+      "question": "What time of year do you plan to visit Russia?",
+      "options": [
+        "Spring (March - May)",
+        "Summer (June - August)",
+        "Autumn (September - November)",
+        "Winter (December - February)"
+      ]
+    },
+    {
+      "type": "checkboxes",
+      "question": "Which of the following attractions interest you? (Select all that apply)",
+      "options": [
+        "Kremlin and Red Square",
+        "Hermitage Museum",
+        "Trans-Siberian Railway",
+        "Catherine Palace",
+        "Bolshoi Theatre",
+        "Lake Baikal",
+        "Peterhof Palace",
+        "Kizhi Island",
+        "Other"
+      ],
+      "allow_custom_input": true
+    },
+    {
+      "type": "yes_no",
+      "question": "Are there any specific activities or experiences you definitely want to include in your trip?",
+      "options": ["Yes", "No"]
+    },
+    {
+      "type": "text_area",
+      "question": "Please describe any specific requirements or preferences you have for your trip to Russia."
+    },
+    {
+      "type": "yes_no",
+      "question": "Have you visited Russia before?",
+      "options": ["Yes", "No"]
+    },
+    {
+      "type": "yes_no",
+      "question": "Would you like recommendations for local accommodations and dining options?",
+      "options": ["Yes", "No"]
+    }
+  ]
+}

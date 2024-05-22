@@ -1,7 +1,11 @@
 "use client";
 
 import * as React from "react";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/_shared/Avatar";
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from "@/components/_shared/Avatar";
 
 import { Menu } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
@@ -16,10 +20,20 @@ import { iHeader } from "@/utils/types";
 export const Header = ({ darkMode, setMode }: iHeader) => {
   const { user, logout } = useAuth();
   const router = useRouter();
+
+  const logoutHandler = async () => {
+    try {
+      router.push("/login");
+      await logout();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div className="flex py-1 px-4 bg-[#252b36] dark:bg-[#18181b] dark:border-b dark:border-b-[#ffffff1a] items-center justify-center h-[64px] z-[1]">
-      <h2 className="flex-1 text-2xl text-white font-arimo font-semibold">
-        AI Matrix Engine
+      <h2 className="flex-1 text-xl text-white font-arimo font-semibold">
+        AI Matrix
       </h2>
 
       <div className="flex items-center">
@@ -36,7 +50,7 @@ export const Header = ({ darkMode, setMode }: iHeader) => {
               <Menu.Button className="inline-flex justify-center items-center w-full rounded-md shadow-sm px-4 py-2 bg-transparent text-sm font-medium text-white hover:bg-gray-700">
                 <Avatar>
                   <AvatarImage
-                  // @ts-ignore
+                    // @ts-ignore
                     src={user && user?.photoURL}
                     alt="@shadcn"
                   />
@@ -53,8 +67,9 @@ export const Header = ({ darkMode, setMode }: iHeader) => {
               <Menu.Item>
                 {({ active }) => (
                   <button
-                    className={`${active ? "bg-gray-100" : ""
-                      } block px-4 py-2 text-sm text-gray-700 w-full text-left`}
+                    className={`${
+                      active ? "bg-gray-100" : ""
+                    } block px-4 py-2 text-sm text-gray-700 w-full text-left`}
                     onClick={() => router.push("/profile")}
                   >
                     Profile
@@ -64,16 +79,10 @@ export const Header = ({ darkMode, setMode }: iHeader) => {
               <Menu.Item>
                 {({ active }) => (
                   <button
-                    className={`${active ? "bg-gray-100" : ""
-                      } block px-4 py-2 text-sm text-gray-700 w-full text-left`}
-                    onClick={async () => {
-                      try {
-                        await logout();
-                        await router.push("/login");
-                      } catch (error) {
-                        console.log(error);
-                      }
-                    }}
+                    className={`${
+                      active ? "bg-gray-100" : ""
+                    } block px-4 py-2 text-sm text-gray-700 w-full text-left`}
+                    onClick={logoutHandler}
                   >
                     Log Out
                   </button>
